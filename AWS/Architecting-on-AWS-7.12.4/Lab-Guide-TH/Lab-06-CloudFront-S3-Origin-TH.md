@@ -11,7 +11,7 @@ flowchart TB
     S3 --> OBJ[CachedObjects/*.png]
 ```
 
-> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้ฉบับ
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 6 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 118–145  
 > คงชื่อ AWS Console menu / button / field / resource / JSON placeholders เป็น English ตาม Lab

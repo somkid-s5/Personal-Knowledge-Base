@@ -12,7 +12,7 @@ flowchart TB
     MON[CloudWatch] --> ASG
 ```
 
-> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้ฉบับ
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Capstone Lab จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 146–182  
 > คงชื่อ Console menu / button / field / CloudFormation parameter / resource เป็น English ตาม Lab
