@@ -8,6 +8,7 @@
 
 ## ⚡ Quick Start
 
+- [**🧭 EXAM MODE — Keyword → Service → Module**](./EXAM-MODE.md)
 - [**Cheat Sheet — ทบทวนเร็วทั้งคอร์ส**](./Architecting-on-AWS_Cheat-Sheet.md)
 - ถ้าเรียนเต็มหลักสูตร ให้อ่าน **Module 1 → 13** ตามลำดับ
 - ถ้าต้องการลงรายละเอียดเพิ่มเติม ให้กลับไปดู Google Drive Master ซึ่งเก็บไฟล์ Part 1/Part 2 และ source figures ไว้ครบ
@@ -62,10 +63,11 @@ Edge + Backup/DR
 
 ### Pre-test / Quick Review
 
-1. อ่าน [Cheat Sheet](./Architecting-on-AWS_Cheat-Sheet.md)
-2. กลับมาเปิด Module ที่ยังอธิบาย “ทำไม” หรือ “ทำงานอย่างไร” ไม่ได้
-3. ทบทวน Knowledge Check ท้ายแต่ละ Module
-4. ทบทวน Lab architecture เพื่อเชื่อมหลาย services เข้าด้วยกัน
+1. เปิด [EXAM MODE](./EXAM-MODE.md) เพื่อจำ keyword และ common traps
+2. อ่าน [Cheat Sheet](./Architecting-on-AWS_Cheat-Sheet.md)
+3. กลับมาเปิด Module ที่ยังอธิบาย “ทำไม” หรือ “ทำงานอย่างไร” ไม่ได้
+4. ทบทวน Knowledge Check ท้ายแต่ละ Module
+5. ทบทวน Lab architecture เพื่อเชื่อมหลาย services เข้าด้วยกัน
 
 ---
 
