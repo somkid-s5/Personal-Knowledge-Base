@@ -8,8 +8,10 @@
 
 ## ⚡ Quick Start
 
+- [**📝 MOCK EXAM 65 ข้อ — เริ่มทำข้อสอบ**](./MOCK-EXAM-65.md)
 - [**🧭 EXAM MODE — Keyword → Service → Module**](./EXAM-MODE.md)
 - [**Cheat Sheet — ทบทวนเร็วทั้งคอร์ส**](./Architecting-on-AWS_Cheat-Sheet.md)
+- [เฉลย Mock Exam — เปิดหลังทำครบ 65 ข้อเท่านั้น](./MOCK-EXAM-65-ANSWER-KEY.md)
 - ถ้าเรียนเต็มหลักสูตร ให้อ่าน **Module 1 → 13** ตามลำดับ
 - ถ้าต้องการลงรายละเอียดเพิ่มเติม ให้กลับไปดู Google Drive Master ซึ่งเก็บไฟล์ Part 1/Part 2 และ source figures ไว้ครบ
 
@@ -63,11 +65,12 @@ Edge + Backup/DR
 
 ### Pre-test / Quick Review
 
-1. เปิด [EXAM MODE](./EXAM-MODE.md) เพื่อจำ keyword และ common traps
-2. อ่าน [Cheat Sheet](./Architecting-on-AWS_Cheat-Sheet.md)
-3. กลับมาเปิด Module ที่ยังอธิบาย “ทำไม” หรือ “ทำงานอย่างไร” ไม่ได้
-4. ทบทวน Knowledge Check ท้ายแต่ละ Module
-5. ทบทวน Lab architecture เพื่อเชื่อมหลาย services เข้าด้วยกัน
+1. ทำ [Mock Exam 65 ข้อ](./MOCK-EXAM-65.md) แบบจับเวลา 120 นาที
+2. เช็กเฉลยและหา Module ที่พลาด
+3. เปิด [EXAM MODE](./EXAM-MODE.md) เพื่อจำ keyword และ common traps
+4. อ่าน [Cheat Sheet](./Architecting-on-AWS_Cheat-Sheet.md)
+5. กลับมาเปิด Module ที่ยังอธิบาย “ทำไม” หรือ “ทำงานอย่างไร” ไม่ได้
+6. ทบทวน Knowledge Check และ Lab architecture ของ Module ที่ผิดเยอะ
 
 ---
 
