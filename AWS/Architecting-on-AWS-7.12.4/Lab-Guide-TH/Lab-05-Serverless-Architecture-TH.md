@@ -11,6 +11,11 @@ flowchart LR
     SQS --> L2[Lambda consumer]
 ```
 
+### ภาพ Diagram
+
+![Lab 5 architecture diagram](assets/diagrams/lab-05-architecture.svg)
+
+
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของแล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 5 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 94–117  

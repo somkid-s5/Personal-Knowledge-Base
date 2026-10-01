@@ -12,6 +12,11 @@ flowchart LR
     SQS --> W[Worker Lambda]
 ```
 
+### ภาพ Diagram
+
+![Module 11 visual diagram](assets/diagrams/module-11-visual.svg)
+
+
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 

@@ -12,6 +12,11 @@ flowchart TB
     PRI --> EC2R[Private EC2]
 ```
 
+### ภาพ Diagram
+
+![Lab 2 architecture diagram](assets/diagrams/lab-02-architecture.svg)
+
+
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 2 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 19–52  

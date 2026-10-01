@@ -11,6 +11,11 @@ flowchart TB
     A2 --> DB
 ```
 
+### ภาพ Diagram
+
+![Lab 3 architecture diagram](assets/diagrams/lab-03-architecture.svg)
+
+
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 3 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 53–68  

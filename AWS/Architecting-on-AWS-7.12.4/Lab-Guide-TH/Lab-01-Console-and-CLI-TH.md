@@ -12,6 +12,11 @@ flowchart LR
     CLI --> S3B[S3 Bucket + Object]
 ```
 
+### ภาพ Diagram
+
+![Lab 1 architecture diagram](assets/diagrams/lab-01-architecture.svg)
+
+
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 1 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 4–18  
