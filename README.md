@@ -6,17 +6,33 @@ Welcome to my personal collection of certification notes and practice exam expla
 
 ## 📂 Repository Structure
 
-| Certification | Folder | Status |
+| Certification / Course | Folder | Status |
 | :--- | :--- | :--- |
-| **AWS Solutions Architect Associate** | [`AWS_SAA_C03`](./AWS_SAA_C03/) | 🟢 In Progress |
+| **Architecting on AWS 7.12.4 — Student Guide Notes** | [`AWS/Architecting-on-AWS-7.12.4`](./AWS/Architecting-on-AWS-7.12.4/) | ✅ Complete — Mobile Reader |
+| **AWS Solutions Architect Associate (SAA-C03)** | [`AWS_SAA_C03`](./AWS_SAA_C03/) | 🟢 In Progress |
 | **Azure Fundamentals** | `COMING_SOON` | 🟡 Planned |
 | **Google Cloud Digital Leader** | `COMING_SOON` | 🟡 Planned |
 
 ---
 
-## 🎯 Current Focus
+## 📘 Architecting on AWS 7.12.4
 
-### [AWS Certified Solutions Architect – Associate (SAA-C03)](./AWS_SAA_C03/)
+[**Open the mobile-friendly reader →**](./AWS/Architecting-on-AWS-7.12.4/)
+
+- Module 1–13
+- Student Guide pages 26–650
+- Thai explanations with AWS terminology preserved
+- Markdown tables, code blocks and Mermaid diagrams
+- One GitHub page per Module for easier mobile reading
+- [Quick Cheat Sheet](./AWS/Architecting-on-AWS-7.12.4/Architecting-on-AWS_Cheat-Sheet.md)
+
+The full Google Drive master copy retains the detailed Part 1/Part 2 files and source screenshots. The GitHub edition is optimized as a lightweight reader.
+
+---
+
+## 🎯 AWS Certified Solutions Architect – Associate (SAA-C03)
+
+### [Open SAA-C03 Notes](./AWS_SAA_C03/)
 Detailed walkthroughs and explanations for practice exams, translated and simplified for better understanding.
 
 - [x] Test 1: Full Explanation
@@ -29,10 +45,13 @@ Detailed walkthroughs and explanations for practice exams, translated and simpli
 ---
 
 ## 🛠️ How to use these notes
-These notes are formatted in **Markdown** and are optimized for viewing in [Obsidian](https://obsidian.md/) or directly on GitHub.
 
-- **Keyword Spotting**: Look for highlighted keywords in the explanations to quickly identify the correct AWS service.
-- **Thai Explanations**: Complex concepts are explained in Thai to ensure complete comprehension.
+These notes are formatted in **Markdown** and are optimized for viewing directly on GitHub or in Obsidian.
+
+- **Mobile reading:** GitHub renders Markdown directly in the browser/app.
+- **Keyword spotting:** Look for highlighted AWS terms to quickly identify the relevant service.
+- **Thai explanations:** Complex concepts are explained in Thai while preserving AWS terminology.
+- **Fast review:** Use the Cheat Sheet before returning to detailed modules.
 
 ---
 
