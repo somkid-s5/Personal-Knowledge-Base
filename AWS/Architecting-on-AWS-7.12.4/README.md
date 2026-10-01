@@ -8,12 +8,31 @@
 
 ## ⚡ Quick Start
 
+- [**🧪 LAB GUIDE ภาษาไทย — Lab 1–7 แบบทำตามได้จริง**](./Lab-Guide-TH/)
 - [**📝 MOCK EXAM 65 ข้อ — เริ่มทำข้อสอบ**](./MOCK-EXAM-65.md)
 - [**🧭 EXAM MODE — Keyword → Service → Module**](./EXAM-MODE.md)
 - [**Cheat Sheet — ทบทวนเร็วทั้งคอร์ส**](./Architecting-on-AWS_Cheat-Sheet.md)
 - [เฉลย Mock Exam — เปิดหลังทำครบ 65 ข้อเท่านั้น](./MOCK-EXAM-65-ANSWER-KEY.md)
 - ถ้าเรียนเต็มหลักสูตร ให้อ่าน **Module 1 → 13** ตามลำดับ
 - ถ้าต้องการลงรายละเอียดเพิ่มเติม ให้กลับไปดู Google Drive Master ซึ่งเก็บไฟล์ Part 1/Part 2 และ source figures ไว้ครบ
+
+---
+
+## 🧪 Lab Guide ภาษาไทย
+
+คู่มือจาก **Architecting on AWS 7.12.4 Lab Guide** ถูกแยกไว้ใน [`Lab-Guide-TH/`](./Lab-Guide-TH/) โดยแปลคำอธิบายเป็นไทย แต่คงชื่อปุ่ม เมนู field ค่า config คำสั่ง CLI และ JSON เป็น English ตาม AWS Console เพื่อใช้เปิดทำ Lab ควบคู่กับ Builder Lab ได้ง่าย
+
+| Lab | หัวข้อ |
+|---:|---|
+| 1 | Console / AWS CLI / Amazon S3 |
+| 2 | VPC / Public-Private Subnets / IGW / NAT / EC2 |
+| 3 | Aurora / Application Load Balancer / Target Group |
+| 4 | Auto Scaling / Multi-AZ / Aurora Failover / Redundant NAT |
+| 5 | S3 → SNS → SQS → Lambda Serverless Workflow |
+| 6 | CloudFront + S3 Origin + Origin Access Control (OAC) |
+| 7 | Capstone — CloudFormation + Aurora + EFS + ALB + Auto Scaling + WordPress |
+
+[**เปิด Thai Lab Guide →**](./Lab-Guide-TH/)
 
 ---
 
@@ -106,6 +125,7 @@ Edge + Backup/DR
 ### GitHub Reader — this folder
 
 - 1 Markdown file ต่อ Module
+- Thai Lab Guide แยก folder สำหรับ Lab 1–7
 - เปิดอ่านง่ายบนมือถือ/Browser
 - GitHub render Markdown และ Mermaid ให้ทันที
 - ไม่มี dependency กับ local `assets/` จึงไม่เจอปัญหารูป relative path แบบ Google Drive mobile
@@ -121,4 +141,4 @@ Edge + Backup/DR
 
 ## Source note
 
-เอกสารชุดนี้สรุปจาก **Architecting on AWS 7.12.4 Student Guide** เป็นแหล่งหลัก และตั้งใจรักษาคำศัพท์ โครงสร้าง และ framing ตามหลักสูตร ไม่ได้พยายามแทนที่ด้วย AWS documentation รุ่นใหม่โดยอัตโนมัติ
+เอกสาร Study Notes สรุปจาก **Architecting on AWS 7.12.4 Student Guide** ส่วน Lab Guide ภาษาไทยแปลงจาก **Architecting on AWS 7.12.4 Lab Guide** โดยยึด terminology และลำดับขั้นตอนของต้นฉบับเป็นหลัก
