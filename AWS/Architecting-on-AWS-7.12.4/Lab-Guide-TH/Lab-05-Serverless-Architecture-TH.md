@@ -1,5 +1,17 @@
 # Lab 5 — Build a Serverless Architecture
 
+## 🗺️ Lab architecture
+
+```mermaid
+flowchart LR
+    EVENT[Event / Request] --> L1[Lambda]
+    L1 --> DDB[(DynamoDB)]
+    L1 --> SNS[SNS]
+    SNS --> SQS[SQS]
+    SQS --> L2[Lambda consumer]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของแล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 5 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 94–117  
 > คงชื่อ AWS Console menu / button / field / resource / JSON placeholder เป็น English ตาม Lab

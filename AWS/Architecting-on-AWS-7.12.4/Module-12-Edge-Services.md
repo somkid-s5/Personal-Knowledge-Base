@@ -1,5 +1,18 @@
 # Module 12 — Edge Services
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart LR
+    U[Global Users] --> R53[Route 53]
+    R53 --> CF[CloudFront]
+    CF --> WAF[AWS WAF]
+    WAF --> ORIGIN[Origin: ALB / S3]
+    SHIELD[AWS Shield] --> CF
+    SHIELD --> R53
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Module 12: Edge Services — Part 1

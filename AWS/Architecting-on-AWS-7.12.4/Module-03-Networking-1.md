@@ -1,5 +1,22 @@
 # Module 3 — Networking 1
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart TB
+    Internet((Internet)) --> IGW[Internet Gateway]
+    IGW --> RT[Public Route Table]
+    RT --> PUB[Public Subnet]
+    PUB --> NAT[NAT Gateway]
+    NAT --> PRT[Private Route Table]
+    PRT --> PRI[Private Subnet]
+    PUB --> NACL1[NACL]
+    PRI --> NACL2[NACL]
+    PUB --> SG1[Security Group]
+    PRI --> SG2[Security Group]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Architecting on AWS 7.12.4 - Module 3: Networking 1 (Part 1)

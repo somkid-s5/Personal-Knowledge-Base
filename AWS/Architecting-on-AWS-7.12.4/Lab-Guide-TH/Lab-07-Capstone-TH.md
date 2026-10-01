@@ -1,5 +1,18 @@
 # Lab 7 — Capstone Lab
 
+## 🗺️ Lab architecture
+
+```mermaid
+flowchart TB
+    Users --> EDGE[Route 53 / CloudFront]
+    EDGE --> ALB[Application Load Balancer]
+    ALB --> ASG[Auto Scaling across AZs]
+    ASG --> DB[(Highly available database)]
+    ASG --> S3[S3]
+    MON[CloudWatch] --> ASG
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้ฉบับ
 > คู่มือภาษาไทยสำหรับทำ Capstone Lab จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 146–182  
 > คงชื่อ Console menu / button / field / CloudFormation parameter / resource เป็น English ตาม Lab

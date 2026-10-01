@@ -1,5 +1,19 @@
 # Module 7 — Monitoring and Scaling
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart LR
+    U[Users] --> ALB[Application Load Balancer]
+    ALB --> ASG[EC2 Auto Scaling Group]
+    ASG --> EC21[EC2]
+    ASG --> EC22[EC2]
+    CW[CloudWatch Metrics / Alarms] --> ASG
+    CT[CloudTrail] --> OBS[Audit / Observability]
+    VFL[VPC Flow Logs] --> OBS
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Module 7: Monitoring and Scaling — Part 1

@@ -1,5 +1,19 @@
 # Lab 4 — Configure High Availability in Your Amazon VPC
 
+## 🗺️ Lab architecture
+
+```mermaid
+flowchart TB
+    Internet((Internet)) --> ALB[Application Load Balancer]
+    ALB --> AZ1[AZ1: App via Auto Scaling]
+    ALB --> AZ2[AZ2: App via Auto Scaling]
+    AZ1 --> AUR[(Aurora Writer + Reader across AZs)]
+    AZ2 --> AUR
+    AZ1 --> NAT1[NAT Gateway AZ1]
+    AZ2 --> NAT2[NAT Gateway AZ2]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้ฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 4 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 69–93  
 > คงชื่อ AWS Console menu / button / field / resource เป็น English ตาม Lab

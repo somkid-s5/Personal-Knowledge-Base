@@ -1,5 +1,19 @@
 # Module 6 — Database Services
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart TB
+    APP[Application] --> RDS[(RDS / Aurora Writer)]
+    RDS --> STBY[(Multi-AZ standby / replica)]
+    APP --> RR[(Read Replica)]
+    RDS --> RR
+    APP --> C[Cache]
+    C --> RDS
+    APP --> DDB[(DynamoDB)]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Architecting on AWS 7.12.4 — Module 6: Database Services — Part 1

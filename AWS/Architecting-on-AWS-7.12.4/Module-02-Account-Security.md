@@ -1,5 +1,20 @@
 # Module 2 — Account Security
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart TB
+    P[Principal] --> IAM[IAM policy evaluation]
+    IAM --> A{Explicit Allow?}
+    A -- No --> D[Deny]
+    A -- Yes --> E{Explicit Deny anywhere?}
+    E -- Yes --> D
+    E -- No --> X[Allowed]
+    ORG[AWS Organizations / SCP] --> IAM
+    PB[Permissions Boundary] --> IAM
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Architecting on AWS 7.12.4 - Module 2: Account Security (Part 1)

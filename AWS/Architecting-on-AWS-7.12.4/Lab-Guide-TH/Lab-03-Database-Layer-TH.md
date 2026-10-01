@@ -1,5 +1,17 @@
 # Lab 3 — Creating a Database Layer in Your Amazon VPC Infrastructure
 
+## 🗺️ Lab architecture
+
+```mermaid
+flowchart TB
+    Internet((Internet)) --> ALB[Application Load Balancer]
+    ALB --> A1[AppServer1]
+    ALB --> A2[AppServer2]
+    A1 --> DB[(Aurora MySQL-compatible)]
+    A2 --> DB
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้ฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 3 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 53–68  
 > คงชื่อ AWS service / Console menu / button / field / ค่า config เป็น English ตามหน้าจอจริง

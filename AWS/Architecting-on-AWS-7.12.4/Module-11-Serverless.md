@@ -1,5 +1,18 @@
 # Module 11 — Serverless
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart LR
+    C[Client] --> APIGW[API Gateway]
+    APIGW --> L[Lambda]
+    L --> DDB[(DynamoDB)]
+    L --> SNS[SNS]
+    SNS --> SQS[SQS]
+    SQS --> W[Worker Lambda]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Module 11: Serverless — Part 1

@@ -1,5 +1,20 @@
 # Module 10 — Networking 2
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart TB
+    ONPREM[On-premises] --> VPN[Site-to-Site VPN]
+    ONPREM --> DX[AWS Direct Connect]
+    VPN --> TGW[Transit Gateway]
+    DX --> TGW
+    TGW --> VPC1[VPC A]
+    TGW --> VPC2[VPC B]
+    TGW --> VPC3[VPC C]
+    VPC1 --> EP[VPC Endpoint]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Module 10: Networking 2 — Part 1

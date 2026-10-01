@@ -1,5 +1,20 @@
 # Module 9 — Containers
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart TB
+    IMG[Container Image] --> ECR[Amazon ECR]
+    ECR --> ORCH{Orchestrator}
+    ORCH --> ECS[Amazon ECS]
+    ORCH --> EKS[Amazon EKS]
+    ECS --> HOST{Hosting}
+    EKS --> HOST
+    HOST --> EC2[EC2]
+    HOST --> FG[AWS Fargate]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Module 9: Containers — Part 1

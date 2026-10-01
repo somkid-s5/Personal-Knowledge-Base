@@ -1,5 +1,19 @@
 # Module 4 — Compute
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart LR
+    AMI[AMI] --> EC2[EC2 Instance]
+    TYPE[Instance Type] --> EC2
+    SG[Security Group] --> EC2
+    EBS[EBS] --> EC2
+    UD[User Data] --> EC2
+    EC2 --> IMDS[Instance Metadata]
+    EC2 --> L[Load / Application]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Architecting on AWS 7.12.4 — Module 4: Compute (Part 1)

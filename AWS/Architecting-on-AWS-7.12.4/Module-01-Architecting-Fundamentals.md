@@ -1,5 +1,25 @@
 # Module 1 — Architecting Fundamentals
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart LR
+    U[Users] --> R[AWS Region]
+    R --> AZ1[Availability Zone A]
+    R --> AZ2[Availability Zone B]
+    R --> AZ3[Availability Zone C]
+    AZ1 --> WAF[AWS Well-Architected]
+    AZ2 --> WAF
+    AZ3 --> WAF
+    WAF --> P1[Operational Excellence]
+    WAF --> P2[Security]
+    WAF --> P3[Reliability]
+    WAF --> P4[Performance Efficiency]
+    WAF --> P5[Cost Optimization]
+    WAF --> P6[Sustainability]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Architecting on AWS 7.12.4 — Module 1: Architecting Fundamentals (Part 1)

@@ -1,5 +1,18 @@
 # Module 5 — Storage
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart TB
+    APP[Workload] --> B[Block: EBS]
+    APP --> F[File: EFS / FSx]
+    APP --> O[Object: S3]
+    O --> L[S3 Lifecycle]
+    O --> R[S3 Replication]
+    O --> E[S3 Event Notifications]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Architecting on AWS 7.12.4 — Module 5: Storage (Part 1)

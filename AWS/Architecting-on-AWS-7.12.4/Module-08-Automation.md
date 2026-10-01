@@ -1,5 +1,20 @@
 # Module 8 — Automation
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart LR
+    CODE[Template / Code] --> CFN[CloudFormation]
+    CODE --> CDK[AWS CDK]
+    CDK --> CFN
+    CFN --> STACK[Stack]
+    STACK --> R1[Compute]
+    STACK --> R2[Network]
+    STACK --> R3[Database]
+    SSM[Systems Manager] --> R1
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Module 8: Automation — Part 1

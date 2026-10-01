@@ -1,5 +1,18 @@
 # Lab 1 — Exploring and Interacting with the AWS Management Console and AWS CLI
 
+## 🗺️ Lab architecture
+
+```mermaid
+flowchart LR
+    U[Student] --> CONSOLE[AWS Management Console]
+    CONSOLE --> S3A[S3 Bucket]
+    U --> SSM[Session Manager]
+    SSM --> HOST[Command Host]
+    HOST --> CLI[AWS CLI]
+    CLI --> S3B[S3 Bucket + Object]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้ฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 1 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 4–18  
 > คงชื่อเมนู ปุ่ม field คำสั่ง CLI และค่าที่ต้องกรอกเป็นภาษาอังกฤษตาม Console

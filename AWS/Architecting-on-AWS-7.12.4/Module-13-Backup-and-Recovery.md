@@ -1,5 +1,20 @@
 # Module 13 — Backup and Recovery
 
+## 🧭 Visual architecture
+
+```mermaid
+flowchart LR
+    BIZ[Business requirement] --> RPO[RPO]
+    BIZ --> RTO[RTO]
+    RPO --> STRAT{Recovery strategy}
+    RTO --> STRAT
+    STRAT --> B[Backup & Restore]
+    STRAT --> PL[Pilot Light]
+    STRAT --> WS[Warm Standby]
+    STRAT --> AA[Multi-site Active/Active]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.
 
 # Module 13: Backup and Recovery — Part 1

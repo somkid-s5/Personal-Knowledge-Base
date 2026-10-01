@@ -1,5 +1,18 @@
 # Lab 2 — Building your Amazon VPC Infrastructure
 
+## 🗺️ Lab architecture
+
+```mermaid
+flowchart TB
+    Internet((Internet)) --> IGW[Internet Gateway]
+    IGW --> PUB[Public Subnet]
+    PUB --> EC2P[Public EC2]
+    PUB --> NAT[NAT Gateway]
+    NAT --> PRI[Private Subnet]
+    PRI --> EC2R[Private EC2]
+```
+
+> Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้ฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 2 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 19–52  
 > ชื่อเมนู ปุ่ม field ค่า config และคำสั่งคงเป็น English ตาม AWS Console
