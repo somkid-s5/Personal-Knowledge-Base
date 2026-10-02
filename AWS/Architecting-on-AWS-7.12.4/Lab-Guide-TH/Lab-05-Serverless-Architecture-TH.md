@@ -15,6 +15,11 @@ flowchart LR
 
 ![Lab 5 architecture diagram](assets/diagrams/lab-05-architecture.svg)
 
+### Source diagram จาก Lab Guide
+
+![Lab 5 source diagram](assets/source/lab-05-serverless-workflow.jpg)
+
+
 
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของแล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 5 จาก *Architecting on AWS 7.12.4 Lab Guide*  

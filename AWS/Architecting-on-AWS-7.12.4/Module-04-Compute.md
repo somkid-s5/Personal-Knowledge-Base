@@ -17,6 +17,11 @@ flowchart LR
 
 ![Module 4 visual diagram](assets/diagrams/module-04-visual.svg)
 
+### Source diagram จาก Student Guide
+
+![Module 4 source diagram](assets/source/module-04-key-diagrams.jpg)
+
+
 
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > Mobile reader copy combined from Part 1 + Part 2. Full source screenshots remain in Google Drive master.

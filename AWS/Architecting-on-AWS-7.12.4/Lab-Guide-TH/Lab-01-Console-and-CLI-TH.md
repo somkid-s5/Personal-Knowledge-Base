@@ -16,6 +16,11 @@ flowchart LR
 
 ![Lab 1 architecture diagram](assets/diagrams/lab-01-architecture.svg)
 
+### Source diagram จาก Lab Guide
+
+![Lab 1 source diagram](assets/source/lab-01-console-cli-s3-flow.jpg)
+
+
 
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 1 จาก *Architecting on AWS 7.12.4 Lab Guide*  

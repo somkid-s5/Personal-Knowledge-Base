@@ -16,6 +16,11 @@ flowchart TB
 
 ![Lab 2 architecture diagram](assets/diagrams/lab-02-architecture.svg)
 
+### Source diagram จาก Lab Guide
+
+![Lab 2 source diagram](assets/source/lab-02-vpc-final-architecture.jpg)
+
+
 
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 2 จาก *Architecting on AWS 7.12.4 Lab Guide*  
