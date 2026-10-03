@@ -1,0 +1,190 @@
+# Module 08 — GKE & Kubernetes Operations
+
+[สารบัญ](./README.md) · [ก่อนหน้า](./Module-07-Databases-and-Data-Services.md) · [ถัดไป](./Module-09-Cloud-Run-and-Event-Driven-Services.md)
+
+## 1. Container กับ Kubernetes คนละชั้น
+
+Container image แพ็ก application และ dependencies ส่วน Kubernetes เป็นระบบจัดการการรัน workload เช่น scheduling, desired state, service discovery และ rollout
+
+GKE คือ managed Kubernetes ของ Google Cloud ยังต้องเข้าใจ resources ของ Kubernetes; ไม่ใช่เอา Docker image ขึ้นแล้วได้ backup/security/HA ครบอัตโนมัติ
+
+| ชั้น | หน้าที่ |
+|---|---|
+| Image | application package |
+| Container | process ที่รันจาก image |
+| Pod | หน่วย scheduling ที่มี container หนึ่งหรือหลายตัว |
+| Node | เครื่องที่รัน Pods |
+| Cluster | control plane + nodes/network/configuration |
+
+## 2. Standard vs Autopilot
+
+ตาม [Autopilot overview](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview):
+
+| ประเด็น | Standard | Autopilot |
+|---|---|---|
+| การดูแล nodes | ผู้ใช้กำหนด node pools/config มากกว่า | platform ดูแลส่วน infrastructure มากขึ้น |
+| ความยืดหยุ่น | เหมาะ workload ที่ต้อง config ลึก | มี constraints/managed defaults ตาม workload |
+| การระบุ workload resources | requests/limits ยังสำคัญ | requests มีผลต่อ scheduling และ cost model ตามชนิด workload |
+| หน้าที่ของเรา | Kubernetes app + node decisions ที่เลือกเอง | Kubernetes app, access, resources, networking และ data |
+
+อย่าตอบว่า Autopilot “ไม่ต้องคิด resources เลย” หรือ Standard “ต้องสร้าง control plane เองทั้งหมด” ทั้งสองเป็น managed GKE ต่างกันที่ขอบเขต operation
+
+## 3. Zonal, regional และ private configuration
+
+Regional cluster เพิ่ม control-plane availability ตาม configuration แต่ application จะ HA หรือไม่ยังขึ้นกับ replicas, topology, nodes และ dependency
+
+Private nodes ไม่มี public node IP ส่วน control-plane endpoint access มี options ของตนเอง อย่าเหมารวม private cluster ทุกตัวว่าห้ามมี external control-plane endpoint หรือเข้าจาก Cloud Shell ได้ทันที
+
+ก่อน create คิดเรื่อง VPC/subnet/Pod and Service ranges, endpoint access, release channel, identity, node pools/Autopilot, logging/monitoring และ quota
+
+## 4. Kubernetes objects ที่ต้องอ่านออก
+
+| Object | ใช้ทำอะไร | ภาพจำ |
+|---|---|---|
+| Deployment | stateless replicated app + rollout | อยากมี app version นี้ N replicas |
+| StatefulSet | stable identity/storage patterns | workload ที่ต้อง identity/state ตามลำดับ |
+| DaemonSet | workload ต่อ node ที่เข้าเงื่อนไข | node-level agent |
+| Job | task จนสำเร็จ | batch ครั้งเดียว |
+| CronJob | สร้าง Jobs ตามเวลา | งาน schedule |
+| Service | stable endpoint ไป Pods ตาม selector | Pods เปลี่ยน IP แต่ชื่อ service คงเดิม |
+| ConfigMap | config ที่ไม่เป็น secret | environment/config files |
+| Secret | data ที่ควรจัด access เป็นความลับ | ต้องป้องกัน RBAC/encryption ไม่ถือว่า base64 คือ encryption |
+| PVC | request persistent storage | disk/file persistence ตาม storage class |
+
+```mermaid
+flowchart TB
+    D[Deployment] --> R[ReplicaSet]
+    R --> P1[Pod 1]
+    R --> P2[Pod 2]
+    S[Service selector] --> P1
+    S --> P2
+    I[Ingress or Gateway] --> S
+    C[Client traffic] --> I
+```
+
+Diagram เป็นแนวคิดของ app topology เส้นทาง data plane จริงขึ้นกับ implementation เช่น container-native load balancing ไม่จำเป็นต้องผ่าน hop เหมือนภาพทุกครั้ง
+
+## 5. อ่าน manifest ตัวอย่าง
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ace-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ace-web
+  template:
+    metadata:
+      labels:
+        app: ace-web
+    spec:
+      containers:
+        - name: web
+          image: nginx:stable
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+```
+
+`replicas` คือจำนวน Pods ที่ต้องการ `selector` ต้องตรง labels ของ Pod `containerPort` ระบุ port ใน spec ไม่ได้เปิด public firewall/LB เอง
+
+Image tag `stable` เปลี่ยนเนื้อหาได้ ตัวอย่างนี้เพื่อเรียนรู้ สำหรับ release ที่ต้อง reproducible pin tag/version หรือ digest และใช้ approved registry
+
+## 6. Requests vs limits
+
+**Requests** ใช้ประกอบ scheduling และคำนวณ utilization สำหรับ autoscaling บางแบบ **Limits** กำหนดเพดาน resource ตาม runtime behavior
+
+`100m` CPU = 0.1 CPU; `128Mi` เป็น memory unit ถ้าตั้ง memory limit ต่ำเกิน workload อาจ OOMKilled ส่วน CPU limit อาจทำให้ throttling แม้ node มี CPU รวมเหลือ
+
+ตัวอย่าง Pod Pending ทั้งที่ CPU utilization ของ nodes ต่ำ: nodes อาจไม่มี allocatable resources ตาม requests, มี taint/affinity constraints หรือ PVC provision ไม่ได้ จึงดู events ก่อนเพิ่ม replica
+
+## 7. Readiness, liveness, startup probes
+
+| Probe | คำถาม | ผลสำคัญ |
+|---|---|---|
+| Readiness | พร้อมรับ traffic หรือยัง? | ใช้คัด endpoint ที่พร้อม |
+| Liveness | process ติดจนควร restart หรือไม่? | fail อาจ restart container |
+| Startup | startup เสร็จหรือยัง? | ช่วย workload เริ่มช้าไม่โดน probe อื่นเร่งเกิน |
+
+อย่าใช้ endpoint ที่พึ่ง DB ทุกครั้งเป็น liveness โดยไม่คิด ถ้า DB outage ทุก Pod อาจ restart ซ้ำตามกัน ทำให้ startup load เพิ่ม
+
+## 8. Service types
+
+| Type | การเข้าถึง |
+|---|---|
+| ClusterIP | endpoint ภายใน cluster |
+| NodePort | เปิด node port ตาม config/network |
+| LoadBalancer | ขอ cloud load balancer ตาม controller/config |
+
+Ingress/Gateway ใช้ประกาศ routing/entry configuration ตาม controller ไม่ใช่ชื่ออื่นของ Pod การเลือก LoadBalancer ทุก service อาจเพิ่มค่าใช้จ่ายและไม่ได้ให้ path routing แบบ HTTP โดยอัตโนมัติ
+
+## 9. Scaling คนละระดับ
+
+- **HPA** เปลี่ยน replicas ตาม metrics ที่ตั้ง
+- **VPA** แนะนำ/จัด requests ตาม mode และข้อจำกัด อาจมี Pod disruption
+- **Cluster autoscaler** ปรับจำนวน nodes ใน Standard node pools ที่ตั้งให้รองรับ
+- **Autopilot** จัด infrastructure ตาม workload ที่รองรับ แต่ workload requests/constraints ยังสำคัญ
+
+ถ้า HPA สร้าง Pods เพิ่มแต่ cluster ใส่ไม่ลง จะเห็น Pending ต้องตรวจ node capacity/autoscaler/quota ไม่คิดว่าการเพิ่ม replica แก้ได้เสมอ
+
+## 10. 3 ชุดสิทธิ์ที่ต้องแยก
+
+| งาน | ตัวตน/กลไกสำคัญ |
+|---|---|
+| คนใช้ kubectl จัด deployment | Google identity/IAM + Kubernetes RBAC ตามการอนุญาต |
+| Node ดึง image จาก Artifact Registry | identity ของ node/runtime และ registry permissions |
+| Pod เรียก Google APIs | Workload Identity Federation for GKE ตาม config |
+
+การ grant bucket access ให้คนใช้ kubectl ไม่ได้ทำให้ Pod มี access และการให้ Pod SA อ่าน bucket ไม่ได้แก้ image pull โดยอัตโนมัติ
+
+[GKE workload identity](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/workload-identity) รองรับ model การใช้ federated principal หรือ linking เพื่อ impersonate IAM SA ตาม scenario **Kubernetes ServiceAccount ไม่ใช่ Google IAM Service Account** แม้ชื่อใกล้กัน
+
+## 11. kubectl ที่ควรใช้เป็น
+
+```bash
+kubectl config current-context
+kubectl get nodes
+kubectl get pods -A
+kubectl get deployments,services -n NAMESPACE
+kubectl describe pod POD_NAME -n NAMESPACE
+kubectl logs POD_NAME -n NAMESPACE --all-containers
+kubectl rollout status deployment/DEPLOYMENT_NAME -n NAMESPACE
+```
+
+`-A` = ทุก namespaces ที่ได้รับอนุญาต Context ผิดหมายถึงกำลังสั่ง cluster ผิด; ต้องตรวจเหมือนตรวจ gcloud project
+
+## 12. Failure patterns
+
+| State | เริ่มดู |
+|---|---|
+| Pending | events, requests, nodes, taints/affinity, PVC |
+| ImagePullBackOff | image name/digest, registry permission, network |
+| CrashLoopBackOff | logs, command/config, missing secret, app startup |
+| OOMKilled | memory profile, requests/limits, leak |
+| Running แต่ไม่ Ready | readiness endpoint/port/dependencies |
+| Service ไม่มี endpoints | selector labels, readiness, namespace |
+
+**ทบทวน:** ระบบมี Deployment 3 replicas แต่ Service selector ไม่ตรง Pod labels จะไม่มี backend ที่ถูกเลือก การเพิ่ม replicas ยังไม่แก้ configuration mismatch
+
+## เอกสารประกอบ
+
+- [GKE Autopilot](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview)
+- [Deploy workloads](https://docs.cloud.google.com/kubernetes-engine/docs/get-started/deploy-workloads)
+- [Workload Identity Federation for GKE](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/workload-identity)
+- [Kubernetes objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
+- [Probes](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/)

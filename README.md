@@ -11,6 +11,7 @@ Welcome to my personal collection of certification notes and practice exam expla
 | **Architecting on AWS 7.12.4 — Student Guide Notes** | [`AWS/Architecting-on-AWS-7.12.4`](./AWS/Architecting-on-AWS-7.12.4/) | ✅ Complete — Mobile Reader |
 | **AWS Solutions Architect Associate (SAA-C03)** | [`AWS_SAA_C03`](./AWS_SAA_C03/) | 🟢 In Progress |
 | **Azure Fundamentals** | `COMING_SOON` | 🟡 Planned |
+| **Google Cloud Associate Cloud Engineer (ACE) — Thai Study Notes** | [`GCP/Associate-Cloud-Engineer`](./GCP/Associate-Cloud-Engineer/) | 📘 13 Modules + 5 Companion Labs |
 | **Google Cloud Digital Leader** | `COMING_SOON` | 🟡 Planned |
 
 ---
@@ -41,6 +42,19 @@ Detailed walkthroughs and explanations for practice exams, translated and simpli
 - [x] Test 4: Full Explanation
 - [x] Test 5: Full Explanation
 - [x] Test 6: Full Explanation
+
+---
+
+## ☁️ Google Cloud Associate Cloud Engineer
+
+[**Open ACE Thai Study Notes →**](./GCP/Associate-Cloud-Engineer/)
+
+- 13 detailed Thai modules with English cloud terminology
+- Mermaid diagrams, service comparisons, CLI examples and troubleshooting
+- 5 companion labs with prerequisites, expected results and cleanup
+- Learning Path / current exam objective map, Cheat Sheet, Glossary and 20 original review scenarios
+- Written from current official documentation; not a transcript of all Google Skills videos
+- Sources checked on 3 October 2026; cloud labs have not been provisioned during note authoring
 
 ---
 
