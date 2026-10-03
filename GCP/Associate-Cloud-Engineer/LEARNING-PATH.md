@@ -8,21 +8,21 @@
 
 ใช้ลำดับ **รู้ว่าทรัพยากรอยู่ที่ไหน → ใครมีสิทธิ์ → network ไปได้ไหม → workload ทำงานอย่างไร → วัดและแก้ปัญหาอย่างไร** เพื่อให้แต่ละบริการมีบริบท
 
-## 2. จับคู่กับ Google Skills
+## 2. โครงสร้างคอร์ส Google Skills ที่ตรวจยืนยันได้
 
-นี่คือแผนอ่านตามหัวข้อ ไม่ใช่การยืนยันว่าทุกคอร์สต่อไปนี้อยู่ในลำดับเดียวกันกับหน้า Learning Path ของผู้เรียน
+หน้า [ACE Certification Learning Path](https://www.skills.google/paths/11) แสดง 17 activities แต่หน้าสาธารณะไม่แสดงชื่อ/ลำดับของทั้ง 17 กิจกรรม รายละเอียดหัวข้อใหญ่และหัวข้อย่อยของคอร์สที่เปิดเผยพร้อม crosswalk ไปยังโน้ตใน repo อยู่ที่ [สารบัญหลักสูตรจริงและโน้ตตาม Google Skills](./GOOGLE-SKILLS-CURRICULUM.md)
 
-| คอร์ส/กลุ่มกิจกรรมที่เกี่ยวข้อง | บทที่อ่านประกอบ | สิ่งที่ควรทดลอง |
-|---|---|---|
-| [Build a Certification Study Guide: ACE Exam Prep](https://www.skills.google/course_templates/77) — course ID 77 ที่เนื้อหาเก่าใช้ชื่อ Preparing for Your Associate Cloud Engineer Journey | 01, ตาราง exam map ด้านล่าง | จดจุดแข็งและช่องว่างตาม objective |
-| [Google Cloud Fundamentals: Core Infrastructure](https://www.skills.google/course_templates/60) | 01–07, 09 | สำรวจ project, VM, bucket, DB และ managed services |
-| [Essential Google Cloud Infrastructure: Foundation](https://www.skills.google/paths/11/course_templates/50) | 03–05 | gcloud, custom VPC, VM และ subnet |
-| [Essential Google Cloud Infrastructure: Core Services](https://www.skills.google/paths/11/course_templates/49) | 02, 03, 06, 11 | IAM, storage, monitoring และ permissions |
-| [Elastic Google Cloud Infrastructure: Scaling and Automation](https://www.skills.google/paths/11/course_templates/178) | 05, 10, 12 | autoscaling, load balancing, hybrid และ automation |
-| Kubernetes / serverless / Terraform skill badges ที่ผู้เรียนเลือก | 08, 09, 12 | deployment, IAM ของ workload, IaC |
-| Exam preparation / review activities | CHEAT-SHEET, EXAM-SCENARIOS | อธิบายเหตุผลและกลับไปแก้จุดที่ยังไม่เข้าใจ |
+คอร์สที่มีหน้าระบุอยู่ภายใต้ path 11 และตรวจชื่อ/รหัสได้ ได้แก่ [Foundation (ID 50)](https://www.skills.google/paths/11/course_templates/50), [Core Services (ID 49)](https://www.skills.google/paths/11/course_templates/49), [Scaling and Automation (ID 178)](https://www.skills.google/paths/11/course_templates/178) และ [ACE Exam Prep (ID 77)](https://www.skills.google/paths/11/course_templates/77) ส่วน [Google Cloud Fundamentals (ID 60)](https://www.skills.google/course_templates/60) ใช้เป็นพื้นฐานเสริม; ไม่ถือว่าเป็นหนึ่งใน 17 กิจกรรมเมื่อหน้า path สาธารณะยืนยันรายการไม่ได้
 
-หน้า [path 11](https://www.skills.google/paths/11) เป็นจุดตรวจชื่อกิจกรรมปัจจุบัน โดยรายการและชื่อสามารถเปลี่ยนได้
+| คอร์ส | บทอ่านประกอบ |
+|---|---|
+| Google Cloud Fundamentals: Core Infrastructure — พื้นฐานเสริม | 01–10, 13 |
+| Essential Google Cloud Infrastructure: Foundation | 01, 03–05, 10 |
+| Essential Google Cloud Infrastructure: Core Services | 01–03, 06–07, 11 |
+| Elastic Google Cloud Infrastructure: Scaling and Automation | 04–05, 07, 10, 12 |
+| Build a Certification Study Guide: ACE Exam Prep | GOOGLE-SKILLS-CURRICULUM, CHEAT-SHEET, EXAM-SCENARIOS |
+
+หลักสูตรและชื่อกิจกรรมอาจเปลี่ยนตามเวลา รุ่นภาษา หรือสิทธิ์บัญชี ให้ใช้รายชื่อที่แสดงในบัญชี Google Skills ของผู้เรียนเป็นรายการกิจกรรมล่าสุด และใช้ curriculum map สำหรับหัวข้อย่อยที่เปิดเผยได้
 
 ## 3. Exam map ปัจจุบัน
 

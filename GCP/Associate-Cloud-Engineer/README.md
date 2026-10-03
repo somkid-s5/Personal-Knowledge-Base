@@ -6,7 +6,7 @@
 ## เริ่มอ่านตรงนี้
 
 1. เริ่มที่ [Module 01 — Foundations](./Module-01-Foundations-and-Resource-Hierarchy.md) แล้วอ่านตามลำดับ
-2. เปิด [Learning Path & Exam Map](./LEARNING-PATH.md) เพื่อจับคู่กับคอร์สที่กำลังเรียนใน Google Skills
+2. เปิด [สารบัญหัวข้อใหญ่/ย่อยตามหลักสูตร Google Skills](./GOOGLE-SKILLS-CURRICULUM.md) แล้วอ่านคู่กับ [Learning Path & Exam Map](./LEARNING-PATH.md)
 3. อ่านแนวคิดก่อน แล้วทำ [Lab Guide ภาษาไทย](./Lab-Guide-TH/README.md)
 4. ทบทวนด้วย [Cheat Sheet](./CHEAT-SHEET.md), [Glossary](./GLOSSARY.md) และ [สถานการณ์พร้อมคำอธิบาย](./EXAM-SCENARIOS.md)
 
@@ -14,7 +14,7 @@
 
 ชุดนี้เป็น **บทเรียนที่เขียนใหม่จากเอกสาร Google Cloud และขอบเขตสอบ ACE** เพื่อใช้อ่านประกอบ [Associate Cloud Engineer Certification Learning Path](https://www.skills.google/paths/11) ไม่ใช่ transcript หรือคำแปลครบทุกวิดีโอ และไม่อ้างว่าเรียงเหมือนกิจกรรมทั้งหมดในบัญชีผู้เรียน
 
-หน้า public ของ Learning Path แสดง 17 activities ณ วันที่ตรวจ แต่ไม่ได้เปิดเผยรายละเอียดของทุกกิจกรรมในข้อมูลที่ดึงได้ จึงจับคู่ตามหัวข้อและคอร์สที่ยืนยันได้ ไม่เดาลำดับวิดีโอหรือคะแนนความคืบหน้าของผู้เรียน
+หน้า public ของ Learning Path แสดง 17 activities แต่ไม่เปิดเผยชื่อ/ลำดับกิจกรรมทั้งหมด รายละเอียดหลักสูตรจริงที่ตรวจยืนยันได้และสารบัญ lesson/lab ที่เผยแพร่สาธารณะอยู่ใน [GOOGLE-SKILLS-CURRICULUM.md](./GOOGLE-SKILLS-CURRICULUM.md) เนื้อหานี้ไม่เดากิจกรรมที่ต้องลงชื่อเข้าใช้เพื่อดู
 
 ยึด **Standard Exam Guide ที่ลิงก์จากหน้ารับรองปัจจุบัน**: [official PDF](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ซึ่งแบ่ง 4 หมวดประมาณ **20% / 30% / 30% / 20%** หลีกเลี่ยงการใช้ HTML guide เก่าหรือ PDF `v4.0` แทนโดยไม่ตรวจเวอร์ชัน
 
