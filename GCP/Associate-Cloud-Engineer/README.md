@@ -7,10 +7,11 @@
 
 1. เริ่มที่ [คู่มืออ่าน 17 กิจกรรมตาม Learning Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) และทำตามลำดับทางการ
 2. ก่อนอ่านบทที่เป็น text ยาว ให้เปิด [ACE Visual Study Guide](./VISUAL-STUDY-GUIDE-TH.md) เพื่อเห็น architecture, flow, decision tree และ troubleshooting map ก่อน
-3. เปิด [โน้ตแยกรายกิจกรรมครบ 01–17](./LEARNING-PATH-STUDY-GUIDE-TH.md#ลำดับกิจกรรม) จากคู่มืออ่านตาม Path
-4. เปิด [สารบัญหัวข้อใหญ่/ย่อยตามหลักสูตร Google Skills](./GOOGLE-SKILLS-CURRICULUM.md) เพื่อเชื่อมกับบทโน้ตเชิงหัวข้อ
-5. ใช้ [Lab Guide ภาษาไทย](./Lab-Guide-TH/README.md) และ [ตารางเทียบแล็บกับ Path](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md); แล็บเสริมใน repo ไม่แทน Google Skills grader
-6. ทบทวนด้วย [Cheat Sheet](./CHEAT-SHEET.md), [Glossary](./GLOSSARY.md) และ [สถานการณ์พร้อมคำอธิบาย](./EXAM-SCENARIOS.md)
+3. สำหรับหัวข้อใหม่ใน Exam Guide ที่ Learning Path รุ่นเก่ามักไม่ครอบคลุมลึก ให้เปิด [ACE Modern Objectives Deep Dive](./ACE-MODERN-OBJECTIVES-DEEP-DIVE-TH.md)
+4. เปิด [โน้ตแยกรายกิจกรรมครบ 01–17](./LEARNING-PATH-STUDY-GUIDE-TH.md#ลำดับกิจกรรม) จากคู่มืออ่านตาม Path
+5. เปิด [สารบัญหัวข้อใหญ่/ย่อยตามหลักสูตร Google Skills](./GOOGLE-SKILLS-CURRICULUM.md) เพื่อเชื่อมกับบทโน้ตเชิงหัวข้อ
+6. ใช้ [Lab Guide ภาษาไทย](./Lab-Guide-TH/README.md) และ [ตารางเทียบแล็บกับ Path](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md); แล็บเสริมใน repo ไม่แทน Google Skills grader
+7. ทบทวนด้วย [Cheat Sheet](./CHEAT-SHEET.md), [Glossary](./GLOSSARY.md) และ [สถานการณ์พร้อมคำอธิบาย](./EXAM-SCENARIOS.md)
 
 ## วิธีเรียนที่แนะนำ: Visual → Concept → Practice → Troubleshoot
 
@@ -39,6 +40,8 @@ flowchart LR
 หน้า Learning Path เปิดดูได้โดยไม่ต้องล็อกอินและแสดงชื่อ/ลำดับครบ 17 activities รวมทั้งคำอธิบายของแต่ละรายการ ฉันตรวจหน้า course ที่เกี่ยวข้องและเพิ่ม inventory, syllabus หัวข้อใหญ่/ย่อย และ crosswalk ไปยังบทเรียนใน [GOOGLE-SKILLS-CURRICULUM.md](./GOOGLE-SKILLS-CURRICULUM.md); เนื้อหาใน repo เป็นโน้ตเรียบเรียงใหม่ ไม่ใช่ transcript
 
 ยึด **Standard Exam Guide ที่ลิงก์จากหน้ารับรองปัจจุบัน**: [official PDF](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ซึ่งแบ่ง 4 หมวดประมาณ **20% / 30% / 30% / 20%** หลีกเลี่ยงการใช้ HTML guide เก่าหรือ PDF `v4.0` แทนโดยไม่ตรวจเวอร์ชัน
+
+Exam Guide ปัจจุบันมีหัวข้อที่โน้ต ACE รุ่นเก่ามักไม่มี เช่น Cloud Asset Inventory + Gemini Cloud Assist, Workforce Identity Federation, Cloud NGFW + secure Tags, Fabric FAST, Config Connector, Helm, Gemini CLI/Google Antigravity/Application Design Center, Agent Runtime, Workbench/BigQuery notebooks, Cloud Workstations, Database Center, CMEK, Managed Prometheus, Personalized Service Health, Active Assist และ Cloud Hub จึงแยกอธิบายแบบลงรายละเอียดไว้ใน [Modern Objectives Deep Dive](./ACE-MODERN-OBJECTIVES-DEEP-DIVE-TH.md)
 
 ## สารบัญบทเรียน
 
