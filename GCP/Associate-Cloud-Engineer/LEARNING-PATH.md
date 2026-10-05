@@ -64,16 +64,23 @@
 
 ส่วนบริการ data/AI ที่มีหลายผลิตภัณฑ์ เน้นให้เลือกและดูแลในระดับ ACE ไม่ใช่หลักสูตร DBA, Kubernetes administrator หรือ ML engineer เต็มชุด
 
-## 5. แผนอ่าน 4 สัปดาห์
+## 5. แผนอ่านตามลำดับ Path
 
-| สัปดาห์ | อ่าน | ลงมือทำ | เช็กความเข้าใจ |
-|---:|---|---|---|
-| 1 | 01–04 | Lab 01 | อธิบาย IAM และ network path โดยไม่ดูโน้ต |
-| 2 | 05–07, 10 | Lab 02 | เลือก compute/storage/DB และแยก HA กับ backup |
-| 3 | 08–09, 12 | Lab 03–05 | deploy, ตรวจ failure, cleanup และอ่าน Terraform plan |
-| 4 | 11, 13 + ทบทวน | ทดลอง incident scenarios | ทำสถานการณ์เองแล้วอ่านเหตุผล |
+เวลาเป็นค่าประมาณจากการ์ดกิจกรรม Google Skills ที่ตรวจเมื่อ 5 ตุลาคม 2026 รวมประมาณ 73 ชั่วโมงก่อนนับเวลาทบทวนเพิ่ม กิจกรรม 7, 8 และ 13 แบ่งเรียนหลายช่วงได้ แผนนี้คงลำดับ Path และให้เวลาหลักสูตรยาวมากกว่าการยัดทุกอย่างไว้ใน 4 สัปดาห์
 
-วันละประมาณ 60–90 นาทีอ่าน + 30–60 นาทีลงมือเป็นตัวอย่างแผน ปรับตามเวลาว่างได้ ไม่จำเป็นต้องจบทุกบทในวันเดียว
+| สัปดาห์ | กิจกรรม Path | เป้าหมาย |
+|---:|---|---|
+| 1 | #1–3: Tour, ACE Study Guide, Foundation | เข้าใจ lab environment, project, IAM, Console, VPC และ VM |
+| 2 | #4: Core Services | IAM, storage/database, billing, quotas และ monitoring |
+| 3 | #5: Scaling and Automation | VPN/peering, load balancing, autoscaling และ Terraform |
+| 4 | #6 และเริ่ม #7: GKE, Cloud Run Fundamentals | container, GKE objects, Cloud Run service/revision |
+| 5 | จบ #7 และเริ่ม #8: Cloud Run Functions | IAM, events, VPC access, retries และ integrations |
+| 6 | จบ #8; #9–10: Database Selection, GPUs | เลือก database และเข้าใจ GPU workloads |
+| 7 | #11–13: TPUs, Deployment Types, Logging/Monitoring | เลือก accelerator/deployment และฝึก observability |
+| 8 | #14: Terraform for Google Cloud | HCL, plan/apply, modules, state และ validation |
+| 9 | #15–17: Load Balancing, Kubernetes, Terraform Skill Badges | ทำ hands-on/challenge labs และทบทวนจุดที่ยังไม่คล่อง |
+
+เวลาในแต่ละสัปดาห์ไม่เท่ากัน ให้ใช้เวลา course card เป็นตัวตั้ง แล้วปรับตามเวลาจริงและ lab session ที่ต้องทำ หากต้องการอ่านโน้ตก่อน ให้เปิด [คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) และทำ official lab ในบัญชี Google Skills ของตัวเองเมื่อถึงกิจกรรมนั้น Companion Labs ใช้ฝึกแนวคิดเพิ่มเติม ไม่ใช้แทน lab grader
 
 ## 6. แบบบันทึกสิ่งที่ยังติด
 
