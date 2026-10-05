@@ -20,6 +20,8 @@
 
 ### 1. A Tour of Google Cloud Hands-on Labs — GSP282
 
+**อ่านโน้ตฉบับละเอียด:** [Activity 01 — GSP282](./Path-Activity-01-GSP282-TH.md)
+
 **เป้าหมาย:** รู้จัก Cloud Console, project, IAM และ API พร้อมเข้าใจว่าระบบแล็บให้สภาพแวดล้อมชั่วคราวอย่างไร
 
 - แยกชื่อบัญชี Google ส่วนตัวออกจากบัญชีชั่วคราวของแล็บ
@@ -36,6 +38,8 @@
 **เช็กตัวเอง:** ถ้าสลับไปใช้ project ผิด จะตรวจ project ID ที่ active อยู่ตรงไหน? ทำไม credential ของ lab ไม่ควรถูกใช้กับบัญชีส่วนตัว?
 
 ### 2. Build a Certification Study Guide: ACE Exam Prep
+
+**อ่านโน้ตฉบับละเอียด:** [Activity 02 — ACE Exam Prep](./Path-Activity-02-ACE-Study-Guide-TH.md)
 
 **เป้าหมาย:** ใช้ Gemini Notebook สร้างคู่มือทบทวนสอบจากแหล่งข้อมูลที่ระบุได้ และรู้จักตรวจคำตอบจากต้นทาง
 
