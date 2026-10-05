@@ -28,8 +28,8 @@
 
 | # | กิจกรรม | ประเภท / เวลาโดยประมาณ | โน้ตที่อ่านประกบ |
 |---:|---|---|---|
-| 1 | [A Tour of Google Cloud Hands-on Labs (GSP282)](https://www.skills.google/focuses/2794?parent=catalog&path=11) | Lab · 45 นาทีบนการ์ด Path | พื้นฐาน Cloud Console, Projects, IAM และ APIs; Module 01–03 |
-| 2 | [Build a Certification Study Guide: ACE Exam Prep](https://www.skills.google/paths/11/course_templates/77) | Course · 1 ชม. | วิธีทำ study guide และทบทวนสอบ; ไฟล์นี้, Learning Path, Cheat Sheet |
+| 1 | [A Tour of Google Cloud Hands-on Labs (GSP282)](https://www.skills.google/focuses/2794?parent=catalog&path=11) | Lab · 45 นาทีบนการ์ด Path | [โน้ต Activity 01 — GSP282](./Path-Activity-01-GSP282-TH.md); Modules 01–03 |
+| 2 | [Build a Certification Study Guide: ACE Exam Prep](https://www.skills.google/paths/11/course_templates/77) | Course · 1 ชม. | [โน้ต Activity 02 — ACE Exam Prep](./Path-Activity-02-ACE-Study-Guide-TH.md), Learning Path, Cheat Sheet |
 | 3 | [Essential Google Cloud Infrastructure: Foundation](https://www.skills.google/paths/11/course_templates/50) | Course · 6 ชม. 45 นาที | Console/Cloud Shell, VPC, VM; Modules 01, 03–05, 10 |
 | 4 | [Essential Google Cloud Infrastructure: Core Services](https://www.skills.google/paths/11/course_templates/49) | Course · 8 ชม. 15 นาที | IAM, storage/database, billing, monitoring; Modules 02–03, 06–07, 11 |
 | 5 | [Elastic Google Cloud Infrastructure: Scaling and Automation](https://www.skills.google/paths/11/course_templates/178) | Course · 7 ชม. | hybrid network, load balancing, autoscaling, Terraform, managed data; Modules 04–05, 07, 10, 12 |
