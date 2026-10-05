@@ -117,6 +117,8 @@
 
 ### 6. Getting Started with Google Kubernetes Engine
 
+**อ่านโน้ตและแบบฝึกประจำกิจกรรม:** [Activity 06 — GKE](./Path-Activity-06-GKE-TH.md)
+
 **เป้าหมาย:** เข้าใจ container, Kubernetes และวิธี deploy workload บน GKE
 
 - สร้าง container image ด้วย Cloud Build และเข้าใจหน้าที่ของ registry
@@ -132,6 +134,8 @@
 **เช็กตัวเอง:** Deployment แสดง desired replicas มากกว่า available replicas ควรตรวจ object, event, pod status และ logs อย่างไร?
 
 ### 7. Developing Applications with Cloud Run on Google Cloud: Fundamentals
+
+**อ่านโน้ตและแบบฝึกประจำกิจกรรม:** [Activity 07 — Cloud Run Fundamentals](./Path-Activity-07-Cloud-Run-TH.md)
 
 **เป้าหมาย:** deploy application container แบบ managed และจัดการ identity, revision และ traffic
 
