@@ -156,6 +156,8 @@
 
 ### 8. Developing Applications with Cloud Run Functions on Google Cloud
 
+**อ่านโน้ตและแบบฝึกประจำกิจกรรม:** [Activity 08 — Cloud Run Functions](./Path-Activity-08-Cloud-Run-Functions-TH.md)
+
 **เป้าหมาย:** สร้าง function ที่ตอบ HTTP หรือทำงานจาก event แล้วเชื่อมกับ service อื่นอย่างปลอดภัย
 
 - แยก HTTP trigger กับ event trigger
