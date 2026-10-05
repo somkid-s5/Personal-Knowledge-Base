@@ -402,7 +402,7 @@ Cloud Run; Cloud Run functions; พัฒนาแอปบน cloud; lab Hello 
 
 ## 6. Course-to-exam map
 
-อ้างอิง [Standard ACE Exam Guide](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ที่ตรวจ 4 ตุลาคม 2026 น้ำหนักเป็นค่าประมาณ ไม่ใช่จำนวนข้อแน่นอน
+อ้างอิง [Standard ACE Exam Guide](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ที่ตรวจ 5 ตุลาคม 2026 น้ำหนักเป็นค่าประมาณ ไม่ใช่จำนวนข้อแน่นอน
 
 | หมวดข้อสอบ | น้ำหนัก | คอร์สที่ปูพื้น | โน้ตใน repo |
 |---|---:|---|---|
