@@ -1,30 +1,308 @@
 # Activity 11 — AI Infrastructure: Cloud TPUs
 
-[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Activity 10 — GPUs](./Path-Activity-10-AI-Cloud-GPUs-TH.md) · [Module 13](./Module-13-AI-Tooling-and-Modern-Services.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/1405)
+[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Visual Guide](./VISUAL-STUDY-GUIDE-TH.md#13-ai-infrastructure--modern-operations) · [Activity 10 — GPUs](./Path-Activity-10-AI-Cloud-GPUs-TH.md) · [Module 13](./Module-13-AI-Tooling-and-Modern-Services.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/1405)
 
-> โน้ตภาษาไทยเรียบเรียงใหม่ตามหัวข้อสาธารณะของกิจกรรม เพื่ออ่านแทนการดูวิดีโอได้สะดวก แต่ไม่ใช่ transcript หรือคำตอบ grader. ให้ตรวจรายละเอียดรุ่นบริการ, region, quota, feature และราคาในเอกสารปัจจุบันก่อนลงมือ
+> เป้าหมายคือเข้าใจว่า TPU เหมาะกับ workload แบบใด, software/runtime ต้องเข้ากันอย่างไร, topology มีผลอย่างไร และจะวัดว่า “คุ้มกว่า GPU จริงไหม” อย่างไร ไม่ใช่จำว่า TPU = AI เร็วกว่าเสมอ
 
-## เป้าหมายและกรอบคิด
+## เป้าหมายการเรียนรู้
 
-TPU เป็น accelerator ที่เหมาะกับ tensor operations ซึ่ง framework/runtime รองรับ การเลือกไม่ใช่การจัดอันดับว่าดีกว่า GPU เสมอ แต่ต้องจับคู่ model, operators, memory, topology, scale, availability และราคา.
+อ่านจบแล้วควรทำได้:
 
-### Workload fit และ architecture
-เหมาะเมื่อ framework/model รองรับ TPU path และ workload ขนานเป็น tensor ได้ดี; อาจไม่เหมาะกับ custom GPU kernels, unsupported operators, batch เล็กมาก หรือ migration cost สูง. แยก single/small configuration, multi-chip slice และ multi-host ตามขนาดงาน. Scaling ไม่เป็นเส้นตรงเสมอเพราะ communication, synchronization และ data input กลายเป็น bottleneck.
+1. อธิบาย TPU ในฐานะ accelerator สำหรับ tensor workload ไม่ใช่ VM ทั่วไป
+2. แยก workload fit จาก marketing/spec sheet
+3. เข้าใจความสัมพันธ์ model → framework/compiler/runtime → TPU topology
+4. รู้ว่าการ scale หลาย chips/hosts เพิ่ม communication overhead
+5. วาง data/checkpoint path และ recovery สำหรับ training
+6. วิเคราะห์ compile/warm-up vs steady-state
+7. เปรียบเทียบ TPU กับ GPU จาก throughput, latency, compatibility และ cost
+8. อ่านปัญหา quota/capacity/location แบบเดียวกับ accelerator อื่นอย่างมีระบบ
 
-### Software compatibility
-ก่อนเริ่มตรวจ framework/runtime version, supported operators, precision, input shape, compiler, container, data access และ checkpoint format. GPU/TPU interoperability หมายถึง workflow ที่ artifacts และ software รองรับข้าม accelerator ไม่ได้หมายความว่าแชร์ memory หรือรัน binary เดียวกันโดยอัตโนมัติ. ตรวจ numerical behavior และคุณภาพโมเดลหลังย้าย.
+---
 
-### Benchmark และ operations
-แยก compile/warm-up ออกจาก steady-state; วัด throughput, p95 latency, memory, input throughput และ recovery. pin source, image, framework, TPU type/topology. ใช้ checkpoint cadence ลดเวลาที่ต้อง train ซ้ำ; profiling หา compute/input/communication bottleneck. สำหรับ serving ทดสอบ model loading, batching, concurrency, autoscaling และ tail latency. ยืนยัน type, topology, zone/region, quota และ capacity ก่อนออกแบบจริง.
+## 1. Mental model
 
-## Worksheet / เช็กความเข้าใจ
+```mermaid
+flowchart LR
+    CODE[Model code] --> FW[Framework]
+    FW --> COMP[Compiler / runtime path]
+    COMP --> TPU[TPU chips / topology]
+    DATA[Training / inference data] --> PIPE[Input pipeline]
+    PIPE --> TPU
+    TPU --> OUT[Outputs / gradients]
+    OUT --> CKPT[Checkpoint / durable storage]
+```
 
-1. ระบุ workload และข้อกำหนดที่เป็นตัวตัดสินก่อนเลือก service
-2. บอก tradeoff, security, scaling, observability และค่าใช้จ่ายของตัวเลือก
-3. เขียนแผนตรวจผลและ rollback/cleanup ก่อนสร้างทรัพยากร
-4. อธิบายว่า metric หรือ error ใดจะบอกว่าการออกแบบผิด
+ถ้า framework/operator บางส่วนไม่รองรับดี งานอาจ fallback, compile ไม่ผ่าน หรือได้ performance ต่ำ แม้ TPU hardware แรงมาก
 
-กิจกรรมนี้ใน repo มีโน้ตและ worksheet ประกอบเท่านั้น เว้นแต่จะระบุ lab โดยตรงใน Lab Map; ไม่มีการ provision ทรัพยากรจริงหรือยืนยันผล grader ในการจัดทำเอกสาร
+---
+
+## 2. TPU เหมาะเมื่อไร
+
+เหมาะเมื่อ:
+- workload เป็น tensor-heavy
+- framework/model รองรับ TPU path ดี
+- batch/shape/parallelism ใช้ accelerator ได้คุ้ม
+- scale-out มีประโยชน์จริง
+- ทีมรับ migration/benchmark cost ได้
+
+อาจไม่เหมาะเมื่อ:
+- มี custom CUDA/GPU kernels
+- operator สำคัญไม่รองรับ
+- workload เล็กมากจน compile/warm-up/transfer กินสัดส่วนสูง
+- latency target ไม่เข้ากับ deployment pattern
+- migration cost สูงกว่า performance gain
+
+---
+
+## 3. GPU vs TPU decision flow
+
+```mermaid
+flowchart TD
+    M[Model / workload] --> F{Framework + operators รองรับ TPU ดี?}
+    F -- No --> GPU[GPU/CPU มีแนวโน้มเหมาะกว่า]
+    F -- Yes --> S{Tensor workload ใหญ่และ parallelize ได้ดี?}
+    S -- No --> BENCH[Benchmark GPU/TPU/CPU]
+    S -- Yes --> TPU[TPU candidate]
+    TPU --> BENCH
+    GPU --> BENCH
+    BENCH --> CHOOSE[เลือกจาก throughput + latency + cost + operations]
+```
+
+อย่าตัดสินจาก FLOPS อย่างเดียว เพราะ input pipeline, communication และ compiler behavior มีผลมาก
+
+---
+
+## 4. Topology และ scale
+
+คิด TPU scale เป็น “ระบบหลาย accelerator” ไม่ใช่แค่เพิ่มชิป
+
+```mermaid
+flowchart TB
+    HOST1[Host 1] --> T1[TPU devices]
+    HOST2[Host 2] --> T2[TPU devices]
+    HOST3[Host 3] --> T3[TPU devices]
+    T1 <--> SYNC[Collective communication / synchronization]
+    T2 <--> SYNC
+    T3 <--> SYNC
+    DATA[Input pipeline] --> HOST1
+    DATA --> HOST2
+    DATA --> HOST3
+    SYNC --> CKPT[Checkpoint storage]
+```
+
+เมื่อ scale เพิ่ม:
+- compute capacity เพิ่ม
+- communication เพิ่ม
+- synchronization cost เพิ่ม
+- input pipeline ต้องเร็วขึ้น
+- failure domain ใหญ่ขึ้น
+
+ดังนั้น 8 chips ไม่จำเป็นต้องเร็วกว่า 4 chips เท่าตัว
+
+---
+
+## 5. Compile / warm-up / steady state
+
+Benchmark ที่ดีต้องแยกช่วง:
+
+1. environment startup
+2. model load
+3. compile
+4. warm-up
+5. steady-state execution
+
+ถ้ารวม compile time เข้า request latency ของ steady-state อาจสรุปผิดว่าระบบช้า แต่ถ้า workload สั้นมาก compile overhead ก็เป็นต้นทุนจริงที่ต้องนับ
+
+---
+
+## 6. Data pipeline สำคัญพอ ๆ กับ accelerator
+
+TPU ว่างเพราะรอ data ก็เสีย utilization เหมือน GPU
+
+ตรวจ:
+- dataset location
+- storage/network throughput
+- decode/preprocessing
+- sharding
+- prefetch/cache
+- batch construction
+
+```mermaid
+flowchart TD
+    LOW[TPU utilization ต่ำ] --> A{Input throughput ต่ำไหม?}
+    A -- Yes --> PIPE[แก้ storage/network/preprocess/prefetch]
+    A -- No --> B{Compile/recompile บ่อยไหม?}
+    B -- Yes --> SHAPE[ตรวจ dynamic shape / graph changes]
+    B -- No --> C{Communication สูงไหม?}
+    C -- Yes --> TOPO[ตรวจ topology/parallel strategy]
+    C -- No --> PROF[Profile model/operators]
+```
+
+---
+
+## 7. Checkpoint และ recovery
+
+Training หลายชั่วโมง/หลายวันต้องออกแบบ checkpoint ก่อนเกิด incident
+
+**Checkpoint ที่ดีต้องตอบได้:**
+- เก็บที่ไหน
+- ทุกกี่นาที/steps
+- ใครมีสิทธิ์เขียน/อ่าน
+- ขนาดเท่าไร
+- restore ใช้เวลานานแค่ไหน
+- framework/version เดิมโหลดได้ไหม
+
+Checkpoint ที่มีแต่ “ไฟล์อยู่” แต่ไม่เคย restore test ยังไม่ถือว่า recovery พร้อม
+
+---
+
+## 8. Software compatibility checklist
+
+ก่อน provision จำนวนมาก:
+
+- framework version
+- TPU runtime/compiler support
+- supported operators
+- precision/data types
+- model shapes
+- input pipeline
+- checkpoint format
+- container/image
+- libraries/extensions
+- distributed strategy
+
+ควรทำ smoke test และ benchmark ขนาดเล็กก่อน scale
+
+---
+
+## 9. Training vs Serving
+
+| ประเด็น | Training | Serving |
+|---|---|---|
+| เป้าหมาย | throughput / time-to-train | latency + throughput |
+| batch | มักใหญ่กว่า | ต้อง balance latency |
+| failure | checkpoint/restart | availability/retry/traffic |
+| scaling | distributed compute | replicas/concurrency/batching |
+| metric | step time, samples/s | p95/p99, requests/s |
+
+Serving ที่ throughput ดีแต่ p99 สูงมากอาจไม่ผ่าน SLO แม้ accelerator utilization สวย
+
+---
+
+## 10. Quota / location / capacity
+
+TPU ก็ต้องแยกสามเรื่อง:
+
+```mermaid
+flowchart LR
+    WANT[Need TPU type/topology] --> SUP{Region/zone support?}
+    SUP -- No --> MOVE[เลือก location/type ใหม่]
+    SUP -- Yes --> QUO{Quota/limit พอ?}
+    QUO -- No --> QREQ[ขอเพิ่ม / ลด request]
+    QUO -- Yes --> CAP{Capacity available?}
+    CAP -- No --> ALT[เปลี่ยน capacity option / location / schedule]
+    CAP -- Yes --> RUN[Provision]
+```
+
+---
+
+## 11. Metrics ที่ควรดู
+
+- accelerator utilization
+- memory utilization
+- step time
+- samples/tokens per second
+- input throughput
+- host CPU/RAM
+- network throughput
+- communication time
+- compile time/recompiles
+- failure/restart
+- checkpoint duration
+- cost per training unit/request
+
+อย่าดู utilization เพียงค่าเดียวแล้วสรุป performance
+
+---
+
+## 12. Cost และ economics
+
+เปรียบเทียบจาก **งานที่เสร็จจริง**:
+
+`cost per useful work = total runtime cost / useful outputs`
+
+ตัวอย่าง:
+- Model A ใช้ GPU 10 ชม. ราคา X
+- Model A ใช้ TPU 6 ชม. ราคา Y
+
+ต้องรวม setup/idle/storage/network และ engineering complexity ด้วย ไม่ใช่เทียบ hourly price อย่างเดียว
+
+---
+
+## 13. Runbook: TPU workload ช้า/scale ไม่ขึ้น
+
+1. ตรวจ model/framework/operator support
+2. แยก compile/warm-up/steady state
+3. ดู accelerator utilization
+4. ดู input throughput
+5. ดู host CPU/network
+6. ตรวจ communication/synchronization
+7. ตรวจ topology/parallel strategy
+8. ตรวจ memory pressure
+9. benchmark ขนาดเล็กเทียบ baseline
+10. scale ทีละระดับและวัด efficiency
+
+---
+
+## 14. Mini Labs / Exercises
+
+### Lab A — Workload fit
+
+Workload ใช้ custom CUDA extension จำนวนมากและทีมไม่มีแผน rewrite
+
+**แนวคิด:** GPU มีแนวโน้มเหมาะกว่า TPU เพราะ compatibility เป็น requirement สำคัญ
+
+### Lab B — Scaling efficiency
+
+4 chips = 1000 samples/s
+8 chips = 1400 samples/s
+
+เพิ่ม hardware 100% แต่ throughput เพิ่ม 40% → ต้องตรวจ communication/input bottleneck ก่อน scale ต่อ
+
+### Lab C — Compile trap
+
+job สั้น 2 นาที แต่ compile 1 นาทีทุก run
+
+**แนวคิด:** compile overhead เป็นส่วนใหญ่ของ runtime ต้องปรับ workflow/caching/shape หรือเลือก execution model อื่น ไม่ดู steady-state อย่างเดียว
+
+---
+
+## 15. Exam-style scenarios
+
+**Scenario:** ทีมบอก “TPU ต้องเร็วกว่า GPU เพราะสร้างมาสำหรับ AI” ถูกไหม?
+
+**ตอบ:** ไม่พอ ต้องตรวจ framework/model/operator/topology/benchmark/cost
+
+**Scenario:** TPU utilization ต่ำ แต่ input throughput เต็มเพดาน storage
+
+**ตอบ:** แก้ input/data path ก่อนเพิ่ม TPU
+
+**Scenario:** Scale chips เพิ่มแล้ว throughput แทบไม่เพิ่ม
+
+**ตอบ:** ตรวจ communication, synchronization และ input pipeline
+
+---
+
+## เช็กความเข้าใจ
+
+1. TPU เหมาะกับทุก AI workload หรือไม่?
+2. Compile time ควรแยกจาก steady-state เพราะอะไร?
+3. ทำไม topology มีผลต่อ scale efficiency?
+4. Checkpoint ช่วยเรื่องอะไรและอะไรคือ restore test?
+5. Quota ผ่านแต่ capacity ไม่มี หมายถึงอะไร?
+6. Serving กับ training ควรใช้ metric ชุดเดียวกันทั้งหมดไหม?
+7. Custom CUDA extension เป็นสัญญาณให้คิดอะไร?
+8. ทำไม cost/hour ไม่พอสำหรับเลือก accelerator?
 
 ## แหล่งอ้างอิง
 
