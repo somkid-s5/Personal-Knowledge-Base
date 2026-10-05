@@ -2,6 +2,8 @@
 
 > ตรวจสอบ 5 ตุลาคม 2026 · ใช้อ่านประกบรายการกิจกรรมจริงและโน้ต 13 บทใน repo
 
+> คู่มืออ่านตามลำดับ Path พร้อมลิงก์ไปยังบทโน้ตที่เกี่ยวข้องอยู่ที่ [LEARNING-PATH-STUDY-GUIDE-TH.md](./LEARNING-PATH-STUDY-GUIDE-TH.md) ส่วนการเทียบ official hands-on กับ Companion Labs อยู่ที่ [LEARNING-PATH-LAB-MAP.md](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md).
+
 ## ขอบเขตที่ยืนยันได้
 
 หน้า [Associate Cloud Engineer Certification Learning Path](https://www.skills.google/paths/11) เปิดดูรายการกิจกรรมได้โดยไม่ต้องลงชื่อเข้าใช้ และแสดงชื่อ ประเภท คำอธิบาย และลำดับครบ 17 รายการ ด้านล่างคือ inventory ที่ตรวจจากหน้า path และหน้า activity/course ของแต่ละรายการเมื่อ 5 ตุลาคม 2026 หัวข้อ lesson สรุปด้วยถ้อยคำใหม่เพื่อใช้เป็นโน้ต ไม่ใช่ transcript
