@@ -1,41 +1,377 @@
 # Activity 16 — Deploy Kubernetes Applications on Google Cloud (Skill Badge)
 
-[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Module 08 — GKE](./Module-08-GKE-and-Kubernetes.md) · [Activity 06](./Path-Activity-06-GKE-TH.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/663)
+[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Visual Guide](./VISUAL-STUDY-GUIDE-TH.md#8-gke-จาก-image-ไปถึง-user) · [Module 08 — GKE](./Module-08-GKE-and-Kubernetes.md) · [Activity 06](./Path-Activity-06-GKE-TH.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/663)
 
-> โน้ตภาษาไทยเรียบเรียงใหม่ตามหัวข้อสาธารณะของกิจกรรม เพื่ออ่านแทนการดูวิดีโอได้สะดวก แต่ไม่ใช่ transcript หรือคำตอบ grader. ให้ตรวจรายละเอียดรุ่นบริการ, region, quota, feature และราคาในเอกสารปัจจุบันก่อนลงมือ
+> Skill Badge นี้ไม่ควรจบที่ “kubectl apply ผ่าน” แต่ต้องเข้าใจเส้นทาง Source → Image → Registry → Deployment → Pod → Service → User และ debug ได้ว่าพังที่ stage ไหน
 
-## เป้าหมายและกรอบคิด
+## เป้าหมายการเรียนรู้
 
-Badge นี้ต่อยอด Docker, Artifact Registry, GKE, kubectl, Deployments/Services และ continuous delivery. ทำ labs/challenge ใน session จริง; ชื่อ cluster, zone และ image เป็นค่าตามโจทย์.
+อ่านจบแล้วควรทำได้:
 
-### Image lifecycle
-เขียน Dockerfile ที่ระบุ base image/dependencies, build image, ทดสอบ local, tag ด้วย Artifact Registry hostname/repository และ push ด้วย identity ที่ได้รับอนุญาต. ใช้ immutable version tag/digest; หลีกเลี่ยง secrets ใน layer. ตรวจ repository location, IAM writer/reader และ image pull identity.
+1. อธิบาย image lifecycle ตั้งแต่ source ถึง Artifact Registry
+2. แยก Deployment, ReplicaSet, Pod, Service และ Ingress/Gateway
+3. อ่าน manifest พื้นฐานและรู้ว่า selector/labels ต้องสัมพันธ์กัน
+4. ใช้ `kubectl get/describe/logs/events` แก้ปัญหา
+5. แยก ImagePullBackOff, Pending, CrashLoopBackOff, OOMKilled และ NotReady
+6. เข้าใจ probes, requests/limits และ rollout/rollback
+7. แยก image-pull identity, deploy identity และ runtime identity
+8. วาง continuous delivery แบบ reproducible และ rollback ได้
 
-### Deploy และ expose
-GKE cluster มี control plane และ nodes; Deployment คุม desired replicas/rollout, Pod เป็นหน่วยรัน container, Service ให้ endpoint เสถียร. ใช้ kubectl get/describe/logs/events เพื่อไล่สถานะ. สำหรับ application:
-1. สร้าง/เลือก cluster และ credentials ตามโจทย์
-2. push image และยืนยัน artifact
-3. apply Deployment พร้อม resource requests, probes และ replicas
-4. รอ rollout; ตรวจ pod events/logs
-5. สร้าง Service ที่เหมาะกับการเข้าถึง
-6. ทดสอบ endpoint และ scaling/rollout
-7. rollback revision ที่รู้ว่าดีเมื่อ release มีปัญหา
+---
 
-### Continuous delivery และ debugging
-แยก build/test/push/deploy; promotion ใช้ digest เดิม; จำกัด deploy IAM; automated rollout ควรมี health gate และ rollback. ImagePullBackOff: ตรวจ tag, registry path, IAM, network. Pending: quota/capacity/requests/taints. CrashLoopBackOff: logs, command/env/probes. Service ไม่ตอบ: selectors/endpoints, port/targetPort, firewall/ingress.
+## 1. End-to-end mental model
 
-## Worksheet / เช็กความเข้าใจ
+```mermaid
+flowchart LR
+    SRC[Source Code] --> BUILD[Cloud Build / build tool]
+    BUILD --> IMG[Container Image]
+    IMG --> AR[Artifact Registry]
+    AR --> DEP[Deployment]
+    DEP --> RS[ReplicaSet]
+    RS --> P1[Pod 1]
+    RS --> P2[Pod 2]
+    SVC[Service] --> P1
+    SVC --> P2
+    GW[Ingress / Gateway / LB] --> SVC
+    USER[User] --> GW
+```
 
-1. ระบุ workload และข้อกำหนดที่เป็นตัวตัดสินก่อนเลือก service
-2. บอก tradeoff, security, scaling, observability และค่าใช้จ่ายของตัวเลือก
-3. เขียนแผนตรวจผลและ rollback/cleanup ก่อนสร้างทรัพยากร
-4. อธิบายว่า metric หรือ error ใดจะบอกว่าการออกแบบผิด
+ถ้า endpoint ใช้ไม่ได้ ให้ชี้ก่อนว่าพังที่ image, Pod, Service หรือ traffic entry
 
-กิจกรรมนี้ใน repo มีโน้ตและ worksheet ประกอบเท่านั้น เว้นแต่จะระบุ lab โดยตรงใน Lab Map; ไม่มีการ provision ทรัพยากรจริงหรือยืนยันผล grader ในการจัดทำเอกสาร
+---
+
+## 2. Image lifecycle
+
+### Dockerfile mental model
+
+```text
+Base image
+ + dependencies
+ + application files
+ + startup command
+ = immutable-ish image artifact
+```
+
+แนวทางที่ดี:
+- pin base/dependency version ตาม workflow
+- ไม่ใส่ secrets ใน image layers
+- build ซ้ำได้
+- scan/test ก่อน deploy
+- ใช้ immutable tag/digest สำหรับ release
+
+`latest` สะดวกแต่ trace/rollback ยาก ถ้า release production ควรรู้ว่า Pod รัน digest ไหน
+
+---
+
+## 3. Artifact Registry
+
+```mermaid
+flowchart LR
+    BUILD[Build identity] -->|push| AR[Artifact Registry]
+    NODE[Node / pull identity] -->|pull| AR
+    DEPLOY[Deployer] -->|references image| K8S[Kubernetes Deployment]
+```
+
+สาม identity อาจไม่ใช่คนเดียวกัน
+
+ถ้า build push ได้แต่ Pod ดึงไม่ได้ ต้องตรวจ image-pull path ไม่เพิ่ม runtime data permissions มั่ว ๆ
+
+---
+
+## 4. Deployment → ReplicaSet → Pod
+
+```mermaid
+flowchart TB
+    D[Deployment: desired app version + replicas] --> R[ReplicaSet]
+    R --> P1[Pod]
+    R --> P2[Pod]
+    R --> P3[Pod]
+```
+
+Deployment ดูแล rollout ของ ReplicaSets; Pod เป็นหน่วยรันจริงและเปลี่ยน IP/lifecycle ได้
+
+อย่าผูก user/client เข้ากับ Pod IP ตรง ๆ ถ้าต้อง stable endpoint ให้ใช้ Service
+
+---
+
+## 5. Service selector
+
+```mermaid
+flowchart LR
+    S[Service selector: app=web] --> P1[Pod label app=web]
+    S --> P2[Pod label app=web]
+    BAD[Pod label app=api] -.ไม่ถูกเลือก.-> S
+```
+
+Service ไม่มี endpoints ทั้งที่ Pods Running → ตรวจ selector/labels/readiness ก่อน
+
+---
+
+## 6. Manifest ที่ต้องอ่านออก
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: REGION-docker.pkg.dev/PROJECT/REPO/web:1.0.0
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+```
+
+ต้องมองออกว่า:
+- replicas = desired Pods
+- selector ต้องตรง template labels
+- image อยู่ registry ไหน
+- request/limit มีผล scheduling/runtime
+- readiness มีผล traffic eligibility
+
+---
+
+## 7. Requests vs Limits
+
+```mermaid
+flowchart TD
+    POD[Pod] --> REQ[Requests]
+    REQ --> SCHED[Scheduler ใช้หา node ที่พอ]
+    POD --> LIM[Limits]
+    LIM --> RUN[Runtime enforcement behavior]
+```
+
+Pod Pending แม้ node CPU ใช้จริงต่ำ อาจเพราะ **requested resources** รวมไม่พอ
+
+Memory limit ต่ำเกิน → OOMKilled ได้
+
+---
+
+## 8. Probes
+
+| Probe | ใช้ถาม | ผล |
+|---|---|---|
+| Startup | app start เสร็จหรือยัง | ช่วย workload start ช้า |
+| Readiness | พร้อมรับ traffic ไหม | เอาเข้า/ออก endpoints |
+| Liveness | stuck จนควร restart ไหม | restart container เมื่อ fail ตาม config |
+
+อย่าใช้ DB dependency เป็น liveness แบบไม่คิด ถ้า DB ล่มทุก Pod อาจ restart พร้อมกัน
+
+---
+
+## 9. Service types
+
+| Type | ใช้เมื่อ |
+|---|---|
+| ClusterIP | internal service ใน cluster |
+| NodePort | expose node port ตาม config/use case |
+| LoadBalancer | ขอ cloud LB integration ตาม support |
+
+Ingress/Gateway ใช้ HTTP routing/entry model ตาม controller ไม่ใช่ Pod อีกชนิด
+
+---
+
+## 10. Identity 3 ชั้น
+
+```mermaid
+flowchart TB
+    USER[Human / CI] -->|deploy permission| K8S[Kubernetes API]
+    NODE[Node / pull identity] -->|pull image| AR[Artifact Registry]
+    POD[Pod KSA] --> WIF[Workload Identity Federation]
+    WIF --> API[Google Cloud APIs / Data]
+```
+
+จำให้แม่น:
+- deployer จัด Kubernetes objects
+- node/runtime ดึง image
+- Pod runtime access data/API
+
+grant ให้คน deploy อ่าน bucket ไม่ได้ทำให้ Pod อ่าน bucket
+
+---
+
+## 11. Debugging tree
+
+```mermaid
+flowchart TD
+    BAD[Workload ไม่ทำงาน] --> STATE{Pod state?}
+    STATE -->|Pending| PEN[Events → requests → nodes → taints → quota/PVC]
+    STATE -->|ImagePullBackOff| IMG[Image URL → tag/digest → registry IAM/network]
+    STATE -->|CrashLoopBackOff| CRASH[Logs → command/env/secret → app startup]
+    STATE -->|OOMKilled| OOM[Memory usage → limit → leak/workload]
+    STATE -->|Running NotReady| READY[Readiness path/port/dependency]
+    STATE -->|Ready but no traffic| SVC[Service selector/endpoints/ports/Ingress]
+```
+
+นี่คือ flow ที่ควรจำก่อน challenge lab
+
+---
+
+## 12. kubectl toolkit
+
+```bash
+kubectl config current-context
+kubectl get nodes
+kubectl get pods -A
+kubectl get deployment,service
+kubectl describe pod POD_NAME
+kubectl logs POD_NAME --all-containers
+kubectl get events --sort-by=.lastTimestamp
+kubectl rollout status deployment/DEPLOYMENT_NAME
+kubectl rollout history deployment/DEPLOYMENT_NAME
+```
+
+Context ผิด = อาจกำลังทำ cluster ผิด เหมือน gcloud project ผิด
+
+---
+
+## 13. Rollout
+
+```mermaid
+flowchart LR
+    V1[Image v1] --> DEP[Deployment]
+    V2[Image v2] --> DEP
+    DEP --> NEW[New ReplicaSet]
+    NEW --> READY{Pods Ready?}
+    READY -- Yes --> SHIFT[Scale new up / old down]
+    READY -- No --> PAUSE[Rollout stalls/fails]
+```
+
+ตรวจ `rollout status` ไม่ใช่ apply เสร็จแล้วคิดว่าจบ
+
+---
+
+## 14. Rollback
+
+Rollback workload image/config ไม่ได้ rollback database schema/data อัตโนมัติ
+
+ถ้า release เปลี่ยน schema ต้องมี backward compatibility/migration plan
+
+---
+
+## 15. Continuous Delivery
+
+```mermaid
+flowchart LR
+    COMMIT[Commit] --> TEST[Test]
+    TEST --> BUILD[Build Image]
+    BUILD --> SCAN[Scan / policy]
+    SCAN --> PUSH[Push immutable digest]
+    PUSH --> DEPLOY[Deploy]
+    DEPLOY --> HEALTH[Health gate]
+    HEALTH --> PROMOTE[Promote]
+    HEALTH -->|fail| ROLLBACK[Rollback]
+```
+
+Promotion ควรใช้ image digest เดิม ไม่ rebuild ใหม่แล้วหวังว่าเหมือนเดิม
+
+---
+
+## 16. Common failure matrix
+
+| อาการ | ตรวจ |
+|---|---|
+| ImagePullBackOff | image path/tag/digest, Artifact Registry IAM, network |
+| Pending | requests, node capacity, taints/affinity, PVC, quota |
+| CrashLoopBackOff | logs, command, env, secret, app startup |
+| OOMKilled | memory profile/limit/leak |
+| Running NotReady | readiness probe/path/port/dependency |
+| Service no endpoints | labels/selectors/readiness/namespace |
+| Endpoint timeout | Service ports, LB/Ingress, firewall/network, app |
+
+---
+
+## 17. Challenge Lab Strategy
+
+1. อ่านโจทย์ทั้งหมด
+2. จด project/region/zone/cluster/repo names
+3. ตรวจ current context
+4. build/push image ให้สำเร็จก่อน
+5. inspect image artifact
+6. deploy workload
+7. รอ rollout
+8. inspect Pod readiness/logs
+9. expose Service ตามโจทย์
+10. test endpoint
+11. ทำ grader หลังแต่ละ milestone หากทำได้
+
+อย่าเปลี่ยน resource names ถ้า grader ผูก exact value
+
+---
+
+## 18. Mini Labs
+
+### Lab A — Broken selector
+
+Deployment labels `app=web` แต่ Service selector `app=api`
+
+ผล: Pods Running แต่ Service endpoints ว่าง
+
+### Lab B — OOM
+
+Pod ใช้ memory 400Mi แต่ limit 256Mi
+
+ผล: OOMKilled / restart pattern
+
+### Lab C — Wrong image
+
+Artifact Registry มี `web:1.0.0` แต่ manifest ใช้ `web:1.0`
+
+ผล: ImagePullBackOff ถ้า tag ไม่มี
+
+---
+
+## 19. Exam-style scenarios
+
+**Scenario:** Pod Running แต่ user เข้าไม่ได้ และ Service endpoints = 0
+
+**แนวคิด:** selector/readiness ก่อน firewall
+
+**Scenario:** Pods Pending หลังเพิ่ม replicas ทั้งที่ CPU utilization node 20%
+
+**แนวคิด:** ดู requests/allocatable/taints/quota ไม่ดู utilization อย่างเดียว
+
+**Scenario:** CI deploy ได้แต่ Pod อ่าน bucket ไม่ได้
+
+**แนวคิด:** runtime identity/Workload Identity ไม่ใช่ deployer IAM
+
+---
+
+## เช็กความเข้าใจ
+
+1. Deployment กับ Pod ต่างกันอย่างไร?
+2. Service selector ต้อง match อะไร?
+3. Requests มีผล scheduling อย่างไร?
+4. Readiness กับ liveness ต่างกันอย่างไร?
+5. ImagePullBackOff เริ่มดูอะไร?
+6. Pod runtime identity กับ deployer identity เหมือนกันไหม?
+7. Rollback image ย้อน DB schema ไหม?
+8. ทำไมใช้ digest ช่วย reproducibility?
+9. Pods Running พิสูจน์ว่า Service ใช้งานได้ไหม?
+10. Context ผิดอันตรายอย่างไร?
 
 ## แหล่งอ้างอิง
 
-- [Google Skills — Deploy Kubernetes Applications on Google Cloud (Skill Badge)](https://www.skills.google/paths/11/course_templates/663)
-- [Google Skills course / badge](https://www.skills.google/paths/11/course_templates/663)
+- [Google Skills — Deploy Kubernetes Applications on Google Cloud](https://www.skills.google/paths/11/course_templates/663)
 - [GKE documentation](https://cloud.google.com/kubernetes-engine/docs)
 - [Artifact Registry](https://cloud.google.com/artifact-registry/docs)
+- [Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
