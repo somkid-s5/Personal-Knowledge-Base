@@ -77,6 +77,8 @@
 
 ### 4. Essential Google Cloud Infrastructure: Core Services
 
+**อ่านโน้ตและแบบฝึกประจำกิจกรรม:** [Activity 04 — Core Services](./Path-Activity-04-Core-Services-TH.md)
+
 **เป้าหมาย:** ใช้ identity, storage, database, billing และ monitoring ประกอบเป็นระบบที่ดูแลได้
 
 - ผูก principal กับ role บน resource hierarchy และเข้าใจ service account
