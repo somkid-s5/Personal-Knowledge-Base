@@ -97,6 +97,8 @@
 
 ### 5. Elastic Google Cloud Infrastructure: Scaling and Automation
 
+**อ่านโน้ตและแบบฝึกประจำกิจกรรม:** [Activity 05 — Scaling and Automation](./Path-Activity-05-Scaling-Automation-TH.md)
+
 **เป้าหมาย:** เชื่อมเครือข่าย รองรับ traffic และทำ infrastructure ซ้ำได้
 
 - เปรียบเทียบ HA VPN, Cloud Interconnect, VPC Peering และ Shared VPC
