@@ -206,3 +206,60 @@ kubectl rollout status deployment/DEPLOYMENT_NAME -n NAMESPACE
 - [Workload Identity Federation for GKE](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/workload-identity)
 - [Kubernetes objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
 - [Probes](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/)
+
+## 14. StatefulSet และ persistent data ให้เห็นภาพ
+
+StatefulSet ใช้เมื่อแต่ละ replica ต้องมี **ชื่อ/ตัวตนที่คงที่**, ลำดับการสร้างหรือหยุดที่คาดเดาได้ และ storage ของแต่ละ replica แยกกัน เช่น member ของระบบ distributed ที่รู้จักกันด้วย ordinal identity รูปแบบชื่อโดยทั่วไปเป็น `<statefulset>-0`, `<statefulset>-1` เป็นต้น
+
+StatefulSet ไม่ได้ทำให้ application มี replication หรือ consistency ที่ถูกต้องให้อัตโนมัติ ตัวแอปยังต้องจัดการ replication, quorum, recovery และ data consistency ของตัวเอง ส่วน StatefulSet ช่วยรักษา identity และเชื่อม volume claim เข้ากับ Pod ที่สัมพันธ์กัน
+
+| ความต้องการ | Resource ที่มักใช้ |
+|---|---|
+| หลาย replica ของ web/API ที่แต่ละตัวแทนกันได้ | Deployment |
+| replica มี identity และ disk แยกที่ตาม Pod ไป | StatefulSet + headless Service + volume claim template |
+| disk อายุยาวที่ผูกกับ VM ไม่ใช่ Pod | Persistent Disk และวิธี attach ที่เหมาะ |
+| shared filesystem ที่หลาย Pods ต้อง mount | Filestore/CSI driver และ access mode ที่รองรับ |
+| ข้อมูลเป็น record และต้อง backup/transaction | managed database มักเหมาะกว่าเก็บ DB เองใน Pod |
+
+วงจร storage สำคัญ: **StorageClass** บอกวิธี provision → StatefulSet สร้าง PVC แยกให้แต่ละ ordinal → PVC bind กับ PV → Pod mount volume ของตน เมื่อตัว Pod ถูกสร้างใหม่ด้วย identity เดิม ระบบอาจนำ PVC เดิมกลับมาใช้ได้ตาม lifecycle และ reclaim policy ที่ตั้งไว้
+
+ตัวอย่าง manifest แบบย่อ:
+
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ledger
+spec:
+  serviceName: ledger
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ledger
+  template:
+    metadata:
+      labels:
+        app: ledger
+    spec:
+      containers:
+        - name: ledger
+          image: us-docker.pkg.dev/example/project/ledger:v1
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/ledger
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ReadWriteOnce]
+        storageClassName: standard-rwo
+        resources:
+          requests:
+            storage: 10Gi
+```
+
+จากตัวอย่างจะได้ PVC แยก เช่น `data-ledger-0`, `data-ledger-1`, `data-ledger-2`; อย่าสร้าง PVC ก้อนเดียวแล้วสมมติว่า block disk แบบ ReadWriteOnce จะ mount เขียนพร้อมกันจากหลาย nodes ได้ การรองรับ access mode ขึ้นกับ storage backend และ CSI driver
+
+**ข้อควรจำเรื่องลบ resource:** การลบ StatefulSet ไม่ได้หมายความว่าควรลบข้อมูลโดยไม่ตรวจสอบ และการคง PVC ไว้ก็ไม่ได้ทดแทน backup ให้ตรวจ PVC/PV, reclaim policy, snapshot/backup และขั้นตอน restore ก่อน cleanup งานจริง
+
+เอกสาร: [StatefulSets ใน GKE](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/statefulset) · [GKE persistent volumes](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/persistent-volumes) · [Deploy stateful application](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/stateful-apps)
