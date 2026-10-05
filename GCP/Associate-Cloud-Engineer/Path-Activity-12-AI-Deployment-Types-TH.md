@@ -1,37 +1,358 @@
 # Activity 12 — AI Infrastructure: Deployment Types
 
-[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Module 05 — Compute](./Module-05-Compute-Engine-and-Instance-Groups.md) · [Module 08 — GKE](./Module-08-GKE-and-Kubernetes.md) · [Module 13](./Module-13-AI-Tooling-and-Modern-Services.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/1554)
+[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Visual Guide](./VISUAL-STUDY-GUIDE-TH.md#13-ai-infrastructure--modern-operations) · [Module 05 — Compute](./Module-05-Compute-Engine-and-Instance-Groups.md) · [Module 08 — GKE](./Module-08-GKE-and-Kubernetes.md) · [Module 13](./Module-13-AI-Tooling-and-Modern-Services.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/1554)
 
-> โน้ตภาษาไทยเรียบเรียงใหม่ตามหัวข้อสาธารณะของกิจกรรม เพื่ออ่านแทนการดูวิดีโอได้สะดวก แต่ไม่ใช่ transcript หรือคำตอบ grader. ให้ตรวจรายละเอียดรุ่นบริการ, region, quota, feature และราคาในเอกสารปัจจุบันก่อนลงมือ
+> บทนี้เน้น **เลือก deployment model ให้ตรง workload** ไม่ใช่จำว่า AI ต้องใช้ GKE หรือ GPU เสมอ ให้เริ่มจาก latency, control, accelerator, scaling, availability, security และ operational burden
 
-## เป้าหมายและกรอบคิด
+## เป้าหมายการเรียนรู้
 
-เริ่มจากชนิดงาน: training, batch inference หรือ online inference; จากนั้นเลือก CPU/GPU/TPU, memory/network, execution unit, orchestrator, image, data path และ operations. เปรียบเทียบ control, scaling, latency, availability, security, idle และ operational burden.
+อ่านจบแล้วควรทำได้:
 
-| รูปแบบ | เหมาะเมื่อ | ภาระหลัก |
+1. แยก training, batch inference และ online inference
+2. เลือก GCE, MIG, GKE, batch หรือ managed runtime จาก requirement
+3. อธิบาย control vs operational burden ของแต่ละรูปแบบ
+4. วาง model/data/image path ให้ deploy ซ้ำได้
+5. ออกแบบ online inference ตั้งแต่ client → gateway → model replica
+6. วาง readiness, autoscaling, queue, timeout, retry และ rollback
+7. แยก infrastructure scaling ออกจาก application/data bottleneck
+8. วาง observability/security/cost controls ก่อน production
+
+---
+
+## 1. เริ่มจากชนิดงาน
+
+```mermaid
+flowchart TD
+    W[AI workload] --> T{Training?}
+    T -- Yes --> TRAIN[Long-running compute + checkpoint + scale]
+    T -- No --> B{Batch inference?}
+    B -- Yes --> BATCH[Queue / jobs / retry / deadline]
+    B -- No --> ONLINE[Online inference: latency + availability + traffic]
+```
+
+ถ้ายังตอบไม่ได้ว่างานเป็นชนิดไหน อย่ารีบเลือก platform
+
+---
+
+## 2. Deployment decision map
+
+```mermaid
+flowchart TD
+    W[Workload] --> C{ต้องควบคุม OS/driver/topology ลึก?}
+    C -- Yes --> VM[Compute Engine]
+    C -- No --> K{ต้อง Kubernetes scheduling / multi-service / custom orchestration?}
+    K -- Yes --> GKE[GKE]
+    K -- No --> R{เป็น fleet VM เหมือนกันและ scale ตาม template?}
+    R -- Yes --> MIG[Managed Instance Group]
+    R -- No --> M{เข้ากับ managed/batch runtime ที่รองรับ?}
+    M -- Yes --> MANAGED[Managed runtime / Batch]
+    M -- No --> VM
+```
+
+### ตารางเปรียบเทียบ
+
+| รูปแบบ | ได้อะไร | เราต้องดูแลอะไร |
 |---|---|---|
-| Compute Engine VM | ต้องการควบคุม OS/driver หรือ single node | patch, process health, scaling, recovery |
-| Managed Instance Group | fleet VM ซ้ำกันและต้องการ autohealing/LB | template, rollout, externalized state |
-| GKE | หลาย containers/jobs, declarative rollout และ scheduling | cluster, node pools, requests, upgrades, policy |
-| Managed inference | runtime/model อยู่ใน supported envelope | platform constraints, cold start, latency/cost |
-| Batch job | งานจบเป็นรอบ มี retry/checkpoint | idempotency, queue, artifacts, quota |
+| Compute Engine | control สูง, OS/driver/custom stack | patch, process, health, scaling, recovery |
+| MIG | template, autohealing, autoscaling, LB integration | immutable-ish template, rollout, external state |
+| GKE | scheduling, declarative rollout, ecosystem | cluster/node/resource/policy/networking |
+| Batch | job lifecycle/retry ตาม service | job design, idempotency, artifacts, quota |
+| Managed inference/runtime | operation ต่ำลง | platform limits, identity, traffic, cost, compatibility |
 
-### Container, GKE และ networking
-แยก immutable serving image จาก model artifact เมื่อเหมาะสม; pin dependencies; ห้ามฝัง secrets. กำหนด startup/readiness/liveness ให้ถูกความหมาย และ readiness ต้องรอ model พร้อม. บน GKE วาง node/accelerator location, private access, egress, workload identity, pod IP, service/gateway, resource requests, taints/tolerations และ autoscaling. Pod Pending อาจเกิดจาก quota, capacity, taint หรือ resource request.
+---
 
-GPU sharing ช่วย utilization แต่มี tradeoff เรื่อง isolation, memory, latency และ noisy neighbors; ตรวจ config ที่รองรับและ benchmark จริง. GKE Inference Gateway ช่วยจัดการ inference traffic ตาม feature ที่รองรับ แต่ไม่ได้สร้าง model server หรือรับประกัน authorization/capacity ให้อัตโนมัติ.
+## 3. Control vs operational burden
 
-### Online inference design
-Client → HTTPS gateway → inference service → batching/queue → model replicas → data/model store. กำหนด sync เทียบ async, deadline, bounded queue, rate limit, timeout, retry+jitter, warmup, scale signal, canary/rollback และ authorization. วัด queue age, p95/p99, errors, GPU memory/utilization และ cost/request. จำกัด egress และ log ข้อมูลเท่าที่จำเป็น.
+```mermaid
+quadrantChart
+    title Control vs Operational Burden
+    x-axis Lower control --> Higher control
+    y-axis Lower ops burden --> Higher ops burden
+    quadrant-1 High control / High ops
+    quadrant-2 Lower control / High ops
+    quadrant-3 Lower control / Lower ops
+    quadrant-4 High control / Lower ops
+    "Managed runtime": [0.25, 0.25]
+    "Batch": [0.40, 0.35]
+    "GKE": [0.75, 0.80]
+    "Compute Engine": [0.90, 0.70]
+```
 
-## Worksheet / เช็กความเข้าใจ
+ภาพเป็น mental model ไม่ใช่คะแนน product อย่างเป็นทางการ จุดสำคัญคือ **control เพิ่มมักมาพร้อมภาระ operation เพิ่ม**
 
-1. ระบุ workload และข้อกำหนดที่เป็นตัวตัดสินก่อนเลือก service
-2. บอก tradeoff, security, scaling, observability และค่าใช้จ่ายของตัวเลือก
-3. เขียนแผนตรวจผลและ rollback/cleanup ก่อนสร้างทรัพยากร
-4. อธิบายว่า metric หรือ error ใดจะบอกว่าการออกแบบผิด
+---
 
-กิจกรรมนี้ใน repo มีโน้ตและ worksheet ประกอบเท่านั้น เว้นแต่จะระบุ lab โดยตรงใน Lab Map; ไม่มีการ provision ทรัพยากรจริงหรือยืนยันผล grader ในการจัดทำเอกสาร
+## 4. Image, model artifact และ configuration
+
+ไม่ควร build ทุกอย่างเป็นก้อนเดียวโดยไม่มีเหตุผล
+
+```mermaid
+flowchart LR
+    CODE[App code] --> IMG[Container / VM image]
+    MODEL[Model artifact] --> STORE[Durable model storage / registry]
+    CONFIG[Runtime config] --> DEPLOY[Deployment]
+    SECRET[Secret Manager] --> DEPLOY
+    IMG --> DEPLOY
+    STORE --> DEPLOY
+```
+
+ข้อดีของการแยก model artifact เมื่อเหมาะสม:
+- app image ไม่ต้อง rebuild ทุก model version
+- rollback model/app แยกกันได้
+- download/cache model ตาม lifecycle
+
+แต่ต้อง version ให้ชัด เช่น image digest + model version
+
+---
+
+## 5. Online inference architecture
+
+```mermaid
+flowchart LR
+    CLIENT[Client] --> GATE[HTTPS Gateway / Load Balancer]
+    GATE --> AUTH[Authentication / rate limit]
+    AUTH --> SVC[Inference service]
+    SVC --> Q[Bounded queue / batching]
+    Q --> R1[Model replica 1]
+    Q --> R2[Model replica 2]
+    R1 --> MODEL[Model artifact / cache]
+    R2 --> MODEL
+    R1 --> OBS[Metrics / logs / traces]
+    R2 --> OBS
+```
+
+ต้องกำหนด:
+- sync หรือ async
+- request timeout/deadline
+- retry policy
+- maximum queue
+- batching
+- concurrency
+- warm-up
+- min/max replicas
+- canary/rollback
+
+---
+
+## 6. Retry: ระวังทำระบบแย่กว่าเดิม
+
+ถ้า inference service overload แล้ว client ทุกตัว retry ทันที อาจเกิด retry storm
+
+```mermaid
+flowchart TD
+    ERR[Timeout / 5xx] --> T{Error ชั่วคราวและ retry-safe?}
+    T -- No --> FAIL[Fail / surface error]
+    T -- Yes --> B[Backoff + jitter + retry budget]
+    B --> AGAIN[Retry]
+    AGAIN --> LIMIT{เกิน deadline / attempts?}
+    LIMIT -- Yes --> FAIL
+    LIMIT -- No --> T
+```
+
+Online inference มักต้องใช้ deadline ทั้ง end-to-end ไม่ใช่ timeout แยก service แบบไม่สัมพันธ์กัน
+
+---
+
+## 7. Readiness / liveness / model warm-up
+
+Model server process “รันอยู่” ไม่ได้แปลว่า “พร้อมตอบ”
+
+- **Startup:** process/model loading ยังไม่เสร็จ
+- **Readiness:** พร้อมรับ traffic จริง
+- **Liveness:** process stuck จนควร restart หรือไม่
+
+Readiness ควรรอ model/load dependencies สำคัญ แต่ liveness ไม่ควรผูกกับ dependency shared แบบที่ทำให้ทุก replica restart พร้อมกันเมื่อ DB/storage outage
+
+---
+
+## 8. GKE accelerator scheduling
+
+บน GKE ต้องจับคู่ Pod กับ node/accelerator ที่ถูกต้อง
+
+```mermaid
+flowchart TB
+    DEP[Deployment / Job] --> POD[Pod requests accelerator]
+    POD --> SCH[Scheduler]
+    SCH --> NODE[GPU/accelerator node]
+    SCH -->|ไม่มี resource/taint mismatch| PEND[Pending]
+    NODE --> IMG[Pull image]
+    IMG --> START[Start model]
+    START --> READY[Readiness]
+```
+
+Pod Pending ไม่ได้แปลว่า Kubernetes เสีย อาจเป็น:
+- quota
+- accelerator capacity
+- requests สูงเกิน
+- taints/tolerations
+- affinity/location
+- node pool scale limit
+
+---
+
+## 9. Scaling ต้องดู downstream ด้วย
+
+สมมติ inference replicas เพิ่มจาก 5 → 50 แต่ทุก replica ต้องอ่าน DB เดียวกัน
+
+```mermaid
+flowchart LR
+    SCALE[Scale model replicas] --> MORE[Requests to downstream]
+    MORE --> DB[DB / feature store / API]
+    DB --> LIMIT[Connection / QPS / latency limit]
+    LIMIT --> ERR[Timeout / errors]
+```
+
+Autoscaling ไม่ได้สร้าง capacity ให้ downstream อัตโนมัติ
+
+---
+
+## 10. Scale signals
+
+อย่าใช้ CPU อย่างเดียวกับ accelerator workload
+
+พิจารณา:
+- request concurrency
+- queue depth/age
+- p95/p99 latency
+- requests/s
+- accelerator utilization/memory
+- model-specific throughput
+- downstream saturation
+
+Scale signal ต้องสัมพันธ์กับ user impact
+
+---
+
+## 11. Security architecture
+
+- runtime service account least privilege
+- Workload Identity บน GKE
+- secret แยกจาก image
+- private networking เมื่อ requirement ต้องการ
+- จำกัด ingress/egress
+- artifact/model access แยกจาก deployer
+- audit deployment/change
+- sanitize logs ไม่ใส่ prompt/data ที่ sensitive โดยไม่จำเป็น
+
+```mermaid
+flowchart LR
+    CI[CI / Deployer] -->|deploy permission| PLATFORM[GCE/GKE/Runtime]
+    PLATFORM -->|runtime identity| SA[Service Account]
+    SA --> MODEL[Model storage]
+    SA --> DATA[Data/API]
+    CI -.ไม่จำเป็นต้องอ่าน production data.-> DATA
+```
+
+---
+
+## 12. Observability
+
+### Online inference
+- p50/p95/p99 latency
+- request rate
+- error rate
+- queue depth/age
+- accelerator utilization/memory
+- cold-start/warm-up
+- downstream latency
+- cost/request
+
+### Training
+- step time
+- throughput
+- accelerator utilization
+- input throughput
+- checkpoint duration
+- failure/restart
+- cost/run
+
+---
+
+## 13. Deployment rollout
+
+```mermaid
+flowchart LR
+    V1[Model/App v1] --> PROD[Production traffic]
+    V2[Model/App v2] --> CANARY[Canary small traffic]
+    CANARY --> CHECK{Latency/error/quality OK?}
+    CHECK -- Yes --> RAMP[Increase traffic]
+    RAMP --> PROD
+    CHECK -- No --> ROLL[Rollback to v1]
+```
+
+AI rollout ต้องดูทั้ง system metrics และ model/business quality metric ถ้ามี ไม่ใช่ HTTP 200 อย่างเดียว
+
+---
+
+## 14. Runbook: inference latency สูง
+
+1. ระบุ p95/p99 และช่วงเวลา
+2. แยก gateway/queue/model/downstream latency
+3. ดู concurrency/queue
+4. ดู accelerator utilization/memory
+5. ดู CPU/input path
+6. ดู replica count/scale events
+7. ดู model version/revision change
+8. ดู downstream DB/API
+9. rollback ถ้า regression มาจาก release
+10. benchmark ก่อนปรับ capacity ถาวร
+
+---
+
+## 15. Mini Labs
+
+### Lab A — เลือก platform
+
+**Requirement:** custom driver, single model, 1 GPU, ทีมไม่ใช้ Kubernetes
+
+**คำตอบเริ่มต้น:** Compute Engine เหมาะกว่า GKE เพราะ control ตรงและ operational burden ต่ำกว่าในบริบทนี้
+
+### Lab B — GKE Pending
+
+Pod request GPU แต่ Pending ทั้งหมด
+
+ตรวจเป็นลำดับ:
+1. describe Pod/events
+2. GPU node pool มีไหม
+3. request ตรงชนิดไหม
+4. taint/toleration
+5. quota/capacity
+6. autoscaler limit
+
+### Lab C — Retry storm
+
+service timeout → client retry 5 ครั้งพร้อมกัน → load เพิ่ม 5 เท่า
+
+ออกแบบใหม่ด้วย deadline + exponential backoff + jitter + retry budget
+
+---
+
+## 16. Exam-style scenarios
+
+**Scenario:** ทีมต้อง deploy model server จำนวนมาก หลาย service และต้องใช้ Kubernetes policy/rollout อยู่แล้ว
+
+**แนวคิด:** GKE เป็น candidate ที่สมเหตุผล
+
+**Scenario:** service scale replicas เพิ่ม แต่ DB connection เต็ม
+
+**แนวคิด:** bottleneck downstream; ลด/จำกัด scale หรือแก้ connection/data layer ไม่ใช่เพิ่ม replica ต่อ
+
+**Scenario:** model process started แต่ request แรกใช้ 90 วินาทีโหลด model
+
+**แนวคิด:** readiness/warm-up ต้องสะท้อนว่า service ยังไม่พร้อมรับ traffic
+
+---
+
+## เช็กความเข้าใจ
+
+1. Compute Engine กับ GKE ต่างกันหลัก ๆ ที่ control/operations อย่างไร?
+2. Batch inference กับ online inference ใช้ metric สำคัญเหมือนกันไหม?
+3. Readiness กับ liveness ใช้แทนกันได้ไหม?
+4. ทำไม autoscale model replicas อาจทำ DB ล่ม?
+5. Retry แบบไม่มี backoff มีความเสี่ยงอะไร?
+6. GKE Pod Pending อาจเกิดจากอะไรนอกจาก CPU/RAM?
+7. Rollback app version ย้อน model/data state อัตโนมัติไหม?
+8. ทำไม image version และ model version ควร trace ได้?
 
 ## แหล่งอ้างอิง
 
