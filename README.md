@@ -11,7 +11,7 @@ Welcome to my personal collection of certification notes and practice exam expla
 | **Architecting on AWS 7.12.4 — Student Guide Notes** | [`AWS/Architecting-on-AWS-7.12.4`](./AWS/Architecting-on-AWS-7.12.4/) | ✅ Complete — Mobile Reader |
 | **AWS Solutions Architect Associate (SAA-C03)** | [`AWS_SAA_C03`](./AWS_SAA_C03/) | 🟢 In Progress |
 | **Azure Fundamentals** | `COMING_SOON` | 🟡 Planned |
-| **Google Cloud Associate Cloud Engineer (ACE) — Thai Study Notes** | [`GCP/Associate-Cloud-Engineer`](./GCP/Associate-Cloud-Engineer/) | 📘 13 Modules + 5 Companion Labs |
+| **Google Cloud Associate Cloud Engineer (ACE) — Thai Study Notes** | [`GCP/Associate-Cloud-Engineer`](./GCP/Associate-Cloud-Engineer/) | 📘 Path guide + 13 topic notes + 5 companion labs (partial) |
 | **Google Cloud Digital Leader** | `COMING_SOON` | 🟡 Planned |
 
 ---
@@ -49,12 +49,12 @@ Detailed walkthroughs and explanations for practice exams, translated and simpli
 
 [**Open ACE Thai Study Notes →**](./GCP/Associate-Cloud-Engineer/)
 
-- 13 detailed Thai modules with English cloud terminology
-- Mermaid diagrams, service comparisons, CLI examples and troubleshooting
-- 5 companion labs with prerequisites, expected results and cleanup
-- Learning Path / current exam objective map, Cheat Sheet, Glossary and 20 original review scenarios
-- Written from current official documentation; not a transcript of all Google Skills videos
-- Sources and Google Skills path checked on 5 October 2026; cloud labs have not been provisioned during note authoring
+- [Path-first Thai reading guide for all 17 activities](./GCP/Associate-Cloud-Engineer/LEARNING-PATH-STUDY-GUIDE-TH.md)
+- 13 detailed topic notes with English cloud terminology, diagrams, CLI examples and troubleshooting
+- [Lab coverage map for all 17 activities](./GCP/Associate-Cloud-Engineer/Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md)
+- 5 companion labs: practice material, not a one-to-one replacement for Google Skills labs
+- Exam objective map, Cheat Sheet, Glossary and 20 original review scenarios
+- Sources and path checked on 5 October 2026; companion labs have not been provisioned on a live Google Cloud account
 
 ---
 
