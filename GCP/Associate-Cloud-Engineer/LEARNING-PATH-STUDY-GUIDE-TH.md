@@ -3,7 +3,7 @@
 [กลับสารบัญ ACE](./README.md) · [เปิด Learning Path ทางการ](https://www.skills.google/paths/11) · [สารบัญหัวข้อย่อยของหลักสูตร](./GOOGLE-SKILLS-CURRICULUM.md) · [แผนที่ Lab](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md)
 
 > รุ่นตรวจสอบ: 5 ตุลาคม 2026 · ยึดลำดับ 17 กิจกรรมที่หน้า ACE Learning Path แสดงในวันที่ตรวจสอบ  
-> **สถานะเนื้อหา:** เอกสารนี้จัดลำดับการอ่านตาม Path และชี้ไปยังโน้ตภาษาไทยที่มีอยู่ เนื้อหาเทคนิคหลักอยู่ใน 13 บทตามหัวข้อ ไม่ใช่ transcript หรือฉบับแปลครบทุกบทเรียนของ Google Skills
+> **สถานะเนื้อหา:** เอกสารนี้จัดลำดับการอ่านตาม Path และเชื่อมไปยังโน้ตภาษาไทยแยกครบทั้ง 17 กิจกรรม พร้อมบทเทคนิคตามหัวข้อ; เนื้อหาเป็นการเรียบเรียงใหม่ ไม่ใช่ transcript หรือคำแปลทุกบทเรียนของ Google Skills
 
 ## วิธีใช้
 
@@ -177,6 +177,8 @@
 
 ### 9. Select a Google Cloud Database for Your Applications
 
+**อ่านโน้ตฉบับละเอียด:** [Activity 09 — 9. Select a Google Cloud Database for Your Applications](./Path-Activity-09-Database-Selection-TH.md)
+
 **เป้าหมาย:** เลือกฐานข้อมูลจากรูปแบบข้อมูลและ workload ไม่เลือกจากชื่อที่คุ้นเคย
 
 - แยก relational, document, wide-column และ globally distributed database
@@ -194,6 +196,8 @@
 
 ### 10. AI Infrastructure: Cloud GPUs
 
+**อ่านโน้ตฉบับละเอียด:** [Activity 10 — 10. AI Infrastructure: Cloud GPUs](./Path-Activity-10-AI-Cloud-GPUs-TH.md)
+
 **เป้าหมาย:** เข้าใจเมื่อใด GPU เหมาะกับ workload และอะไรเป็นข้อจำกัดก่อน provision
 
 - เปรียบเทียบ CPU, GPU และ TPU ตามรูปแบบการคำนวณ
@@ -210,6 +214,8 @@
 
 ### 11. AI Infrastructure: Cloud TPUs
 
+**อ่านโน้ตฉบับละเอียด:** [Activity 11 — 11. AI Infrastructure: Cloud TPUs](./Path-Activity-11-AI-Cloud-TPUs-TH.md)
+
 **เป้าหมาย:** รู้สถาปัตยกรรม TPU และเงื่อนไขที่ทำให้เหมาะกับงาน ML
 
 - เข้าใจ TPU architecture และตัวเลือกการใช้งาน
@@ -224,6 +230,8 @@
 **เช็กตัวเอง:** ก่อนย้าย workload จาก GPU ไป TPU ต้องตรวจ dependency และข้อกำหนดใด?
 
 ### 12. AI Infrastructure: Deployment Types
+
+**อ่านโน้ตฉบับละเอียด:** [Activity 12 — 12. AI Infrastructure: Deployment Types](./Path-Activity-12-AI-Deployment-Types-TH.md)
 
 **เป้าหมาย:** เลือกตำแหน่งและรูปแบบ deploy workload AI ระหว่าง VM, GKE และ inference service
 
@@ -240,6 +248,8 @@
 **เช็กตัวเอง:** งาน inference ที่ต้องควบคุม node/driver เองกับงานที่ต้องการลดภาระ cluster ควรเปรียบเทียบอะไร?
 
 ### 13. Logging and Monitoring in Google Cloud
+
+**อ่านโน้ตฉบับละเอียด:** [Activity 13 — 13. Logging and Monitoring in Google Cloud](./Path-Activity-13-Logging-Monitoring-TH.md)
 
 **เป้าหมาย:** ตรวจสุขภาพระบบและหาเหตุขัดข้องจาก metrics, logs, traces และ audit records
 
@@ -260,6 +270,8 @@
 
 ### 14. Getting Started with Terraform for Google Cloud
 
+**อ่านโน้ตฉบับละเอียด:** [Activity 14 — 14. Getting Started with Terraform for Google Cloud](./Path-Activity-14-Terraform-Getting-Started-TH.md)
+
 **เป้าหมาย:** เขียนและทบทวน IaC อย่างปลอดภัย พร้อมเข้าใจ state และการเปลี่ยนแปลง
 
 - อ่าน HCL, resource, variable, output, dependency และ module
@@ -278,6 +290,8 @@
 
 ### 15. Implementing Cloud Load Balancing for Compute Engine — Skill Badge
 
+**อ่านโน้ตฉบับละเอียด:** [Activity 15 — 15. Implementing Cloud Load Balancing for Compute Engine](./Path-Activity-15-Load-Balancing-Skill-Badge-TH.md)
+
 **เป้าหมาย:** ตั้ง backend และเลือก load balancer ให้ตรงชนิด traffic และขอบเขตการเข้าถึง
 
 - เตรียม Compute Engine VM/backend และ health check
@@ -293,6 +307,8 @@
 **เช็กตัวเอง:** requirement ระบุ HTTP host/path routing เทียบกับ TCP passthrough ควรเริ่มเลือก LB จากเงื่อนไขใด?
 
 ### 16. Deploy Kubernetes Applications on Google Cloud — Skill Badge
+
+**อ่านโน้ตฉบับละเอียด:** [Activity 16 — 16. Deploy Kubernetes Applications on Google Cloud](./Path-Activity-16-Kubernetes-Applications-Skill-Badge-TH.md)
 
 **เป้าหมาย:** สร้าง image, ส่ง image เข้า registry, deploy บน GKE และดูแล Service/Deployment
 
@@ -310,6 +326,8 @@
 **เช็กตัวเอง:** image pull ไม่สำเร็จควรแยกตรวจ image path/tag, registry permission, node identity และ workload events อย่างไร?
 
 ### 17. Build Infrastructure with Terraform on Google Cloud — Skill Badge
+
+**อ่านโน้ตฉบับละเอียด:** [Activity 17 — 17. Build Infrastructure with Terraform on Google Cloud](./Path-Activity-17-Terraform-Build-Infrastructure-Skill-Badge-TH.md)
 
 **เป้าหมาย:** ใช้ modules และ state เพื่อสร้าง เปลี่ยน import และลบ infrastructure อย่างควบคุมได้
 
@@ -332,7 +350,7 @@
 | สิ่งที่ตรวจ | สถานะ |
 |---|---|
 | ลำดับ 17 กิจกรรมและลิงก์ไป Google Skills | ทำเป็นคู่มืออ่านตามลำดับแล้ว |
-| โน้ตอธิบายแนวคิดหลัก | มีใน 13 บทเชิงหัวข้อ และเชื่อมจากแต่ละกิจกรรม |
+| โน้ตประจำ Path | มีเอกสารแยกรายกิจกรรมครบ 01–17 และเชื่อมจากคู่มือนี้ |
 | ความละเอียดครบทุก lesson ตาม course edition | ยังต้องเทียบกับหน้า course/บัญชีผู้เรียนเป็นระยะ เพราะเนื้อหาและ edition เปลี่ยนได้ |
 | คู่มือ Lab ตรงกับ official Lab ทุกตัว | ยังไม่ครบ; ดู [แผนที่ Lab](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md) |
 | การทดสอบ provisioning บน Google Cloud จริง | ยังไม่ได้ทำ; Companion Labs มีคำเตือนเรื่องค่าใช้จ่ายและ validation |
