@@ -57,6 +57,8 @@
 
 ### 3. Essential Google Cloud Infrastructure: Foundation
 
+**อ่านโน้ตและแบบฝึกประจำกิจกรรม:** [Activity 03 — Foundation](./Path-Activity-03-Foundation-TH.md)
+
 **เป้าหมาย:** ใช้ Console/Cloud Shell ทำงานกับ VPC และ Compute Engine ตั้งแต่การสร้างจนถึงการเข้าถึง VM
 
 - เลือก project และใช้ Cloud Shell / gcloud
