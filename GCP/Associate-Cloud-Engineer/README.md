@@ -6,7 +6,7 @@
 ## เริ่มอ่านตรงนี้
 
 1. เริ่มที่ [คู่มืออ่าน 17 กิจกรรมตาม Learning Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) และทำตามลำดับทางการ
-2. อ่านโน้ตแยกของกิจกรรมที่มีแล้ว: [Activity 01 — GSP282](./Path-Activity-01-GSP282-TH.md), [Activity 02 — ACE Study Guide](./Path-Activity-02-ACE-Study-Guide-TH.md), [Activity 03 — Infrastructure Foundation](./Path-Activity-03-Foundation-TH.md), [Activity 04 — Core Services](./Path-Activity-04-Core-Services-TH.md), [Activity 05 — Scaling and Automation](./Path-Activity-05-Scaling-Automation-TH.md), [Activity 06 — GKE](./Path-Activity-06-GKE-TH.md), [Activity 07 — Cloud Run Fundamentals](./Path-Activity-07-Cloud-Run-TH.md)
+2. อ่านโน้ตแยกของกิจกรรมที่มีแล้ว: [Activity 01 — GSP282](./Path-Activity-01-GSP282-TH.md), [Activity 02 — ACE Study Guide](./Path-Activity-02-ACE-Study-Guide-TH.md), [Activity 03 — Infrastructure Foundation](./Path-Activity-03-Foundation-TH.md), [Activity 04 — Core Services](./Path-Activity-04-Core-Services-TH.md), [Activity 05 — Scaling and Automation](./Path-Activity-05-Scaling-Automation-TH.md), [Activity 06 — GKE](./Path-Activity-06-GKE-TH.md), [Activity 07 — Cloud Run Fundamentals](./Path-Activity-07-Cloud-Run-TH.md), [Activity 08 — Cloud Run Functions](./Path-Activity-08-Cloud-Run-Functions-TH.md)
 3. เปิด [สารบัญหัวข้อใหญ่/ย่อยตามหลักสูตร Google Skills](./GOOGLE-SKILLS-CURRICULUM.md) เพื่อเชื่อมกับบทโน้ตเชิงหัวข้อ
 4. ใช้ [Lab Guide ภาษาไทย](./Lab-Guide-TH/README.md) และ [ตารางเทียบแล็บกับ Path](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md); แล็บเสริมใน repo ไม่แทน Google Skills grader
 5. ทบทวนด้วย [Cheat Sheet](./CHEAT-SHEET.md), [Glossary](./GLOSSARY.md) และ [สถานการณ์พร้อมคำอธิบาย](./EXAM-SCENARIOS.md)
