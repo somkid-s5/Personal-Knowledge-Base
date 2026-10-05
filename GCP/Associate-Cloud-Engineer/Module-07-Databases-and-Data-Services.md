@@ -155,6 +155,29 @@ Database Center ช่วยมอง fleet ของ database resources แล�
 
 **HA แล้ว table ถูกลบ:** ต้องใช้ recovery strategy ที่เหมาะ เช่น backup/PITR ไม่คาดว่า standby เก็บ table เดิมไว้
 
+## 11. เลือก database และ Vector Search สำหรับ application
+
+คอร์ส Google Skills เรื่อง database selection เพิ่มการฝึกเลือกระหว่าง relational กับ non-relational engines และแยก workload ก่อนเลือกผลิตภัณฑ์:
+
+1. **เริ่มจาก access pattern** — transaction สั้น ๆ หลายรายการเหมาะกับ OLTP; aggregation/scan ข้อมูลจำนวนมากเหมาะกับ OLAP และ BigQuery
+2. **ดูโครงสร้างข้อมูล** — relation/joins และ schema constraints ชี้ไปกลุ่ม relational; document/mobile state ชี้ไป Firestore; high-throughput key/time-series access อาจเหมาะกับ Bigtable
+3. **เทียบ requirement** — consistency, latency, scale, availability, region, engine compatibility, operations, skill ทีม และต้นทุน
+4. **วางแผน migration** — ตรวจ engine/version, extensions, SQL dialect, stored procedures, downtime/cutover, data validation, network และ rollback ก่อนย้าย
+
+### Vector Search ในบริบท database
+
+Vector search เปรียบเทียบ vector embedding เพื่อหาข้อมูลที่มีความหมายใกล้เคียง เหมาะกับ retrieval ขั้นต้นในระบบค้นหา/RAG แต่ไม่ได้แทนการค้น keyword, filter, relational query หรือ policy checks ทุกกรณี
+
+คอร์สนี้ให้ทดลองแนวทางบน AlloyDB, Cloud SQL for PostgreSQL และ Spanner ตามความสามารถที่หน้า product/edition รองรับ ควรอ่านคู่กับโจทย์จริง:
+
+- เลือก index/search configuration จากขนาดข้อมูลและ latency target
+- ใช้ metadata filter และ authorization ของ application เพื่อจำกัดผลที่ผู้ใช้มีสิทธิ์เห็น
+- ประเมินการอัปเดต embeddings, index build/maintenance, query cost และ freshness
+- benchmark ด้วยข้อมูล/query ที่ใกล้ production; อย่าตัดสินจาก demo dataset เล็ก
+- ยืนยัน support ของ Vector Search ใน engine, edition, version และ region ที่จะใช้
+
+ในงานย้าย PostgreSQL ไป Cloud SQL, Database Migration Service สามารถช่วยวาง migration job ตามรูปแบบที่รองรับ รวมถึงการย้ายแบบต่อเนื่องในบาง scenario; ต้องตรวจ connectivity, replication lag, consistency, cutover และข้อจำกัด source/target ก่อนเริ่ม
+
 ## เอกสารประกอบ
 
 - [Cloud SQL](https://docs.cloud.google.com/sql/docs/introduction)
@@ -164,3 +187,7 @@ Database Center ช่วยมอง fleet ของ database resources แล�
 - [Bigtable](https://docs.cloud.google.com/bigtable/docs/overview)
 - [Pub/Sub](https://docs.cloud.google.com/pubsub/docs/overview)
 - [Dataflow](https://docs.cloud.google.com/dataflow/docs/overview)
+- [AlloyDB vector search](https://docs.cloud.google.com/alloydb/docs/ai/vector-search-overview)
+- [Cloud SQL for PostgreSQL embeddings](https://docs.cloud.google.com/sql/docs/postgres/generate-manage-vector-embeddings)
+- [Spanner vector search](https://docs.cloud.google.com/spanner/docs/vector-search-overview)
+- [Database Migration Service](https://docs.cloud.google.com/database-migration/docs/overview)

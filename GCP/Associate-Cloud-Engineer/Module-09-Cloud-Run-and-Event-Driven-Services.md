@@ -146,7 +146,36 @@ Event-driven flow ต้องคิดว่า events/messages อาจถู
 
 **Event เดิมทำงานสองครั้ง:** ออกแบบ idempotency และดู retry/delivery contract ไม่ปิด retry เพื่อกลบปัญหาโดยไม่มีเหตุผล
 
+## 12. Cloud Run Functions และ application lifecycle ตาม course path
+
+หน้า course แยก Cloud Run fundamentals ออกจาก Cloud Run functions จึงควรแยก mental model ตาม entry point:
+
+| รูปแบบ | เริ่มทำงานเมื่อ | ประเด็นที่ต้องกำหนด |
+|---|---|---|
+| Cloud Run service | รับ HTTP request | container contract, ingress, invoker, revisions, traffic, concurrency |
+| Cloud Run function | HTTP trigger หรือ event trigger | trigger source, event schema, retries, identity, timeout และ idempotency |
+| Workflow | ประสานหลายขั้นตอน/บริการ | authentication ระหว่างขั้น, error path, retry policy และผลข้างเคียง |
+
+บทฝึก Cloud Run เพิ่มหัวข้อ resource model, container lifecycle, autoscaling, service identity, least-privilege policy, secrets/environment variables, development/test ในเครื่อง, revision deployment และการเชื่อม Pub/Sub
+
+หัวข้อเสริม Cloud Run functions:
+
+- ใช้ trigger ให้ตรงชนิดงาน: HTTP สำหรับ caller ที่เรียก endpoint; event-driven สำหรับ event source ที่รองรับ
+- เชื่อม Workflows เมื่อจำเป็นต้องจัดลำดับการเรียกหลาย service; อย่าซ่อน business transaction ที่มี side effect ไว้ใน retry แบบไม่ idempotent
+- Serverless VPC Access ช่วยกำหนดทางออกไป private network ตาม configuration; ตรวจ DNS, routes, firewall และปลายทางด้วย
+- กำหนด function/service identity แยกจาก deployer; จำกัด IAM และตรวจ authentication ที่ caller ต้องใช้
+- Secret ใช้ secret-management integration และสิทธิ์อ่านที่แคบ แยก secret จากค่าทั่วไปใน environment
+- เมื่อ function เรียก Firestore/BigQuery ให้ตรวจ API, IAM, location, schema, quotas และ error/retry behavior
+
+การเชื่อม database ไม่ทำให้ function กลายเป็น transaction coordinator โดยอัตโนมัติ และ BigQuery Remote Functions เป็น integration ระหว่าง query กับ remote code ตาม contract ของมัน ไม่ใช่ทางแทน SQL UDF สำหรับทุกงาน
+
+**Labs ใน course page:** deploy HTTP/event-driven functions, เชื่อม functions กับ project resources, ใช้ Firestore; Cloud Run fundamentals มี lab เรื่อง least privilege IAM bindings และ Pub/Sub integration
+
 ## เอกสารประกอบ
+
+- [Cloud Run functions overview](https://docs.cloud.google.com/run/docs/functions/overview)
+- [Cloud Run function triggers](https://docs.cloud.google.com/run/docs/function-triggers)
+- [Deploy Cloud Run functions](https://docs.cloud.google.com/run/docs/deploy-functions)
 
 - [Cloud Run overview](https://docs.cloud.google.com/run/docs/overview/what-is-cloud-run)
 - [Container runtime contract](https://docs.cloud.google.com/run/docs/container-contract)

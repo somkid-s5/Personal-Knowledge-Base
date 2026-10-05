@@ -164,6 +164,24 @@ Recommendation เป็นหลักฐานประกอบ ไม่ใ�
 
 **VM ไม่ส่ง RAM metric:** ตรวจ guest telemetry/agent ก่อนสรุปว่า RAM ใช้ 0
 
+## 14. SLI, SLO, SLA และการออกแบบ alert
+
+Course path เพิ่มการดู service reliability จากมุมมองผู้ใช้:
+
+- **SLI (Service Level Indicator):** ค่าที่วัดได้ เช่น request success rate หรือ latency percentile
+- **SLO (Service Level Objective):** เป้าหมายของ SLI ในช่วงเวลาที่กำหนด เช่นสัดส่วน request ที่สำเร็จ
+- **SLA (Service Level Agreement):** ข้อตกลงภายนอกและผลตามเงื่อนไข หากบริการไม่ถึงเกณฑ์ที่ระบุ
+
+SLA ไม่ได้บอกว่า application ของเราจะไม่มี outage; SLO เป็นเป้าหมายการปฏิบัติการที่ทีมเลือก และ SLI คือหลักฐานจาก telemetry ที่ต้องนิยามให้วัดได้จริง
+
+ก่อนสร้าง alert ให้ระบุ signal, threshold/window, symptom/impact, คนรับผิดชอบ, urgency และ runbook ที่ต้องทำต่อไป หลีกเลี่ยง alert ที่แจ้งทุก spike สั้น ๆ โดยไม่บอก action หรือแจ้งซ้ำจนคนเลิกสนใจ
+
+### Monitoring หลาย project และ uptime
+
+ใน multi-project monitoring ให้กำหนด scoping project ที่รวบรวม metrics จาก monitored projects, IAM ที่อ่านข้อมูลได้, dashboard views และ ownership ของ alert policies ให้ชัด Uptime check ใช้ตรวจ endpoint จากมุมมองการ probe ที่กำหนด; มันไม่ได้แทนการตรวจ internal dependency, authentication flow หรือ end-to-end business transaction ทุกอย่าง
+
+**Labs ที่ course page ระบุ:** รวมหลาย projects ทำ dashboards/uptime checks, สร้าง alerts และ Service Monitoring/SLOs, query/analyze logs และตรวจ Admin Activity/Data Access audit logs
+
 ## เอกสารประกอบ
 
 - [Cloud Logging](https://docs.cloud.google.com/logging/docs/overview)
@@ -172,3 +190,4 @@ Recommendation เป็นหลักฐานประกอบ ไม่ใ�
 - [Ops Agent](https://docs.cloud.google.com/stackdriver/docs/solutions/agents/ops-agent)
 - [Log routing](https://docs.cloud.google.com/logging/docs/routing/overview)
 - [Managed Prometheus](https://docs.cloud.google.com/stackdriver/docs/managed-prometheus)
+- [Service monitoring and SLOs](https://docs.cloud.google.com/monitoring/slo-monitoring)

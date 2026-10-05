@@ -124,6 +124,30 @@ Managed Lustre, NetApp Volumes, AlloyDB และ Managed Kafka ต้องร�
 
 ตัวอย่างคำถามทบทวน: “AI แนะนำเพิ่ม max instances ทำไมอาจทำให้แอปพัง?” เพราะ downstream DB connection/throughput อาจไม่รองรับ ต้องดูระบบทั้งเส้นทาง
 
+## 13. อ่าน AI infrastructure path ในมุม Cloud Engineer
+
+กิจกรรม AI infrastructure ใน Path 11 ครอบคลุมการเลือก accelerator และรูปแบบ deploy ในภาพรวม ไม่ได้แทนหลักสูตรพัฒนาโมเดล:
+
+| คำถามก่อนเลือก | GPU | TPU |
+|---|---|---|
+| Workload/framework รองรับหรือไม่ | ตรวจ driver, runtime, libraries และ model kernels | ตรวจ framework/compiler/runtime และรูปแบบ model ที่รองรับ |
+| รูปแบบ workload | งานหลากหลายและ ecosystem GPU กว้าง | tensor/ML workload ที่เข้ากับ TPU system |
+| Provisioning | VM, multi-GPU หรือ cluster ตาม workload | TPU resource/system และ topology ตามรุ่นที่เปิดใน region |
+| Capacity/cost | ตรวจ quota, accelerator availability, utilization และเวลาที่ต้องใช้ | ตรวจ quota, capacity/consumption option, utilization และเวลาที่ต้องใช้ |
+
+ชื่อรุ่น เครื่องที่รองรับ และตัวเลือกบริโภคเปลี่ยนตาม generation/region จึงควรตรวจหน้า product ปัจจุบันก่อนคำนวณราคา
+
+### เลือกระหว่าง GCE, GKE และรูปแบบใช้งาน
+
+- **GCE VM:** เลือกเมื่อจำเป็นต้องควบคุม machine image, drivers, system packages, process lifecycle หรือ topology ด้วยตนเองมากขึ้น
+- **GKE:** เลือกเมื่อจำเป็นต้องจัดการ containerized inference/workloads, schedule GPU resources หรือทำ rollout ใน cluster โดยทีมมีความพร้อมดูแล Kubernetes
+- ก่อน containerize ตรวจ base image, accelerator drivers/runtime compatibility, Artifact Registry access, startup/readiness behavior และ observability
+- แบ่ง GPU ให้หลาย workloads เฉพาะเมื่อเทคนิค sharing ที่เลือกเหมาะกับ hardware/runtime และไม่ทำให้ latency/performance isolation ผิดเป้าหมาย
+- สำหรับ inference ตรวจ network/ingress, model loading time, batching/concurrency, health signals, accelerator utilization และ autoscaling behavior
+- GKE Inference Gateway/architecture ใช้เมื่อ feature และ product support ปัจจุบันตรงกับ routing/serving need; อย่าสรุปว่า gateway แก้ model capacity หรือ model quality
+
+**ใช้เป็นโจทย์เลือก design:** เริ่มจาก model/framework และ service objective → เลือก accelerator → เลือก machine/consumption model → เลือก GCE หรือ GKE → ตรวจ network, IAM, capacity, cost และ rollout/recovery
+
 ## เอกสารประกอบ
 
 - [Current exam guide](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf)

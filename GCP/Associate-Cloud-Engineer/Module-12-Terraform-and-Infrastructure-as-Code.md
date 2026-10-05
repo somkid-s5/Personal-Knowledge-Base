@@ -68,8 +68,8 @@ Provider version constraints ให้กำหนดตามเวอร์ช
 | Command | ทำอะไร | จุดระวัง |
 |---|---|---|
 | `terraform init` | ติดตั้ง provider/module และตั้ง backend | ไม่ใช่ deploy resources |
-| `terraform fmt` | จัดรูปแบบ HCL | ไม่พิสูจน์ correctness |
-| `terraform validate` | ตรวจ config consistency ในขอบเขตที่เครื่องมือทำได้ | ไม่พิสูจน์ permission/quota/cost |
+| ``terraform fmt`` | จัดรูปแบบ HCL | ไม่พิสูจน์ correctness |
+| ``terraform validate`` | ตรวจ config consistency ในขอบเขตที่เครื่องมือทำได้ | ไม่พิสูจน์ permission/quota/cost |
 | `terraform plan` | แสดง proposed changes | ต้องอ่าน destroy/replace และ scope |
 | `terraform apply` | ทำ changes ตาม config/plan | มีผลต่อ cloud resources |
 | `terraform destroy` | ลบ managed resources ตามแผน | ไม่ใช้กับ production เพื่อทดลอง |
@@ -161,6 +161,16 @@ Helm ไม่ใช่ remote state backend และ Config Connector ไม�
 
 **สองคน apply พร้อมกัน:** shared backend/locking และ deployment coordination ไม่แก้ด้วย state file คนละชุดที่คุม resource เดียวกัน
 
+## 13. Terraform Validator และ policy-as-code
+
+หน้า course ใช้หัวข้อ Terraform Validator ซึ่งเป็นชื่อ tooling ในหลักสูตรรุ่นก่อน ต้องแยกหน้าที่ของเครื่องมือให้ชัด:
+
+- terraform fmt จัดรูปแบบ HCL; terraform validate ตรวจความถูกต้องพื้นฐานของ configuration/provider schema
+- [Terraform Validator เดิม](https://github.com/GoogleCloudPlatform/terraform-validator) ตรวจ Terraform plan กับ policy library ขององค์กร ไม่ใช่ตัวตรวจ syntax ทั่วไป; upstream repository ถูก archive แล้ว
+- แนวทางปัจจุบันในเอกสาร Google Cloud คือ `gcloud beta terraform vet` สำหรับตรวจแผน Terraform กับ policy library; ตรวจสถานะ beta และคู่มือ migration ก่อนวางใน pipeline
+- Policy validation ช่วยจับ violation ก่อน apply แต่ไม่แทน IAM review, quota/region checks, plan review หรือการทดสอบ application
+- บันทึกเวอร์ชัน provider/module และ policy library เพื่อให้ผลการตรวจทำซ้ำและ audit ได้
+
 ## เอกสารประกอบ
 
 - [Terraform overview](https://docs.cloud.google.com/docs/terraform/terraform-overview)
@@ -169,3 +179,6 @@ Helm ไม่ใช่ remote state backend และ Config Connector ไม�
 - [Security practices](https://docs.cloud.google.com/docs/terraform/best-practices/security)
 - [Config Connector](https://docs.cloud.google.com/config-connector/docs/overview)
 - [HashiCorp workflow](https://developer.hashicorp.com/terraform/intro/core-workflow)
+- [Google Cloud Terraform policy validation](https://docs.cloud.google.com/docs/terraform/policy-validation)
+- [Validate policies with terraform vet](https://docs.cloud.google.com/docs/terraform/policy-validation/validate-policies)
+- [Migrate from Terraform Validator](https://docs.cloud.google.com/docs/terraform/policy-validation/migrate-from-terraform-validator)

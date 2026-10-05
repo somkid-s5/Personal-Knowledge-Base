@@ -1,7 +1,7 @@
 # Google Cloud Associate Cloud Engineer — Study Notes ภาษาไทย 📘
 
 > โน้ตสำหรับคนที่ชอบอ่าน: อธิบายเหตุผล วิธีทำงาน ตัวอย่างงาน System Admin และวิธีเลือกบริการ ไม่ใช่รายการคำศัพท์ให้ท่องอย่างเดียว  
-> ตรวจแหล่งข้อมูลทางการ: **3 ตุลาคม 2026** · รูปแบบ Markdown สำหรับ GitHub / มือถือ / Obsidian
+> ตรวจแหล่งข้อมูลและหน้า Google Skills: **5 ตุลาคม 2026** · รูปแบบ Markdown สำหรับ GitHub / มือถือ / Obsidian
 
 ## เริ่มอ่านตรงนี้
 
@@ -12,9 +12,9 @@
 
 ## ขอบเขตและที่มา
 
-ชุดนี้เป็น **บทเรียนที่เขียนใหม่จากเอกสาร Google Cloud และขอบเขตสอบ ACE** เพื่อใช้อ่านประกอบ [Associate Cloud Engineer Certification Learning Path](https://www.skills.google/paths/11) ไม่ใช่ transcript หรือคำแปลครบทุกวิดีโอ และไม่อ้างว่าเรียงเหมือนกิจกรรมทั้งหมดในบัญชีผู้เรียน
+ชุดนี้เป็น **บทเรียนที่เขียนใหม่จากเอกสาร Google Cloud และขอบเขตสอบ ACE** เพื่อใช้อ่านประกอบ [Associate Cloud Engineer Certification Learning Path](https://www.skills.google/paths/11) inventory เรียงตาม 17 กิจกรรมที่หน้า path สาธารณะแสดง ณ วันที่ตรวจสอบ เนื้อหาเป็นโน้ตอธิบาย ไม่ใช่ transcript หรือคำแปลวิดีโอ
 
-หน้า public ของ Learning Path แสดง 17 activities แต่ไม่เปิดเผยชื่อ/ลำดับกิจกรรมทั้งหมด รายละเอียดหลักสูตรจริงที่ตรวจยืนยันได้และสารบัญ lesson/lab ที่เผยแพร่สาธารณะอยู่ใน [GOOGLE-SKILLS-CURRICULUM.md](./GOOGLE-SKILLS-CURRICULUM.md) เนื้อหานี้ไม่เดากิจกรรมที่ต้องลงชื่อเข้าใช้เพื่อดู
+หน้า Learning Path เปิดดูได้โดยไม่ต้องล็อกอินและแสดงชื่อ/ลำดับครบ 17 activities รวมทั้งคำอธิบายของแต่ละรายการ ฉันตรวจหน้า course ที่เกี่ยวข้องและเพิ่ม inventory, syllabus หัวข้อใหญ่/ย่อย และ crosswalk ไปยังบทเรียนใน [GOOGLE-SKILLS-CURRICULUM.md](./GOOGLE-SKILLS-CURRICULUM.md); เนื้อหาใน repo เป็นโน้ตเรียบเรียงใหม่ ไม่ใช่ transcript
 
 ยึด **Standard Exam Guide ที่ลิงก์จากหน้ารับรองปัจจุบัน**: [official PDF](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ซึ่งแบ่ง 4 หมวดประมาณ **20% / 30% / 30% / 20%** หลีกเลี่ยงการใช้ HTML guide เก่าหรือ PDF `v4.0` แทนโดยไม่ตรวจเวอร์ชัน
 

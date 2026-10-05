@@ -181,7 +181,25 @@ kubectl rollout status deployment/DEPLOYMENT_NAME -n NAMESPACE
 
 **ทบทวน:** ระบบมี Deployment 3 replicas แต่ Service selector ไม่ตรง Pod labels จะไม่มี backend ที่ถูกเลือก การเพิ่ม replicas ยังไม่แก้ configuration mismatch
 
+## 13. Image build, registry และ continuous delivery
+
+หลักสูตร GKE และ skill badge เพิ่มเส้นทางจาก source code ไปสู่ workload ที่รันใน cluster:
+
+1. Build container image ด้วย Cloud Build หรือ build workflow ที่ทีมเลือก
+2. Tag image และ push ไปยัง Artifact Registry ใน repository/location ที่กำหนด
+3. ให้ deploy identity มีสิทธิ์ pull image และให้ runtime identity เข้าถึงเฉพาะ API/data ที่ต้องใช้
+4. Apply Kubernetes manifests หรือใช้ release tool ของทีมเพื่อสร้าง Deployment/Service
+5. ตรวจ rollout, Pod readiness, events และ logs ก่อนเปลี่ยน traffic
+6. ใช้ continuous delivery ให้ test, image promotion, deployment และ rollback เป็นขั้นตอนตรวจสอบย้อนกลับได้
+
+แยก **image-pull identity** จาก **application runtime identity** ให้ชัด และอย่าใส่ credential ลงใน Docker image หรือ manifest ที่ commit เข้า Git การ rollback workload version ไม่ได้ย้อนกลับ schema/data change อัตโนมัติ
+
+**Labs ที่ course สาธารณะระบุ:** พื้นฐาน Cloud Console/Cloud Shell, ใช้ Cloud Build, deploy Autopilot cluster ผ่าน Console/Cloud Shell; skill badge เพิ่ม Docker, Artifact Registry, GKE Qwik Start, Deployments/Services และ challenge lab
+
 ## เอกสารประกอบ
+
+- [Build container images with Cloud Build](https://docs.cloud.google.com/build/docs/building/build-containers)
+- [GKE deployment concepts](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/deployment)
 
 - [GKE Autopilot](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview)
 - [Deploy workloads](https://docs.cloud.google.com/kubernetes-engine/docs/get-started/deploy-workloads)

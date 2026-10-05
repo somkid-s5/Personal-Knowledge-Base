@@ -54,7 +54,7 @@ Detailed walkthroughs and explanations for practice exams, translated and simpli
 - 5 companion labs with prerequisites, expected results and cleanup
 - Learning Path / current exam objective map, Cheat Sheet, Glossary and 20 original review scenarios
 - Written from current official documentation; not a transcript of all Google Skills videos
-- Sources checked on 3 October 2026; cloud labs have not been provisioned during note authoring
+- Sources and Google Skills path checked on 5 October 2026; cloud labs have not been provisioned during note authoring
 
 ---
 

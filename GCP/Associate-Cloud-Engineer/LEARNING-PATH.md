@@ -10,13 +10,22 @@
 
 ## 2. โครงสร้างคอร์ส Google Skills ที่ตรวจยืนยันได้
 
-หน้า [ACE Certification Learning Path](https://www.skills.google/paths/11) แสดง 17 activities แต่หน้าสาธารณะไม่แสดงชื่อ/ลำดับของทั้ง 17 กิจกรรม รายละเอียดหัวข้อใหญ่และหัวข้อย่อยของคอร์สที่เปิดเผยพร้อม crosswalk ไปยังโน้ตใน repo อยู่ที่ [สารบัญหลักสูตรจริงและโน้ตตาม Google Skills](./GOOGLE-SKILLS-CURRICULUM.md)
+หน้า [ACE Certification Learning Path](https://www.skills.google/paths/11) เปิดดูโดยไม่ลงชื่อเข้าใช้ได้ และแสดงชื่อ ประเภท คำอธิบาย และลำดับครบ 17 กิจกรรม ส่วน [สารบัญหลักสูตรและโน้ตตาม Google Skills](./GOOGLE-SKILLS-CURRICULUM.md) แจกแจงรายการทั้งหมด หัวข้อย่อยที่เห็นบนหน้าแต่ละ course และ crosswalk ไปยังบทเรียนใน repo
 
-คอร์สที่มีหน้าระบุอยู่ภายใต้ path 11 และตรวจชื่อ/รหัสได้ ได้แก่ [Foundation (ID 50)](https://www.skills.google/paths/11/course_templates/50), [Core Services (ID 49)](https://www.skills.google/paths/11/course_templates/49), [Scaling and Automation (ID 178)](https://www.skills.google/paths/11/course_templates/178) และ [ACE Exam Prep (ID 77)](https://www.skills.google/paths/11/course_templates/77) ส่วน [Google Cloud Fundamentals (ID 60)](https://www.skills.google/course_templates/60) ใช้เป็นพื้นฐานเสริม; ไม่ถือว่าเป็นหนึ่งใน 17 กิจกรรมเมื่อหน้า path สาธารณะยืนยันรายการไม่ได้
+17 กิจกรรมมีทั้ง lab ปูพื้น, คอร์ส infrastructure หลัก, GKE/Cloud Run/database/AI/observability/Terraform และ skill badges ตาม [inventory พร้อมลิงก์รายกิจกรรม](./GOOGLE-SKILLS-CURRICULUM.md#รายการ-17-กิจกรรมตามลำดับที่แสดงบนหน้า-path) โดย [Google Cloud Fundamentals (ID 60)](https://www.skills.google/course_templates/60) ยังคงเป็นบทปูพื้นเสริมที่ไม่อยู่ในรายการ 17 กิจกรรมที่ตรวจเห็น
 
 | คอร์ส | บทอ่านประกอบ |
 |---|---|
 | Google Cloud Fundamentals: Core Infrastructure — พื้นฐานเสริม | 01–10, 13 |
+| A Tour of Google Cloud Hands-on Labs | 01–03 |
+| Getting Started with Google Kubernetes Engine | 05, 08 |
+| Developing Applications with Cloud Run: Fundamentals / Functions | 07–09 |
+| Select a Google Cloud Database for Your Applications | 06–07 |
+| AI Infrastructure: Cloud GPUs / TPUs / Deployment Types | 05, 08, 13 |
+| Logging and Monitoring in Google Cloud | 11 |
+| Getting Started with Terraform for Google Cloud / Terraform skill badge | 12 |
+| Load Balancing skill badge | 05, 10 |
+| Deploy Kubernetes Applications skill badge | 08, 12 |
 | Essential Google Cloud Infrastructure: Foundation | 01, 03–05, 10 |
 | Essential Google Cloud Infrastructure: Core Services | 01–03, 06–07, 11 |
 | Elastic Google Cloud Infrastructure: Scaling and Automation | 04–05, 07, 10, 12 |
