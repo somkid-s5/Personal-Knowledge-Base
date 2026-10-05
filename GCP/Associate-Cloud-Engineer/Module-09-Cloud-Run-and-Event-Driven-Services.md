@@ -182,3 +182,48 @@ Event-driven flow ต้องคิดว่า events/messages อาจถู
 - [Traffic migration](https://docs.cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration)
 - [Service authentication](https://docs.cloud.google.com/run/docs/authenticating/service-to-service)
 - [Eventarc](https://docs.cloud.google.com/eventarc/docs/overview)
+
+## 13. Traffic splitting: canary ที่ปลอดภัยและข้อจำกัด
+
+Traffic splitting เปลี่ยนสัดส่วน routing ระหว่าง **revisions ที่ deploy แล้ว** โดยไม่ต้อง deploy ซ้ำทุกครั้งที่ปรับเปอร์เซ็นต์ ใช้ทดสอบ revision ใหม่กับสัดส่วนเล็กก่อน เช่น 95/5 แล้วขยายเมื่อ metric ผ่าน ทั้งนี้เปอร์เซ็นต์เป็นการกระจายคำขอในภาพรวม ไม่ใช่การรับประกันจำนวน request เป๊ะใน sample ขนาดเล็ก
+
+### ลำดับทำ canary
+
+1. Deploy revision ใหม่แบบไม่รับ traffic เพื่อให้ตรวจ config และ startup ก่อน
+2. ตรวจ revision พร้อมรับคำขอ, health/logs และทดสอบ URL/tagged revision ตามที่ตั้งไว้
+3. ส่ง traffic ส่วนน้อย เช่น 5% ให้ revision ใหม่ และคง revision เดิมไว้รับส่วนที่เหลือ
+4. เทียบ error rate, latency, saturation, downstream errors และ business metric กับ baseline
+5. เพิ่มสัดส่วนเป็นช่วงเมื่อผลผ่าน หากแย่ลงให้ส่ง traffic กลับ revision เดิมทันที
+6. เมื่อมั่นใจค่อยส่ง 100% ไป revision ใหม่ และตรวจอีกครั้งหลัง cutover
+
+คำสั่งแนวทาง (เปลี่ยน placeholder ให้ตรง service/region/revision จริง):
+
+```bash
+gcloud run deploy SERVICE \
+  --image=IMAGE_URL --region=REGION --no-traffic
+
+gcloud run revisions list \
+  --service=SERVICE --region=REGION
+
+gcloud run services update-traffic SERVICE \
+  --region=REGION \
+  --to-revisions=OLD_REVISION=95,NEW_REVISION=5
+
+# ย้อนกลับให้ revision เดิมรับทั้งหมด
+gcloud run services update-traffic SERVICE \
+  --region=REGION \
+  --to-revisions=OLD_REVISION=100
+```
+
+ตรวจผลหลังเปลี่ยนด้วย `gcloud run services describe SERVICE --region=REGION` หรือหน้า Revisions/Manage Traffic ใน Console แล้วดูชื่อ revision และเปอร์เซ็นต์จริง อย่าสมมติว่า traffic เปลี่ยนพร้อมกันทุก request ทันที: คำขอที่กำลังทำงานอาจจบที่ revision เดิม และการกระจายใหม่มีช่วงเปลี่ยนผ่าน
+
+### จุดที่ทำให้ canary เข้าใจผิด
+
+- **Session affinity:** ถ้าเปิดไว้ พฤติกรรม affinity อาจมีผลเหนือสัดส่วนที่คาดสำหรับผู้ใช้เดิม จึงต้องอ่านข้อจำกัดก่อนใช้ split เป็น A/B test
+- **State/database:** ทั้งสอง revision อาจทำงานพร้อมกัน จึงต้องรองรับ schema แบบ backward compatible และหลีกเลี่ยง migration ที่ทำให้รุ่นเก่าใช้ไม่ได้
+- **Metrics น้อย:** 5% ของ traffic ที่น้อยอยู่แล้วอาจให้ sample ไม่พอ ต้องกำหนดเวลา/จำนวนคำขอขั้นต่ำและเกณฑ์ stop
+- **Revision พร้อม แต่ dependency เสีย:** health ของ container อย่างเดียวไม่ยืนยันว่าฐานข้อมูล, Pub/Sub หรือ API ปลายทางทำงานปกติ
+- **Scale/cost:** revision ที่รับสัดส่วนเล็กยังอาจมี instance ขั้นต่ำหรือ resource cost ตาม config
+- **Rollback:** traffic rollback คืน routing เท่านั้น ไม่คืน side effects, schema หรือข้อมูลที่ revision ใหม่เขียนไปแล้ว
+
+เอกสาร: [Gradual rollout, traffic migration, rollback](https://docs.cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration) · [Cloud Run revisions](https://docs.cloud.google.com/run/docs/managing/revisions)
