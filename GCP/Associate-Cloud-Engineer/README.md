@@ -5,10 +5,11 @@
 
 ## เริ่มอ่านตรงนี้
 
-1. เริ่มที่ [Module 01 — Foundations](./Module-01-Foundations-and-Resource-Hierarchy.md) แล้วอ่านตามลำดับ
-2. เปิด [สารบัญหัวข้อใหญ่/ย่อยตามหลักสูตร Google Skills](./GOOGLE-SKILLS-CURRICULUM.md) แล้วอ่านคู่กับ [Learning Path & Exam Map](./LEARNING-PATH.md)
-3. อ่านแนวคิดก่อน แล้วทำ [Lab Guide ภาษาไทย](./Lab-Guide-TH/README.md)
-4. ทบทวนด้วย [Cheat Sheet](./CHEAT-SHEET.md), [Glossary](./GLOSSARY.md) และ [สถานการณ์พร้อมคำอธิบาย](./EXAM-SCENARIOS.md)
+1. เริ่มที่ [คู่มืออ่าน 17 กิจกรรมตาม Learning Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) และทำตามลำดับทางการ
+2. อ่านโน้ตแยกของกิจกรรมที่มีแล้ว: [Activity 01 — GSP282](./Path-Activity-01-GSP282-TH.md), [Activity 02 — ACE Study Guide](./Path-Activity-02-ACE-Study-Guide-TH.md), [Activity 03 — Infrastructure Foundation](./Path-Activity-03-Foundation-TH.md)
+3. เปิด [สารบัญหัวข้อใหญ่/ย่อยตามหลักสูตร Google Skills](./GOOGLE-SKILLS-CURRICULUM.md) เพื่อเชื่อมกับบทโน้ตเชิงหัวข้อ
+4. ใช้ [Lab Guide ภาษาไทย](./Lab-Guide-TH/README.md) และ [ตารางเทียบแล็บกับ Path](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md); แล็บเสริมใน repo ไม่แทน Google Skills grader
+5. ทบทวนด้วย [Cheat Sheet](./CHEAT-SHEET.md), [Glossary](./GLOSSARY.md) และ [สถานการณ์พร้อมคำอธิบาย](./EXAM-SCENARIOS.md)
 
 ## ขอบเขตและที่มา
 
