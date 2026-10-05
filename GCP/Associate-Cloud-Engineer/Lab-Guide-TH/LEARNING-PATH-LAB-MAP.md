@@ -19,7 +19,7 @@ Google Skills Labs ใช้ credentials และ project ชั่วครา
 |---:|---|---|---|---|
 | 1 | A Tour of Google Cloud Hands-on Labs (GSP282) | Cloud Console, projects, IAM roles, API Library | Lab 01: Cloud Shell, bucket และ IAM | บางส่วน; ไม่ใช่ GSP282 |
 | 2 | Build a Certification Study Guide: ACE Exam Prep | สร้าง Gemini Notebook และ study guide | ไม่มี — ไม่ใช่ Cloud provisioning lab | ไม่ใช่ Cloud lab |
-| 3 | Essential Google Cloud Infrastructure: Foundation | Console/Cloud Shell, LAMP Marketplace, VPC, Private Google Access/Cloud NAT, VM creation/configuration | Lab 01 (Cloud Shell), Lab 02 (VPC/private VM/NAT) | บางส่วน; ไม่มี LAMP/official grading |
+| 3 | Essential Google Cloud Infrastructure: Foundation | Console/Cloud Shell, LAMP Marketplace, VPC, Private Google Access/Cloud NAT, VM creation/configuration | [Activity 03 โน้ต+แบบฝึก](../Path-Activity-03-Foundation-TH.md), Lab 01 (Cloud Shell), Lab 02 (VPC/private VM/NAT) | เนื้อหา/แบบฝึกประกบแล้ว; ยังไม่ใช่ official lab หรือ grader |
 | 4 | Essential Google Cloud Infrastructure: Core Services | IAM, bucket/encryption, Cloud SQL, billing data in BigQuery, Cloud Observability | Lab 01 (bucket/IAM); Lab 03 (logs บางส่วน) | บางส่วน; ไม่มี Cloud SQL/billing/monitoring lab |
 | 5 | Elastic Google Cloud Infrastructure: Scaling and Automation | HA VPN, Application Load Balancer/autoscaling, Internal Load Balancer, Terraform | Lab 02 (network บางส่วน); Lab 05 (Terraform/VPC) | บางส่วน; ไม่มี VPN/LB lab โดยตรง |
 | 6 | Getting Started with Google Kubernetes Engine | Cloud Build, GKE Autopilot cluster, deploy/manage/inspect workloads | Lab 04: GKE Deployment/Service/debugging | บางส่วน; ไม่ใช่ course lab |
