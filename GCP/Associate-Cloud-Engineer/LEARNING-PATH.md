@@ -39,7 +39,7 @@
 
 ## 4. Exam map ปัจจุบัน
 
-อ้างอิง [Standard Exam Guide ทางการ](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ที่หน้ารับรองลิงก์ ณ 2026-10-03 เปอร์เซ็นต์เป็นน้ำหนักโดยประมาณ ไม่ใช่จำนวนข้อที่แน่นอน
+อ้างอิง [Standard Exam Guide ทางการ](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ที่หน้ารับรองลิงก์ ณ 2026-10-05 เปอร์เซ็นต์เป็นน้ำหนักโดยประมาณ ไม่ใช่จำนวนข้อที่แน่นอน
 
 | หมวด | น้ำหนัก | จุดที่ต้องฝึก | บทหลัก |
 |---|---:|---|---|
@@ -50,17 +50,21 @@
 
 ### Coverage checklist
 
-| Objective family | เนื้อหาที่มี | ระดับ |
-|---|---|---|
-| Project/accounts/billing | hierarchy, Cloud Identity, org policy, API, budget/export/quota | อธิบาย + ตัวอย่างคำสั่ง |
-| IAM/SA/federation | allow/deny, predefined/custom, impersonation, workforce/workload, GKE identity | อธิบาย + Lab 01 |
-| Compute | VM, OS Login, disks, Spot, MIG, snapshot/image, VM Manager | อธิบาย + Lab 02 |
-| Containers/serverless | GKE modes, kubectl, scaling, Artifact Registry, Cloud Run revisions/events | อธิบาย + Lab 03–04 |
-| Storage/data | bucket lifecycle/security, file storage, DB selection, backup/query/job status | อธิบาย + Lab 01 |
-| Network | VPC, firewall/secure tags, subnet resizing, routes, NAT/DNS, LB/hybrid | อธิบาย + Lab 02 |
-| Operations | alerts, audit/flow/firewall logs, Ops Agent, metrics, traces, health, recommendations | อธิบาย + troubleshooting |
-| Tooling | Terraform/state, Helm, Config Connector, Fabric FAST, AI-assisted review | อธิบาย + Lab 05 |
-| Newer objectives | agent runtime, GPUs/TPUs, notebooks/workstations, CMEK, Database Center, Cloud Hub | ภาพรวมการเลือกและดูแล ไม่ใช่ deep specialization |
+อ้างอิง objective ทุกข้อใน [Standard ACE Exam Guide](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ที่ตรวจวันที่ 5 ตุลาคม 2026 ตารางนี้สรุปว่าควรอ่านส่วนใดและต้องลงมือฝึกด้านไหน ระดับ ACE เน้นทำ common platform tasks, ตรวจผล และเลือกทางที่เหมาะ ไม่ได้หมายถึงต้องเป็นผู้เชี่ยวชาญเชิงลึกทุก product
+
+| Objective family | หัวข้อที่ต้องรู้ตาม Exam Guide | โน้ตหลัก | Lab/การฝึกใน repo |
+|---|---|---|---|
+| Project, organization และ billing | hierarchy/org policies, Cloud Identity users/groups, standalone organization, API, quotas, region/zone availability, Observability setup, Cloud Asset Inventory, Gemini Cloud Assist, billing accounts/projects/budgets/exports | 01, 03, 11, 13 | Lab 01 บางส่วน; ทำกิจกรรม 1–5 ตาม Skills |
+| IAM และ identity | policy/inheritance, basic/predefined/custom roles, service accounts, Google-managed identities, least privilege, assignment, impersonation, short-lived credentials, Workforce/Workload Identity Federation, GKE workload identity | 02, 08 | Lab 01 บางส่วน; official course/badge labs |
+| Compute Engine | VM creation/availability/SSH, disks, custom machine types, Spot, OS Login, VM Manager, instance templates/MIG, autoscaling, snapshots/images | 05 | Lab 02 บางส่วน |
+| GKE และ containers | Autopilot/Standard, regional/private clusters, kubectl, Artifact Registry access, node pools, Pods/Services/Deployments/StatefulSets, HPA/VPA, Autopilot requests | 08 | Lab 04 บางส่วน; ไม่แทน badge challenge |
+| Cloud Run และ serverless | Cloud Run/Functions, event triggers, Pub/Sub/Cloud Storage events/Eventarc, revisions, traffic splitting, autoscaling, identity และ integrations | 09 | Lab 03 บางส่วน; ไม่มี function-specific companion |
+| Storage และ data | Cloud Storage classes/security/lifecycle/transfer, Filestore/NetApp/Lustre, multi-region redundancy, Cloud SQL/AlloyDB/Spanner/Firestore/Bigtable/BigQuery/Dataflow/Pub/Sub/managed Kafka/Memorystore, load/backup/restore/query/job status, Database Center, CMEK | 06, 07, 13 | Lab 01 บางส่วน; ไม่มีคู่มือ Cloud SQL/DMS/vector-search แบบตรง course |
+| Networking | custom/shared VPC, firewall และ Cloud NGFW ingress/egress, secure tags/service accounts, subnet resize, static IP/routes/DNS/NAT, VPN/Peering/Interconnect, load balancers, Network Service Tiers | 04, 10 | Lab 02 บางส่วน; ไม่มี HA VPN/LB companion |
+| Monitoring และ operation | metric/alerts/custom metrics, logs/log buckets/router/analytics/export, audit/VPC Flow/firewall logs, Trace/Profiler/Query Insights, Personalized Service Health, Ops Agent, Managed Prometheus, Gemini Cloud Assist, Active Assist, Cloud Hub | 11, 13 | Lab 03 ฝึก Cloud Run logs บางส่วน; ไม่มี Observability course lab ครบ |
+| Tooling และ AI-assisted work | Terraform/state, Config Connector, Helm, Fabric FAST, Gemini CLI, Google Antigravity, Application Design Center และการตรวจ output ที่ AI ช่วยสร้าง | 12, 13 | Lab 05 เป็น Terraform พื้นฐาน; ไม่มี lab ของ AI tooling |
+
+**ความหมายของสถานะ:** โน้ตอธิบายแนวคิดและการเลือกใช้ในหลายหัวข้อแล้ว แต่ official hands-on coverage ยังไม่ครบทุก course/badge lab; ดูรายละเอียดต่อกิจกรรมใน [แผนที่ Lab](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md). ชื่อผลิตภัณฑ์อาจเปลี่ยน เช่น Agent Runtime/Workbench จึงให้ตรวจชื่อใหม่กับ exam guide และเอกสารทางการ
 
 ส่วนบริการ data/AI ที่มีหลายผลิตภัณฑ์ เน้นให้เลือกและดูแลในระดับ ACE ไม่ใช่หลักสูตร DBA, Kubernetes administrator หรือ ML engineer เต็มชุด
 
