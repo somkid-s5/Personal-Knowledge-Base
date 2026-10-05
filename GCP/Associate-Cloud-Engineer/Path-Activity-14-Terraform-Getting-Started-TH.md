@@ -1,36 +1,429 @@
 # Activity 14 — Getting Started with Terraform for Google Cloud
 
-[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Module 12 — Terraform](./Module-12-Terraform-and-Infrastructure-as-Code.md) · [Lab 05](./Lab-Guide-TH/Lab-05-Terraform-VPC-and-State.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/443)
+[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Visual Guide](./VISUAL-STUDY-GUIDE-TH.md#12-terraform-config--state--real-world) · [Module 12 — Terraform](./Module-12-Terraform-and-Infrastructure-as-Code.md) · [Lab 05](./Lab-Guide-TH/Lab-05-Terraform-VPC-and-State.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/443)
 
-> โน้ตภาษาไทยเรียบเรียงใหม่ตามหัวข้อสาธารณะของกิจกรรม เพื่ออ่านแทนการดูวิดีโอได้สะดวก แต่ไม่ใช่ transcript หรือคำตอบ grader. ให้ตรวจรายละเอียดรุ่นบริการ, region, quota, feature และราคาในเอกสารปัจจุบันก่อนลงมือ
+> จุดประสงค์คือให้มอง Terraform เป็นระบบ **Configuration + State + Provider + Real Resources** ไม่ใช่จำคำสั่ง `init/plan/apply` อย่างเดียว
 
-## เป้าหมายและกรอบคิด
+## เป้าหมายการเรียนรู้
 
-Terraform ทำให้ infrastructure เป็น configuration ที่ review, version และทำซ้ำได้. วงจรหลัก: เขียน HCL → init → validate/plan → review → apply → ตรวจ drift/state → เปลี่ยนหรือลบอย่างตั้งใจ.
+อ่านจบแล้วควรทำได้:
 
-### HCL และ resource graph
-Provider เชื่อม API; resource จัดการ object; data source อ่านข้อมูลที่มีอยู่; variables/locals/outputs ช่วย reuse. Terraform สร้าง dependency graph จาก references; ใช้ explicit dependency เฉพาะเมื่อ implicit dependency ไม่พอ. Meta-arguments เช่น count/for_each/lifecycle เปลี่ยนการสร้างและ update จึงต้องเข้าใจผลก่อนใช้.
+1. อธิบาย HCL, provider, resource, data source, variable, local และ output
+2. เข้าใจ dependency graph จาก references
+3. อ่าน plan ว่า create/update/replace/destroy อะไร
+4. แยก configuration, state และ real cloud resources
+5. ใช้ module โดยเข้าใจ input/output/version
+6. อธิบาย remote state, access control, locking และ recovery
+7. เข้าใจ drift และเหตุผลที่ manual Console change มีผลต่อ plan
+8. ทำ workflow ที่ปลอดภัยก่อน apply/destroy
 
-### Modules
-Module คือ configuration ที่นำกลับมาใช้ได้ รับ inputs และส่ง outputs. ออกแบบ interface ให้เล็ก, ตั้ง version, validate input และหลีกเลี่ยง module ที่ซ่อน side effects. Registry/Cloud Foundation Toolkit ช่วยเริ่มจากตัวอย่าง แต่ต้องตรวจ maintenance, permissions และ resource behavior.
+---
 
-### State และทีม
-State map configuration ไปยัง remote objects และมีข้อมูลอ่อนไหวได้. ใช้ remote backend ที่รองรับ locking/versioning ตามความต้องการ, จำกัด IAM, ห้าม commit state/credentials. ทีมต้องไม่ apply state เดียวกันพร้อมกันโดยข้าม lock. ตรวจ drift และ refresh/plan ก่อนเปลี่ยน.
+## 1. Terraform mental model
 
-### Workflow/labs
-Syllabus ครอบคลุม create/change/destroy, dependencies/lifecycle, reusable modules และ remote backend. อ่าน plan ก่อน apply; destroy เฉพาะ resources ที่ module เป็นเจ้าของ. Syntax validation ไม่ได้พิสูจน์ความปลอดภัย/สิทธิ์/ผลกระทบทั้งหมด. ใช้ sandbox และ cleanup.
+```mermaid
+flowchart TB
+    CFG[HCL Configuration] --> PLAN[terraform plan]
+    STATE[Terraform State] --> PLAN
+    REAL[Real Google Cloud Resources] --> PLAN
+    PLAN --> REVIEW{Review proposed changes}
+    REVIEW -- Approve --> APPLY[terraform apply]
+    REVIEW -- Revise --> CFG
+    APPLY --> REAL
+    APPLY --> STATE
+```
 
-## Worksheet / เช็กความเข้าใจ
+จำประโยคนี้:
 
-1. ระบุ workload และข้อกำหนดที่เป็นตัวตัดสินก่อนเลือก service
-2. บอก tradeoff, security, scaling, observability และค่าใช้จ่ายของตัวเลือก
-3. เขียนแผนตรวจผลและ rollback/cleanup ก่อนสร้างทรัพยากร
-4. อธิบายว่า metric หรือ error ใดจะบอกว่าการออกแบบผิด
+> **Code บอก intent, State บอก mapping, Provider คุยกับ API, Plan บอกความต่างที่ Terraform คิดว่าจะทำ**
 
-กิจกรรมนี้ใน repo มีโน้ตและ worksheet ประกอบเท่านั้น เว้นแต่จะระบุ lab โดยตรงใน Lab Map; ไม่มีการ provision ทรัพยากรจริงหรือยืนยันผล grader ในการจัดทำเอกสาร
+---
+
+## 2. Script กับ Terraform ต่างกันอย่างไร
+
+Shell script:
+
+```bash
+gcloud compute networks create ace-vpc
+```
+
+บอก “ทำ action นี้”
+
+Terraform:
+
+```hcl
+resource "google_compute_network" "ace" {
+  name                    = "ace-vpc"
+  auto_create_subnetworks = false
+}
+```
+
+บอก “ต้องการให้ resource นี้อยู่ใน state แบบนี้”
+
+Terraform ไม่ได้ magic: ถ้า config ผิด มันสามารถสร้าง/ลบผิดได้อย่างสม่ำเสมอเหมือนกัน จึงต้อง review plan
+
+---
+
+## 3. Provider และ authentication
+
+```mermaid
+flowchart LR
+    TF[Terraform] --> GP[Google Provider]
+    GP --> CREDS[ADC / workload identity / configured credentials]
+    CREDS --> API[Google Cloud APIs]
+    API --> IAM[IAM]
+    IAM --> RES[Resources]
+```
+
+Terraform ผ่าน IAM/API/quota เหมือน gcloud ไม่ใช่ช่องทาง bypass permission
+
+ถ้า `gcloud` ใช้ได้แต่ Terraform denied ให้ตรวจ identity/ADC ที่ Terraform ใช้จริง
+
+---
+
+## 4. HCL building blocks
+
+| Block | ใช้ทำอะไร |
+|---|---|
+| `terraform` | required providers/backend/version constraints |
+| `provider` | config ของ provider |
+| `resource` | object ที่ Terraform จัดการ |
+| `data` | อ่าน object/data ที่มีอยู่ |
+| `variable` | input |
+| `locals` | คำนวณ/reuse ค่าใน config |
+| `output` | ส่งค่าหลัง apply |
+| `module` | เรียก reusable configuration |
+
+ตัวอย่าง:
+
+```hcl
+variable "project_id" {
+  type = string
+}
+
+provider "google" {
+  project = var.project_id
+  region  = "asia-southeast1"
+}
+
+resource "google_compute_network" "main" {
+  name                    = "ace-vpc"
+  auto_create_subnetworks = false
+}
+
+output "network_id" {
+  value = google_compute_network.main.id
+}
+```
+
+---
+
+## 5. Dependency graph
+
+```mermaid
+flowchart LR
+    VPC[google_compute_network.main] --> SUBNET[google_compute_subnetwork.app]
+    SUBNET --> VM[google_compute_instance.web]
+    SA[google_service_account.app] --> VM
+```
+
+Reference เช่น `network = google_compute_network.main.id` ทำให้ Terraform เห็น dependency โดยไม่ต้องเขียน `sleep 30`
+
+`depends_on` ใช้เมื่อ dependency จริงไม่ถูกแสดงผ่าน reference ตามธรรมชาติ อย่าใส่ทุก resource เพราะทำ graph หยาบและอ่านยาก
+
+---
+
+## 6. Workflow ที่ควรจำ
+
+```mermaid
+flowchart LR
+    EDIT[Edit HCL] --> FMT[fmt]
+    FMT --> VALID[validate]
+    VALID --> PLAN[plan]
+    PLAN --> REVIEW[Review]
+    REVIEW --> APPLY[apply]
+    APPLY --> VERIFY[Verify cloud/app]
+```
+
+คำสั่งหลัก:
+
+```bash
+terraform init
+terraform fmt -check
+terraform validate
+terraform plan -out=ace.tfplan
+terraform apply ace.tfplan
+```
+
+**สำคัญ:** saved plan อาจมี sensitive information อย่า commit เข้า public repo
+
+---
+
+## 7. อ่าน Plan ให้เป็น
+
+สัญลักษณ์โดยทั่วไป:
+
+- `+` create
+- `~` update in-place
+- `-` destroy
+- replacement indicators = resource ต้องถูกแทน
+
+ก่อน apply ให้ถาม:
+
+1. จำนวน add/change/destroy ตรงที่คาดไหม
+2. มี production resource ถูก replace ไหม
+3. IAM bindings จะถอนของคนอื่นไหม
+4. network/database field ไหน immutable
+5. ชื่อ/project/region ถูกไหม
+
+อย่ากด apply เพียงเพราะ plan command exit 0
+
+---
+
+## 8. Replacement และ downtime
+
+```mermaid
+flowchart TD
+    CHANGE[Change attribute] --> MUT{Provider/API update in-place ได้ไหม?}
+    MUT -- Yes --> UPDATE[~ Update]
+    MUT -- No --> REPLACE[Replace resource]
+    REPLACE --> RISK[Potential downtime/data/network impact]
+```
+
+IaC ทำซ้ำได้ไม่ได้แปลว่า zero downtime
+
+---
+
+## 9. State คืออะไร
+
+State เก็บ mapping เช่น:
+
+```text
+google_compute_network.main
+  -> projects/xxx/global/networks/ace-vpc
+```
+
+ถ้า state หาย resource cloud อาจยังอยู่ แต่ Terraform ไม่รู้ ownership/mapping เดิม
+
+**State ไม่ใช่:**
+- VM disk backup
+- database backup
+- Git source code replacement
+
+---
+
+## 10. Remote State
+
+```mermaid
+flowchart TB
+    DEV1[Engineer A] --> REMOTE[Remote backend]
+    DEV2[Engineer B] --> REMOTE
+    CI[CI pipeline] --> REMOTE
+    REMOTE --> LOCK[Lock / coordination behavior]
+    REMOTE --> VERSION[Versioning / recovery]
+```
+
+ออกแบบ:
+- bucket/backend แยกจาก resource ที่ destroy ได้
+- IAM แคบ
+- recovery/versioning
+- encryption/retention ตาม requirement
+- CI concurrency
+
+State อาจมี sensitive data จึงต้องป้องกันเหมือน artifact สำคัญ
+
+---
+
+## 11. Drift
+
+Drift เกิดเมื่อ real resource ต่างจาก desired config/state เช่นคนเปิด public IP ผ่าน Console
+
+```mermaid
+flowchart LR
+    CODE[Code says private VM] --> PLAN[terraform plan]
+    REAL[Console changed: public IP] --> PLAN
+    PLAN --> DRIFT[Detected difference]
+    DRIFT --> DECIDE{อะไรคือ intent จริง?}
+    DECIDE -->|Code ถูก| REVERT[Apply to reconcile]
+    DECIDE -->|Manual change ถูก| UPDATE[Update code/import/design]
+```
+
+อย่า apply เพื่อลบ drift โดยไม่รู้ว่า manual change เป็น emergency fix หรือ requirement ใหม่
+
+---
+
+## 12. Modules
+
+Module ควรเป็น reusable unit ที่มี interface ชัดเจน
+
+```mermaid
+flowchart LR
+    ROOT[Root module] -->|inputs| MOD[VPC module]
+    MOD --> VPC[VPC/Subnets]
+    MOD -->|outputs| ROOT
+```
+
+ควรมี:
+- input types/descriptions
+- outputs ที่จำเป็น
+- provider/version constraints
+- naming conventions
+- documentation/examples
+
+ไม่ hard-code secret ใน module
+
+---
+
+## 13. `count` vs `for_each`
+
+แนวคิดสำคัญ:
+- `count` ใช้ index
+- `for_each` ใช้ keys
+
+การเปลี่ยน list order กับ `count` อาจทำ resource addresses shift ได้ จึงต้องคิด identity ของ resource ไม่ใช่แค่ syntax
+
+---
+
+## 14. Lifecycle meta-arguments
+
+ตัวอย่าง concept:
+- prevent accidental destroy
+- create-before-destroy ตาม resource support/design
+- ignore selected changes เมื่อมี owner อื่นจริง
+
+อย่าใช้ `ignore_changes` เพื่อซ่อน drift ทุกอย่าง เพราะจะทำให้ code ไม่สะท้อน reality
+
+---
+
+## 15. IAM resources: จุดเสี่ยง
+
+Google provider มี resources แบบ member/binding/policy ที่ semantics ต่างกัน บางตัว additive บางตัว authoritative ต่อ scope/role
+
+ถ้าเลือกผิด plan อาจถอนสมาชิกทีมอื่น
+
+**กฎ:** IAM change ต้องอ่าน plan ราย binding/member เสมอ
+
+---
+
+## 16. Import
+
+Import = เอา existing resource มาเชื่อม state ไม่ใช่สร้าง design/config ที่ดีให้อัตโนมัติ
+
+```mermaid
+flowchart LR
+    EXIST[Existing resource] --> CFG[Write matching resource block]
+    CFG --> IMP[Import]
+    IMP --> PLAN[Plan]
+    PLAN --> ALIGN[Adjust config]
+    ALIGN --> CLEAN[No unintended changes]
+```
+
+หลัง import ต้อง plan ซ้ำ
+
+---
+
+## 17. CI/CD for Terraform
+
+```mermaid
+flowchart LR
+    PR[Pull Request] --> CHECK[fmt / validate / policy checks]
+    CHECK --> PLAN[Generate plan]
+    PLAN --> REVIEW[Human/Policy review]
+    REVIEW --> APPLY[Controlled apply]
+    APPLY --> VERIFY[Verify resources]
+```
+
+ใช้ short-lived/federated identity เมื่อรองรับ แทนเก็บ SA key ยาว ๆ ใน CI
+
+---
+
+## 18. Policy validation
+
+Syntax valid ไม่ได้แปลว่า architecture/compliance ถูก
+
+ตัวอย่าง policy:
+- ห้าม public IP
+- จำกัด regions
+- บังคับ labels/tags
+- ห้าม broad IAM
+
+Policy-as-code ช่วยจับก่อน apply แต่ไม่แทน plan review/test
+
+---
+
+## 19. Runbook: Plan จะลบของที่ไม่คาด
+
+1. ห้าม apply
+2. อ่าน resource address
+3. ตรวจ project/workspace/backend
+4. ตรวจ state list/mapping
+5. ตรวจ config refactor/rename
+6. ตรวจ manual change/import
+7. ตรวจ module version
+8. backup/recover state ถ้าจำเป็น
+9. plan ใหม่จนเข้าใจทุก destructive change
+
+---
+
+## 20. Mini Labs
+
+### Lab A — VPC + Subnet
+
+สร้าง config ที่มี:
+- custom VPC
+- regional subnet
+- variable `project_id`
+- output network id
+
+จากนั้น `fmt → validate → plan`
+
+### Lab B — Drift
+
+สมมติคนเปลี่ยน resource ผ่าน Console ให้ทำนายว่า plan จะแสดงอะไร แล้วตัดสินว่า code หรือ manual change คือ intent
+
+### Lab C — Remote state design
+
+เขียน checklist:
+- backend location
+- IAM
+- versioning
+- recovery
+- CI locking/concurrency
+
+---
+
+## 21. Exam-style scenarios
+
+**Scenario:** State หายแต่ VM ยังอยู่
+
+**แนวคิด:** กู้ state/import อย่างระมัดระวัง ไม่ create VM ซ้ำทันที
+
+**Scenario:** Plan จะ remove IAM user ที่ไม่ได้อยู่ใน code
+
+**แนวคิด:** ตรวจว่า resource แบบ authoritative หรือ additive
+
+**Scenario:** สองคน apply พร้อมกัน
+
+**แนวคิด:** shared backend + locking/controlled deployment workflow
+
+---
+
+## เช็กความเข้าใจ
+
+1. Configuration, State และ Real Resource ต่างกันอย่างไร?
+2. `terraform validate` รับประกัน IAM/quota/cost ไหม?
+3. ทำไม plan ต้อง review destructive changes?
+4. State เป็น backup ของ VM disk ไหม?
+5. Drift เกิดจากอะไร?
+6. Module ที่ดีควร expose อะไร?
+7. Import แล้วจบเลยได้ไหม?
+8. ทำไม IAM Terraform resources ต้องระวัง authoritative behavior?
+9. Lock state ป้องกันคนแก้ Console ไหม?
+10. IaC = zero downtime หรือไม่?
 
 ## แหล่งอ้างอิง
 
 - [Google Skills — Getting Started with Terraform for Google Cloud](https://www.skills.google/paths/11/course_templates/443)
 - [Terraform on Google Cloud](https://cloud.google.com/docs/terraform)
-- [Terraform state](https://developer.hashicorp.com/terraform/language/state)
+- [Terraform language/state](https://developer.hashicorp.com/terraform/language/state)
+- [Terraform import](https://developer.hashicorp.com/terraform/cli/import)

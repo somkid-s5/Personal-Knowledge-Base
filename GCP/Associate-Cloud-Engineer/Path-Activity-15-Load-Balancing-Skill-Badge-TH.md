@@ -1,44 +1,298 @@
 # Activity 15 — Implementing Cloud Load Balancing for Compute Engine (Skill Badge)
 
-[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Module 10 — Load Balancing](./Module-10-Load-Balancing-and-Hybrid-Networking.md) · [Activity 05](./Path-Activity-05-Scaling-Automation-TH.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/648)
+[คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) · [Visual Guide](./VISUAL-STUDY-GUIDE-TH.md#10-load-balancer--hybrid-connectivity) · [Module 10 — Load Balancing](./Module-10-Load-Balancing-and-Hybrid-Networking.md) · [Activity 05](./Path-Activity-05-Scaling-Automation-TH.md) · [Google Skills course](https://www.skills.google/paths/11/course_templates/648)
 
-> โน้ตภาษาไทยเรียบเรียงใหม่ตามหัวข้อสาธารณะของกิจกรรม เพื่ออ่านแทนการดูวิดีโอได้สะดวก แต่ไม่ใช่ transcript หรือคำตอบ grader. ให้ตรวจรายละเอียดรุ่นบริการ, region, quota, feature และราคาในเอกสารปัจจุบันก่อนลงมือ
+> Skill Badge นี้ควรทำให้เรา “ต่อ chain ของ load balancer ได้เอง” และ debug ได้ว่าพังที่ frontend, forwarding, proxy/URL map, backend service, health check, firewall หรือ application ไม่ใช่จำชื่อ LB อย่างเดียว
 
-## เป้าหมายและกรอบคิด
+## เป้าหมายการเรียนรู้
 
-เป้าหมาย badge คือสร้าง backend VMs และ load balancers หลายชนิด แล้วเชื่อม health check, forwarding และ firewall ให้ครบ. ทำ challenge lab ตามโจทย์/region/resource names ใน session จริง; โน้ตนี้เป็นแนวทบทวน ไม่ใช่เฉลย.
+อ่านจบแล้วควรทำได้:
 
-### เลือกชนิด
-- Passthrough Network Load Balancer: กระจาย traffic ที่ชั้น network โดยคงพฤติกรรม packet/IP ที่เหมาะกับ protocol
-- Application Load Balancer: HTTP(S), host/path routing และ application-level features
-- Internal Application Load Balancer: ให้ client ภายในเข้าถึง service โดยไม่เปิด backend ตรง Internet
+1. เลือก Application vs Network Load Balancer จาก protocol/behavior
+2. แยก external/internal และ global/regional requirement
+3. อธิบาย frontend → proxy/URL map → backend service → backend chain
+4. สร้าง health check ที่ port/path ตรง app
+5. รู้ว่าทำไม firewall ทำให้ backend unhealthy ได้
+6. แยก VM ตอบตรงได้ออกจาก LB health ผ่าน
+7. อ่าน 404/502/timeout/unhealthy backend แบบมีลำดับ
+8. วาง challenge-lab workflow โดยไม่พึ่งจำคลิกใน Console
 
-### ลำดับสร้างและตรวจ
-1. ตรวจ VPC/subnet/region และ firewall path
-2. สร้าง backend VM หรือ instance group พร้อม serving application
-3. สร้าง health check ที่ protocol/port/path ตรงบริการ
-4. สร้าง backend service, backend attachment, frontend address/forwarding rule และ proxy/URL map ตามชนิด
-5. ตรวจ firewall source ranges/health-check reachability และ IAM/API requirements
-6. ทดสอบ backend health ก่อน client request
-7. ใช้ curl/HTTP client จาก network ที่ถูกต้อง; ตรวจ DNS/IP, status, response/backend identity
-8. ลบ resources ตาม dependency หลังจบ sandbox
+---
 
-### Troubleshooting
-Unhealthy backend: app ไม่ listen, health check path/port, firewall หรือ named port. Timeout: route, frontend, client network, forwarding rule. 404: host/path URL map. Internal LB ใช้จาก network/region/connection ที่รองรับ. อย่าคาดว่า VM ที่ตอบตรงได้แปลว่า backend service health ผ่าน.
+## 1. Load Balancer mental model
 
-จับคู่ frontend IP, forwarding rule, target proxy, URL map/backend service เป็น chain; ตรวจ resource status และ health ก่อนแก้ด้วยการเปิด firewall กว้าง ๆ.
+```mermaid
+flowchart LR
+    CLIENT[Client] --> FRONT[Frontend IP / Forwarding Rule]
+    FRONT --> PROXY[Target proxy / LB processing]
+    PROXY --> MAP[URL map / routing if applicable]
+    MAP --> BS[Backend Service]
+    BS --> BE1[Backend 1]
+    BS --> BE2[Backend 2]
+    HC[Health Check] --> BE1
+    HC --> BE2
+```
 
-## Worksheet / เช็กความเข้าใจ
+ไม่ใช่ LB ทุกชนิดมี component chain เหมือนกัน 100% แต่ภาพนี้ช่วยให้เข้าใจ Application LB ได้ดีมาก
 
-1. ระบุ workload และข้อกำหนดที่เป็นตัวตัดสินก่อนเลือก service
-2. บอก tradeoff, security, scaling, observability และค่าใช้จ่ายของตัวเลือก
-3. เขียนแผนตรวจผลและ rollback/cleanup ก่อนสร้างทรัพยากร
-4. อธิบายว่า metric หรือ error ใดจะบอกว่าการออกแบบผิด
+---
 
-กิจกรรมนี้ใน repo มีโน้ตและ worksheet ประกอบเท่านั้น เว้นแต่จะระบุ lab โดยตรงใน Lab Map; ไม่มีการ provision ทรัพยากรจริงหรือยืนยันผล grader ในการจัดทำเอกสาร
+## 2. เลือกชนิดจาก requirement
+
+```mermaid
+flowchart TD
+    TRAFFIC[Traffic] --> H{HTTP/HTTPS และต้อง host/path routing?}
+    H -- Yes --> ALB[Application Load Balancer]
+    H -- No --> P{ต้อง proxy TCP/TLS behavior?}
+    P -- Yes --> PROXY[Proxy Network Load Balancer family]
+    P -- No --> N{ต้อง passthrough TCP/UDP?}
+    N -- Yes --> PASS[Passthrough Network Load Balancer]
+    N -- No --> REQ[ทบทวน protocol/requirements]
+```
+
+จากนั้นถามต่อ:
+- client มาจาก Internet หรือ private network?
+- global entry หรือ regional?
+- backend อยู่ VM/MIG/NEG/serverless แบบใด?
+
+---
+
+## 3. Application LB component chain
+
+| Component | คำถามที่ต้องตอบ |
+|---|---|
+| Frontend IP | client ต่อ IP ไหน? external/internal? |
+| Forwarding rule | protocol/port/scope ถูกไหม? |
+| Target proxy | TLS/proxy config ถูกไหม? |
+| URL map | host/path route ไป backend ไหน? |
+| Backend service | backend/health/load policy อะไร? |
+| Backend | instance group/NEG ที่ถูกต้องไหม? |
+| Health check | app พร้อมจริงที่ port/path นี้ไหม? |
+
+เวลาพังให้เดิน chain นี้แทนเปิด firewall กว้าง ๆ ก่อน
+
+---
+
+## 4. Health Check: จุดที่ทำให้หลายคนงง
+
+```mermaid
+flowchart TD
+    HC[Health checker] --> FW{Firewall allows health-check path?}
+    FW -- No --> UN[Backend unhealthy]
+    FW -- Yes --> PORT{Port ถูก?}
+    PORT -- No --> UN
+    PORT -- Yes --> APP{App listens/responds expected path?}
+    APP -- No --> UN
+    APP -- Yes --> OK[Healthy backend]
+```
+
+VM ที่ `curl localhost` ผ่าน อาจยัง unhealthy เพราะ:
+- firewall source ไม่อนุญาต health checker
+- named port/port mismatch
+- app bind localhost อย่างเดียว
+- path `/health` ไม่ตอบ expected status
+
+---
+
+## 5. Backend Service vs Instance Group
+
+Instance group คือกลุ่ม compute backends ส่วน backend service เก็บ policy/health/backend attachment สำหรับ LB
+
+อย่าสับสนว่า “สร้าง MIG แล้ว = มี load balancer” ยังต้องเชื่อม frontend/routing/backend service ตาม architecture
+
+---
+
+## 6. URL Map
+
+```mermaid
+flowchart LR
+    REQ[HTTP request] --> HOST{Host?}
+    HOST -->|api.example.com| API[/api route/]
+    HOST -->|www.example.com| WEB[/web route/]
+    API --> B1[API backend]
+    WEB --> B2[Web backend]
+```
+
+**404 จาก LB/app** ต้องแยกว่า:
+- URL map ไม่มี route
+- backend app ตอบ 404
+- host header/path ไม่ตรง
+
+ไม่ใช่ทุก 404 เป็น firewall problem
+
+---
+
+## 7. Internal vs External
+
+### External
+client จาก Internet ตาม LB variant/architecture
+
+### Internal
+client ต้องอยู่ network/path ที่รองรับ เช่น VPC/connected network ตามชนิด LB
+
+Internal LB มี IP private ไม่ได้แปลว่า client ทุก project/on-prem จะ route ถึงโดยอัตโนมัติ ต้องมี connectivity + DNS + firewall/IAM ตาม architecture
+
+---
+
+## 8. Global vs Regional
+
+อย่าจำว่า Application LB = global เสมอ หรือ Network LB = regional เสมอ เพราะ Google Cloud มีหลาย variants
+
+ให้ถาม:
+1. frontend scope
+2. backend scope
+3. client geography
+4. failover requirement
+5. network tier/feature compatibility
+
+---
+
+## 9. Firewall กับ LB
+
+มี traffic อย่างน้อยสองชนิดที่ต้องคิด:
+- client/proxy data traffic
+- health-check traffic
+
+บาง LB ใช้ proxy infrastructure/proxy-only subnet ตาม variant จึงต้องอ่าน architecture ของชนิดที่เลือก ไม่ copy CIDR จาก tutorial อื่นมาใช้ทุก LB
+
+---
+
+## 10. MIG + LB + Autoscaling
+
+```mermaid
+flowchart TB
+    USER[Users] --> LB[Load Balancer]
+    LB --> MIG[Regional MIG]
+    MIG --> VM1[VM A]
+    MIG --> VM2[VM B]
+    HC[Health Check] --> MIG
+    AUTO[Autoscaler] --> MIG
+    CPU[CPU / LB utilization signal] --> AUTO
+```
+
+สามกลไกทำคนละอย่าง:
+- LB = distribute traffic
+- health check = backend readiness/health
+- autoscaler = จำนวน instances
+
+---
+
+## 11. Common failure matrix
+
+| อาการ | เริ่มตรวจ |
+|---|---|
+| Frontend timeout | forwarding rule, client path, backend health |
+| Backends unhealthy | health check, firewall, port/path/listener |
+| 404 | URL map/host/path/app route |
+| 502/503 | backend unhealthy/app error/capacity |
+| บาง backend ตอบ บางตัวไม่ตอบ | instance app/config/version/health |
+| Internal LB เข้าไม่ได้ | source network/route/firewall/scope |
+| VM ตรงตอบได้ แต่ LB ไม่ได้ | LB chain/health/config ไม่ใช่ VM อย่างเดียว |
+
+---
+
+## 12. Read-only commands ที่ช่วย debug
+
+ตัวอย่างแนวคิด (ชื่อ command/flags ให้ตรวจตาม resource type ปัจจุบัน):
+
+```bash
+gcloud compute forwarding-rules list
+gcloud compute backend-services list
+gcloud compute health-checks list
+gcloud compute instance-groups list
+gcloud compute firewall-rules list
+```
+
+ก่อน challenge lab ใช้ Console ก็ได้ แต่ต้องรู้ว่าแต่ละหน้าจอเทียบกับ component ใด
+
+---
+
+## 13. Challenge Lab Strategy
+
+1. อ่าน requirement ทั้งหมดก่อนสร้าง
+2. จด resource names/region/zone ที่ grader ต้องการ
+3. วาด architecture 1 รูป
+4. สร้าง backend app ให้ตอบได้ก่อน
+5. ตรวจ health check
+6. ต่อ backend service
+7. ต่อ frontend/routing
+8. ทดสอบจาก client path ที่ถูกต้อง
+9. ตรวจ grader หลังแต่ละกลุ่มงานถ้าระบบอนุญาต
+10. ห้าม rename resource ตามใจถ้า grader ระบุชื่อ
+
+---
+
+## 14. Mini Lab — วาด chain ก่อนทำจริง
+
+```text
+Client
+ -> Frontend IP
+ -> Forwarding Rule
+ -> Target Proxy
+ -> URL Map
+ -> Backend Service
+ -> MIG
+ -> VM web server
+```
+
+ข้าง ๆ เขียน:
+- protocol/port
+- scope
+- health check
+- firewall sources
+- expected HTTP response
+
+ถ้าวาดไม่ได้ แปลว่ายังไม่พร้อม challenge lab
+
+---
+
+## 15. Troubleshooting walkthrough
+
+**อาการ:** backend unhealthy
+
+1. instance running?
+2. app process running?
+3. app bind `0.0.0.0`/expected interface?
+4. health path/port ถูก?
+5. firewall allow source ที่ต้องการ?
+6. named port/backend setting ตรง?
+7. health check response status ตรง?
+
+**อาการ:** backend healthy แต่ user 404
+
+→ ดู URL map/host/path/application route ไม่กลับไปแก้ health check ก่อน
+
+---
+
+## 16. Exam-style scenarios
+
+**Scenario:** ต้อง route `/api` กับ `/static` ไปคนละ backend
+
+**แนวคิด:** Application Load Balancer + URL map/path routing
+
+**Scenario:** VM web เปิดตรง IP ได้ แต่ LB บอก unhealthy
+
+**แนวคิด:** ตรวจ health check path/port/firewall/backend attachment
+
+**Scenario:** Internal LB จาก on-prem เข้าไม่ได้ แต่ VM ใน VPC เข้าได้
+
+**แนวคิด:** ตรวจ hybrid route/DNS/firewall/source connectivity ไม่ใช่เปลี่ยนเป็น external LB ทันที
+
+---
+
+## เช็กความเข้าใจ
+
+1. Forwarding rule กับ backend service ทำหน้าที่ต่างกันอย่างไร?
+2. Health check fail ได้ทั้งที่ app process running เพราะอะไร?
+3. 404 ควรเริ่มตรวจ firewall หรือ URL map?
+4. MIG = Load Balancer หรือไม่?
+5. Internal LB ต้องมี network path จาก client หรือไม่?
+6. Global/regional ควรเลือกจาก requirement อะไร?
+7. VM ตอบตรงได้พิสูจน์ว่า LB chain ถูกไหม?
+8. Challenge lab ทำไมควรวาด architecture ก่อน?
 
 ## แหล่งอ้างอิง
 
-- [Google Skills — Implementing Cloud Load Balancing for Compute Engine (Skill Badge)](https://www.skills.google/paths/11/course_templates/648)
-- [Google Skills course / badge](https://www.skills.google/paths/11/course_templates/648)
+- [Google Skills — Implementing Cloud Load Balancing for Compute Engine](https://www.skills.google/paths/11/course_templates/648)
 - [Cloud Load Balancing overview](https://cloud.google.com/load-balancing/docs/load-balancing-overview)
+- [Choose a load balancer](https://cloud.google.com/load-balancing/docs/choosing-load-balancer)
