@@ -5,10 +5,11 @@
 
 ## เริ่มอ่านตรงนี้
 
-1. เริ่มที่ [Module 01 — Foundations](./Module-01-Foundations-and-Resource-Hierarchy.md) แล้วอ่านตามลำดับ
-2. เปิด [สารบัญหัวข้อใหญ่/ย่อยตามหลักสูตร Google Skills](./GOOGLE-SKILLS-CURRICULUM.md) แล้วอ่านคู่กับ [Learning Path & Exam Map](./LEARNING-PATH.md)
-3. อ่านแนวคิดก่อน แล้วทำ [Lab Guide ภาษาไทย](./Lab-Guide-TH/README.md)
-4. ทบทวนด้วย [Cheat Sheet](./CHEAT-SHEET.md), [Glossary](./GLOSSARY.md) และ [สถานการณ์พร้อมคำอธิบาย](./EXAM-SCENARIOS.md)
+1. อ่านตามลำดับกิจกรรมใน [คู่มืออ่านตาม Google Skills Learning Path](./LEARNING-PATH-STUDY-GUIDE-TH.md)
+2. เปิด [สารบัญหัวข้อใหญ่/ย่อยและ syllabus](./GOOGLE-SKILLS-CURRICULUM.md) เพื่อดู lesson และหัวข้อย่อย
+3. เปิด [Learning Path & Exam Map](./LEARNING-PATH.md) เมื่อต้องการวางแผนทบทวนตามข้อสอบ
+4. เลือกทำ [Companion Lab ภาษาไทย](./Lab-Guide-TH/README.md) โดยดู [แผนที่ Lab ต่อ Path](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md) ก่อน
+5. ทบทวนด้วย [Cheat Sheet](./CHEAT-SHEET.md), [Glossary](./GLOSSARY.md) และ [สถานการณ์พร้อมคำอธิบาย](./EXAM-SCENARIOS.md)
 
 ## ขอบเขตและที่มา
 
@@ -17,6 +18,10 @@
 หน้า Learning Path เปิดดูได้โดยไม่ต้องล็อกอินและแสดงชื่อ/ลำดับครบ 17 activities รวมทั้งคำอธิบายของแต่ละรายการ ฉันตรวจหน้า course ที่เกี่ยวข้องและเพิ่ม inventory, syllabus หัวข้อใหญ่/ย่อย และ crosswalk ไปยังบทเรียนใน [GOOGLE-SKILLS-CURRICULUM.md](./GOOGLE-SKILLS-CURRICULUM.md); เนื้อหาใน repo เป็นโน้ตเรียบเรียงใหม่ ไม่ใช่ transcript
 
 ยึด **Standard Exam Guide ที่ลิงก์จากหน้ารับรองปัจจุบัน**: [official PDF](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ซึ่งแบ่ง 4 หมวดประมาณ **20% / 30% / 30% / 20%** หลีกเลี่ยงการใช้ HTML guide เก่าหรือ PDF `v4.0` แทนโดยไม่ตรวจเวอร์ชัน
+
+## สถานะและวิธีอ่าน
+
+คู่มืออ่านตาม Path เรียงครบ 17 กิจกรรมและชี้ไปยังโน้ตตามหัวข้อที่เกี่ยวข้อง ส่วนเนื้อหาเชิงลึกยังอยู่ใน 13 บท тематิก (thematic modules) และ Companion Labs 5 ตัวเป็นการฝึกเสริม ไม่ใช่ Lab ของ Google Skills ที่ทำซ้ำครบทุกกิจกรรม ดูสถานะรายกิจกรรมได้ที่ [คู่มืออ่านตาม Path](./LEARNING-PATH-STUDY-GUIDE-TH.md) และ [แผนที่ Lab](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md)
 
 ## สารบัญบทเรียน
 
