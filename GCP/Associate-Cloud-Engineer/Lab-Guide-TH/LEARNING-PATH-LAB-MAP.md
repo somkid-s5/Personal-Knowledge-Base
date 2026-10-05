@@ -25,15 +25,15 @@ Google Skills Labs ใช้ credentials และ project ชั่วครา
 | 6 | Getting Started with Google Kubernetes Engine | Cloud Build, GKE Autopilot cluster, deploy/manage/inspect workloads | [Activity 06 โน้ต+แบบฝึก](../Path-Activity-06-GKE-TH.md), Lab 04 | มีโน้ต/แบบฝึกประกบ; ยังไม่ใช่ course grader |
 | 7 | Developing Applications with Cloud Run: Fundamentals | Least-privilege IAM for Cloud Run; Pub/Sub integration | [Activity 07 โน้ต+แบบฝึก](../Path-Activity-07-Cloud-Run-TH.md), Lab 03 | มีโน้ต/แบบฝึกประกบ; Lab 03 ไม่แทน official task/grader |
 | 8 | Developing Applications with Cloud Run Functions | HTTP/event functions, Workflows/VPC, Firestore integration | [Activity 08 โน้ต+แบบฝึก](../Path-Activity-08-Cloud-Run-Functions-TH.md) | มีโน้ต/แบบฝึกประกบ; ยังไม่ใช่ official lab/grader |
-| 9 | Select a Google Cloud Database for Your Applications | Database Migration Service; Vector Search ใน AlloyDB, Cloud SQL for PostgreSQL และ Spanner | ไม่มี | ไม่มีคู่มือเฉพาะ |
-| 10 | AI Infrastructure: Cloud GPUs | GPU provisioning, frameworks และ utilization; ตรวจรายการ activity สำหรับ demo/hand-on ใน edition ที่เรียน | ไม่มี | ไม่มีคู่มือเฉพาะ |
-| 11 | AI Infrastructure: Cloud TPUs | TPU options/software/interoperability; ตรวจรายการ activity สำหรับ demo/hand-on ใน edition ที่เรียน | ไม่มี | ไม่มีคู่มือเฉพาะ |
-| 12 | AI Infrastructure: Deployment Types | เลือก GCE/GKE deployment, network และ inference architecture | ไม่มี | ไม่มีคู่มือเฉพาะ |
-| 13 | Logging and Monitoring in Google Cloud | Cross-project monitoring, uptime checks, alerts/SLOs, log analytics และ audit logs | Lab 03 (Cloud Run logs บางส่วน) | บางส่วน; ไม่มี Observability course lab |
-| 14 | Getting Started with Terraform for Google Cloud | Create/change/destroy, dependencies/lifecycle, modules และ remote backend | Lab 05: Terraform VPC/plan/destroy | บางส่วน; ไม่ครอบคลุมทุก exercise |
-| 15 | Implementing Cloud Load Balancing for Compute Engine (Skill Badge) | Network, Application และ Internal Load Balancing; challenge lab | ไม่มี load-balancer-specific lab | ไม่มีคู่มือเฉพาะ |
-| 16 | Deploy Kubernetes Applications on Google Cloud (Skill Badge) | Docker, Artifact Registry, GKE, Deployments/Services และ challenge lab | Lab 04: GKE deployment/debugging | บางส่วน; ไม่ใช่ badge challenge |
-| 17 | Build Infrastructure with Terraform on Google Cloud (Skill Badge) | Modules, state, import/change resources และ challenge lab | Lab 05: Terraform VPC/state | บางส่วน; ไม่ใช่ badge challenge |
+| 9 | Select a Google Cloud Database for Your Applications | DMS migration; Vector Search ใน AlloyDB, Cloud SQL for PostgreSQL และ Spanner | [Activity 09 โน้ต+worksheet](../Path-Activity-09-Database-Selection-TH.md) | มีโน้ต/worksheet; ไม่มี Companion Lab หรือ grader ทางการ |
+| 10 | AI Infrastructure: Cloud GPUs | GPU options, provisioning, frameworks, utilization และ capacity | [Activity 10 โน้ต+worksheet](../Path-Activity-10-AI-Cloud-GPUs-TH.md) | มีโน้ต/worksheet; ไม่ได้ provision GPU |
+| 11 | AI Infrastructure: Cloud TPUs | TPU architecture/options, software และ interoperability | [Activity 11 โน้ต+worksheet](../Path-Activity-11-AI-Cloud-TPUs-TH.md) | มีโน้ต/worksheet; ไม่ได้ provision TPU |
+| 12 | AI Infrastructure: Deployment Types | GCE/GKE, network, accelerator, inference architecture | [Activity 12 โน้ต+worksheet](../Path-Activity-12-AI-Deployment-Types-TH.md) | มีโน้ต/worksheet; ไม่มี deployment grader |
+| 13 | Logging and Monitoring in Google Cloud | Multi-project monitoring, uptime, alerts/SLOs, log analytics, audit | [Activity 13 โน้ต+worksheet](../Path-Activity-13-Logging-Monitoring-TH.md), Lab 03 (logs บางส่วน) | มีโน้ต; Lab 03 ครอบคลุมบางส่วนเท่านั้น |
+| 14 | Getting Started with Terraform for Google Cloud | Resources, dependencies/lifecycle, modules, backend/state | [Activity 14 โน้ต+worksheet](../Path-Activity-14-Terraform-Getting-Started-TH.md), Lab 05 | มีโน้ต; Lab 05 ครอบคลุมบางส่วนเท่านั้น |
+| 15 | Implementing Cloud Load Balancing for Compute Engine (Skill Badge) | Network, Application, Internal Load Balancing; challenge lab | [Activity 15 โน้ตทบทวน](../Path-Activity-15-Load-Balancing-Skill-Badge-TH.md) | มีโน้ต; ไม่มี load-balancer Companion Lab หรือ badge grader |
+| 16 | Deploy Kubernetes Applications on Google Cloud (Skill Badge) | Docker, Artifact Registry, GKE, Deployments/Services, challenge lab | [Activity 16 โน้ตทบทวน](../Path-Activity-16-Kubernetes-Applications-Skill-Badge-TH.md), Lab 04 | มีโน้ต; Lab 04 ช่วยฝึกแต่ไม่แทน badge challenge |
+| 17 | Build Infrastructure with Terraform on Google Cloud (Skill Badge) | Modules, state, import/change infrastructure, challenge lab | [Activity 17 โน้ตทบทวน](../Path-Activity-17-Terraform-Build-Infrastructure-Skill-Badge-TH.md), Lab 05 | มีโน้ต; Lab 05 ช่วยฝึกแต่ไม่แทน badge challenge |
 
 ## สิ่งที่ต้องจำก่อนทำแล็บ
 
