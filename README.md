@@ -1,72 +1,122 @@
-# 🎓 Certification Journey & Knowledge Base
+# Cloud Engineer Learning Knowledge Base ☁️
 
-Welcome to my personal collection of certification notes and practice exam explanations. This repository serves as a structured knowledge base for my upskilling journey.
+A long-lived personal knowledge base for cloud engineering, infrastructure, DevOps, security, Linux, Kubernetes, automation and certification learning.
 
----
+This repository is designed to store **structured study notes, diagrams, labs, review material, practice explanations and future learning packages** in one consistent system — not as isolated folders that grow without standards.
 
-## 📂 Repository Structure
-
-| Certification / Course | Folder | Status |
-| :--- | :--- | :--- |
-| **Architecting on AWS 7.12.4 — Student Guide Notes** | [`AWS/Architecting-on-AWS-7.12.4`](./AWS/Architecting-on-AWS-7.12.4/) | ✅ Complete — Mobile Reader |
-| **AWS Solutions Architect Associate (SAA-C03)** | [`AWS_SAA_C03`](./AWS_SAA_C03/) | 🟢 In Progress |
-| **Azure Fundamentals** | `COMING_SOON` | 🟡 Planned |
-| **Google Cloud Associate Cloud Engineer (ACE) — Thai Study Notes** | [`GCP/Associate-Cloud-Engineer`](./GCP/Associate-Cloud-Engineer/) | 📘 Path guide + 13 topic notes + 5 companion labs (partial) |
-| **Google Cloud Digital Leader** | `COMING_SOON` | 🟡 Planned |
+> **Repository architecture:** provider/domain → content type → learning package  
+> **Default explanation language:** Thai, while preserving official English technical terminology  
+> **Quality model:** source-of-truth → teachable content → visual learning → practice/troubleshooting → QA
 
 ---
 
-## 📘 Architecting on AWS 7.12.4
+## Start here
 
-[**Open the mobile-friendly reader →**](./AWS/Architecting-on-AWS-7.12.4/)
+### Learning libraries
+- [AWS Learning Library](./AWS/)
+- [Google Cloud Learning Library](./GCP/)
 
-- Module 1–13
-- Student Guide pages 26–650
-- Thai explanations with AWS terminology preserved
-- Markdown tables, code blocks and Mermaid diagrams
-- One GitHub page per Module for easier mobile reading
-- [Quick Cheat Sheet](./AWS/Architecting-on-AWS-7.12.4/Architecting-on-AWS_Cheat-Sheet.md)
-
-The full Google Drive master copy retains the detailed Part 1/Part 2 files and source screenshots. The GitHub edition is optimized as a lightweight reader.
-
----
-
-## 🎯 AWS Certified Solutions Architect – Associate (SAA-C03)
-
-### [Open SAA-C03 Notes](./AWS_SAA_C03/)
-Detailed walkthroughs and explanations for practice exams, translated and simplified for better understanding.
-
-- [x] Test 1: Full Explanation
-- [x] Test 2: Full Explanation
-- [x] Test 3: Full Explanation
-- [x] Test 4: Full Explanation
-- [x] Test 5: Full Explanation
-- [x] Test 6: Full Explanation
+### Repository standards
+- [AGENTS.md](./AGENTS.md) — mandatory rules for humans and AI agents
+- [SKILL.md](./SKILL.md) — workflow for building new learning content
+- [Repository Architecture](./docs/REPOSITORY-ARCHITECTURE.md)
+- [Content Standard](./docs/CONTENT-STANDARD.md)
+- [Source & Fact-Checking Policy](./docs/SOURCE-POLICY.md)
+- [Visual Learning Standard](./docs/VISUAL-STANDARD.md)
+- [Quality Gate](./docs/QUALITY-GATE.md)
+- [Templates](./templates/)
 
 ---
 
-## ☁️ Google Cloud Associate Cloud Engineer
+## Current learning packages
 
-[**Open ACE Thai Study Notes →**](./GCP/Associate-Cloud-Engineer/)
+| Provider | Type | Package | Status |
+|---|---|---|---|
+| AWS | Course | [Architecting on AWS 7.12.4](./AWS/Courses/Architecting-on-AWS-7.12.4/) | **Verified course notes** — Modules 1–13, diagrams, labs, mock exam and review tools |
+| AWS | Certification | [AWS Certified Solutions Architect – Associate (SAA-C03)](./AWS/Certifications/SAA-C03/) | **Practice set complete** — six full practice-exam explanation files; broader certification package can be expanded later |
+| GCP | Certification | [Associate Cloud Engineer (ACE)](./GCP/Certifications/Associate-Cloud-Engineer/) | **Verified non-lab scope** — mapped to current Standard Exam Guide + 17 Google Skills activities, with visual guide and QA matrix |
 
-- [Path-first Thai reading guide for all 17 activities](./GCP/Associate-Cloud-Engineer/LEARNING-PATH-STUDY-GUIDE-TH.md)
-- 13 detailed topic notes with English cloud terminology, diagrams, CLI examples and troubleshooting
-- [Lab coverage map for all 17 activities](./GCP/Associate-Cloud-Engineer/Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md)
-- 5 companion labs: practice material, not a one-to-one replacement for Google Skills labs
-- Exam objective map, Cheat Sheet, Glossary and 20 original review scenarios
-- Sources and path checked on 5 October 2026; companion labs have not been provisioned on a live Google Cloud account
-
----
-
-## 🛠️ How to use these notes
-
-These notes are formatted in **Markdown** and are optimized for viewing directly on GitHub or in Obsidian.
-
-- **Mobile reading:** GitHub renders Markdown directly in the browser/app.
-- **Keyword spotting:** Look for highlighted AWS terms to quickly identify the relevant service.
-- **Thai explanations:** Complex concepts are explained in Thai while preserving AWS terminology.
-- **Fast review:** Use the Cheat Sheet before returning to detailed modules.
+“Verified” always means verified against a declared scope and date. It does **not** mean permanent truth or guaranteed exam success. See [Quality Gate](./docs/QUALITY-GATE.md).
 
 ---
 
-*“The best way to learn is to explain it to someone else.”* 🚀
+## Repository structure
+
+```text
+Cloud-Engineer/
+├─ README.md
+├─ AGENTS.md
+├─ SKILL.md
+├─ docs/                         # repository-wide standards
+├─ templates/                    # reusable note/lab/package templates
+├─ AWS/
+│  ├─ README.md
+│  ├─ Courses/
+│  │  └─ Architecting-on-AWS-7.12.4/
+│  └─ Certifications/
+│     └─ SAA-C03/
+└─ GCP/
+   ├─ README.md
+   └─ Certifications/
+      └─ Associate-Cloud-Engineer/
+```
+
+Future domains such as Azure, Kubernetes, Linux, DevOps or Security should be added only when real content exists, following the same taxonomy described in [Repository Architecture](./docs/REPOSITORY-ARCHITECTURE.md).
+
+---
+
+## How content should feel
+
+A learning note in this repository should not stop at “what is this service?”. High-quality content should help answer:
+
+1. **What problem does it solve?**
+2. **How does it work / what is the mental model?**
+3. **When should I choose it — and when not?**
+4. **What are the tradeoffs?**
+5. **What does the request/data/identity path look like?**
+6. **What commonly fails and where should I check first?**
+7. **What security, availability and cost implications matter?**
+8. **What should I be able to explain or do after learning it?**
+
+For flow-heavy subjects, diagrams are part of the explanation rather than decoration.
+
+---
+
+## Adding a new course, certification or topic
+
+Follow this sequence:
+
+```mermaid
+flowchart LR
+    S[Lock official scope/source] --> I[Inventory objectives or syllabus]
+    I --> P[Plan learning package]
+    P --> W[Write for understanding]
+    W --> V[Visual pass]
+    V --> X[Practice / troubleshooting]
+    X --> F[Fact-check]
+    F --> Q[Quality gate]
+    Q --> N[Publish + update navigation]
+```
+
+The detailed workflow is in [SKILL.md](./SKILL.md). Reuse files under [`templates/`](./templates/) rather than inventing a new format for every package.
+
+---
+
+## Accuracy and maintenance principles
+
+- Prefer official exam guides, learning paths and vendor documentation as primary sources.
+- Record verification dates for changing certification/course/product scope.
+- Avoid freezing volatile pricing, quota, availability or product lifecycle facts as timeless truths.
+- Keep official service names, commands, API names and menu labels searchable in English.
+- Do not store credentials, production secrets, exam dumps or proprietary grader solutions.
+- A structural cleanup should preserve technical meaning; content rewrites and path migrations should be reviewable separately when possible.
+
+---
+
+## Reading on GitHub / mobile / Obsidian
+
+Content is authored primarily in Markdown so it works directly on GitHub and remains portable to editors such as Obsidian. Mermaid is preferred for durable architecture, flow, decision and troubleshooting diagrams.
+
+---
+
+> Build notes that are useful **after the exam**, not only on exam day.
