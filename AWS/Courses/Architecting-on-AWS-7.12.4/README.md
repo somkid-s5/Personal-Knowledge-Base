@@ -1,5 +1,13 @@
 # Architecting on AWS 7.12.4 — Study Notes 📘
 
+> **Status:** Review — content-complete against the named course, repository-wide QA migration pending  
+> **Last repository review:** 2026-10-06  
+> **Primary source:** *Architecting on AWS 7.12.4 (EN) — Student Guide* and corresponding Lab Guide  
+> **Scope:** Modules 1–13, Student Guide pages 26–650, Thai explanations, diagrams, labs and review material  
+> **Important:** this status does not claim that every fast-changing AWS product detail has been re-verified against current service documentation in 2026
+
+[Back to AWS Learning Library](../../README.md)
+
 > **Mobile-friendly GitHub Reader** สำหรับโน้ตจาก *Architecting on AWS 7.12.4 (EN) — Student Guide*  
 > ครอบคลุม **Module 1–13, หน้า 26–650**  
 > ภาพ screenshot จาก Student Guide ฉบับเต็มยังเก็บอยู่ใน **Google Drive Master**; GitHub ชุดนี้เน้นอ่านเร็วบนมือถือ โดยคงเนื้อหา Markdown, ตาราง และ Mermaid diagrams ไว้ครบ
@@ -139,6 +147,10 @@ Edge + Backup/DR
 
 ---
 
-## Source note
+## Source / freshness note
 
 เอกสาร Study Notes สรุปจาก **Architecting on AWS 7.12.4 Student Guide** ส่วน Lab Guide ภาษาไทยแปลงจาก **Architecting on AWS 7.12.4 Lab Guide** โดยยึด terminology และลำดับขั้นตอนของต้นฉบับเป็นหลัก
+
+เพราะ AWS service behavior, UI, limits, pricing และ product lifecycle เปลี่ยนได้ เนื้อหาใน package นี้ควรถูกตรวจซ้ำกับ current AWS documentation ก่อนใช้กับงาน production หรือก่อนประกาศเป็น current reference แบบไม่ผูกกับ course version
+
+ก่อนเผยแพร่ repo เป็น public ให้ review provenance/licensing ของภาพหรือข้อความที่มาจาก course material และแทนที่ด้วย original diagrams เมื่อ redistribution rights ไม่ชัดเจน

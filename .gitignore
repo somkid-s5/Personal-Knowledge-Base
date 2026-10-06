@@ -1,7 +1,32 @@
+# Editor / local knowledge-base state
 **/.vscode/
-**/.obsidian/   
+**/.obsidian/
+
+# Dependency / generated directories
 node_modules/
+.terraform/
+
+# Temporary / logs
 *.tmp
 *.log
 .DS_Store
 Thumbs.db
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+.secrets/
+*.pem
+*.p12
+*.pfx
+id_rsa
+id_rsa.*
+credentials.json
+service-account*.json
+
+# Terraform state can contain sensitive values
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
