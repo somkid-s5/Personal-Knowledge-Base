@@ -1,0 +1,123 @@
+/* Architecture Diagrams & Visual Cards for Learn Pages */
+.study-diagram{margin:22px 0;padding:20px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(135deg,rgba(15,28,49,.85),rgba(10,19,34,.95));box-shadow:0 12px 36px rgba(0,0,0,.15);overflow:hidden;position:relative}
+[data-theme="light"] .study-diagram{background:linear-gradient(135deg,#f8fafc,#f1f5f9)}
+.diagram-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#38bdf8;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);margin-bottom:10px}
+.diagram-title{font-size:16px;font-weight:800;margin:0 0 4px;color:var(--text);display:flex;align-items:center;gap:8px}
+.diagram-desc{font-size:12px;color:var(--muted);margin:0 0 16px;line-height:1.5}
+.diagram-canvas{width:100%;overflow-x:auto;padding:8px 0;text-align:center}
+.diagram-canvas svg{max-width:100%;height:auto;display:inline-block;vertical-align:middle}
+
+/* Diagram interactive & flex components */
+.diag-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:10px}
+.diag-box{padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--panel2);text-align:left;position:relative}
+.diag-box b{display:block;font-size:13px;color:var(--text);margin-bottom:4px}
+.diag-box span{display:block;font-size:11px;color:var(--muted);line-height:1.4}
+.diag-box.highlight{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel2))}
+.diag-tag{display:inline-block;padding:2px 7px;border-radius:6px;font-size:9px;font-weight:800;margin-top:8px}
+.diag-tag.blue{background:rgba(56,189,248,.18);color:#38bdf8}
+.diag-tag.green{background:rgba(34,197,94,.18);color:#22c55e}
+.diag-tag.amber{background:rgba(245,158,11,.18);color:#f59e0b}
+.diag-tag.purple{background:rgba(168,85,247,.18);color:#c084fc}
+
+.diag-flow{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:12px 0}
+.diag-flow-step{flex:1;min-width:120px;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);text-align:center}
+.diag-flow-step i{display:block;font-size:10px;font-weight:900;color:var(--accent);margin-bottom:3px;font-style:normal}
+.diag-flow-step b{font-size:12px;display:block}
+.diag-flow-step p{margin:4px 0 0;font-size:10px;color:var(--muted)}
+.diag-arrow{color:var(--muted);font-weight:900;font-size:16px;user-select:none}
+
+.diag-lab-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:7px 12px;border-radius:8px;border:1px solid rgba(96,165,250,.3);background:rgba(37,99,235,.12);color:var(--accent);font-size:11px;font-weight:800;text-decoration:none;transition:all .15s}
+.diag-lab-link:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Jargon Buster Cards & Layout */
+.jargon-hero{padding:28px;background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(14,26,43,.92));border:1px solid var(--border);border-radius:20px;margin-bottom:20px}
+.jargon-filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 24px}
+.jargon-filter-btn{padding:8px 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel);color:var(--text);font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
+.jargon-filter-btn:hover,.jargon-filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.jargon-search-box{width:100%;max-width:500px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--panel2);color:var(--text);font-size:14px;margin-bottom:16px}
+.jargon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.jargon-card{padding:18px;border:1px solid var(--border);border-radius:14px;background:var(--panel);transition:transform .15s,border-color .15s}
+.jargon-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.jargon-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.jargon-term{font-size:16px;font-weight:900;color:var(--text);margin:0}
+.jargon-domain-badge{font-size:9px;font-weight:800;padding:3px 7px;border-radius:6px;background:rgba(56,189,248,.12);color:#38bdf8;border:1px solid rgba(56,189,248,.25);text-transform:uppercase}
+.jargon-simple{font-size:13px;color:#60a5fa;font-weight:700;margin:0 0 8px;line-height:1.4}
+.jargon-desc{font-size:12px;color:var(--muted);margin:0 0 10px;line-height:1.55}
+.jargon-exam{padding:8px 10px;border-radius:8px;background:color-mix(in srgb,var(--accent) 8%,var(--panel2));border-left:3px solid var(--accent);font-size:11px;color:var(--text)}
+.jargon-exam b{color:var(--accent)}
+
+/* Scope Hierarchy Flow Component (Management Group -> Subscription -> Resource Group -> Resource) */
+.scope-hierarchy-flow{margin:24px 0;padding:22px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(145deg,rgba(15,28,49,.92),rgba(9,17,31,.98));box-shadow:0 16px 40px rgba(0,0,0,.25);position:relative}
+[data-theme="light"] .scope-hierarchy-flow{background:linear-gradient(145deg,#f8fafc,#edf2f7)}
+.hierarchy-flow-title{font-size:13px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#38bdf8;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.hierarchy-flow-track{display:flex;flex-direction:column;gap:4px;position:relative}
+.hierarchy-node{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1px solid rgba(56,189,248,.2);border-radius:14px;background:rgba(21,38,66,.65);backdrop-filter:blur(8px);transition:all .2s ease}
+.hierarchy-node:hover{border-color:#38bdf8;transform:translateX(4px);box-shadow:0 6px 20px rgba(56,189,248,.15)}
+[data-theme="light"] .hierarchy-node{background:#fff;border-color:#cbd5e1}
+[data-theme="light"] .hierarchy-node:hover{border-color:#2563eb;box-shadow:0 6px 20px rgba(37,99,235,.12)}
+.hierarchy-node-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,rgba(56,189,248,.2),rgba(37,99,235,.3));font-size:20px;flex-shrink:0;border:1px solid rgba(56,189,248,.35)}
+.hierarchy-node-content{flex:1;min-width:0}
+.hierarchy-node-header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+.hierarchy-node-name{font-size:15px;font-weight:900;color:var(--text)}
+.hierarchy-node-badge{font-size:10px;font-weight:800;letter-spacing:.05em;padding:3px 8px;border-radius:6px;background:rgba(56,189,248,.14);color:#38bdf8;border:1px solid rgba(56,189,248,.25);text-transform:uppercase}
+.hierarchy-node-desc{font-size:12px;color:var(--muted);line-height:1.45}
+.hierarchy-connector{display:flex;align-items:center;gap:8px;padding-left:36px;margin:2px 0;color:#60a5fa;font-size:13px;font-weight:700}
+.connector-arrow{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.3);font-size:12px;font-weight:900;color:#38bdf8}
+.connector-label{font-size:10px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;font-weight:800}
+
+/* Visual Tree Cards for Architecture and Start-here */
+.visual-tree{display:flex;flex-direction:column;gap:6px;margin:12px 0}
+.v-tree-node{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid rgba(56,189,248,.2);border-radius:10px;background:rgba(17,31,52,.75);font-size:13px;font-weight:700;color:var(--text)}
+.v-tree-node.l1{border-left:4px solid #38bdf8;margin-left:0}
+.v-tree-node.l2{border-left:4px solid #60a5fa;margin-left:16px}
+.v-tree-node.l3{border-left:4px solid #818cf8;margin-left:32px}
+.v-tree-node.l4{border-left:4px solid #a78bfa;margin-left:48px}
+.v-tree-node .vt-icon{font-size:16px}
+.v-tree-node .vt-tag{margin-left:auto;font-size:10px;color:var(--muted);font-weight:600;background:rgba(255,255,255,.06);padding:2px 7px;border-radius:4px}
+
+@media(max-width:640px){
+  .diag-flow{flex-direction:column;align-items:stretch}
+  .diag-arrow{transform:rotate(90deg);margin:2px auto}
+  .jargon-grid{grid-template-columns:1fr}
+  .v-tree-node.l2{margin-left:8px}
+  .v-tree-node.l3{margin-left:16px}
+  .v-tree-node.l4{margin-left:24px}
+  .hierarchy-connector{padding-left:22px}
+}
+
+/* Domain Mode Switcher Tabs (Study / Interactive Labs / Quiz) */
+.domain-mode-bar{display:flex;gap:8px;padding:6px;border-radius:14px;background:var(--panel2);border:1px solid var(--border);margin:16px 0 24px;flex-wrap:wrap}
+.domain-mode-btn{flex:1;min-width:140px;padding:10px 16px;border:none;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+.domain-mode-btn:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.domain-mode-btn.active{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.35)}
+.domain-mode-badge{font-size:10px;padding:2px 6px;border-radius:99px;background:rgba(255,255,255,.2);color:#fff}
+
+/* Domain Interactive Labs Section */
+.domain-labs-section{display:none;margin-top:16px}
+.domain-labs-section.active{display:block}
+.domain-study-section{display:block}
+.domain-study-section.hidden{display:none}
+
+.domain-lab-card{display:flex;flex-direction:column;gap:12px;padding:22px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(135deg,rgba(15,28,49,.85),rgba(10,19,34,.95));margin-bottom:16px;transition:all .2s ease;position:relative}
+.domain-lab-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.2)}
+[data-theme="light"] .domain-lab-card{background:#fff}
+.domain-lab-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.domain-lab-title{font-size:18px;font-weight:900;color:var(--text);margin:0}
+.domain-lab-tags{display:flex;gap:6px;flex-wrap:wrap}
+.domain-lab-tag{font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;background:rgba(56,189,248,.12);color:#38bdf8;border:1px solid rgba(56,189,248,.25)}
+.domain-lab-desc{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+.domain-lab-actions{display:flex;gap:10px;align-items:center;margin-top:6px;flex-wrap:wrap}
+.domain-lab-play-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--accent);color:#fff;font-size:13px;font-weight:800;text-decoration:none;border:none;cursor:pointer;transition:all .15s}
+.domain-lab-play-btn:hover{filter:brightness(1.15);box-shadow:0 4px 16px rgba(37,99,235,.4)}
+.domain-lab-ext-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:10px;background:var(--panel2);color:var(--text);font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border);transition:all .15s}
+.domain-lab-ext-btn:hover{border-color:var(--accent);background:rgba(37,99,235,.1)}
+
+/* In-Lesson Lab Modal Frame (Seamless Hands-on Workspace) */
+.lab-modal{position:fixed;inset:0;background:rgba(2,6,23,.85);backdrop-filter:blur(8px);z-index:9999;display:none;flex-direction:column;padding:16px;box-sizing:border-box}
+.lab-modal.active{display:flex}
+.lab-modal-dialog{width:100%;max-width:1440px;height:100%;margin:0 auto;display:flex;flex-direction:column;border-radius:18px;background:var(--bg);border:1px solid var(--border);box-shadow:0 24px 60px rgba(0,0,0,.6);overflow:hidden}
+.lab-modal-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--panel);border-bottom:1px solid var(--border)}
+.lab-modal-title{font-size:15px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:8px}
+.lab-modal-actions{display:flex;align-items:center;gap:10px}
+.lab-modal-frame{flex:1;width:100%;border:none;background:var(--bg)}
+
