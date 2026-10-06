@@ -7,6 +7,9 @@ REQUIRED_ROOT_FILES = [
     "README.md",
     "AGENTS.md",
     "SKILL.md",
+    "skills/README.md",
+    "skills/INTERNET-FIRST-CURRICULUM.md",
+    "skills/SOURCE-INGESTION-CURRICULUM.md",
     "docs/REPOSITORY-ARCHITECTURE.md",
     "docs/CONTENT-STANDARD.md",
     "docs/SOURCE-POLICY.md",
@@ -18,7 +21,7 @@ REQUIRED_ROOT_FILES = [
 ]
 
 CONTENT_TYPE_DIRS = {"Courses", "Certifications", "Topics", "Projects"}
-IGNORE_TOP_LEVEL_DIRS = {".git", ".github", "docs", "templates"}
+IGNORE_TOP_LEVEL_DIRS = {".git", ".github", "docs", "templates", "skills"}
 
 errors: list[str] = []
 
