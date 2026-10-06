@@ -24,6 +24,7 @@ This repository is designed to store **structured study notes, diagrams, labs, r
 - [Source & Fact-Checking Policy](./docs/SOURCE-POLICY.md)
 - [Visual Learning Standard](./docs/VISUAL-STANDARD.md)
 - [Quality Gate](./docs/QUALITY-GATE.md)
+- [Repository Audit & Roadmap — 2026-10-06](./docs/REPOSITORY-AUDIT-2026-10-06.md)
 - [Templates](./templates/)
 
 ---
@@ -32,9 +33,9 @@ This repository is designed to store **structured study notes, diagrams, labs, r
 
 | Provider | Type | Package | Status |
 |---|---|---|---|
-| AWS | Course | [Architecting on AWS 7.12.4](./AWS/Courses/Architecting-on-AWS-7.12.4/) | **Verified course notes** — Modules 1–13, diagrams, labs, mock exam and review tools |
-| AWS | Certification | [AWS Certified Solutions Architect – Associate (SAA-C03)](./AWS/Certifications/SAA-C03/) | **Practice set complete** — six full practice-exam explanation files; broader certification package can be expanded later |
-| GCP | Certification | [Associate Cloud Engineer (ACE)](./GCP/Certifications/Associate-Cloud-Engineer/) | **Verified non-lab scope** — mapped to current Standard Exam Guide + 17 Google Skills activities, with visual guide and QA matrix |
+| AWS | Course | [Architecting on AWS 7.12.4](./AWS/Courses/Architecting-on-AWS-7.12.4/) | **Content-complete, QA migration pending** — Modules 1–13, diagrams, labs, mock exam and review tools exist; repository-wide source/quality gate has not yet been applied retroactively |
+| AWS | Certification | [AWS Certified Solutions Architect – Associate (SAA-C03)](./AWS/Certifications/SAA-C03/) | **Practice set complete** — six full practice-exam explanation files; this is not yet a complete certification curriculum mapped to the current official exam guide |
+| GCP | Certification | [Associate Cloud Engineer (ACE)](./GCP/Certifications/Associate-Cloud-Engineer/) | **Verified non-lab scope** — mapped to the current Standard Exam Guide + 17 Google Skills activities, with visual guide and objective-by-objective QA matrix |
 
 “Verified” always means verified against a declared scope and date. It does **not** mean permanent truth or guaranteed exam success. See [Quality Gate](./docs/QUALITY-GATE.md).
 
