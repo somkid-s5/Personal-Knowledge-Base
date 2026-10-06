@@ -1,24 +1,55 @@
-# AWS Certified Solutions Architect – Associate (SAA-C03) — Practice Review Pack 🌩️
+# AWS Certified Solutions Architect – Associate (SAA-C03) — Certification Hub 🌩️
 
-> **Status:** Practice set complete; full certification curriculum not yet standardized  
+> **Status:** Review — integrated study hub; current objective-level QA still pending  
 > **Last repository review:** 2026-10-06  
-> **Target learner:** ผู้ที่กำลังฝึกทำข้อสอบ SAA-C03 และต้องการอ่านเหตุผลแบบละเอียด  
-> **Scope:** walkthrough / explanation ของ practice tests ที่มีอยู่ใน package นี้  
-> **Not claimed:** complete coverage of the current official SAA-C03 exam guide
+> **Current official scope checked:** AWS SAA-C03 Exam Guide, 2026-10-06  
+> **Target learner:** ผู้ที่ต้องการเรียน theory → hands-on → practice เป็นระบบเดียว  
+> **Not claimed yet:** 100% current objective-level coverage
 
 [Back to AWS Learning Library](../../README.md)
 
-This package contains personal preparation material and detailed walkthroughs for AWS SAA practice exams. It is useful for reviewing why an answer is right or wrong, but it should **not** be treated as the repository's final authoritative SAA curriculum until an official exam-guide objective map and QA matrix are added.
+This package is now the **canonical SAA-C03 study hub** for the repository. It does not duplicate the long-form AWS course or the project track; it connects them into one certification-focused learning path.
 
-## How to use this package
+## Start here
 
-1. ทำ practice test ก่อนโดยไม่เปิดเฉลย
-2. อ่าน explanation ของข้อที่ผิดและข้อที่ตอบถูกแบบไม่มั่นใจ
-3. จด service/architecture pattern ที่พลาดซ้ำ
-4. กลับไปอ่าน detailed course/topic notes ที่เกี่ยวข้อง
-5. ก่อนใช้ package นี้เป็นแหล่งเตรียมสอบหลัก ให้เทียบกับ official AWS SAA-C03 exam guide ปัจจุบัน
+1. [Integrated Study Path](./STUDY-PATH.md) — ลำดับเรียนทั้งระบบ
+2. [Current Exam Guide Map](./EXAM-GUIDE-MAP.md) — 4 domains → course modules → projects
+3. [Architecting on AWS 7.12.4](../../Courses/Architecting-on-AWS-7.12.4/) — long-form theory foundation
+4. [Cloud Engineer Lab](../../Projects/Cloud-Engineer-Lab/) — hands-on reinforcement
+5. [Practice Exam Walkthroughs](./practice-exam/) — six detailed practice sets
 
-## Practice Exam Walkthroughs
+## Current SAA-C03 domains
+
+The current official guide uses four domains:
+
+- **Design Secure Architectures — 30%**
+- **Design Resilient Architectures — 26%**
+- **Design High-Performing Architectures — 24%**
+- **Design Cost-Optimized Architectures — 20%**
+
+See [`EXAM-GUIDE-MAP.md`](./EXAM-GUIDE-MAP.md) for repository mappings.
+
+## How the pieces fit together
+
+```mermaid
+flowchart TD
+    A[Architecting on AWS 7.12.4] --> B[SAA Current Exam Map]
+    B --> C[Gap Study]
+    C --> D[Cloud Engineer Lab]
+    D --> E[Practice Tests 1–6]
+    E --> F[Targeted Re-study]
+    F --> E
+```
+
+### Course layer
+
+[`../../Courses/Architecting-on-AWS-7.12.4/`](../../Courses/Architecting-on-AWS-7.12.4/) remains a versioned course package with its own source identity. It provides the strongest long-form explanation base for architecture fundamentals, security, networking, compute, storage, database, scaling, containers, serverless, edge and recovery.
+
+### Hands-on layer
+
+[`../../Projects/Cloud-Engineer-Lab/`](../../Projects/Cloud-Engineer-Lab/) adds real implementation, failure testing and production-oriented practice. It is broader than the SAA exam, so use the selected project mapping in `STUDY-PATH.md` rather than treating every project as exam-required.
+
+### Practice layer
 
 | Exam | File | Status |
 | :--- | :--- | :--- |
@@ -29,26 +60,27 @@ This package contains personal preparation material and detailed walkthroughs fo
 | Practice Test 5 | [Full Explanation](./practice-exam/AWS_SAA_Test_5_Full_Explanation.md) | ✅ Completed |
 | Practice Test 6 | [Full Explanation](./practice-exam/AWS_SAA_Test_6_Full_Explanation.md) | ✅ Completed |
 
-## Common service areas encountered
+## Why the AWS course and certification are not physically merged
 
-- **Compute:** EC2, Lambda, ECS, EKS
-- **Storage:** S3, EBS, EFS, FSx
-- **Database:** RDS, DynamoDB, Aurora
-- **Networking:** VPC, Route 53, CloudFront
-- **Security:** IAM, KMS, Secrets Manager
+They have different sources and freshness rules:
+
+- **Architecting on AWS 7.12.4** is source-ingestion content tied to a specific course version.
+- **SAA-C03** is Internet-first/current-scope certification content tied to a changing AWS exam guide.
+
+The correct architecture is **one learner journey, separate source packages**. This preserves provenance and prevents current exam changes from silently rewriting what the older course originally taught.
 
 ## Quality / provenance note
 
-Before this repository is ever made public, review the provenance and redistribution rights of any third-party practice-question wording. The preferred long-term format is original scenario-based practice written for this repository rather than reproducing commercial question banks.
+Before any public release, review redistribution rights for third-party practice-question wording. The preferred long-term practice bank is original repository-authored scenarios mapped to the current exam guide.
 
 ## Next maturity step
 
-To upgrade this package from **practice review pack** to a **Verified certification learning package**:
+To upgrade this hub to `Verified`:
 
-1. lock the current official SAA-C03 exam guide,
-2. build an objective inventory,
-3. map current explanations to objectives,
-4. add missing theory/visual/troubleshooting content,
-5. add original review scenarios,
+1. freeze the current official SAA-C03 objective inventory,
+2. map every current knowledge/skill bullet to concrete teaching content,
+3. identify gaps not sufficiently covered by the 7.12.4 course,
+4. write current-scope supplements without rewriting course provenance,
+5. add original exam scenarios for gap areas,
 6. create `QA-MATRIX.md`,
 7. pass [`docs/QUALITY-GATE.md`](../../../docs/QUALITY-GATE.md).

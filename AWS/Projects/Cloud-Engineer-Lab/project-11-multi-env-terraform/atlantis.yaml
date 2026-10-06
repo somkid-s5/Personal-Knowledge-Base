@@ -1,0 +1,26 @@
+version: 3
+autodiscover:
+  enabled: true
+projects:
+- name: dev-networking
+  dir: terragrunt/dev/networking
+  workflow: terragrunt
+- name: dev-ecs
+  dir: terragrunt/dev/ecs
+  workflow: terragrunt
+- name: dev-rds
+  dir: terragrunt/dev/rds
+  workflow: terragrunt
+- name: prod-networking
+  dir: terragrunt/prod/networking
+  workflow: terragrunt
+  apply_requirements: [approved, mergeable]
+
+workflows:
+  terragrunt:
+    plan:
+      steps:
+      - run: terragrunt plan -out=$PLANFILE
+    apply:
+      steps:
+      - run: terragrunt apply $PLANFILE

@@ -2,21 +2,25 @@
 
 A long-lived personal knowledge base for cloud engineering, infrastructure, DevOps, security, Linux, Kubernetes, automation and certification learning.
 
-This repository is designed to store **structured study notes, diagrams, labs, review material, practice explanations and future learning packages** in one consistent system — not as isolated folders that grow without standards.
+This repository is designed to store **structured study notes, diagrams, labs, review material, practice explanations, interactive study tools and hands-on projects** in one consistent system — not as isolated repositories that drift apart.
 
 > **Repository architecture:** provider/domain → content type → learning package  
 > **Default explanation language:** Thai, while preserving official English technical terminology  
-> **Quality model:** source-of-truth → teachable content → visual learning → practice/troubleshooting → QA
+> **Quality model:** source-of-truth → teachable content → visual learning → practice/troubleshooting → QA  
+> **Canonical policy:** new learning-system integration should land here first; standalone repos may remain as mirrors/deployment surfaces when useful
 
 ---
 
 ## Start here
 
 ### Learning libraries
+
 - [AWS Learning Library](./AWS/)
+- [Microsoft Azure Learning Library](./Azure/)
 - [Google Cloud Learning Library](./GCP/)
 
 ### Repository standards
+
 - [AGENTS.md](./AGENTS.md) — mandatory rules for humans and AI agents
 - [SKILL.md](./SKILL.md) — authoring router that selects the correct source mode
 - [Authoring Skills](./skills/) — Internet-first and Source-ingestion workflows
@@ -26,6 +30,7 @@ This repository is designed to store **structured study notes, diagrams, labs, r
 - [Visual Learning Standard](./docs/VISUAL-STANDARD.md)
 - [Quality Gate](./docs/QUALITY-GATE.md)
 - [Repository Audit & Roadmap — 2026-10-06](./docs/REPOSITORY-AUDIT-2026-10-06.md)
+- [Repository Consolidation — 2026-10-06](./docs/REPOSITORY-CONSOLIDATION-2026-10-06.md)
 - [Templates](./templates/)
 
 ### Two ways to build new learning content
@@ -42,7 +47,9 @@ See [SKILL.md](./SKILL.md) for routing rules.
 | Provider | Type | Package | Status |
 |---|---|---|---|
 | AWS | Course | [Architecting on AWS 7.12.4](./AWS/Courses/Architecting-on-AWS-7.12.4/) | **Content-complete, QA migration pending** — Modules 1–13, diagrams, labs, mock exam and review tools exist; repository-wide source/quality gate has not yet been applied retroactively |
-| AWS | Certification | [AWS Certified Solutions Architect – Associate (SAA-C03)](./AWS/Certifications/SAA-C03/) | **Practice set complete** — six full practice-exam explanation files; this is not yet a complete certification curriculum mapped to the current official exam guide |
+| AWS | Certification | [AWS Certified Solutions Architect – Associate (SAA-C03)](./AWS/Certifications/SAA-C03/) | **Integrated certification hub** — current exam-domain map + Architecting course + 34-project lab track + six practice walkthroughs; objective-level QA still pending |
+| AWS | Projects | [Cloud Engineer Lab](./AWS/Projects/Cloud-Engineer-Lab/) | **Imported canonical project track** — project-00 setup + project-01..34, including Terraform, Kubernetes, CI/CD, security, FinOps and observability |
+| Azure | Certification | [AZ-104 — Microsoft Azure Administrator](./Azure/Certifications/AZ-104/) | **Imported interactive study system** — current 2026 five-domain / 15-objective-group scope recorded; main-repo fidelity QA pending |
 | GCP | Certification | [Associate Cloud Engineer (ACE)](./GCP/Certifications/Associate-Cloud-Engineer/) | **Verified non-lab scope** — mapped to the current Standard Exam Guide + 17 Google Skills activities, with visual guide and objective-by-objective QA matrix |
 
 “Verified” always means verified against a declared scope and date. It does **not** mean permanent truth or guaranteed exam success. See [Quality Gate](./docs/QUALITY-GATE.md).
@@ -59,21 +66,31 @@ Cloud-Engineer/
 ├─ skills/
 │  ├─ INTERNET-FIRST-CURRICULUM.md
 │  └─ SOURCE-INGESTION-CURRICULUM.md
-├─ docs/                          # repository-wide standards
+├─ docs/                          # repository-wide standards / audits
 ├─ templates/                     # reusable note/lab/package templates
 ├─ AWS/
 │  ├─ README.md
 │  ├─ Courses/
 │  │  └─ Architecting-on-AWS-7.12.4/
+│  ├─ Certifications/
+│  │  └─ SAA-C03/
+│  └─ Projects/
+│     └─ Cloud-Engineer-Lab/
+├─ Azure/
+│  ├─ README.md
 │  └─ Certifications/
-│     └─ SAA-C03/
+│     └─ AZ-104/
+│        ├─ README.md
+│        ├─ SOURCE-MANIFEST.md
+│        ├─ SOURCE-COVERAGE.md
+│        └─ interactive/           # imported cram-book/site source
 └─ GCP/
    ├─ README.md
    └─ Certifications/
       └─ Associate-Cloud-Engineer/
 ```
 
-Future domains such as Azure, Kubernetes, Linux, DevOps or Security should be added only when real content exists, following the same taxonomy described in [Repository Architecture](./docs/REPOSITORY-ARCHITECTURE.md).
+Future domains such as Kubernetes, Linux, DevOps or Security should be added only when real reusable content exists, following the same taxonomy described in [Repository Architecture](./docs/REPOSITORY-ARCHITECTURE.md).
 
 ---
 
@@ -133,6 +150,8 @@ The detailed routing and workflows are in [SKILL.md](./SKILL.md) and [`skills/`]
 ## Reading on GitHub / mobile / Obsidian
 
 Content is authored primarily in Markdown so it works directly on GitHub and remains portable to editors such as Obsidian. Mermaid is preferred for durable architecture, flow, decision and troubleshooting diagrams.
+
+Interactive study tools and full hands-on project source can live inside a package when they provide real learning value; the package README must still explain source, status, scope and maintenance expectations.
 
 ---
 

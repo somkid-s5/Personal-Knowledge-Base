@@ -1,0 +1,33 @@
+# HashiCorp Vault Helm Values (HA + Auto-Unseal)
+
+server:
+  ha:
+    enabled: true
+    raft:
+      enabled: true
+      setNodeId: true
+      config: |
+        ui = true
+        listener "tcp" {
+          tls_disable = 1
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+        }
+        storage "raft" {
+          path = "/vault/data"
+        }
+        seal "awskms" {
+          region     = "ap-southeast-1"
+          kms_key_id = "arn:aws:kms:ap-southeast-1:123456789012:key/xxxx-xxxx-xxxx"
+        }
+        service_registration "kubernetes" {}
+
+  # Ensure the vault pods have the correct IAM role via IRSA
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/vault-kms-unseal-role
+
+  audit:
+    enabled: true
+    type: file
+    path: /vault/logs/audit.log

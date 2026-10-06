@@ -1,0 +1,13 @@
+(() => {
+  const parts = ['assets/app-core.js', 'assets/diagrams.js', 'assets/app-learn.js', 'assets/app-practice.js'];
+  let i = 0;
+  function next() {
+    if (i >= parts.length) return;
+    const s = document.createElement('script');
+    s.src = parts[i++];
+    s.onload = next;
+    s.onerror = () => console.error('Failed to load ' + s.src);
+    document.head.appendChild(s);
+  }
+  next();
+})();

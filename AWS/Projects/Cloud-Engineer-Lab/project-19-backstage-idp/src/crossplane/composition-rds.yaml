@@ -1,0 +1,22 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: postgresql-aws
+spec:
+  compositeTypeRef:
+    apiVersion: devopslab.io/v1alpha1
+    kind: XPostgreSQLInstance
+  resources:
+    - name: rds-instance
+      base:
+        apiVersion: database.aws.upbound.io/v1beta1
+        kind: DBInstance
+        spec:
+          forProvider:
+            region: ap-southeast-1
+            dbInstanceClass: db.t3.micro
+            allocatedStorage: 20
+            engine: postgres
+            engineVersion: "15.4"
+            publiclyAccessible: false
+            skipFinalSnapshot: true

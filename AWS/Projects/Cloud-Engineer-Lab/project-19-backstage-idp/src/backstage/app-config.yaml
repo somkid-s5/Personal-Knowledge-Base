@@ -1,0 +1,29 @@
+app:
+  title: FastMove Developer Portal
+  baseUrl: http://localhost:3000
+
+organization:
+  name: FastMove
+
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+
+integrations:
+  github:
+    - host: github.com
+      token: ${GITHUB_TOKEN}
+
+catalog:
+  rules:
+    - allow: [Component, System, API, Resource, Location]
+  locations:
+    - type: url
+      target: https://github.com/somkid-s5/fastmove-org/blob/main/catalog-info.yaml

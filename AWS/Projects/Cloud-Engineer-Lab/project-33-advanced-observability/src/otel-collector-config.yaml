@@ -1,0 +1,32 @@
+# OpenTelemetry Collector Configuration Example
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 1000
+
+exporters:
+  logging:
+    verbosity: detailed
+  otlp/opensearch:
+    endpoint: "https://your-opensearch-endpoint:443"
+    headers:
+      Authorization: "Basic <base64_encoded_creds>"
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [logging, otlp/opensearch]
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [logging]

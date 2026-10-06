@@ -1,0 +1,50 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: new-microservice
+  title: Create New FastAPI Microservice
+  description: Scaffolds a production-ready FastAPI service with CI/CD and monitoring.
+spec:
+  owner: platform-team
+  type: service
+
+  parameters:
+    - title: Service Details
+      required: [name, owner]
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name for the service.
+        owner:
+          title: Owner
+          type: string
+          description: Team responsible for this service.
+        description:
+          title: Description
+          type: string
+
+  steps:
+    - id: fetch-base
+      name: Fetch Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: ${{ parameters.description }}
+        repoUrl: 'github.com?owner=fastmove&repo=${{ parameters.name }}'
+
+    - id: register
+      name: Register in Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'

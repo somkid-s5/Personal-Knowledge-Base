@@ -1,0 +1,4 @@
+aws_region           = "ap-southeast-1"
+slack_webhook_url    = "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+alert_email          = "admin@example.com"
+monthly_budget_limit = "100"

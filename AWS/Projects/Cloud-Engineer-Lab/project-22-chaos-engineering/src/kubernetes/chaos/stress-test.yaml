@@ -1,0 +1,32 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: cpu-stress
+  namespace: chaos-testing
+spec:
+  mode: one
+  selector:
+    labelSelectors:
+      app: web-app
+  stressors:
+    cpu:
+      workers: 2
+      load: 80
+  duration: '5m'
+---
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay
+  namespace: chaos-testing
+spec:
+  action: delay
+  mode: all
+  selector:
+    labelSelectors:
+      app: web-app
+  delay:
+    latency: '100ms'
+    correlation: '100'
+    jitter: '0ms'
+  duration: '10m'

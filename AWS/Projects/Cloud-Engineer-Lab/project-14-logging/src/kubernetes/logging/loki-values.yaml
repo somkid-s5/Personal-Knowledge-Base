@@ -1,0 +1,28 @@
+loki:
+  auth_enabled: false
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: 'filesystem'
+
+promtail:
+  enabled: true
+  config:
+    logLevel: info
+    serverPort: 3101
+    clients:
+      - url: http://loki-gateway/loki/api/v1/push
+
+grafana:
+  enabled: true
+  sidecar:
+    datasources:
+      enabled: true
+      label: grafana_datasource
+      labelValue: "1"
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      url: http://loki-gateway
+      access: proxy
+      isDefault: false
