@@ -1,0 +1,12 @@
+---
+- name: Ensure Fail2Ban is running
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes
+
+- name: Configure Fail2Ban jail
+  template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+  notify: Restart Fail2Ban
