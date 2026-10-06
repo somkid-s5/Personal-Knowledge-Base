@@ -18,6 +18,14 @@ jobs:
       - name: Validate canonical knowledge-base structure
         run: python .github/scripts/validate_repo_structure.py
 
+  internal-links:
+    name: Validate internal Markdown links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate local Markdown targets
+        run: python .github/scripts/validate_internal_links.py
+
   markdown:
     name: Lint governance Markdown
     runs-on: ubuntu-latest

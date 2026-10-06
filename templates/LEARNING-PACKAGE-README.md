@@ -25,7 +25,9 @@ flowchart LR
 ## Modules
 | # | Module | Outcome |
 |---:|---|---|
-| 01 | [Topic](./Module-01-Topic.md) | <what learner can do> |
+| 01 | `Module-01-Topic.md` | <what learner can do> |
+
+Replace the placeholder filename above with a real Markdown link after the module file exists.
 
 ## Labs / practice
 Explain which items are official external labs versus original companion labs.
