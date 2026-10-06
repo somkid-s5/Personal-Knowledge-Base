@@ -16,6 +16,8 @@ REQUIRED_ROOT_FILES = [
     "docs/VISUAL-STANDARD.md",
     "docs/QUALITY-GATE.md",
     "templates/LEARNING-PACKAGE-README.md",
+    "templates/SOURCE-MANIFEST.md",
+    "templates/SOURCE-COVERAGE.md",
     "templates/MODULE.md",
     "templates/LAB.md",
 ]
