@@ -46,7 +46,7 @@ See [SKILL.md](./SKILL.md) for routing rules.
 
 | Provider | Type | Package | Status |
 |---|---|---|---|
-| AWS | Course | [Architecting on AWS 7.12.4](./AWS/Courses/Architecting-on-AWS-7.12.4/) | **Content-complete, QA migration pending** — Modules 1–13, diagrams, labs, mock exam and review tools exist; repository-wide source/quality gate has not yet been applied retroactively |
+| AWS | Course | [Architecting on AWS 7.12.4](./AWS/Courses/Architecting-on-AWS-7.12.4/) | **Verified Course Scope** — 13/13 module families + 7/7 companion lab guides mapped; 2026 currentness overlay/source map/QA matrix added. Public-redistribution provenance cleanup remains pending for historical source screenshots |
 | AWS | Certification | [AWS Certified Solutions Architect – Associate (SAA-C03)](./AWS/Certifications/SAA-C03/) | **Integrated certification hub** — current exam-domain map + Architecting course + 34-project lab track + six practice walkthroughs; objective-level QA still pending |
 | AWS | Projects | [Cloud Engineer Lab](./AWS/Projects/Cloud-Engineer-Lab/) | **Imported canonical project track** — project-00 setup + project-01..34, including Terraform, Kubernetes, CI/CD, security, FinOps and observability |
 | Azure | Certification | [AZ-104 — Microsoft Azure Administrator](./Azure/Certifications/AZ-104/) | **Imported interactive study system** — current 2026 five-domain / 15-objective-group scope recorded; main-repo fidelity QA pending |

@@ -1,156 +1,214 @@
 # Architecting on AWS 7.12.4 — Study Notes 📘
 
-> **Status:** Review — content-complete against the named course, repository-wide QA migration pending  
-> **Last repository review:** 2026-10-06  
-> **Primary source:** *Architecting on AWS 7.12.4 (EN) — Student Guide* and corresponding Lab Guide  
-> **Scope:** Modules 1–13, Student Guide pages 26–650, Thai explanations, diagrams, labs and review material  
-> **Important:** this status does not claim that every fast-changing AWS product detail has been re-verified against current service documentation in 2026
+> **Status:** **Verified Course Scope** — 13/13 module families and 7/7 companion lab guides mapped; currentness overlay present  
+> **Last course/currentness review:** 2026-10-06  
+> **Historical course source:** *Architecting on AWS 7.12.4 (EN) — Student Guide* + corresponding Lab Guide  
+> **Current scope cross-check:** AWS Classroom Training catalog + current Architecting on AWS course outline  
+> **Public redistribution readiness:** **REVIEW** — historical source screenshots still require provenance cleanup
 
-[Back to AWS Learning Library](../../README.md)
+[← AWS Learning Library](../../README.md)
 
-> **Mobile-friendly GitHub Reader** สำหรับโน้ตจาก *Architecting on AWS 7.12.4 (EN) — Student Guide*  
-> ครอบคลุม **Module 1–13, หน้า 26–650**  
-> ภาพ screenshot จาก Student Guide ฉบับเต็มยังเก็บอยู่ใน **Google Drive Master**; GitHub ชุดนี้เน้นอ่านเร็วบนมือถือ โดยคงเนื้อหา Markdown, ตาราง และ Mermaid diagrams ไว้ครบ
+## Start here
+
+Choose the path that matches your goal:
+
+1. **Learn the course:** [Module 01](./Module-01-Architecting-Fundamentals.md) → Module 13.
+2. **See the official-scope evidence:** [Course QA Matrix](./COURSE-QA-MATRIX.md).
+3. **Avoid stale AWS assumptions:** read [Currentness Overlay — 2026](./CURRENTNESS-2026.md).
+4. **Practice:** use the [Thai Lab Guide](./Lab-Guide-TH/), then the [Mock Exam](./MOCK-EXAM-65.md).
+5. **Fast review:** [Cheat Sheet](./Architecting-on-AWS_Cheat-Sheet.md) + [Exam Mode](./EXAM-MODE.md).
+6. **Audit the evidence:** [Sources](./SOURCES.md) and [Provenance](./PROVENANCE.md).
+
+```mermaid
+flowchart LR
+    V[Visual / Mental model] --> M[Module]
+    M --> D[Decision / tradeoff]
+    D --> L[Lab / scenario]
+    L --> T[Troubleshoot]
+    T --> C[Currentness check]
+    C --> R[Review]
+```
+
+## What “Verified Course Scope” means
+
+AWS still lists **Architecting on AWS** as an intermediate 3-day classroom course, and the current course outline linked from the AWS Training catalog uses the same 13-module family represented here.
+
+The repository has a direct note for every module family:
+
+- Architecting Fundamentals
+- Account Security
+- Networking 1
+- Compute
+- Storage
+- Database Services
+- Monitoring and Scaling
+- Automation
+- Containers
+- Networking 2
+- Serverless
+- Edge Services
+- Backup and Recovery
+
+See [COURSE-QA-MATRIX.md](./COURSE-QA-MATRIX.md) for the evidence table.
+
+**It does not mean:** “every AWS feature launched after 7.12.4 is covered” or “all pricing/quotas/UI are frozen forever.” For modern service behavior, use the currentness overlay and current AWS documentation.
 
 ---
 
-## ⚡ Quick Start
+## Course vs current AWS
 
-- [**🧪 LAB GUIDE ภาษาไทย — Lab 1–7 แบบทำตามได้จริง**](./Lab-Guide-TH/)
-- [**📝 MOCK EXAM 65 ข้อ — เริ่มทำข้อสอบ**](./MOCK-EXAM-65.md)
-- [**🧭 EXAM MODE — Keyword → Service → Module**](./EXAM-MODE.md)
-- [**Cheat Sheet — ทบทวนเร็วทั้งคอร์ส**](./Architecting-on-AWS_Cheat-Sheet.md)
-- [เฉลย Mock Exam — เปิดหลังทำครบ 65 ข้อเท่านั้น](./MOCK-EXAM-65-ANSWER-KEY.md)
-- ถ้าเรียนเต็มหลักสูตร ให้อ่าน **Module 1 → 13** ตามลำดับ
-- ถ้าต้องการลงรายละเอียดเพิ่มเติม ให้กลับไปดู Google Drive Master ซึ่งเก็บไฟล์ Part 1/Part 2 และ source figures ไว้ครบ
+The course version is intentionally preserved because it provides a coherent learning sequence. Fast-changing AWS recommendations are maintained separately so historical course fidelity is not mixed with current production guidance.
 
----
+High-impact current notes include:
 
-## 🧪 Lab Guide ภาษาไทย
+- human workforce access now defaults toward **federation / IAM Identity Center + temporary credentials** rather than routine long-term IAM-user credentials,
+- AWS Organizations supports **centralized root access** for member accounts,
+- new CloudFront + S3 designs should prefer **Origin Access Control (OAC)** over legacy OAI,
+- the current product name is **Amazon Data Firehose** (formerly Amazon Kinesis Data Firehose),
+- new learning workflows should use **AWS CLI v2** as the default baseline.
 
-คู่มือจาก **Architecting on AWS 7.12.4 Lab Guide** ถูกแยกไว้ใน [`Lab-Guide-TH/`](./Lab-Guide-TH/) โดยแปลคำอธิบายเป็นไทย แต่คงชื่อปุ่ม เมนู field ค่า config คำสั่ง CLI และ JSON เป็น English ตาม AWS Console เพื่อใช้เปิดทำ Lab ควบคู่กับ Builder Lab ได้ง่าย
-
-| Lab | หัวข้อ |
-|---:|---|
-| 1 | Console / AWS CLI / Amazon S3 |
-| 2 | VPC / Public-Private Subnets / IGW / NAT / EC2 |
-| 3 | Aurora / Application Load Balancer / Target Group |
-| 4 | Auto Scaling / Multi-AZ / Aurora Failover / Redundant NAT |
-| 5 | S3 → SNS → SQS → Lambda Serverless Workflow |
-| 6 | CloudFront + S3 Origin + Origin Access Control (OAC) |
-| 7 | Capstone — CloudFormation + Aurora + EFS + ALB + Auto Scaling + WordPress |
-
-[**เปิด Thai Lab Guide →**](./Lab-Guide-TH/)
+Read: [CURRENTNESS-2026.md](./CURRENTNESS-2026.md).
 
 ---
 
-## 📚 Modules
+## Modules
 
 | # | Module | Student Guide pages |
 |---:|---|---:|
-| 1 | [Architecting Fundamentals](./Module-01-Architecting-Fundamentals.md) | 26–66 |
-| 2 | [Account Security](./Module-02-Account-Security.md) | 67–113 |
-| 3 | [Networking 1](./Module-03-Networking-1.md) | 114–159 |
-| 4 | [Compute](./Module-04-Compute.md) | 160–217 |
-| 5 | [Storage](./Module-05-Storage.md) | 218–275 |
-| 6 | [Database Services](./Module-06-Database-Services.md) | 276–330 |
-| 7 | [Monitoring and Scaling](./Module-07-Monitoring-and-Scaling.md) | 331–394 |
-| 8 | [Automation](./Module-08-Automation.md) | 395–426 |
-| 9 | [Containers](./Module-09-Containers.md) | 427–461 |
+| 01 | [Architecting Fundamentals](./Module-01-Architecting-Fundamentals.md) | 26–66 |
+| 02 | [Account Security](./Module-02-Account-Security.md) | 67–113 |
+| 03 | [Networking 1](./Module-03-Networking-1.md) | 114–159 |
+| 04 | [Compute](./Module-04-Compute.md) | 160–217 |
+| 05 | [Storage](./Module-05-Storage.md) | 218–275 |
+| 06 | [Database Services](./Module-06-Database-Services.md) | 276–330 |
+| 07 | [Monitoring and Scaling](./Module-07-Monitoring-and-Scaling.md) | 331–394 |
+| 08 | [Automation](./Module-08-Automation.md) | 395–426 |
+| 09 | [Containers](./Module-09-Containers.md) | 427–461 |
 | 10 | [Networking 2](./Module-10-Networking-2.md) | 462–499 |
 | 11 | [Serverless](./Module-11-Serverless.md) | 500–546 |
 | 12 | [Edge Services](./Module-12-Edge-Services.md) | 547–602 |
 | 13 | [Backup and Recovery](./Module-13-Backup-and-Recovery.md) | 603–650 |
 
+Each module combines the original Part 1/Part 2 reader material into one GitHub-friendly file and includes durable Mermaid/original SVG visuals.
+
 ---
 
-## 🧭 Suggested Study Paths
+## Thai Lab Guide
 
-### Full Course
+| Lab | Focus |
+|---:|---|
+| 01 | Console / AWS CLI / Amazon S3 |
+| 02 | VPC / public-private subnets / IGW / NAT / EC2 |
+| 03 | Aurora / Application Load Balancer / Target Group |
+| 04 | Auto Scaling / Multi-AZ / Aurora failover / redundant NAT |
+| 05 | S3 → SNS → SQS → Lambda serverless workflow |
+| 06 | CloudFront + S3 origin — modern designs should prefer OAC |
+| 07 | Capstone — CloudFormation + Aurora + EFS + ALB + Auto Scaling + WordPress |
+
+[Open Thai Lab Guide →](./Lab-Guide-TH/)
+
+These files are learning companions. AWS-hosted classroom lab environments and instructor-provided resources remain authoritative for the official hands-on experience.
+
+---
+
+## Recommended study paths
+
+### Full course
 
 ```text
-Module 1 → 2 → 3 → ... → 13
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13
 ```
 
-เหมาะกับการเรียนเนื้อหาตามลำดับ Student Guide และทำ Knowledge Check / Labs ไปพร้อมกัน
+After each module, answer three questions before moving on:
 
-### Architecture-first Review
+1. **Why does this service/pattern exist?**
+2. **When would I choose it instead of the nearest alternative?**
+3. **If it fails, which layer would I inspect first?**
+
+### Architecture-first review
 
 ```text
 Fundamentals
-   ↓
+    ↓
 Security + Networking
-   ↓
+    ↓
 Compute + Storage + Database
-   ↓
+    ↓
 Monitoring + Automation
-   ↓
+    ↓
 Containers + Networking 2 + Serverless
-   ↓
-Edge + Backup/DR
+    ↓
+Edge + Backup / DR
 ```
 
-### Pre-test / Quick Review
+### Pre-test review
 
-1. ทำ [Mock Exam 65 ข้อ](./MOCK-EXAM-65.md) แบบจับเวลา 120 นาที
-2. เช็กเฉลยและหา Module ที่พลาด
-3. เปิด [EXAM MODE](./EXAM-MODE.md) เพื่อจำ keyword และ common traps
-4. อ่าน [Cheat Sheet](./Architecting-on-AWS_Cheat-Sheet.md)
-5. กลับมาเปิด Module ที่ยังอธิบาย “ทำไม” หรือ “ทำงานอย่างไร” ไม่ได้
-6. ทบทวน Knowledge Check และ Lab architecture ของ Module ที่ผิดเยอะ
+1. Read [Currentness Overlay](./CURRENTNESS-2026.md) first so you do not memorize a legacy recommendation as today's default.
+2. Do [MOCK-EXAM-65.md](./MOCK-EXAM-65.md) under time pressure.
+3. Review [MOCK-EXAM-65-ANSWER-KEY.md](./MOCK-EXAM-65-ANSWER-KEY.md).
+4. Use [EXAM-MODE.md](./EXAM-MODE.md) to connect keywords → architecture/service family.
+5. Use the [Cheat Sheet](./Architecting-on-AWS_Cheat-Sheet.md).
+6. Return to modules where you cannot explain the reasoning without looking.
 
 ---
 
-## 🎯 High-value Topics
+## High-value mental models
 
-- AWS Well-Architected Framework — 6 Pillars
-- IAM policy evaluation, Explicit Deny, SCP และ Permissions Boundary
+- AWS Well-Architected Framework — six pillars
+- IAM policy evaluation, explicit deny, permissions boundaries and SCPs
+- Federation / temporary credentials vs long-term credentials
 - Security Group vs Network ACL
-- Public vs Private subnet / IGW / NAT Gateway
-- EC2 User Data vs Instance Metadata
-- EBS vs Instance Store
-- S3 storage classes / Versioning / Lifecycle
-- EFS vs FSx vs S3 vs EBS
-- RDS Multi-AZ vs Read Replica
-- DynamoDB consistency / capacity / DAX
+- Public/private subnet, IGW, NAT and routing
+- EC2 user data vs instance metadata / IMDSv2
+- EBS vs instance store; object vs block vs shared file storage
+- S3 lifecycle/versioning and storage-class decisions
+- RDS Multi-AZ vs read scaling vs backup/recovery
+- DynamoDB capacity/consistency/caching
 - CloudWatch vs CloudTrail vs VPC Flow Logs
-- ALB vs NLB vs GWLB
-- Auto Scaling components and policies
-- CloudFormation / CDK / Systems Manager
-- ECS vs EKS / EC2 vs Fargate
-- VPC Endpoint vs Peering vs VPN vs Direct Connect vs Transit Gateway
-- SQS vs SNS vs Kinesis vs Step Functions
-- Route 53 routing policies
-- CloudFront vs Route 53
-- Shield vs WAF vs Firewall Manager
-- RPO vs RTO
-- Backup & Restore vs Pilot Light vs Warm Standby vs Active/Active
+- ALB/NLB/GWLB and Auto Scaling
+- CloudFormation / Systems Manager automation
+- ECS vs EKS; EC2 vs Fargate
+- VPC endpoint/PrivateLink vs peering vs VPN vs Direct Connect vs Transit Gateway
+- SQS vs SNS vs streaming vs orchestration
+- Route 53 vs CloudFront vs Global Accelerator
+- CloudFront OAC for modern private S3 origins
+- RPO/RTO and Backup & Restore / Pilot Light / Warm Standby / Multi-Site patterns
 
 ---
 
-## 🗂️ Reader vs Master Copy
+## Reader vs private master
 
-### GitHub Reader — this folder
+### GitHub reader
 
-- 1 Markdown file ต่อ Module
-- Thai Lab Guide แยก folder สำหรับ Lab 1–7
-- เปิดอ่านง่ายบนมือถือ/Browser
-- GitHub render Markdown และ Mermaid ให้ทันที
-- ไม่มี dependency กับ local `assets/` จึงไม่เจอปัญหารูป relative path แบบ Google Drive mobile
+Designed for portable learning:
 
-### Google Drive Master
+- one Markdown file per module,
+- Thai explanations with official English service terminology,
+- Mermaid/original architecture summaries,
+- lab companions and review tools,
+- currentness/source/QA metadata.
 
-- 26 detailed notes แบ่ง Part 1/Part 2
-- source screenshots / `assets/` จาก Student Guide
-- `00_INDEX.md`
-- Cheat Sheet
+### Private master/reference material
+
+Licensed course material and source screenshots should remain in the private reference location when redistribution rights are not clear.
+
+Historical `assets/source/` files still exist in this repository today and are explicitly tracked as a cleanup blocker in [PROVENANCE.md](./PROVENANCE.md). Do not add more source screenshots.
 
 ---
 
-## Source / freshness note
+## Source and maintenance policy
 
-เอกสาร Study Notes สรุปจาก **Architecting on AWS 7.12.4 Student Guide** ส่วน Lab Guide ภาษาไทยแปลงจาก **Architecting on AWS 7.12.4 Lab Guide** โดยยึด terminology และลำดับขั้นตอนของต้นฉบับเป็นหลัก
+Use [SOURCES.md](./SOURCES.md) for source priority and documentation families.
 
-เพราะ AWS service behavior, UI, limits, pricing และ product lifecycle เปลี่ยนได้ เนื้อหาใน package นี้ควรถูกตรวจซ้ำกับ current AWS documentation ก่อนใช้กับงาน production หรือก่อนประกาศเป็น current reference แบบไม่ผูกกับ course version
+Before using a fact in production, recheck current AWS documentation when it depends on:
 
-ก่อนเผยแพร่ repo เป็น public ให้ review provenance/licensing ของภาพหรือข้อความที่มาจาก course material และแทนที่ด้วย original diagrams เมื่อ redistribution rights ไม่ชัดเจน
+- pricing,
+- quotas/limits,
+- Region or AZ availability,
+- instance families,
+- exact supported integrations,
+- service lifecycle/deprecation,
+- security defaults,
+- console navigation.
+
+The durable value of this package is the architecture reasoning. Volatile operational facts must stay tied to current AWS documentation.

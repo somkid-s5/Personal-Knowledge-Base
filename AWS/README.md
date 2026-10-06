@@ -15,7 +15,7 @@ flowchart LR
 
 ## Courses
 
-- [Architecting on AWS 7.12.4](./Courses/Architecting-on-AWS-7.12.4/) — detailed Thai source-ingestion notes from the versioned AWS course, diagrams, labs and review material.
+- [Architecting on AWS 7.12.4](./Courses/Architecting-on-AWS-7.12.4/) — **Verified Course Scope**: 13/13 module families + 7/7 companion lab guides mapped to the current AWS course outline, with a 2026 currentness overlay, source map and formal QA matrix. Public-redistribution provenance cleanup is still pending for historical source screenshots.
 
 ## Certifications
 
