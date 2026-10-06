@@ -14,6 +14,7 @@
     "README.md",
     "AGENTS.md",
     "SKILL.md",
+    "skills/**/*.md",
     "docs/**/*.md",
     "templates/**/*.md",
     "AWS/README.md",

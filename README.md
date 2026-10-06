@@ -18,7 +18,8 @@ This repository is designed to store **structured study notes, diagrams, labs, r
 
 ### Repository standards
 - [AGENTS.md](./AGENTS.md) — mandatory rules for humans and AI agents
-- [SKILL.md](./SKILL.md) — workflow for building new learning content
+- [SKILL.md](./SKILL.md) — authoring router that selects the correct source mode
+- [Authoring Skills](./skills/) — Internet-first and Source-ingestion workflows
 - [Repository Architecture](./docs/REPOSITORY-ARCHITECTURE.md)
 - [Content Standard](./docs/CONTENT-STANDARD.md)
 - [Source & Fact-Checking Policy](./docs/SOURCE-POLICY.md)
@@ -26,6 +27,13 @@ This repository is designed to store **structured study notes, diagrams, labs, r
 - [Quality Gate](./docs/QUALITY-GATE.md)
 - [Repository Audit & Roadmap — 2026-10-06](./docs/REPOSITORY-AUDIT-2026-10-06.md)
 - [Templates](./templates/)
+
+### Two ways to build new learning content
+
+1. **Internet-first** — build from scratch using the current official exam guide, learning path, course syllabus and product documentation as the source of truth.
+2. **Source-ingestion** — start from PDFs/slides/docs/images/course files supplied by the user, read and account for the full source set, then reconstruct it into this repository format. Current web research becomes a clearly labeled supplement when needed.
+
+See [SKILL.md](./SKILL.md) for routing rules.
 
 ---
 
@@ -47,9 +55,12 @@ This repository is designed to store **structured study notes, diagrams, labs, r
 Cloud-Engineer/
 ├─ README.md
 ├─ AGENTS.md
-├─ SKILL.md
-├─ docs/                         # repository-wide standards
-├─ templates/                    # reusable note/lab/package templates
+├─ SKILL.md                       # authoring-mode router
+├─ skills/
+│  ├─ INTERNET-FIRST-CURRICULUM.md
+│  └─ SOURCE-INGESTION-CURRICULUM.md
+├─ docs/                          # repository-wide standards
+├─ templates/                     # reusable note/lab/package templates
 ├─ AWS/
 │  ├─ README.md
 │  ├─ Courses/
@@ -85,31 +96,36 @@ For flow-heavy subjects, diagrams are part of the explanation rather than decora
 
 ## Adding a new course, certification or topic
 
-Follow this sequence:
+The first decision is now the source mode:
 
 ```mermaid
-flowchart LR
-    S[Lock official scope/source] --> I[Inventory objectives or syllabus]
+flowchart TD
+    N[New content] --> Q{Substantial course/source files supplied?}
+    Q -->|No| I[Internet-first skill]
+    Q -->|Yes| S[Source-ingestion skill]
     I --> P[Plan learning package]
+    S --> P
     P --> W[Write for understanding]
     W --> V[Visual pass]
     V --> X[Practice / troubleshooting]
-    X --> F[Fact-check]
-    F --> Q[Quality gate]
-    Q --> N[Publish + update navigation]
+    X --> F[Fact-check / source fidelity]
+    F --> QG[Quality gate]
+    QG --> PUB[Publish + update navigation]
 ```
 
-The detailed workflow is in [SKILL.md](./SKILL.md). Reuse files under [`templates/`](./templates/) rather than inventing a new format for every package.
+The detailed routing and workflows are in [SKILL.md](./SKILL.md) and [`skills/`](./skills/). Reuse files under [`templates/`](./templates/) rather than inventing a new format for every package.
 
 ---
 
 ## Accuracy and maintenance principles
 
-- Prefer official exam guides, learning paths and vendor documentation as primary sources.
+- Internet-first content should prefer official exam guides, learning paths and vendor documentation as primary sources.
+- Source-ingestion content should preserve traceability to the supplied course/source set and label later Internet updates separately.
 - Record verification dates for changing certification/course/product scope.
 - Avoid freezing volatile pricing, quota, availability or product lifecycle facts as timeless truths.
 - Keep official service names, commands, API names and menu labels searchable in English.
 - Do not store credentials, production secrets, exam dumps or proprietary grader solutions.
+- Do not redistribute proprietary course figures/screenshots without appropriate rights; prefer original explanatory diagrams.
 - A structural cleanup should preserve technical meaning; content rewrites and path migrations should be reviewable separately when possible.
 
 ---

@@ -1,85 +1,156 @@
-# SKILL.md — Build High-Quality Learning Content
+# SKILL.md — Learning Content Authoring Router
 
-Use this workflow whenever creating a new course, certification, topic pack, lab set or major content expansion in this repository.
+Use this file before creating a new course, certification, topic pack, lab set or major content expansion.
 
-## 1. Lock the scope
-Write down:
-- target learner,
-- target outcome,
-- official syllabus/exam/course source of truth,
-- what is included,
-- what is intentionally excluded,
-- verification date for time-sensitive scope.
+The repository supports **two primary authoring modes**. Select the mode from the source situation before writing content.
 
-Do not start by writing modules from memory.
+## Choose the primary mode
 
-## 2. Build an inventory first
-Create a checklist of official objectives/activities/chapters before authoring. Map each item to a planned file or section. For certifications, create a QA matrix early so missing objectives are visible before writing is considered complete.
+```mermaid
+flowchart TD
+    START[New learning-content task] --> Q{User supplied a complete or substantial course/source set?}
+    Q -->|No| A[Mode A — Internet-first]
+    Q -->|Yes| B[Mode B — Source-ingestion]
+    B --> C{Need current platform verification or missing context?}
+    C -->|Yes| H[Use Internet research only as labeled supplement]
+    C -->|No| S[Stay source-faithful]
+    A --> QA[Shared repository standards + Quality Gate]
+    H --> QA
+    S --> QA
+```
 
-## 3. Scaffold the learning package
-Minimum package:
+### Mode A — Internet-first Curriculum Builder
+
+Read and follow [`skills/INTERNET-FIRST-CURRICULUM.md`](./skills/INTERNET-FIRST-CURRICULUM.md).
+
+Use when:
+
+- no complete course/source set was supplied,
+- the user asks to build notes/course content from scratch,
+- current certification objectives or current product documentation define the scope,
+- Internet/official documentation research is expected to establish the curriculum.
+
+Primary source of truth: **current official Internet sources**.
+
+### Mode B — Source-ingestion Curriculum Builder
+
+Read and follow [`skills/SOURCE-INGESTION-CURRICULUM.md`](./skills/SOURCE-INGESTION-CURRICULUM.md).
+
+Use when:
+
+- the user uploads PDFs, slides, docs, screenshots, lab guides or course exports,
+- a named course/book/source set is intended to drive the notes,
+- the agent must read/understand the supplied material before constructing the learning package.
+
+Primary source of truth: **the supplied source set**, with Internet content separated as current verification/enrichment when requested.
+
+## Hybrid rule
+
+When both a supplied course and current Internet research matter, **Source-ingestion remains the primary mode**.
+
+Do this:
+
+```text
+supplied course
+→ complete source inventory and comprehension
+→ repository teaching reconstruction
+→ optional current official-doc verification
+→ clearly labeled supplement/delta notes
+```
+
+Do **not** silently replace old course content with current web content or mix the two so the learner cannot tell which source taught what.
+
+## Shared repository contract
+
+Both modes must follow:
+
+- [`AGENTS.md`](./AGENTS.md)
+- [`docs/REPOSITORY-ARCHITECTURE.md`](./docs/REPOSITORY-ARCHITECTURE.md)
+- [`docs/CONTENT-STANDARD.md`](./docs/CONTENT-STANDARD.md)
+- [`docs/SOURCE-POLICY.md`](./docs/SOURCE-POLICY.md)
+- [`docs/VISUAL-STANDARD.md`](./docs/VISUAL-STANDARD.md)
+- [`docs/QUALITY-GATE.md`](./docs/QUALITY-GATE.md)
+
+## Shared package scaffold
+
+Minimum package shape depends on scope, but substantial learning packages should converge on:
 
 ```text
 <Provider-or-Domain>/<Content-Type>/<Package>/
 ├─ README.md
+├─ SOURCE-MANIFEST.md             # strongly recommended; required by both skills for substantial packs
+├─ SOURCE-COVERAGE.md             # source-ingestion mode
 ├─ Module-01-*.md or modules/
-├─ Lab-Guide-TH/ or labs/          # when hands-on content exists
-├─ assets/                         # diagrams/source images when needed
-├─ CHEAT-SHEET.md                  # optional but recommended for large packs
-├─ GLOSSARY.md                     # optional
-└─ QA-MATRIX.md                    # required for certification/syllabus-complete claims
+├─ Lab-Guide-TH/ or labs/         # when hands-on content exists
+├─ assets/                        # original/reusable diagrams/images
+├─ CHEAT-SHEET.md                 # optional review layer
+├─ GLOSSARY.md                    # optional
+└─ QA-MATRIX.md                   # required for formal completeness claims
 ```
 
-A package README must answer: what this is, who it is for, source/scope, learning order, status, last verified date, quick links, and how to know when the learner is done.
+A package README must answer: what this is, who it is for, build mode, source/scope, learning order, status, last verified date, quick links, exclusions and how to know when the learner is done.
 
-## 4. Author for understanding
+## Shared teaching standard
+
 Every major concept should answer as many of these as applicable:
+
 1. What problem does it solve?
 2. What is the mental model?
 3. How does data/request/identity flow?
 4. When should I choose it?
-5. What are the main alternatives and tradeoffs?
+5. What are the alternatives and tradeoffs?
 6. What can fail and how do I investigate it?
 7. What security/cost/availability implications matter?
 8. What should I be able to explain or do after this section?
 
-Avoid content that is only a list of product names or definitions.
+Avoid content that is only headings, definitions or product-name lists.
 
-## 5. Visual pass
-Apply `docs/VISUAL-STANDARD.md` after the first draft. Add visuals for hierarchies, flows, state/lifecycle, architecture, comparisons and troubleshooting decision paths. Prefer Mermaid for durable conceptual diagrams.
+## Shared visual standard
 
-## 6. Practice pass
-Add one or more of:
-- mini scenario,
-- decision question,
-- command walkthrough,
-- troubleshooting case,
-- official lab crosswalk,
-- companion lab.
+Apply `docs/VISUAL-STANDARD.md` after the first conceptual draft. Add visuals for hierarchies, flows, state/lifecycle, architecture, comparison/decision and troubleshooting paths.
 
-Never copy proprietary grader steps or exam dumps.
+Prefer original Mermaid/flow maps over copied screenshots or proprietary figures.
 
-## 7. Fact-check pass
-Apply `docs/SOURCE-POLICY.md`:
-- use official primary sources first,
-- verify current names/lifecycle/scope,
-- mark volatile facts with date/source,
-- remove unsupported claims,
-- separate durable concepts from fast-changing product details.
+## Shared practice standard
 
-## 8. Quality gate
-Run the checklist in `docs/QUALITY-GATE.md`. A package cannot be called `Complete`, `100%`, or equivalent until its declared scope passes the gate and the QA matrix shows no unresolved objective gap.
+Use official labs by reference/crosswalk where appropriate and create original companion exercises when useful.
 
-## 9. Publish/update navigation
-Update in the same change:
+Never copy:
+
+- exam dumps,
+- hidden grader logic,
+- proprietary challenge answers,
+- paid course passages or figures beyond permitted use.
+
+## Shared completion rule
+
+A package cannot be called `Complete`, `Verified`, `100%` or equivalent until:
+
+- its declared scope is explicit,
+- its selected authoring skill's coverage requirements pass,
+- no known objective/source unit is silently missing,
+- content is teachable rather than enumerated,
+- visual/decision/operation/troubleshooting coverage exists where applicable,
+- provenance/source dates are recorded,
+- `docs/QUALITY-GATE.md` passes,
+- repository CI/navigation checks pass.
+
+## Publishing
+
+Update in the same change when applicable:
+
 - package README,
+- source manifest/coverage files,
+- QA matrix,
 - provider/domain README,
 - root README catalog,
-- moved-path references if structure changed.
+- moved-path references.
 
 ## Writing style
+
 - Default explanation language: Thai.
 - Keep official service names, CLI/API/menu labels and code in English.
-- Prefer clear paragraphs, tables and diagrams over dense walls of bullets.
-- Explain first, then summarize. Do not reduce full study notes into cheat sheets unless the file is explicitly a cheat sheet.
-- Write for future maintenance: avoid unnecessary screenshots, volatile exact prices and undocumented assumptions.
+- Explain first, then summarize.
+- Prefer coherent paragraphs, tables and diagrams over walls of bullets.
+- Do not reduce full learning material into a cheat sheet unless the requested artifact is explicitly a cheat sheet.
+- Optimize for long-term understanding and maintainability, not maximum file count.
