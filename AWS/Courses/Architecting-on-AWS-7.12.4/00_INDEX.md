@@ -1,13 +1,21 @@
 # Architecting on AWS 7.12.4 — Mobile Index
 
-> 📱 Reader index for the GitHub mobile edition.  
-> Source: **Architecting on AWS 7.12.4 (EN) — Student Guide**  
-> Coverage: **Module 1–13, pages 26–650**
+> 📱 Reader index for the GitHub mobile edition  
+> Historical source: **Architecting on AWS 7.12.4 (EN) — Student Guide**  
+> Coverage: **Module 1–13, pages 26–650**  
+> Course/currentness QA reviewed: **2026-10-06**
 
 ## Quick access
 
-- ⚡ [Cheat Sheet — ทบทวนเร็วทั้งคอร์ส](./Architecting-on-AWS_Cheat-Sheet.md)
 - 🏠 [Reader Home](./README.md)
+- ✅ [Course QA Matrix — 13/13 module scope](./COURSE-QA-MATRIX.md)
+- 🔄 [Currentness Overlay — important 2026 AWS deltas](./CURRENTNESS-2026.md)
+- 🔎 [Sources](./SOURCES.md)
+- 🧾 [Provenance / redistribution review](./PROVENANCE.md)
+- ⚡ [Cheat Sheet — ทบทวนเร็วทั้งคอร์ส](./Architecting-on-AWS_Cheat-Sheet.md)
+- 🧭 [Exam Mode](./EXAM-MODE.md)
+- 📝 [Mock Exam 65](./MOCK-EXAM-65.md)
+- 🧪 [Thai Lab Guide](./Lab-Guide-TH/)
 
 ## Modules
 
@@ -30,7 +38,11 @@
 ## Recommended order
 
 ```text
+QA/currentness overview
+        ↓
 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13
+        ↓
+Labs / Mock Exam / Review
 ```
 
-> GitHub copy รวม Part 1 + Part 2 ของแต่ละ Module เป็นไฟล์เดียวเพื่ออ่านบนมือถือได้ง่ายขึ้น ส่วน Google Drive Master ยังเก็บ 26 detailed notes และ source screenshots ไว้ครบ.
+> GitHub copy combines Part 1 + Part 2 of each module into one file for easier reading. Licensed source material and source screenshots belong in the private master/reference location; see [PROVENANCE.md](./PROVENANCE.md).
