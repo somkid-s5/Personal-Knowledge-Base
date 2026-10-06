@@ -19,7 +19,7 @@ flowchart LR
 
 ## Certifications
 
-- [AWS Certified Solutions Architect – Associate (SAA-C03)](./Certifications/SAA-C03/) — canonical SAA study hub connecting current exam scope, the Architecting course, hands-on projects and six practice-test walkthroughs.
+- [AWS Certified Solutions Architect – Associate (SAA-C03)](./Certifications/SAA-C03/) — **Verified Current Objective Scope**: 14/14 tasks and 189/189 published Knowledge/Skill bullets mapped to teachable content as of 2026-10-06, with a current-scope deep dive, objective QA matrix, hands-on mappings and 20 original architecture scenarios. Legacy third-party practice wording still has a separate provenance review.
 
 ## Projects
 
