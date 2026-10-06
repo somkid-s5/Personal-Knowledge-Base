@@ -9,17 +9,17 @@ resource "aws_rds_global_cluster" "thaipay" {
 
 # Primary Cluster (Singapore)
 resource "aws_rds_cluster" "primary" {
-  provider                  = aws.primary
-  cluster_identifier        = "thaipay-primary"
-  global_cluster_identifier = aws_rds_global_cluster.thaipay.id
-  engine                    = aws_rds_global_cluster.thaipay.engine
-  engine_version            = aws_rds_global_cluster.thaipay.engine_version
-  database_name             = aws_rds_global_cluster.thaipay.database_name
-  master_username           = "admin"
-  master_password           = "Password123!" # IRL: Use AWS Secrets Manager
-  skip_final_snapshot       = true
-  db_subnet_group_name      = aws_db_subnet_group.primary.name
-  vpc_security_group_ids    = [aws_security_group.db_primary.id]
+  provider                    = aws.primary
+  cluster_identifier          = "thaipay-primary"
+  global_cluster_identifier   = aws_rds_global_cluster.thaipay.id
+  engine                      = aws_rds_global_cluster.thaipay.engine
+  engine_version              = aws_rds_global_cluster.thaipay.engine_version
+  database_name               = aws_rds_global_cluster.thaipay.database_name
+  master_username             = "admin"
+  manage_master_user_password = true
+  skip_final_snapshot         = true
+  db_subnet_group_name        = aws_db_subnet_group.primary.name
+  vpc_security_group_ids      = [aws_security_group.db_primary.id]
 }
 
 resource "aws_rds_cluster_instance" "primary_instance" {
@@ -185,7 +185,7 @@ resource "aws_iam_role" "replication" {
 }
 
 resource "aws_s3_bucket_replication_configuration" "replication" {
-  provider = aws.primary
+  provider   = aws.primary
   depends_on = [aws_s3_bucket_versioning.primary_versioning]
 
   role   = aws_iam_role.replication.arn
