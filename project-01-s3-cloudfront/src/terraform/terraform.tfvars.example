@@ -1,0 +1,5 @@
+# Example Terraform Variables
+aws_region  = "ap-southeast-1"
+aws_profile = "thaidemo-dev"
+bucket_name = "app.thaidemo.co"
+domain_name = "thaidemo.co"

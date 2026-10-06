@@ -1,0 +1,26 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-s3
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-s3:v1.0.0
+---
+apiVersion: aws.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: WebIdentity
+    webIdentity:
+      roleArn: arn:aws:iam::123456789012:role/crossplane-role # Replace with actual role
+---
+# Example: Managed Resource (S3 Bucket) via Crossplane
+apiVersion: s3.aws.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  name: thaidemo-crossplane-bucket
+spec:
+  forProvider:
+    region: ap-southeast-1
+  deletionPolicy: Delete

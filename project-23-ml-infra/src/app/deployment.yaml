@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thaivision-inference
+  labels:
+    app: thaivision
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thaivision
+  template:
+    metadata:
+      labels:
+        app: thaivision
+    spec:
+      containers:
+      - name: model-server
+        image: 763104351884.dkr.ecr.ap-southeast-1.amazonaws.com/pytorch-inference:2.0.1-gpu-py310
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            nvidia.com/gpu: 1 # Request 1 GPU from Karpenter
+          requests:
+            cpu: "1"
+            memory: "2Gi"
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"

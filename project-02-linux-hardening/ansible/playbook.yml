@@ -1,0 +1,10 @@
+---
+- name: Hardening Linux Servers
+  hosts: webservers
+  become: yes
+
+  roles:
+    - common
+    - ssh
+    - firewall
+    - fail2ban

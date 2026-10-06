@@ -1,0 +1,52 @@
+name: Container Security Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  IMAGE_NAME: thaidemo-app
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} -f src/docker/Dockerfile .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.IMAGE_NAME }}:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Setup OPA
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: 'latest'
+
+      - name: Extract Docker Image config for OPA
+        run: |
+          docker inspect ${{ env.IMAGE_NAME }}:${{ github.sha }} > image_config.json
+
+      - name: Evaluate OPA Policy
+        run: |
+          opa eval --fail-defined -i image_config.json -d src/opa/policies/container_policy.rego "data.docker.policy.deny"
+
+      # Assume image is pushed to registry before signing in real scenario
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.4.0
+
+      - name: Check install!
+        run: cosign version
+        
+      # Note: Actual signing requires registry authentication and pushing the image first.
+      # This step serves as a demonstration of the Cosign tool in the pipeline.
+      - name: Sign image with Cosign (Keyless)
+        run: echo "In a real pipeline with a pushed image, we would run: cosign sign --yes registry.com/${{ env.IMAGE_NAME }}:${{ github.sha }}"
