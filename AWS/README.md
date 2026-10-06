@@ -2,11 +2,33 @@
 
 [Back to repository root](../README.md)
 
+AWS content is organized as separate source-aware packages that combine into one learning system: long-form courses for theory, certification hubs for current exam scope/practice, and hands-on projects for real implementation.
+
+## Recommended AWS path
+
+```mermaid
+flowchart LR
+    A[Architecting on AWS Course] --> B[SAA-C03 Current Exam Hub]
+    B --> C[Cloud Engineer Lab Projects]
+    C --> D[Practice / Review]
+```
+
 ## Courses
-- [Architecting on AWS 7.12.4](./Courses/Architecting-on-AWS-7.12.4/) — detailed Thai course notes, diagrams, labs and review material.
+
+- [Architecting on AWS 7.12.4](./Courses/Architecting-on-AWS-7.12.4/) — detailed Thai source-ingestion notes from the versioned AWS course, diagrams, labs and review material.
 
 ## Certifications
-- [AWS Certified Solutions Architect – Associate (SAA-C03)](./Certifications/SAA-C03/) — practice-exam walkthroughs and explanations.
+
+- [AWS Certified Solutions Architect – Associate (SAA-C03)](./Certifications/SAA-C03/) — canonical SAA study hub connecting current exam scope, the Architecting course, hands-on projects and six practice-test walkthroughs.
+
+## Projects
+
+- [Cloud Engineer Lab](./Projects/Cloud-Engineer-Lab/) — 34 AWS-centered hands-on projects plus preparation setup, progressing from foundation through architect-level scenarios with Terraform, Kubernetes, CI/CD, security, FinOps and observability.
+
+## Why these stay as separate packages
+
+The course, certification and project track have different source identities and maintenance cycles. Keeping them separate avoids duplicate theory and preserves provenance, while the certification hub connects them into a single learner experience.
 
 ## Structure for future AWS content
-Use `Courses/`, `Certifications/`, `Topics/` or `Projects/` according to `../docs/REPOSITORY-ARCHITECTURE.md`.
+
+Use `Courses/`, `Certifications/`, `Topics/` or `Projects/` according to [`docs/REPOSITORY-ARCHITECTURE.md`](../docs/REPOSITORY-ARCHITECTURE.md).
