@@ -30,6 +30,7 @@ See [CURRENT-EXAM-MAP.md](./CURRENT-EXAM-MAP.md) for the current study map.
 Current teaching artifacts:
 
 - [Domain 1 — Security Principles](./01-Security-Principles.md)
+- [Domain 3 — Identity and Access Management](./03-Identity-Access-Management.md)
 - [Current Study Plan](./STUDY-PLAN.md)
 
 ## Source model
@@ -56,7 +57,7 @@ The repository does **not** copy the proprietary PDFs themselves.
 
 1. Read [CURRENT-EXAM-MAP.md](./CURRENT-EXAM-MAP.md) to understand the 2026 target.
 2. Follow [STUDY-PLAN.md](./STUDY-PLAN.md) for the current recommended sequence.
-3. Start with [Domain 1 — Security Principles](./01-Security-Principles.md), then move to Domain 3 to establish security and access-control mental models.
+3. Start with [Domain 1 — Security Principles](./01-Security-Principles.md), then continue with [Domain 3 — Identity and Access Management](./03-Identity-Access-Management.md).
 4. Continue with Domain 4 because networking/cloud security is the largest technical domain.
 5. Study Domain 2 to connect governance, resilience and security awareness.
 6. Finish with Domain 5 to connect daily operations, monitoring, incident response and testing.
@@ -71,7 +72,7 @@ Already done:
 - private Drive source set inventoried,
 - pre-2026 material clearly separated from current scope,
 - current-source and QA scaffolding created,
-- first current teaching note created for Domain 1,
+- current teaching notes created for Domain 1 and Domain 3,
 - historical Thor study-plan concepts reconstructed into a current 2026 study plan.
 
 Still pending:
@@ -79,8 +80,8 @@ Still pending:
 - full read of every private source file,
 - source-to-2026-objective mapping,
 - identification of 2026 topics missing from older material,
-- Domain 2–5 Thai teaching notes,
-- full source-fidelity pass for Domain 1 material,
+- Domain 2, 4 and 5 Thai teaching notes,
+- full source-fidelity pass for Domain 1 and Domain 3 material,
 - original diagrams and practice scenarios,
 - final quality-gate review.
 

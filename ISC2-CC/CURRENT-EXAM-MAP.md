@@ -83,6 +83,8 @@ This domain is broader than the older CC Domain 2 organization and must not be m
 
 ## Domain 3 — Identity and Access Management Concepts
 
+Teaching note: [03-Identity-Access-Management.md](./03-Identity-Access-Management.md)
+
 Current study buckets:
 
 - identity lifecycle: define role → provision → review → deprovision,
