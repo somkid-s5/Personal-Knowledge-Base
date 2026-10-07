@@ -22,11 +22,11 @@ The following files were discovered under the private `ISC2-CC` course folder.
 | Thor’s Study Guide — CC Domain 1 | PDF | historical foundation | Core concepts reviewed for current Domain 1 reconstruction; full fidelity pass pending |
 | Thor’s Study Guide — CC Domain 2 | PDF | historical foundation | Registered; full ingestion pending |
 | Thor’s Study Guide — CC Domain 3 | PDF | historical foundation | IAM-relevant concepts reviewed and remapped; physical-security material deferred to appropriate current domain; full fidelity pass pending |
-| Thor’s Study Guide — CC Domain 4 | PDF | historical foundation | Registered; full ingestion pending |
+| Thor’s Study Guide — CC Domain 4 | PDF | historical foundation | Current Domain 4 concepts reviewed/remapped; non-current topics deferred to Domain 2/5 or reference-only; full fidelity pass pending |
 | Thor’s Quick Sheets — CC Domain 1 | PDF | historical review aid | Reviewed as supporting Domain 1 reference; full fidelity pass pending |
 | Thor’s Quick Sheets — CC Domain 2 | PDF | historical review aid | Registered; full ingestion pending |
 | Thor’s Quick Sheets — CC Domain 3 | PDF | historical review aid | Reviewed as supporting IAM reference; full fidelity pass pending |
-| Thor’s Quick Sheets — CC Domain 4 | PDF | historical review aid | Registered; full ingestion pending |
+| Thor’s Quick Sheets — CC Domain 4 | PDF | historical review aid | Reviewed as supporting networking/cloud reference; full fidelity pass pending |
 | Thor’s Quick Sheets — CC Domain 5 | PDF | historical review aid | Registered; full ingestion pending |
 | Thor’s Mnemonics — CC | PDF | mnemonic/review aid | Registered; reference review pending |
 | Thor’s Study Plan — CC | PDF | historical study sequencing | Reviewed; reconstructed as current [STUDY-PLAN.md](./STUDY-PLAN.md) |
