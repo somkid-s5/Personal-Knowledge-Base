@@ -234,3 +234,24 @@ module "monitoring" { source = "./modules/monitoring" }
 3. **การร้อยเรียงประสานกัน (Correlation):**
    - ตั้งค่าแอปพลิเคชันผ่าน OpenTelemetry SDK ให้บันทึกข้อมูล `trace_id` และ `span_id` ฝังในระดับ JSON Logs ของแอปพลิเคชันโดยตรง
    - นำข้อมูล Log เหล่านี้ป้อนให้ Grafana และ Loki ถอดแยก Trace ID ออกมาเพื่อเชื่อมกับระบบแสดงกราฟอย่าง Tempo ทำให้สามารถข้ามไปกดเช็คต้นสายปลายเหตุของ Error Logs ได้ทันทีเพียงคลิกเดียว
+
+---
+
+## Cost & Cleanup Safety
+
+> [!CAUTION]
+> Capstone นี้รวมบริการที่มีค่าใช้จ่ายต่อเนื่องหลายชนิด เช่น EKS/EC2, NAT Gateway, ALB, Aurora/RDS, CloudFront, Route 53, observability stack และ multi-region resources จึงไม่ควรปล่อย environment ทิ้งไว้หลังทดลอง
+
+ก่อนเริ่มให้ตั้ง Budget/alert และยืนยัน account/Region ทุกครั้ง
+
+เมื่อจบ lab ให้ cleanup ตาม dependency และ IaC owner:
+
+1. ปิด traffic/test jobs และลบ application-facing resources ที่สร้าง Load Balancer
+2. ลบ Kubernetes workloads และ node capacity
+3. destroy Terraform/Terragrunt stacks ในลำดับที่เหมาะสม
+4. ตรวจ database snapshots/backups ก่อนลบฐานข้อมูล
+5. ตรวจ NAT Gateway, Elastic IP, EBS, Load Balancer, Route 53, WAF และ log/storage resources ที่อาจ orphan
+6. ตรวจทุก Region ที่ใช้ รวมถึง DR Region
+7. เปิด Billing/Cost Explorer ยืนยันว่าไม่มี resource ค่าใช้จ่ายสูงค้าง
+
+ห้ามรัน cleanup กับ production account/state; capstone failure testing ต้องอยู่ใน isolated lab environment
