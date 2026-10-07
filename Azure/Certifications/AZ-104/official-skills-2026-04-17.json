@@ -1,0 +1,701 @@
+{
+  "source": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104",
+  "skills_measured": "2026-04-17",
+  "inventory_type": "Repository paraphrase of current Microsoft Learn skills for coverage QA",
+  "total_skill_bullets": 82,
+  "objectives": [
+    {
+      "code": "1.1",
+      "domain": "Identity & Governance",
+      "title": "Manage Microsoft Entra users and groups",
+      "bullets": [
+        {
+          "id": "1.1.1",
+          "label": "Create users and groups",
+          "checks": [
+            "CREATE USERS AND GROUPS"
+          ]
+        },
+        {
+          "id": "1.1.2",
+          "label": "Manage user and group properties",
+          "checks": [
+            "MANAGE USER/GROUP PROPERTIES"
+          ]
+        },
+        {
+          "id": "1.1.3",
+          "label": "Manage Entra licenses",
+          "checks": [
+            "LICENSES IN MICROSOFT ENTRA ID"
+          ]
+        },
+        {
+          "id": "1.1.4",
+          "label": "Manage external users",
+          "checks": [
+            "MANAGE EXTERNAL USERS"
+          ]
+        },
+        {
+          "id": "1.1.5",
+          "label": "Configure SSPR",
+          "checks": [
+            "SELF-SERVICE PASSWORD RESET"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "1.2",
+      "domain": "Identity & Governance",
+      "title": "Manage access to Azure resources",
+      "bullets": [
+        {
+          "id": "1.2.1",
+          "label": "Manage built-in Azure roles",
+          "checks": [
+            "BUILT-IN ROLES"
+          ]
+        },
+        {
+          "id": "1.2.2",
+          "label": "Assign RBAC roles at appropriate scopes",
+          "checks": [
+            "RBAC MODEL",
+            "SCOPE"
+          ]
+        },
+        {
+          "id": "1.2.3",
+          "label": "Interpret effective/access assignments",
+          "checks": [
+            "RBAC MODEL",
+            "ROLE"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "1.3",
+      "domain": "Identity & Governance",
+      "title": "Manage Azure subscriptions and governance",
+      "bullets": [
+        {
+          "id": "1.3.1",
+          "label": "Implement and manage Azure Policy",
+          "checks": [
+            "AZURE POLICY"
+          ]
+        },
+        {
+          "id": "1.3.2",
+          "label": "Configure resource locks",
+          "checks": [
+            "RESOURCE LOCKS"
+          ]
+        },
+        {
+          "id": "1.3.3",
+          "label": "Apply and manage tags",
+          "checks": [
+            "TAGS"
+          ]
+        },
+        {
+          "id": "1.3.4",
+          "label": "Manage resource groups",
+          "checks": [
+            "RESOURCE GROUPS"
+          ]
+        },
+        {
+          "id": "1.3.5",
+          "label": "Manage subscriptions",
+          "checks": [
+            "SUBSCRIPTIONS"
+          ]
+        },
+        {
+          "id": "1.3.6",
+          "label": "Manage costs with alerts, budgets and Advisor",
+          "checks": [
+            "COST MANAGEMENT"
+          ]
+        },
+        {
+          "id": "1.3.7",
+          "label": "Configure management groups",
+          "checks": [
+            "MANAGEMENT GROUPS"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "2.1",
+      "domain": "Storage",
+      "title": "Configure access to storage",
+      "bullets": [
+        {
+          "id": "2.1.1",
+          "label": "Configure storage firewalls and VNet access",
+          "checks": [
+            "STORAGE FIREWALLS AND VIRTUAL NETWORKS"
+          ]
+        },
+        {
+          "id": "2.1.2",
+          "label": "Create and use SAS",
+          "checks": [
+            "SHARED ACCESS SIGNATURE"
+          ]
+        },
+        {
+          "id": "2.1.3",
+          "label": "Configure stored access policies",
+          "checks": [
+            "STORED ACCESS POLICY"
+          ]
+        },
+        {
+          "id": "2.1.4",
+          "label": "Manage storage access keys",
+          "checks": [
+            "MANAGE ACCESS KEYS"
+          ]
+        },
+        {
+          "id": "2.1.5",
+          "label": "Configure identity-based access for Azure Files",
+          "checks": [
+            "IDENTITY-BASED ACCESS FOR AZURE FILES"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "2.2",
+      "domain": "Storage",
+      "title": "Configure and manage storage accounts",
+      "bullets": [
+        {
+          "id": "2.2.1",
+          "label": "Create and configure storage accounts",
+          "checks": [
+            "CREATE AND CONFIGURE STORAGE ACCOUNTS"
+          ]
+        },
+        {
+          "id": "2.2.2",
+          "label": "Configure storage redundancy",
+          "checks": [
+            "REDUNDANCY"
+          ]
+        },
+        {
+          "id": "2.2.3",
+          "label": "Configure object replication",
+          "checks": [
+            "OBJECT REPLICATION"
+          ]
+        },
+        {
+          "id": "2.2.4",
+          "label": "Configure storage encryption",
+          "checks": [
+            "STORAGE ENCRYPTION"
+          ]
+        },
+        {
+          "id": "2.2.5",
+          "label": "Move/manage data with Storage Explorer and AzCopy",
+          "checks": [
+            "STORAGE EXPLORER",
+            "AZCOPY"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "2.3",
+      "domain": "Storage",
+      "title": "Configure Azure Files and Azure Blob Storage",
+      "bullets": [
+        {
+          "id": "2.3.1",
+          "label": "Create/configure Azure Files shares",
+          "checks": [
+            "AZURE FILES"
+          ]
+        },
+        {
+          "id": "2.3.2",
+          "label": "Create/configure Blob containers",
+          "checks": [
+            "AZURE BLOB STORAGE"
+          ]
+        },
+        {
+          "id": "2.3.3",
+          "label": "Configure storage access tiers",
+          "checks": [
+            "ACCESS TIERS"
+          ]
+        },
+        {
+          "id": "2.3.4",
+          "label": "Configure soft delete for blobs and containers",
+          "checks": [
+            "SOFT DELETE"
+          ]
+        },
+        {
+          "id": "2.3.5",
+          "label": "Configure Azure Files snapshots and soft delete",
+          "checks": [
+            "AZURE FILES",
+            "SNAPSHOTS"
+          ]
+        },
+        {
+          "id": "2.3.6",
+          "label": "Configure blob lifecycle management",
+          "checks": [
+            "LIFECYCLE MANAGEMENT"
+          ]
+        },
+        {
+          "id": "2.3.7",
+          "label": "Configure blob versioning",
+          "checks": [
+            "Blob versioning"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "3.1",
+      "domain": "Compute",
+      "title": "Automate deployment with ARM templates or Bicep",
+      "bullets": [
+        {
+          "id": "3.1.1",
+          "label": "Interpret ARM templates or Bicep",
+          "checks": [
+            "ARM TEMPLATE",
+            "BICEP"
+          ]
+        },
+        {
+          "id": "3.1.2",
+          "label": "Modify ARM templates",
+          "checks": [
+            "ARM TEMPLATE"
+          ]
+        },
+        {
+          "id": "3.1.3",
+          "label": "Modify Bicep files",
+          "checks": [
+            "BICEP"
+          ]
+        },
+        {
+          "id": "3.1.4",
+          "label": "Deploy resources with ARM/Bicep",
+          "checks": [
+            "DEPLOYMENT"
+          ]
+        },
+        {
+          "id": "3.1.5",
+          "label": "Export ARM deployments or convert ARM to Bicep",
+          "checks": [
+            "EXPORT / CONVERT"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "3.2",
+      "domain": "Compute",
+      "title": "Create and configure virtual machines",
+      "bullets": [
+        {
+          "id": "3.2.1",
+          "label": "Create virtual machines",
+          "checks": [
+            "CREATE A VM"
+          ]
+        },
+        {
+          "id": "3.2.2",
+          "label": "Configure encryption at host",
+          "checks": [
+            "ENCRYPTION AT HOST"
+          ]
+        },
+        {
+          "id": "3.2.3",
+          "label": "Move VMs across resource group/subscription/region scenarios",
+          "checks": [
+            "MOVE VM"
+          ]
+        },
+        {
+          "id": "3.2.4",
+          "label": "Manage VM sizes",
+          "checks": [
+            "VM SIZE"
+          ]
+        },
+        {
+          "id": "3.2.5",
+          "label": "Manage VM disks",
+          "checks": [
+            "DISKS"
+          ]
+        },
+        {
+          "id": "3.2.6",
+          "label": "Deploy VMs with availability zones/sets",
+          "checks": [
+            "AVAILABILITY SET",
+            "AVAILABILITY ZONE"
+          ]
+        },
+        {
+          "id": "3.2.7",
+          "label": "Deploy and configure VM Scale Sets",
+          "checks": [
+            "VIRTUAL MACHINE SCALE SETS"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "3.3",
+      "domain": "Compute",
+      "title": "Provision and manage containers in the Azure portal",
+      "bullets": [
+        {
+          "id": "3.3.1",
+          "label": "Create/manage Azure Container Registry",
+          "checks": [
+            "AZURE CONTAINER REGISTRY"
+          ]
+        },
+        {
+          "id": "3.3.2",
+          "label": "Provision Azure Container Instances",
+          "checks": [
+            "AZURE CONTAINER INSTANCES"
+          ]
+        },
+        {
+          "id": "3.3.3",
+          "label": "Provision Azure Container Apps",
+          "checks": [
+            "AZURE CONTAINER APPS"
+          ]
+        },
+        {
+          "id": "3.3.4",
+          "label": "Manage container sizing and scaling",
+          "checks": [
+            "Sizing/Scaling"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "3.4",
+      "domain": "Compute",
+      "title": "Create and configure Azure App Service",
+      "bullets": [
+        {
+          "id": "3.4.1",
+          "label": "Provision App Service plans",
+          "checks": [
+            "APP SERVICE PLAN"
+          ]
+        },
+        {
+          "id": "3.4.2",
+          "label": "Configure App Service plan scaling",
+          "checks": [
+            "SCALE UP",
+            "SCALE OUT"
+          ]
+        },
+        {
+          "id": "3.4.3",
+          "label": "Create App Service/Web Apps",
+          "checks": [
+            "APP SERVICE / WEB APP"
+          ]
+        },
+        {
+          "id": "3.4.4",
+          "label": "Configure certificates and TLS",
+          "checks": [
+            "CUSTOM DOMAIN + TLS"
+          ]
+        },
+        {
+          "id": "3.4.5",
+          "label": "Map custom DNS names",
+          "checks": [
+            "CUSTOM DOMAIN + TLS"
+          ]
+        },
+        {
+          "id": "3.4.6",
+          "label": "Configure App Service backup",
+          "checks": [
+            "APP SERVICE BACKUP"
+          ]
+        },
+        {
+          "id": "3.4.7",
+          "label": "Configure App Service networking",
+          "checks": [
+            "APP SERVICE NETWORKING"
+          ]
+        },
+        {
+          "id": "3.4.8",
+          "label": "Configure deployment slots",
+          "checks": [
+            "DEPLOYMENT SLOTS"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "4.1",
+      "domain": "Networking",
+      "title": "Configure and manage virtual networks",
+      "bullets": [
+        {
+          "id": "4.1.1",
+          "label": "Create/configure VNets and subnets",
+          "checks": [
+            "VNET / SUBNET BASICS"
+          ]
+        },
+        {
+          "id": "4.1.2",
+          "label": "Create/configure VNet peering",
+          "checks": [
+            "VNET PEERING"
+          ]
+        },
+        {
+          "id": "4.1.3",
+          "label": "Configure public IP addresses",
+          "checks": [
+            "PUBLIC IP"
+          ]
+        },
+        {
+          "id": "4.1.4",
+          "label": "Configure user-defined routes",
+          "checks": [
+            "USER-DEFINED ROUTES"
+          ]
+        },
+        {
+          "id": "4.1.5",
+          "label": "Troubleshoot network connectivity",
+          "checks": [
+            "TROUBLESHOOT NETWORK CONNECTIVITY"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "4.2",
+      "domain": "Networking",
+      "title": "Configure secure access to virtual networks",
+      "bullets": [
+        {
+          "id": "4.2.1",
+          "label": "Create/configure NSGs and ASGs",
+          "checks": [
+            "NSG",
+            "ASG"
+          ]
+        },
+        {
+          "id": "4.2.2",
+          "label": "Evaluate effective NSG security rules",
+          "checks": [
+            "Effective security rules"
+          ]
+        },
+        {
+          "id": "4.2.3",
+          "label": "Implement Azure Bastion",
+          "checks": [
+            "AZURE BASTION"
+          ]
+        },
+        {
+          "id": "4.2.4",
+          "label": "Configure service endpoints for PaaS",
+          "checks": [
+            "Service Endpoint"
+          ]
+        },
+        {
+          "id": "4.2.5",
+          "label": "Configure private endpoints for PaaS",
+          "checks": [
+            "Private Endpoint"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "4.3",
+      "domain": "Networking",
+      "title": "Configure name resolution and load balancing",
+      "bullets": [
+        {
+          "id": "4.3.1",
+          "label": "Configure Azure DNS",
+          "checks": [
+            "AZURE DNS"
+          ]
+        },
+        {
+          "id": "4.3.2",
+          "label": "Configure internal/public Azure Load Balancer",
+          "checks": [
+            "AZURE LOAD BALANCER"
+          ]
+        },
+        {
+          "id": "4.3.3",
+          "label": "Troubleshoot load balancing",
+          "checks": [
+            "LOAD BALANCER TROUBLESHOOT"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "5.1",
+      "domain": "Monitoring & Recovery",
+      "title": "Monitor resources in Azure",
+      "bullets": [
+        {
+          "id": "5.1.1",
+          "label": "Interpret Azure Monitor metrics",
+          "checks": [
+            "AZURE MONITOR",
+            "Metrics"
+          ]
+        },
+        {
+          "id": "5.1.2",
+          "label": "Configure Azure Monitor log/diagnostic settings",
+          "checks": [
+            "Diagnostic Settings"
+          ]
+        },
+        {
+          "id": "5.1.3",
+          "label": "Query and analyze logs with KQL",
+          "checks": [
+            "KQL BASICS"
+          ]
+        },
+        {
+          "id": "5.1.4",
+          "label": "Configure alert rules, action groups and processing rules",
+          "checks": [
+            "Alert Rule",
+            "Action Group",
+            "Alert Processing Rule"
+          ]
+        },
+        {
+          "id": "5.1.5",
+          "label": "Configure/interpret Azure Monitor Insights for VM/storage/network",
+          "checks": [
+            "AZURE MONITOR INSIGHTS",
+            "VM Insights",
+            "Storage insights",
+            "Network insights"
+          ]
+        },
+        {
+          "id": "5.1.6",
+          "label": "Use Network Watcher and Connection Monitor",
+          "checks": [
+            "NETWORK WATCHER"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "5.2",
+      "domain": "Monitoring & Recovery",
+      "title": "Implement backup and recovery",
+      "bullets": [
+        {
+          "id": "5.2.1",
+          "label": "Create Recovery Services vaults",
+          "checks": [
+            "Recovery Services vault"
+          ]
+        },
+        {
+          "id": "5.2.2",
+          "label": "Create Backup vaults",
+          "checks": [
+            "Backup vault"
+          ]
+        },
+        {
+          "id": "5.2.3",
+          "label": "Create/configure backup policies",
+          "checks": [
+            "BACKUP POLICY"
+          ]
+        },
+        {
+          "id": "5.2.4",
+          "label": "Perform Azure Backup restore operations",
+          "checks": [
+            "RESTORE OPTIONS"
+          ]
+        },
+        {
+          "id": "5.2.5",
+          "label": "Configure Azure Site Recovery",
+          "checks": [
+            "AZURE SITE RECOVERY"
+          ]
+        },
+        {
+          "id": "5.2.6",
+          "label": "Fail over to a secondary region with Site Recovery",
+          "checks": [
+            "Failover"
+          ]
+        },
+        {
+          "id": "5.2.7",
+          "label": "Configure/interpret backup reports and alerts",
+          "checks": [
+            "BACKUP REPORTS AND ALERTS"
+          ]
+        }
+      ]
+    }
+  ]
+}
