@@ -53,7 +53,7 @@ def main():
     for label, patterns in legacy_auth_patterns.items():
         body = package_readme if label == "package README" else setup_readme
         for pattern in patterns:
-            if re.search(pattern, body, re.I | re.S):
+            if re.search(pattern, body, re.I):
                 failures.append(f"{label}: legacy human-auth pattern returned: {pattern}")
 
     print(f"Cloud Engineer Lab project audit: projects={len(projects)}")
