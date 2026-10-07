@@ -5,7 +5,7 @@
 > **Scope authority:** ISC2 Certified in Cybersecurity Exam Outline  
 > **Effective date:** 2026-09-01  
 > **Verified:** 2026-10-07  
-> **Status:** Current scope map; teaching content is still being built
+> **Status:** Current scope map; 19/19 numbered objectives have teaching coverage
 
 ## Exam format
 
@@ -38,6 +38,8 @@ This is a notable current-scope delta and should be checked explicitly when olde
 
 ## Domain 1 — Security Principles
 
+Teaching note: [01-Security-Principles.md](./01-Security-Principles.md)
+
 Current study buckets:
 
 - Confidentiality, Integrity and Availability,
@@ -61,6 +63,8 @@ business value
 This domain is the vocabulary layer for the rest of the certification.
 
 ## Domain 2 — Security Governance
+
+Teaching system: [02-Security-Governance/](./02-Security-Governance/)
 
 Current study buckets:
 
@@ -136,6 +140,8 @@ The 2026 outline makes cloud security explicit in this domain.
 
 ## Domain 5 — Security Operations and Incident Response
 
+Teaching system: [05-Security-Operations-Incident-Response/](./05-Security-Operations-Incident-Response/)
+
 Current study buckets:
 
 - data classification, labeling, masking and sanitization,
@@ -160,6 +166,10 @@ collect evidence
 → recover / improve
 → continuously test controls
 ~~~
+
+## Objective evidence
+
+See [OBJECTIVE-COVERAGE-2026.md](./OBJECTIVE-COVERAGE-2026.md) for the **19/19** objective-to-teaching mapping.
 
 ## 2026 delta rule
 
