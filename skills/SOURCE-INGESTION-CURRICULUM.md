@@ -188,8 +188,10 @@ For page-based sources, "100% source coverage" means all in-scope pages/sections
 
 ## 11. Recommended package artifacts
 
+When the source supports an existing learner goal, place these artifacts inside that learning system or one of its clearly named layers rather than creating another provider-level root.
+
 ```text
-<Learning-Package>/
+<Learning-System-or-Layer>/
 ├─ README.md
 ├─ SOURCE-MANIFEST.md
 ├─ SOURCE-COVERAGE.md
