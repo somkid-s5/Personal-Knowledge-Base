@@ -1,7 +1,8 @@
 # AWS Certified Solutions Architect – Associate (SAA-C03) — Study Hub 🌩️
 
 > **Status:** **Verified Current Objective Scope**  
-> **Last verified:** 2026-10-06  
+> **Objective scope verified:** 2026-10-06  
+> **Practice provenance reviewed:** 2026-10-07  
 > **Source of truth:** current web-based AWS SAA-C03 Exam Guide  
 > **Objective QA:** **14/14 tasks · 189/189 published Knowledge/Skill bullets PASS**  
 > **Exam weights:** Secure 30% · Resilient 26% · High-Performing 24% · Cost-Optimized 20%  
@@ -18,10 +19,10 @@ Use this order rather than jumping directly into random practice questions:
 3. [Current Scope Deep Dive](./CURRENT-SCOPE-DEEP-DIVE.md) — modern SAA topics not sufficiently explained by the versioned course alone.
 4. [Objective QA Matrix](./QA-MATRIX.md) — proof that all 189 current published Knowledge/Skill bullets are accounted for.
 5. [Original Current-Scope Scenarios](./CURRENT-SCOPE-SCENARIOS.md) — 20 repository-authored practice scenarios.
-6. [Sources & Freshness Policy](./SOURCES.md) — official guide/docs and revalidation rules.
-7. [Architecting on AWS 7.12.4](../../Courses/Architecting-on-AWS-7.12.4/) — long-form architecture foundation.
-8. [Cloud Engineer Lab](../../Projects/Cloud-Engineer-Lab/) — hands-on architecture and failure practice.
-9. [`practice-exam/`](./practice-exam/) — six historical walkthroughs; useful, but provenance review remains separate.
+6. [Source Manifest](./SOURCE-MANIFEST.md) + [Sources & Freshness Policy](./SOURCES.md) — source roles and revalidation rules.
+7. [Practice & Provenance Policy](./PRACTICE-PROVENANCE.md) — what practice content may enter the repository.
+8. [Architecting on AWS 7.12.4](../../Courses/Architecting-on-AWS-7.12.4/) — long-form architecture foundation.
+9. [Cloud Engineer Lab](../../Projects/Cloud-Engineer-Lab/) — hands-on architecture and failure practice.
 
 ## Learning architecture
 
@@ -34,8 +35,7 @@ flowchart TD
     GAP --> QA[189-Bullet QA Matrix]
     QA --> LAB[Cloud Engineer Lab Projects]
     LAB --> OWN[Original Current-Scope Scenarios]
-    OWN --> LEGACY[Legacy Practice Walkthroughs]
-    LEGACY --> WEAK[Targeted Re-study]
+    OWN --> WEAK[Targeted Re-study]
     WEAK --> GAP
 ```
 
@@ -122,18 +122,11 @@ Start with [`CURRENT-SCOPE-SCENARIOS.md`](./CURRENT-SCOPE-SCENARIOS.md).
 
 These 20 scenarios were written from the current public objective families. For every answer, explain **why the closest alternative loses**.
 
-### Layer 2 — historical six walkthroughs
+### Layer 2 — create new variations, not copied banks
 
-| Exam | File |
-|---|---|
-| Practice Test 1 | [Full Explanation](./practice-exam/AWS_SAA_Test_1_Full_Explanation.md) |
-| Practice Test 2 | [Full Explanation](./practice-exam/AWS_SAA_Test_2_Full_Explanation.md) |
-| Practice Test 3 | [Full Explanation](./practice-exam/AWS_SAA_Test_3_Full_Explanation.md) |
-| Practice Test 4 | [Full Explanation](./practice-exam/AWS_SAA_Test_4_Full_Explanation.md) |
-| Practice Test 5 | [Full Explanation](./practice-exam/AWS_SAA_Test_5_Full_Explanation.md) |
-| Practice Test 6 | [Full Explanation](./practice-exam/AWS_SAA_Test_6_Full_Explanation.md) |
+After completing the repository-owned scenarios, create variations by changing constraints such as RTO/RPO, latency, compliance, traffic shape, write/read ratio or cost priority. Then explain why the winner changes.
 
-These remain useful for reasoning practice, but **third-party wording/provenance must be reviewed before the repository can claim those legacy files are public-redistribution clean**. They are not used as the source of truth for current scope.
+The six historical walkthrough files that previously lived under `practice-exam/` were removed from the current tree on 2026-10-07 because their source/license could not be established from repository evidence. See [PRACTICE-PROVENANCE.md](./PRACTICE-PROVENANCE.md).
 
 ---
 
@@ -160,7 +153,7 @@ It does **not** mean:
 - the AWS in-scope service list is permanent,
 - real exam questions are known,
 - exam success is guaranteed,
-- legacy practice wording has cleared provenance review.
+- removed historical files are necessarily erased from old Git history.
 
 AWS itself describes the service list as non-exhaustive and subject to change. Always check the live guide before a later exam cycle.
 
@@ -176,4 +169,4 @@ Re-run [`QA-MATRIX.md`](./QA-MATRIX.md) whenever:
 - a core service is renamed/replaced,
 - the verification date is no longer fresh enough for a serious exam-prep cycle.
 
-See [`SOURCES.md`](./SOURCES.md) for the canonical URLs and source priority.
+See [`SOURCE-MANIFEST.md`](./SOURCE-MANIFEST.md), [`SOURCES.md`](./SOURCES.md) and [`PRACTICE-PROVENANCE.md`](./PRACTICE-PROVENANCE.md) for source/provenance rules.

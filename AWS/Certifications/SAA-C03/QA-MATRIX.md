@@ -41,7 +41,7 @@ The tables below compress closely related official bullets into learning familie
 | Global infrastructure as a security/scope boundary | Module 01 + Module 03 | Project 06 / 20 | **PASS** |
 | Least privilege and shared responsibility | Modules 01–02 | Security projects | **PASS** |
 | Root/IAM-user security incl. MFA | Module 02 + currentness overlay | Deep Dive §1.1 | **PASS** |
-| Users/groups/roles/policies authorization model | Module 02 | practice walkthroughs | **PASS** |
+| Users/groups/roles/policies authorization model | Module 02 | Deep Dive + original current-scope scenarios | **PASS** |
 | STS, role switching and cross-account RBAC | Module 02 + Deep Dive §1.1 | multi-account projects | **PASS** |
 | Multi-account security with Control Tower/SCPs | Module 02 + **Deep Dive §1.1 adds Control Tower** | Project 21 / 34 | **PASS** |
 | Resource-policy selection | Module 02 + S3/edge modules | Project 01 / 17 | **PASS** |
@@ -367,13 +367,18 @@ It does **not** mean:
 - the in-scope service list cannot change,
 - exam questions are predictable,
 - a learner will pass without hands-on practice,
-- third-party practice-question provenance has been cleared.
+- removed historical files are erased from old Git history.
 
 AWS states that the guide/service list is non-exhaustive and subject to change. The `Last verified` date therefore matters.
 
-## Remaining non-coverage quality work
+## Remaining maintenance work
 
-Objective coverage is now complete, but two repository-quality tasks remain separate from exam-scope completeness:
+Objective coverage and the known current-tree practice-provenance blocker are both resolved within their declared scopes.
 
-1. review third-party wording/provenance in the six historical practice walkthroughs before a public-redistribution claim,
-2. periodically re-run this matrix when AWS changes the web-based exam guide.
+Remaining recurring work:
+
+1. re-run this matrix when AWS changes the web-based exam guide,
+2. keep new scenario practice repository-authored and provenance-clear,
+3. recheck live service documentation for fast-changing behavior before production use.
+
+See [PRACTICE-PROVENANCE.md](./PRACTICE-PROVENANCE.md) for the Git-history caveat.

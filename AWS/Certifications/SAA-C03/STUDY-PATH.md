@@ -14,9 +14,8 @@ flowchart LR
     B --> C[Objective QA map]
     C --> D[Hands-on projects]
     D --> E[Original current-scope scenarios]
-    E --> F[Legacy practice walkthroughs]
-    F --> G[Targeted re-study]
-    G --> E
+    E --> F[Constraint variations / targeted re-study]
+    F --> E
 ```
 
 ## Phase 1 — Build durable architecture foundations
@@ -101,7 +100,7 @@ The project track is broader than SAA-C03. Use it to make architecture decisions
 
 ## Phase 5 — Practice with repository-owned current scenarios
 
-Do [`CURRENT-SCOPE-SCENARIOS.md`](./CURRENT-SCOPE-SCENARIOS.md) before the historical practice sets.
+Do [`CURRENT-SCOPE-SCENARIOS.md`](./CURRENT-SCOPE-SCENARIOS.md) as the canonical repository-owned scenario set.
 
 For every scenario explain:
 
@@ -112,20 +111,23 @@ For every scenario explain:
 
 If you can name the service but cannot explain the tradeoff, re-study the linked section.
 
-## Phase 6 — Use legacy practice walkthroughs carefully
+## Phase 6 — Vary the constraints and re-study
 
-The six files in [`practice-exam/`](./practice-exam/) remain useful for reasoning practice, but their third-party wording/provenance is a separate repository-quality review item.
-
-Use them as a secondary practice layer, not as the source of truth for current exam scope.
+Do not memorize a fixed question bank. Take scenarios you missed and change one design constraint at a time:
 
 ```text
-Attempt
+Attempt an original scenario
 → mark unsure/wrong
-→ identify requirement and architecture pattern
-→ compare with current objective/deep dive
-→ explain distractors
+→ identify the hard requirement
+→ revisit the mapped theory/project
+→ change one constraint
+→ explain why the winning architecture changes
 → retry later
 ```
+
+Examples of useful constraint changes: Multi-AZ → Multi-Region, low latency → lowest cost, burst traffic → steady traffic, RPO hours → RPO seconds, public endpoint → private connectivity.
+
+Historical provenance-unclear walkthrough files were removed from the current tree. See [PRACTICE-PROVENANCE.md](./PRACTICE-PROVENANCE.md).
 
 ## Phase 7 — Final review
 
