@@ -1,5 +1,7 @@
 # Google Cloud Associate Cloud Engineer — Study Notes ภาษาไทย 📘
 
+[← Repository root](../README.md)
+
 > **Status:** **Verified Non-Lab Objective Scope** — Standard Exam Guide + 17/17 Google Skills activities mapped  
 > **Last repository verification:** 2026-10-07  
 > **Source manifest:** [SOURCE-MANIFEST.md](./SOURCE-MANIFEST.md)  
