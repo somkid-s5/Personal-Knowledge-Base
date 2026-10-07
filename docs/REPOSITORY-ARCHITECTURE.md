@@ -2,12 +2,12 @@
 
 ## Goal
 
-This repository is a long-lived engineering learning knowledge base. Its navigation is optimized for the learner: the root exposes a small number of **complete learning systems**, not provider taxonomies or internal source types.
+This repository is a long-lived personal learning knowledge base. Its navigation is optimized around the owner's active learning goals: the root exposes a small number of curated **learning systems**, not a mirror of every course, ebook, provider or Drive folder.
 
 ## Canonical taxonomy — Learning System First
 
 ~~~text
-Cloud-Engineer/
+<repository-root>/
 ├─ README.md
 ├─ AGENTS.md
 ├─ SKILL.md
@@ -16,7 +16,8 @@ Cloud-Engineer/
 ├─ templates/
 ├─ <Learning-System-A>/
 ├─ <Learning-System-B>/
-└─ <Learning-System-C>/
+├─ <Learning-System-C>/
+└─ <Learning-System-D>/
 ~~~
 
 Current systems:
@@ -25,9 +26,10 @@ Current systems:
 AWS-SAA-C03/
 Azure-AZ-104/
 GCP-ACE/
+ISC2-CC/
 ~~~
 
-A top-level learning-system name should communicate the actual learner goal. Certification-centered systems normally use a provider + certification identifier, for example AWS-SAA-C03, Azure-AZ-104 and GCP-ACE.
+A top-level learning-system name should communicate the actual learner goal. Certification-centered systems normally use a provider + certification identifier, for example AWS-SAA-C03, Azure-AZ-104, GCP-ACE and ISC2-CC. Non-certification systems may use a durable skill goal such as Linux-Administration when that goal becomes substantial enough to maintain.
 
 ## System contract
 
@@ -59,14 +61,15 @@ The nested layers may retain their own README, source manifest and QA evidence b
 
 ## When to create a new top-level system
 
-Create a new system when the learner goal is independently understandable and maintainable, for example another certification such as AWS-SAP-C02, or a genuinely standalone Kubernetes learning track if it grows into a full journey.
+Create a new system when the learner goal is independently understandable, actively useful and maintainable, for example another certification such as ISC2-CISSP or a genuinely standalone Linux/Kubernetes learning track if it grows into a full journey.
 
 Do **not** create a new top-level folder merely because:
 
 - content came from a different book/course,
 - a lab repository existed separately,
 - the content type is Projects instead of Notes,
-- the cloud provider is the same but the material supports an existing system.
+- the cloud provider is the same but the material supports an existing system,
+- a PDF, ebook, saved course or Drive folder exists but is not yet an active learning goal.
 
 If the material reinforces an existing learning goal, integrate it as a layer inside that system.
 
@@ -100,7 +103,7 @@ Every new top-level learning system must be linked from the root README in the s
 - Ordered layers: two-digit prefix when order matters, e.g. 01-Certification-Core.
 - Modules: Module-01-Topic.md.
 - Labs: Lab-01-Topic.md.
-- Avoid generic root folders such as AWS, Azure, GCP, Courses, Projects, misc, new, final2.
+- Avoid generic root folders such as AWS, Azure, GCP, Courses, Books, Projects, misc, new, final2.
 
 ## Status model
 

@@ -1,6 +1,6 @@
-# Cloud Engineer Learning Knowledge Base ☁️
+# Personal Learning Knowledge Base 🧠
 
-A long-lived personal knowledge base for cloud engineering and certification learning.
+A long-lived personal knowledge base for structured technical learning. Cloud, infrastructure and certifications remain major areas, but the repository is no longer limited to the Cloud Engineer label.
 
 The repository is organized around **learning systems**, not provider folders. When you open the repo, the main decision should be **what you want to learn**, not whether a file originally came from a course, certification pack, or project repository.
 
@@ -10,20 +10,22 @@ The repository is organized around **learning systems**, not provider folders. W
 
 ---
 
-## Start here — 3 learning systems
+## Start here — 4 active learning systems
 
 | Learning system | Goal | Status |
 |---|---|---|
 | [AWS-SAA-C03](./AWS-SAA-C03/) | AWS architecture + AWS Certified Solutions Architect – Associate | **Verified learning system** |
 | [Azure-AZ-104](./Azure-AZ-104/) | Microsoft Azure Administrator | **Verified Current Objective Scope** |
 | [GCP-ACE](./GCP-ACE/) | Google Cloud Associate Cloud Engineer | **Verified Non-Lab Objective Scope** |
+| [ISC2-CC](./ISC2-CC/) | ISC2 Certified in Cybersecurity — current 2026 outline | **In Progress — scope locked, source ingestion pending** |
 
 ~~~mermaid
 flowchart LR
-    ROOT[Cloud Engineer Knowledge Base]
+    ROOT[Personal Knowledge Base]
     ROOT --> AWS[AWS-SAA-C03]
     ROOT --> AZ[Azure-AZ-104]
     ROOT --> GCP[GCP-ACE]
+    ROOT --> CC[ISC2-CC]
 ~~~
 
 ### AWS is intentionally one system
@@ -58,7 +60,7 @@ Historical migration records remain under [docs/](./docs/) but are not the curre
 ## Repository structure
 
 ~~~text
-Cloud-Engineer/
+<repository-root>/
 ├─ README.md
 ├─ AGENTS.md
 ├─ SKILL.md
@@ -81,12 +83,19 @@ Cloud-Engineer/
 │  ├─ CURRENTNESS-2026.md
 │  └─ interactive/
 │
-└─ GCP-ACE/
+├─ GCP-ACE/
+│  ├─ README.md
+│  ├─ SOURCE-MANIFEST.md
+│  ├─ ACE-100-PERCENT-QA-MATRIX.md
+│  ├─ Module-01-...
+│  └─ Lab-Guide-TH/
+│
+└─ ISC2-CC/
    ├─ README.md
    ├─ SOURCE-MANIFEST.md
-   ├─ ACE-100-PERCENT-QA-MATRIX.md
-   ├─ Module-01-...
-   └─ Lab-Guide-TH/
+   ├─ SOURCE-COVERAGE.md
+   ├─ CURRENT-EXAM-MAP.md
+   └─ SYSTEM-QA.md
 ~~~
 
 ## Why Learning-System First
@@ -99,7 +108,7 @@ The current rule is:
 
 A system may contain multiple source layers internally. For example, a current certification can use a historical course for deep theory and a project track for hands-on practice without exposing three separate root packages.
 
-If a future certification has a genuinely different learning goal, create another explicit system such as AWS-SAP-C02 or Azure-AZ-305 rather than adding another generic provider bucket.
+If a future topic or certification becomes a real learning goal, create another explicit system such as `Linux-Administration` or `ISC2-CISSP`. Do not add a top-level folder merely because a PDF, ebook or course exists in Drive.
 
 ---
 
@@ -135,4 +144,4 @@ Diagrams are part of the explanation when relationships or flows matter.
 
 ---
 
-> Open the repo → choose a learning system → follow one guided path.
+> Open the repo → choose one active learning goal → follow one coherent path. Google Drive remains the broader source library; GitHub contains the curated knowledge systems.

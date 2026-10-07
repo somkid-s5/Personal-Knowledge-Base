@@ -11,7 +11,7 @@
 
 ## What this package is
 
-This package consolidates the existing **AZ-104 2026 Master Cram Book** into the main Cloud Engineer knowledge base.
+This package consolidates the existing **AZ-104 2026 Master Cram Book** into the main personal learning knowledge base.
 
 The imported system already provides an interactive exam-prep experience with:
 
