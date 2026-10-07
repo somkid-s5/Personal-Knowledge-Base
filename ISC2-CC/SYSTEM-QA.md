@@ -3,7 +3,7 @@
 [Back to ISC2-CC](./README.md)
 
 > **QA date:** 2026-10-07  
-> **Current status:** **Candidate Verified Current Objective Teaching Scope — final repository CI pending**
+> **Current status:** **Verified Current Objective Teaching Scope — 19/19 objectives**
 
 ## Gate status
 
@@ -24,7 +24,7 @@
 | Original practice / review layer | **PASS — domain checks + 25 mixed scenarios + cheat sheet** |
 | Proprietary PDFs/figures kept out of repository | **PASS** |
 | Internal source/objective evidence | **PASS** |
-| Repository CI | **PENDING** |
+| Repository CI | **PASS — 6/6 repository quality jobs** |
 
 ## Objective evidence
 
@@ -44,7 +44,7 @@
 
 ## Verification boundary
 
-If repository CI passes, the appropriate claim is:
+Verified claim:
 
 > **Verified Current Objective Teaching Scope — 19/19 numbered objectives, verified 2026-10-07**
 
