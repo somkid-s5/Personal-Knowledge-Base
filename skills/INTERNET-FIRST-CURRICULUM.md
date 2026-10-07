@@ -16,14 +16,14 @@ Record before research:
 
 - learner and assumed prerequisites,
 - target outcome,
-- content type: Course / Certification / Topic / Project,
-- provider/domain,
+- target learning system / learner goal,
+- provider/certification/domain context,
 - intended depth,
 - included and excluded scope,
 - whether official external labs are part of the learning path,
 - research/verification date.
 
-Place the package under the taxonomy in `../docs/REPOSITORY-ARCHITECTURE.md`.
+Place the work inside the appropriate top-level learning system defined by `../docs/REPOSITORY-ARCHITECTURE.md`. If the learner goal already exists, add a layer to that system instead of creating a parallel root package.
 
 ## 2. Lock the authoritative scope
 
@@ -171,7 +171,7 @@ Update in the same change:
 - package README,
 - `SOURCE-MANIFEST.md`,
 - `QA-MATRIX.md` when scope-completeness is claimed,
-- provider/domain README,
+- learning-system README,
 - root README catalog when appropriate.
 
 ## Expected result
