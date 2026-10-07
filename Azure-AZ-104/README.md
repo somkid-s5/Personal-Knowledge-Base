@@ -7,7 +7,7 @@
 > **Last repository verification:** 2026-10-07  
 > **Canonical home:** this package in `Cloud-Engineer`
 
-[Back to Azure Learning Library](../../README.md)
+[← Repository root](../README.md)
 
 ## What this package is
 
