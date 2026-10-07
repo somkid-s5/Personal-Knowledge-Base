@@ -17,7 +17,7 @@ Because provenance could not be established from the repository evidence, those 
 The supported practice layer is:
 
 - [CURRENT-SCOPE-SCENARIOS.md](./CURRENT-SCOPE-SCENARIOS.md) — repository-authored scenarios based on current public objective families,
-- hands-on reinforcement through [Cloud Engineer Lab](../../Projects/Cloud-Engineer-Lab/),
+- hands-on reinforcement through [Cloud Engineer Lab](../03-Hands-On-Projects/),
 - self-check/review prompts inside the long-form course and certification notes.
 
 Future practice sets should be original transformations of public technical concepts, not copied question-bank wording.
