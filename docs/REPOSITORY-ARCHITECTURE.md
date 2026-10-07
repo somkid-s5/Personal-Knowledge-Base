@@ -1,88 +1,125 @@
 # Repository Architecture
 
 ## Goal
-This repository is a long-lived engineering learning knowledge base, not a single-certification dump. Structure must scale across cloud providers, platforms, certifications, courses, topics and projects without losing discoverability.
 
-## Canonical taxonomy
+This repository is a long-lived engineering learning knowledge base. Its navigation is optimized for the learner: the root exposes a small number of **complete learning systems**, not provider taxonomies or internal source types.
 
-```text
+## Canonical taxonomy — Learning System First
+
+~~~text
 Cloud-Engineer/
 ├─ README.md
 ├─ AGENTS.md
 ├─ SKILL.md
-├─ docs/                       # repository-wide standards and governance
-├─ templates/                  # reusable content templates
-├─ AWS/
-│  ├─ README.md
-│  ├─ Courses/
-│  ├─ Certifications/
-│  ├─ Topics/
-│  └─ Projects/
-├─ GCP/
-│  ├─ README.md
-│  ├─ Courses/
-│  ├─ Certifications/
-│  ├─ Topics/
-│  └─ Projects/
-├─ Azure/                      # create when first real package exists
-├─ Kubernetes/                 # vendor-neutral domain example
-├─ Linux/
-├─ DevOps/
-└─ Security/
-```
+├─ docs/
+├─ skills/
+├─ templates/
+├─ <Learning-System-A>/
+├─ <Learning-System-B>/
+└─ <Learning-System-C>/
+~~~
 
-Do not create empty top-level folders just for a roadmap. Add a domain only when it has real content.
+Current systems:
 
-## Content types
-- `Courses/` — notes following a named training course/book/workshop.
-- `Certifications/` — exam-oriented learning packages mapped to an official exam guide/path.
-- `Topics/` — durable subject packs not tied to one course/exam, e.g. IAM, networking, Terraform.
-- `Projects/` — build-oriented learning projects, capstones or implementation journals.
+~~~text
+AWS-SAA-C03/
+Azure-AZ-104/
+GCP-ACE/
+~~~
 
-## Learning package contract
-Every substantial package must have a `README.md` and should be independently understandable from that folder.
+A top-level learning-system name should communicate the actual learner goal. Certification-centered systems normally use a provider + certification identifier, for example AWS-SAA-C03, Azure-AZ-104 and GCP-ACE.
 
-Recommended package layout:
+## System contract
 
-```text
-<Package>/
+Every substantial top-level learning system must have:
+
+~~~text
+<Learning-System>/
 ├─ README.md
-├─ Module-01-*.md              # or modules/ for larger new packages
-├─ Lab-Guide-TH/               # optional
-├─ assets/
-│  ├─ diagrams/
-│  └─ source/                  # only reusable/licensed source assets
-├─ CHEAT-SHEET.md              # optional
-├─ GLOSSARY.md                 # optional
-└─ QA-MATRIX.md                # required for complete certification/course claims
-```
+├─ SOURCE-MANIFEST.md
+├─ *QA*.md
+└─ learning content / layers
+~~~
 
-Existing packages may keep a flat module layout to avoid unnecessary link churn. New packages should prefer predictable names and two-digit ordering.
+A system may be flat when that is easiest to learn, as with GCP ACE, or layered when several source identities support one goal.
 
-## Naming
-- Directories: clear English product/course names using kebab case where practical, e.g. `Associate-Cloud-Engineer`, `SAA-C03`.
-- Ordered modules: `Module-01-Topic.md`.
-- Labs: `Lab-01-Topic.md`.
-- Avoid provider prefixes inside provider folders unless the official name requires it.
-- Avoid ambiguous folders such as `misc`, `new`, `temp`, `final2`.
+### Layered-system example
+
+~~~text
+AWS-SAA-C03/
+├─ README.md
+├─ SOURCE-MANIFEST.md
+├─ SYSTEM-QA.md
+├─ 01-Certification-Core/
+├─ 02-Architecture-Foundation/
+└─ 03-Hands-On-Projects/
+~~~
+
+The nested layers may retain their own README, source manifest and QA evidence because they have different source identities. They must still feel like parts of one learner journey from the top-level system README.
+
+## When to create a new top-level system
+
+Create a new system when the learner goal is independently understandable and maintainable, for example another certification such as AWS-SAP-C02, or a genuinely standalone Kubernetes learning track if it grows into a full journey.
+
+Do **not** create a new top-level folder merely because:
+
+- content came from a different book/course,
+- a lab repository existed separately,
+- the content type is Projects instead of Notes,
+- the cloud provider is the same but the material supports an existing system.
+
+If the material reinforces an existing learning goal, integrate it as a layer inside that system.
+
+## Learning layers
+
+Common internal layers include:
+
+- certification/current-objective core,
+- versioned foundation course,
+- hands-on projects/labs,
+- visual guide,
+- currentness overlay,
+- scenarios/practice,
+- source/provenance evidence,
+- QA/regression tooling.
+
+These are implementation details inside a learning system, not root navigation categories.
 
 ## Navigation hierarchy
-1. Root `README.md` = global catalog and standards entry point.
-2. Provider/domain `README.md` = package catalog for that domain.
-3. Package `README.md` = study path and package status.
+
+1. Root README.md = global learning-system catalog.
+2. Learning-system README.md = single learner entry point and study order.
+3. Layer README.md = detailed path for a source/course/project layer when needed.
 4. Module/lab files = actual learning content.
 
-Every new package must be linked at levels 1–3 in the same change.
+Every new top-level learning system must be linked from the root README in the same change.
+
+## Naming
+
+- Top-level systems: concise, recognizable learning goal names such as AWS-SAA-C03.
+- Ordered layers: two-digit prefix when order matters, e.g. 01-Certification-Core.
+- Modules: Module-01-Topic.md.
+- Labs: Lab-01-Topic.md.
+- Avoid generic root folders such as AWS, Azure, GCP, Courses, Projects, misc, new, final2.
 
 ## Status model
-Use consistent labels:
-- `Planning` — scope only.
-- `In Progress` — actively authored, known gaps remain.
-- `Review` — coverage complete, QA not finished.
-- `Verified` — source/coverage/quality gate passed for a stated date/scope.
-- `Archived` — retained for history; not current guidance.
 
-Avoid `100%` without a declared scope and QA evidence.
+- Planning — scope only.
+- In Progress — actively authored, known gaps remain.
+- Review — coverage is believed complete but QA is unfinished.
+- Verified — declared source/scope/date and relevant quality gates pass.
+- Archived — retained for history; not current guidance.
+
+A Verified top-level system must expose source traceability and QA evidence.
 
 ## Migration policy
-Structural cleanup should preserve package internals whenever possible. Move a whole subtree first, then update root/provider links. Internal reorganization is a separate change because it can break many relative links.
+
+Prefer atomic subtree moves so internal relative links survive. After a structural migration:
+
+1. update cross-layer links,
+2. update root/system navigation,
+3. update CI paths,
+4. update current architecture/governance docs,
+5. run internal-link and package-specific regression checks.
+
+Historical audit documents may retain old paths when clearly labeled as historical records.
