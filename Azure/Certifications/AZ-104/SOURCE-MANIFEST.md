@@ -22,7 +22,7 @@ The imported interactive repository contains:
 - supporting JavaScript/CSS/content payloads,
 - Playwright tests and original GitHub Pages workflow source.
 
-The complete imported snapshot is under [`interactive/`](./interactive/). The packed learning data is regression-audited by [`tools/audit_payload.py`](./tools/audit_payload.py) against the repository's 82-item current skill inventory.
+The complete imported snapshot is under [`interactive/`](./interactive/). The packed learning data is regression-audited by [`tools/audit_payload.py`](./tools/audit_payload.py) against the repository's 82-item current skill inventory. The maintained current-objective teaching layer lives in [`AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md`](./AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md), keeping imported source and maintained learning narrative clearly separated.
 
 ## Provenance rule
 
