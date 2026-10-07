@@ -3,7 +3,7 @@
 [Back to system README](./README.md) · [Source Manifest](./SOURCE-MANIFEST.md)
 
 > **QA date:** 2026-10-07  
-> **Scope:** navigation/integration of the three verified AWS learning layers
+> **Scope:** navigation/integration of the three verified AWS learning layers and their learner roles
 
 ## Layer evidence
 
@@ -14,6 +14,8 @@
 | Hands-on projects | Project 00 + Projects 01–34 pass workbook/safety contract | **PASS** |
 | Source traceability | system manifest delegates to layer-specific manifests/provenance | **PASS** |
 | Navigation | single AWS entry point with ordered learning path | **PASS** |
+| Learner mental model | Certification = target; Course = understanding; Projects = applied proof | **PASS** |
+| Known course source-image blocker | 13 module + 7 lab proprietary-derived source images removed from current tree; Git-history caveat retained | **PASS — current tree** |
 | Regression protection | repository CI + layer-specific audits | **PASS** |
 
 ## System completion label

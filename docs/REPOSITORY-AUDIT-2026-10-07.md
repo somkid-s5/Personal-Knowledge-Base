@@ -16,6 +16,8 @@ This replaces the previous provider-first navigation where AWS appeared as separ
 
 Governance, source traceability, QA evidence and CI remain repository-wide.
 
+The AWS learner model is now explicit: **Certification = target**, **Course = method to build understanding**, and **Projects = proof through implementation/troubleshooting**.
+
 ## Current canonical systems
 
 | System | Goal | Internal model | Declared status |
@@ -59,7 +61,7 @@ AWS-SAA-C03/
 
 ### 01-Certification-Core
 
-Purpose: current SAA-C03 exam scope and current service knowledge.
+Purpose: current SAA-C03 exam scope and current service knowledge. This layer defines the **target**: what the learner must know for the current SAA-C03 scope.
 
 Evidence:
 - 14/14 task families,
@@ -70,7 +72,7 @@ Evidence:
 
 ### 02-Architecture-Foundation
 
-Purpose: long-form architecture theory from Architecting on AWS 7.12.4.
+Purpose: long-form architecture theory from Architecting on AWS 7.12.4. This is the main **course/foundation layer** used to understand the target in depth.
 
 Evidence:
 - 13/13 course module families,
@@ -81,9 +83,11 @@ Evidence:
 
 This layer stays versioned instead of pretending the historical course itself is a live certification guide.
 
+The current tree also has the known proprietary-derived AWS course image blocker cleaned up: **13 Student Guide-derived module images + 7 Lab Guide-derived lab images (20 known source images total)** are absent from the current tree. Git history has not been rewritten, so this is not a blanket public-redistribution claim.
+
 ### 03-Hands-On-Projects
 
-Purpose: implementation, troubleshooting, cost/cleanup and portfolio practice.
+Purpose: implementation, troubleshooting, cost/cleanup and portfolio practice. This layer is the practical **proof of skill**.
 
 Evidence:
 - Project 00 + Projects 01–34,
@@ -205,7 +209,7 @@ The repository does not claim:
 | Dimension | Assessment |
 |---|---|
 | Root navigation | **Simple: 3 learning systems** |
-| AWS learner UX | **Unified** |
+| AWS learner UX | **Unified — target → course → projects model explicit** |
 | Architecture/governance | **Mature baseline** |
 | Source traceability | **Strong** |
 | Package/system QA | **Strong for current systems** |
