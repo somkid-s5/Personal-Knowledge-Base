@@ -2,7 +2,7 @@
 
 [กลับ README](./README.md) · [Exam Map](./LEARNING-PATH.md) · [Visual Study Guide](./VISUAL-STUDY-GUIDE-TH.md) · [Modern Objectives Deep Dive](./ACE-MODERN-OBJECTIVES-DEEP-DIVE-TH.md)
 
-> ตรวจล่าสุด: **6 ตุลาคม 2026**  
+> ตรวจล่าสุด: **7 ตุลาคม 2026**  
 > Source of truth: [Standard Associate Cloud Engineer Exam Guide — English](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ที่หน้า Certification ทางการลิงก์อยู่ และ [Google Skills ACE Learning Path](https://www.skills.google/paths/11) ซึ่งแสดง 17 activities ณ วันที่ตรวจ  
 > **Official labs / grader ไม่รวมในคะแนน 100%** เพราะทำใน Google Skills โดยตรงตามแผนของผู้เรียน
 
