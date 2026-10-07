@@ -17,7 +17,8 @@
     "skills/**/*.md",
     "docs/**/*.md",
     "templates/**/*.md",
-    "AWS/README.md",
-    "GCP/README.md"
+    "AWS-SAA-C03/README.md",
+    "Azure-AZ-104/README.md",
+    "GCP-ACE/README.md"
   ]
 }

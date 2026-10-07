@@ -1,257 +1,220 @@
 # Repository Baseline Audit — 2026-10-07
 
 > **Status:** Current repository-wide baseline  
-> **Supersedes as current-status reference:** `REPOSITORY-AUDIT-2026-10-06.md`  
-> **Purpose:** record what is actually verified now, what CI enforces, and what still remains intentionally outside the verification claim.
+> **Architecture:** Learning System First  
+> **Historical records:** the 2026-10-06 audit/consolidation files describe earlier provider-first migration stages and are not current architecture authority.
 
 ## Executive summary
 
-The repository has moved from a collection of learning folders into a governed, source-aware learning knowledge base.
+The repository now presents learning content as **three top-level learning systems**:
 
-Current strengths:
+1. AWS-SAA-C03
+2. Azure-AZ-104
+3. GCP-ACE
 
-- canonical provider/domain → content type → learning package taxonomy,
-- root/provider/package navigation,
-- repository-wide authoring rules and reusable skills/templates,
-- source/freshness/visual/quality policies,
-- hard CI gates for structure and internal links,
-- package-specific regression audits for mature packages,
-- explicit, scope-bounded `Verified` labels rather than vague completeness claims,
-- source manifests and package-level QA evidence for verified packages.
+This replaces the previous provider-first navigation where AWS appeared as separate Course, Certification and Project packages. The new model optimizes for learner experience: choose one goal at the root, then follow the system's internal learning path.
 
-The major architecture/governance migration is complete for the current package set.
+Governance, source traceability, QA evidence and CI remain repository-wide.
 
-## Current canonical packages
+## Current canonical systems
 
-| Provider | Type | Package | Current declared status |
+| System | Goal | Internal model | Declared status |
 |---|---|---|---|
-| AWS | Course | Architecting on AWS 7.12.4 | **Verified Course Scope** |
-| AWS | Certification | SAA-C03 | **Verified Current Objective Scope** |
-| AWS | Project track | Cloud Engineer Lab | **Verified Project Workbook Structure & Safety Baseline** |
-| Azure | Certification | AZ-104 | **Verified Current Objective Scope** |
-| GCP | Certification | Associate Cloud Engineer | **Verified Non-Lab Objective Scope** |
+| AWS-SAA-C03 | AWS architecture + SAA-C03 | current certification core + versioned architecture foundation + hands-on project track | **Verified learning system** |
+| Azure-AZ-104 | Microsoft Azure Administrator | current-objective teaching + interactive practice/labs | **Verified Current Objective Scope** |
+| GCP-ACE | Google Cloud Associate Cloud Engineer | integrated modules + learning-path activities + visuals/labs | **Verified Non-Lab Objective Scope** |
 
-Each `Verified` label is intentionally different because the packages have different sources and goals. Verification always means “passes the declared scope/date contract,” not “everything about the platform is permanently complete.”
+Verification remains bounded by each system's declared source, date and QA definition.
+
+## Canonical repository shape
+
+~~~text
+Cloud-Engineer/
+├─ README.md
+├─ AGENTS.md
+├─ SKILL.md
+├─ docs/
+├─ skills/
+├─ templates/
+├─ AWS-SAA-C03/
+├─ Azure-AZ-104/
+└─ GCP-ACE/
+~~~
+
+Generic provider roots such as AWS/, Azure/ and GCP/ are no longer canonical.
+
+## AWS system design
+
+AWS is intentionally represented once at root:
+
+~~~text
+AWS-SAA-C03/
+├─ README.md
+├─ SOURCE-MANIFEST.md
+├─ SYSTEM-QA.md
+├─ 01-Certification-Core/
+├─ 02-Architecture-Foundation/
+└─ 03-Hands-On-Projects/
+~~~
+
+### 01-Certification-Core
+
+Purpose: current SAA-C03 exam scope and current service knowledge.
+
+Evidence:
+- 14/14 task families,
+- 189/189 published Knowledge/Skill bullets accounted for,
+- current-scope deep dive,
+- original scenarios,
+- source/provenance controls.
+
+### 02-Architecture-Foundation
+
+Purpose: long-form architecture theory from Architecting on AWS 7.12.4.
+
+Evidence:
+- 13/13 course module families,
+- 7/7 companion lab guides,
+- original diagrams,
+- currentness overlay,
+- course/source QA.
+
+This layer stays versioned instead of pretending the historical course itself is a live certification guide.
+
+### 03-Hands-On-Projects
+
+Purpose: implementation, troubleshooting, cost/cleanup and portfolio practice.
+
+Evidence:
+- Project 00 + Projects 01–34,
+- shared project workbook/safety contract,
+- project QA matrix,
+- CI audit.
+
+## Azure system
+
+Azure-AZ-104 remains a single top-level system.
+
+Current evidence:
+- Microsoft Learn skills measured 2026-04-17,
+- 15/15 objective groups,
+- 82/82 skill-bullet evidence checks,
+- maintained Thai current-objectives deep dive,
+- 10 interactive visual labs,
+- 155 scenario questions,
+- 103 flashcards,
+- currentness overlay,
+- source manifest,
+- payload regression audit.
+
+## GCP system
+
+GCP-ACE remains a single top-level system.
+
+Current evidence:
+- Standard ACE Exam Guide mapped,
+- 17/17 Google Skills activities mapped,
+- source manifest,
+- modules and activity notes,
+- visual guide,
+- modern-objective deep dive,
+- companion lab guides,
+- objective-by-objective non-lab QA matrix.
+
+Official Google Skills grader completion remains external by design.
 
 ## Governance layer
 
-Repository-wide control files now include:
+Repository-wide controls include:
 
-- `AGENTS.md`
-- `SKILL.md`
-- `skills/INTERNET-FIRST-CURRICULUM.md`
-- `skills/SOURCE-INGESTION-CURRICULUM.md`
-- `docs/REPOSITORY-ARCHITECTURE.md`
-- `docs/CONTENT-STANDARD.md`
-- `docs/SOURCE-POLICY.md`
-- `docs/VISUAL-STANDARD.md`
-- `docs/QUALITY-GATE.md`
-- reusable package/module/lab/source templates
+- AGENTS.md
+- SKILL.md
+- Internet-first and Source-ingestion authoring skills
+- Repository Architecture
+- Content Standard
+- Source Policy
+- Visual Standard
+- Quality Gate
+- reusable templates
 
 The authoring model is:
 
-```text
-lock source/scope
+~~~text
+choose learner goal/system
+→ lock source/scope
 → inventory objectives/source units
-→ scaffold package
+→ design internal learning layers
 → teach for understanding
 → visual pass
 → practice/troubleshooting
 → currentness/fact-check
 → QA evidence
 → CI
-→ publish/update navigation
-```
+→ publish
+~~~
 
 ## CI / regression gates
 
-Current repository quality checks include:
+Current hard checks include:
 
-1. **Canonical structure validation**
-   - required governance files exist,
-   - provider/domain indexes exist,
-   - learning packages have README files,
-   - legacy root layouts are blocked.
+1. canonical top-level learning systems exist,
+2. generic provider-first roots do not return,
+3. Verified systems expose SOURCE-MANIFEST.md and system-level QA evidence,
+4. AWS-SAA-C03 retains its three required ordered layers,
+5. internal Markdown links resolve,
+6. governance Markdown lint passes,
+7. AZ-104 packed payload audit passes,
+8. SAA-C03 provenance audit passes,
+9. AWS project workbook audit passes.
 
-2. **Verified package evidence contract**
-   - a package that explicitly declares Verified status must expose:
-     - `SOURCE-MANIFEST.md`,
-     - package-level QA evidence.
+External web-link health remains scheduled/advisory because vendor sites may rate-limit automated checks.
 
-3. **Internal Markdown link validation**
-   - missing local files/directories fail CI.
+## Architecture decision rule going forward
 
-4. **Governance Markdown lint**
-   - maintains baseline readability without forcing legacy style churn everywhere.
+The key question for new material is:
 
-5. **AZ-104 packed payload regression audit**
-   - decodes the real gzip/base64 learning payload,
-   - checks 82/82 current skill-bullet evidence,
-   - checks lab/question/flashcard inventory.
+> Does this material support an existing learner goal?
 
-6. **SAA-C03 provenance guard**
-   - protects the canonical practice layer from known provenance regressions.
+If yes, integrate it into that learning system as a layer, module, lab or currentness supplement.
 
-7. **AWS Cloud Engineer Lab workbook audit**
-   - validates the shared project workbook/safety contract.
+Create a new top-level system only when it represents a genuinely independent learner journey, for example another certification such as AWS-SAP-C02 or Azure-AZ-305.
 
-8. **External link health**
-   - remains scheduled/advisory because vendor sites may rate-limit or block automated requests.
-
-## Package status notes
-
-### AWS — Architecting on AWS 7.12.4
-
-Current state:
-
-- 13/13 course module families mapped,
-- 7/7 companion lab guides mapped,
-- currentness overlay present,
-- source manifest and course QA matrix present,
-- historical Student Guide-derived images removed from the current tree,
-- original Mermaid/SVG visuals retained.
-
-Important caveat:
-
-- Git history was **not** rewritten, so earlier source-image blobs may still exist in old commits. A future public-release process must decide whether history rewriting is necessary.
-
-### AWS — SAA-C03
-
-Current state:
-
-- current exam scope mapped,
-- 14/14 task families covered,
-- 189/189 current published Knowledge/Skill bullets accounted for,
-- current-scope teaching layer and QA matrix present,
-- practice provenance guard present,
-- known provenance-unclear legacy practice files removed from the current tree.
-
-### AWS — Cloud Engineer Lab
-
-Current state:
-
-- Project 00 + Projects 01–34,
-- package-level source manifest and project QA matrix,
-- shared project workbook/safety contract,
-- CI regression audit.
-
-Verification here is about workbook structure/safety baseline, not a claim that every tool/version in every project is permanently production-current.
-
-### Azure — AZ-104
-
-Current state:
-
-- official Microsoft Learn skills measured as of 2026-04-17,
-- 15/15 objective groups,
-- 82/82 skill-bullet evidence checks against the decoded interactive payload,
-- maintained Thai current-objectives deep dive,
-- 10 interactive visual labs,
-- 155 scenario questions,
-- 103 flashcards,
-- currentness overlay and source manifest,
-- CI payload audit.
-
-### GCP — Associate Cloud Engineer
-
-Current state:
-
-- Standard ACE Exam Guide objective coverage,
-- 17/17 current Google Skills activities mapped,
-- source manifest,
-- visual study guide,
-- modern-objective deep dive,
-- objective-by-objective non-lab QA matrix.
-
-Official Google Skills lab/grader completion remains external to the repository by design.
+Do not create generic provider buckets merely to classify file types.
 
 ## What is intentionally not claimed
 
-This repository does **not** claim:
+The repository does not claim:
 
-- permanent truth about AWS/Azure/GCP,
-- guaranteed certification success,
-- complete coverage of every product in any cloud,
-- that vendor UI, pricing, quotas, Region support or service lifecycle never changes,
-- that automated keyword/regression checks replace human technical review,
-- that old Git history is redistribution-clean,
-- that official external labs can be replaced by repository companion labs.
+- every cloud service is covered,
+- exam guides never change,
+- vendor UI/pricing/quotas/regions are permanent,
+- automated QA replaces human semantic review,
+- official external labs can be replaced by companion labs,
+- old Git history is necessarily redistribution-clean.
 
-## Remaining non-blocking work
+## Remaining non-blocking maintenance
 
-### 1. Public-release/history policy
+- Re-audit systems when official certification scope changes.
+- Update currentness overlays when major platform defaults or service lifecycle change.
+- Decide Git-history/public-release policy before broad public redistribution.
+- Keep standalone mirrors subordinate to the canonical learning system.
+- Add new top-level systems only when a new learner goal actually exists.
 
-If the repository is ever made broadly public, decide whether to:
-
-- keep current history and rely on current-tree cleanup,
-- rewrite Git history to purge old restricted blobs,
-- move licensed private source/reference material into a separate private repository or storage location.
-
-This is a release/legal/provenance decision, not a current learning-quality blocker.
-
-### 2. Mirror synchronization policy
-
-Standalone repositories such as the AZ-104 interactive mirror or Cloud Engineer Lab mirror should not become competing sources of truth.
-
-Preferred direction:
-
-```text
-Cloud-Engineer canonical package
-        ↓
-optional deploy/focused mirror
-```
-
-If bidirectional edits are ever required, document an explicit sync workflow first.
-
-### 3. Semantic review remains human work
-
-CI can prove:
-
-- expected files exist,
-- links resolve,
-- declared inventory markers remain,
-- workbook/payload contracts remain.
-
-CI cannot prove that an explanation is pedagogically perfect or that every cloud recommendation remains correct forever. Major platform/exam updates still require official-source review.
-
-### 4. Currentness maintenance
-
-Re-run package QA whenever:
-
-- an exam guide/skills-measured version changes,
-- a learning path changes,
-- a named service is renamed/deprecated,
-- identity/security/networking defaults change materially,
-- imported source payloads are regenerated.
-
-## Current architecture assessment
+## Current assessment
 
 | Dimension | Assessment |
 |---|---|
-| Repository architecture | **Mature baseline** |
-| Navigation | **Strong** |
-| Source traceability | **Strong for current verified packages** |
-| Authoring consistency | **Strong and governed** |
-| Package-level QA | **Strong for current canonical packages** |
-| Automated regression protection | **Strong baseline** |
-| Internal link integrity | **Hard-gated** |
-| External link integrity | **Advisory by design** |
-| Provenance/current-tree hygiene | **Strong, with Git-history caveat** |
-| Long-term maintainability | **Strong if verification dates are maintained** |
+| Root navigation | **Simple: 3 learning systems** |
+| AWS learner UX | **Unified** |
+| Architecture/governance | **Mature baseline** |
+| Source traceability | **Strong** |
+| Package/system QA | **Strong for current systems** |
+| Internal links | **Hard-gated** |
+| Regression protection | **Strong baseline** |
+| Long-term maintainability | **Strong if verification dates stay current** |
 
 ## Principle going forward
 
-The repository should grow by adding **well-scoped learning packages**, not by accumulating loose notes.
+The repository should feel like a bookshelf with a few complete learning systems, not a file server grouped by vendor.
 
-For every substantial new package:
-
-1. identify the source mode,
-2. declare source/scope/date,
-3. create a source manifest,
-4. build teachable content,
-5. add visuals where they improve understanding,
-6. add practice/troubleshooting,
-7. create QA evidence,
-8. pass repository CI,
-9. only then use a `Verified` or completeness label.
-
-The goal is not “more files.” The goal is a knowledge base that remains understandable, auditable and maintainable years later.
+> Open root → choose AWS-SAA-C03, Azure-AZ-104 or GCP-ACE → follow one coherent learning journey.

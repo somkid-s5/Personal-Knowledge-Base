@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Validate canonical knowledge-base structure
+      - name: Validate canonical learning-system structure
         run: python .github/scripts/validate_repo_structure.py
 
   internal-links:
@@ -34,15 +34,13 @@ jobs:
       - name: markdownlint
         uses: DavidAnson/markdownlint-cli2-action@v24
 
-
   az104-payload:
     name: Validate AZ-104 packed study payload
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - name: Decode and inventory AZ-104 learning payload
-        run: python Azure/Certifications/AZ-104/tools/audit_payload.py
-
+        run: python Azure-AZ-104/tools/audit_payload.py
 
   aws-project-track:
     name: Validate AWS project workbooks
@@ -50,8 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Audit Cloud Engineer Lab project contract
-        run: python AWS/Projects/Cloud-Engineer-Lab/tools/audit_projects.py
-
+        run: python AWS-SAA-C03/03-Hands-On-Projects/tools/audit_projects.py
 
   saa-provenance:
     name: Validate SAA-C03 practice provenance
@@ -59,4 +56,4 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Guard canonical SAA practice layer
-        run: python AWS/Certifications/SAA-C03/tools/audit_provenance.py
+        run: python AWS-SAA-C03/01-Certification-Core/tools/audit_provenance.py

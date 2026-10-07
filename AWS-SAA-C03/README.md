@@ -1,0 +1,61 @@
+# AWS-SAA-C03 — Unified Learning System 🌩️
+
+> **System status:** **Verified learning system** — current SAA-C03 objective coverage + verified architecture foundation + verified hands-on project track  
+> **System model:** one certification-centered entry point with theory, current exam scope, practice and projects in one folder  
+> **Last structural review:** 2026-10-07
+
+[← Repository root](../README.md)
+
+## Start here
+
+This folder is the single AWS learning system in this repository. Do not treat the course, certification notes and project track as separate top-level AWS products.
+
+Use this order:
+
+1. **Know the current target:** open [01-Certification-Core](./01-Certification-Core/) and read the exam guide map / current-scope deep dive.
+2. **Build durable architecture understanding:** study [02-Architecture-Foundation](./02-Architecture-Foundation/) for the full Architecting on AWS 7.12.4 theory layer.
+3. **Return to current gaps:** use the certification core to cover services/objectives that changed beyond the historical course.
+4. **Build it:** use [03-Hands-On-Projects](./03-Hands-On-Projects/) for implementation, troubleshooting, cost and cleanup practice.
+5. **Review:** finish with current-scope scenarios, QA evidence and targeted re-study.
+
+```mermaid
+flowchart LR
+    S[Current SAA-C03 Scope] --> F[Architecture Foundation]
+    F --> G[Current Gap Study]
+    G --> H[Hands-On Projects]
+    H --> P[Scenarios / Review]
+    P --> R[Re-study weak areas]
+```
+
+## System layers
+
+| Layer | Purpose | Status |
+|---|---|---|
+| [01-Certification-Core](./01-Certification-Core/) | Current SAA-C03 exam scope, objective map, current deep dive, scenarios, provenance | **Verified Current Objective Scope** |
+| [02-Architecture-Foundation](./02-Architecture-Foundation/) | Architecting on AWS 7.12.4 modules 01–13, companion labs, diagrams and currentness overlay | **Verified Course Scope** |
+| [03-Hands-On-Projects](./03-Hands-On-Projects/) | Project 00 + Projects 01–34 for implementation and troubleshooting | **Verified Project Workbook Structure & Safety Baseline** |
+
+## Why this is one system
+
+The three layers have different source identities and maintenance cycles, but they serve one learner goal: **become competent at AWS architecture while preparing for SAA-C03**.
+
+Keeping them as layers avoids two bad outcomes:
+
+- showing three separate AWS products at repository root,
+- duplicating the same theory into certification notes and project workbooks.
+
+The certification core remains the authority for **what the current exam measures**. The versioned course is the durable architecture foundation. The project track proves implementation skill.
+
+## Evidence
+
+- [System Source Manifest](./SOURCE-MANIFEST.md)
+- [System QA](./SYSTEM-QA.md)
+- [Certification QA](./01-Certification-Core/QA-MATRIX.md)
+- [Course QA](./02-Architecture-Foundation/COURSE-QA-MATRIX.md)
+- [Project QA](./03-Hands-On-Projects/PROJECT-QA-MATRIX.md)
+
+## Maintenance rule
+
+When AWS changes the exam guide, update **01-Certification-Core** first. Do not rewrite the historical course merely to make it look current; use its currentness overlay and certification deep dive to bridge changes.
+
+When adding AWS material that directly supports SAA learning, place it inside this system rather than creating another top-level AWS folder.
