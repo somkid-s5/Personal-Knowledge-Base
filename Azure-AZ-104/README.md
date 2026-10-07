@@ -63,7 +63,7 @@ The complete source snapshot from `az-104-master-cram-book` is preserved in [`in
 
 Use the current Microsoft Learn AZ-104 study guide as the scope authority for exam objectives and service-name freshness.
 
-Official guide: https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104
+Official guide: [Microsoft Learn — AZ-104 study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104)
 
 ## Migration policy
 
