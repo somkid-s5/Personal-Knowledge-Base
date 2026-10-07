@@ -30,6 +30,12 @@ Always verify operational exam details again near the actual booking date.
 
 Total: 100%.
 
+## Cross-domain 2026 theme — AI security
+
+The 2026 refresh integrates foundational AI-security awareness across all five domains rather than isolating it as a separate domain. During the teaching pass, AI-related examples should be mapped into the relevant security principle, governance, IAM, networking/cloud or operations objective instead of being treated as an unrelated appendix.
+
+This is a notable current-scope delta and should be checked explicitly when older study material is remapped.
+
 ## Domain 1 — Security Principles
 
 Current study buckets:
