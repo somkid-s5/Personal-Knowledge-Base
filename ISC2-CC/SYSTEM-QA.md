@@ -17,9 +17,9 @@
 | Missing full Domain 5 study guide recorded | **PASS** |
 | Full read of all private sources | **PENDING** |
 | Source-to-current-objective remap | **PENDING** |
-| Current objective teaching coverage | **PENDING** |
-| Original diagrams / learning visuals | **PENDING** |
-| Original practice / review layer | **PENDING** |
+| Current objective teaching coverage | **PARTIAL — Domain 1 current teaching note added** |
+| Original diagrams / learning visuals | **PARTIAL — Domain 1 + study-plan Mermaid models added** |
+| Original practice / review layer | **PARTIAL — Domain 1 knowledge check + current study-loop guidance added** |
 | Final quality gate | **PENDING** |
 
 ## Status decision
