@@ -13,8 +13,8 @@ if legacy_files:
 readme = (ROOT / "README.md").read_text(encoding="utf-8")
 study = (ROOT / "STUDY-PATH.md").read_text(encoding="utf-8")
 for label, text in [("README.md", readme), ("STUDY-PATH.md", study)]:
-    if "practice-exam/" in text:
-        failures.append(f"{label}: still links to retired practice-exam directory")
+    if "](./practice-exam" in text or "AWS_SAA_Test_" in text:
+        failures.append(f"{label}: still links to or names retired legacy practice files")
 
 required = [
     "CURRENT-SCOPE-SCENARIOS.md",
