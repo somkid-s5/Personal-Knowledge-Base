@@ -109,7 +109,7 @@ Project track นี้ **ไม่ใช่ certification curriculum ที่�
 - Terraform / Infrastructure as Code
 - Security, FinOps and observability
 
-สำหรับ coverage ของ certification ให้ใช้ package certification ที่มี objective QA โดยตรง เช่น [SAA-C03](../../Certifications/SAA-C03/).
+สำหรับ coverage ของ certification ให้ใช้ package certification ที่มี objective QA โดยตรง เช่น [SAA-C03](../01-Certification-Core/).
 
 ---
 
