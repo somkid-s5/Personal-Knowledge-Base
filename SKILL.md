@@ -76,7 +76,7 @@ Both modes must follow:
 Minimum package shape depends on scope, but substantial learning packages should converge on:
 
 ```text
-<Provider-or-Domain>/<Content-Type>/<Package>/
+<Learning-System>/
 ├─ README.md
 ├─ SOURCE-MANIFEST.md             # strongly recommended; required by both skills for substantial packs
 ├─ SOURCE-COVERAGE.md             # source-ingestion mode
@@ -88,7 +88,7 @@ Minimum package shape depends on scope, but substantial learning packages should
 └─ QA-MATRIX.md                   # required for formal completeness claims
 ```
 
-A package README must answer: what this is, who it is for, build mode, source/scope, learning order, status, last verified date, quick links, exclusions and how to know when the learner is done.
+A learning-system README must answer: what this is, who it is for, build mode, source/scope, learning order, status, last verified date, quick links, exclusions and how to know when the learner is done. If multiple course/project/source layers support the same goal, integrate them beneath this system instead of creating separate root packages.
 
 ## Shared teaching standard
 
@@ -142,7 +142,7 @@ Update in the same change when applicable:
 - package README,
 - source manifest/coverage files,
 - QA matrix,
-- provider/domain README,
+- learning-system README,
 - root README catalog,
 - moved-path references.
 
