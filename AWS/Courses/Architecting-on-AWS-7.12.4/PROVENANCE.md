@@ -2,7 +2,7 @@
 
 [Back to package README](./README.md) · [Sources](./SOURCES.md) · [Course QA matrix](./COURSE-QA-MATRIX.md)
 
-> **Review date:** 2026-10-06
+> **Review date:** 2026-10-07
 
 ## Purpose
 
@@ -37,7 +37,7 @@ Avoid:
 
 ### C. Source screenshots / source figures — restricted review area
 
-Some historical files under `assets/source/` were extracted from or closely tied to the Student Guide/Lab Guide. Their presence in a repository does **not** establish redistribution permission.
+Historical files under `assets/source/` were extracted from or closely tied to the Student Guide/Lab Guide. They have now been removed from the current repository tree. Their earlier presence did **not** establish redistribution permission.
 
 Repository policy going forward:
 
@@ -51,9 +51,11 @@ Repository policy going forward:
 
 At this review point:
 
-- original Mermaid/SVG learning visuals exist across the course,
-- historical `assets/source/` images still exist in the repository and therefore keep **Public Redistribution Readiness = REVIEW**,
-- the package should not be labeled redistribution-clean until that source-asset cleanup is complete,
+- original Mermaid/SVG learning visuals remain across the course,
+- the 13 historical Student Guide-derived images under `assets/source/` have been removed from the current tree,
+- module pages now rely on original repository visuals instead of those source images,
+- **current-tree provenance status = CLEAN for the known source-image blocker**,
+- Git history may still contain earlier blobs; a future public-release process should decide whether history rewriting is necessary,
 - course-fidelity and learning-quality status are tracked separately in [COURSE-QA-MATRIX.md](./COURSE-QA-MATRIX.md).
 
 ## Mock exam / question policy
@@ -78,7 +80,7 @@ Use wording such as:
 
 The package can be marked **Provenance Clean** only when all of the following are true:
 
-- [ ] no unapproved source screenshots remain in the public tree,
+- [x] no known unapproved source screenshots remain in the current public tree,
 - [ ] no long copied passages from restricted course material remain,
 - [ ] mock/review questions are original or clearly licensed,
 - [ ] original diagrams are distinguishable from source material,

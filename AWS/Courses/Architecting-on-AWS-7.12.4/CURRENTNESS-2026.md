@@ -2,7 +2,7 @@
 
 [Back to package README](./README.md) · [Course QA matrix](./COURSE-QA-MATRIX.md) · [Sources](./SOURCES.md)
 
-> **Checked:** 2026-10-06  
+> **Checked:** 2026-10-07  
 > This file does **not** rewrite the historical 7.12.4 course. It records high-impact differences between course-era wording and current AWS guidance so the notes remain useful for modern work.
 
 ## How to read this package
@@ -116,7 +116,28 @@ Why this matters:
 
 Commands in the course that use stable AWS service operations may still look similar, but always verify syntax/options against the installed CLI version.
 
-## 6. Course scope vs modern AWS scope
+## 6. Modern AWS CLI interactive sign-in
+
+Current AWS CLI v2 documentation now recommends short-term authentication flows ahead of long-term IAM-user access keys. For local development, AWS CLI v2 supports browser-based `aws login` for supported console identities; IAM Identity Center users should continue to use the Identity Center authentication flow such as `aws configure sso`.
+
+### Decision
+
+```text
+IAM Identity Center workforce user
+        → aws configure sso / SSO session
+        → temporary credentials
+
+Supported console identity for local development
+        → aws login
+        → temporary credentials
+
+Long-term IAM-user access keys
+        → avoid as the default learning/operations pattern
+```
+
+This is a **current tooling recommendation**, not a reason to remove IAM access-key concepts from the historical course: learners still need to understand how credentials and request signing work.
+
+## 7. Course scope vs modern AWS scope
 
 Do not expand every module with every AWS service launched after the course version. That would destroy the value of a course-aligned reader.
 
@@ -130,7 +151,7 @@ Use this rule:
 | New product exists but does not change the course concept | do not force it into the module |
 | Production decision depends on current limits/pricing/Region support | verify current AWS docs at decision time |
 
-## 7. Volatile facts that should never be frozen as timeless truth
+## 8. Volatile facts that should never be frozen as timeless truth
 
 Always recheck current AWS documentation for:
 
@@ -144,7 +165,7 @@ Always recheck current AWS documentation for:
 - encryption defaults,
 - networking feature availability.
 
-## 8. Currentness status by module
+## 9. Currentness status by module
 
 | Module | Currentness risk | Overlay guidance |
 |---:|---|---|
@@ -162,7 +183,7 @@ Always recheck current AWS documentation for:
 | 12 Edge Services | **High** | prefer CloudFront OAC over legacy OAI for new S3-origin designs |
 | 13 Backup & Recovery | Medium | RPO/RTO strategies durable; supported resources/features evolve |
 
-## 9. Rule before production use
+## 10. Rule before production use
 
 The repository is a learning system, not a substitute for live service documentation.
 
