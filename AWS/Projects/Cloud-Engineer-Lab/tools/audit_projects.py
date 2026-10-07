@@ -31,6 +31,31 @@ def main():
 
     failures = []
     warnings = []
+
+    package_readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    setup_readme = (ROOT / "project-00-preparation-setup" / "README.md").read_text(encoding="utf-8")
+
+    if "temporary credentials" not in package_readme.casefold():
+        failures.append("package README: temporary-credential human authentication baseline missing")
+    if "temporary credentials" not in setup_readme.casefold():
+        failures.append("project-00: temporary-credential authentication baseline missing")
+
+    legacy_auth_patterns = {
+        "package README": [
+            r"IAM User.+AdministratorAccess",
+            r"aws configure.+Access Key",
+        ],
+        "project-00": [
+            r"Root User.+IAM.+Create user",
+            r"แนบสิทธิ์.+AdministratorAccess",
+        ],
+    }
+    for label, patterns in legacy_auth_patterns.items():
+        body = package_readme if label == "package README" else setup_readme
+        for pattern in patterns:
+            if re.search(pattern, body, re.I | re.S):
+                failures.append(f"{label}: legacy human-auth pattern returned: {pattern}")
+
     print(f"Cloud Engineer Lab project audit: projects={len(projects)}")
 
     expected = [f"{i:02d}" for i in range(35)]
