@@ -61,6 +61,8 @@ Current official scope
 - access-control models
 - authentication mechanisms
 
+ใช้ [Domain 3 IAM note](./03-Identity-Access-Management.md)
+
 ### Stage 3 — Domain 4: Networking & Cloud Security
 
 เน้น:
