@@ -39,5 +39,5 @@ Run this before marking a package `Verified`, `Complete`, or `100%` within a dec
 - [ ] Markdown tables, links and Mermaid blocks are structurally valid by inspection/tooling available.
 
 ## Completion labels
-- `Verified` = all applicable checks pass for the declared scope/date.
+- `Verified` = all applicable checks pass for the declared scope/date. A substantial Verified package must also expose package-level source traceability (`SOURCE-MANIFEST.md`) and package-level QA evidence so the claim is independently reviewable.
 - `100% coverage` = every item in an explicit official inventory passes; this does not mean mastery of the entire technology or guaranteed exam success.
