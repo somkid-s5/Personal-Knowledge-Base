@@ -53,8 +53,8 @@ The 82-item inventory is a repository paraphrase of the current Microsoft Learn 
 |---|---|---|
 | Declared scope | Current Microsoft Learn date and five-domain weights recorded | **PASS** |
 | Objective coverage | 82/82 automated evidence checks against decoded payload | **PASS** |
-| No heading-only coverage | Every objective contains 23–78 teaching lines and multiple topics | **PASS** |
-| Decision/tradeoff learning | Exam Trigger/Trap/Rule sections, comparisons and scenario bank | **PASS** |
+| No heading-only coverage | Every objective contains 23–78 decoded teaching lines and multiple topics; current objective deep-dive adds a durable explanatory layer | **PASS** |
+| Decision/tradeoff learning | Exam Trigger/Trap/Rule sections, comparisons, scenario bank and current objective decision maps | **PASS** |
 | Visual learning | 14 topic-linked diagrams + 10 interactive visual labs | **PASS** |
 | Practice | 155 original scenario questions + 103 flashcards | **PASS** |
 | Operations/troubleshooting | Network, load balancing, monitoring, backup/recovery and service-specific troubleshooting sections | **PASS** |
@@ -67,7 +67,7 @@ The 82-item inventory is a repository paraphrase of the current Microsoft Learn 
 
 The validator is intentionally a **regression guard**, not a semantic oracle. For each current skill item it confirms that expected concept markers exist inside the correct decoded objective, rather than somewhere random in the repository.
 
-That protects against accidental payload replacement, missing sections or future edits that silently drop an exam skill. Human-readable topic structure, line depth, diagrams, labs and scenarios are reviewed separately in this matrix.
+That protects against accidental payload replacement, missing sections or future edits that silently drop an exam skill. Human-readable topic structure, line depth, diagrams, labs and scenarios are reviewed separately in this matrix. The repository also maintains [AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md](./AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md) so semantic teaching quality does not depend on packed-payload presence checks alone.
 
 ## Completion label
 
