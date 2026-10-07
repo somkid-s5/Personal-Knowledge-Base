@@ -52,9 +52,9 @@ Repository policy going forward:
 At this review point:
 
 - original Mermaid/SVG learning visuals remain across the course,
-- the 13 historical Student Guide-derived images under `assets/source/` have been removed from the current tree,
-- module pages now rely on original repository visuals instead of those source images,
-- **current-tree provenance status = CLEAN for the known source-image blocker**,
+- the 13 historical Student Guide-derived module images and 7 Lab Guide-derived lab images (20 known source images total) have been removed from the current tree,
+- module and lab pages now rely on original repository Mermaid/SVG visuals instead of those source images,
+- **current-tree source-image blocker = CLEAN** for the 20 known proprietary-derived images identified in this audit,
 - Git history may still contain earlier blobs; a future public-release process should decide whether history rewriting is necessary,
 - course-fidelity and learning-quality status are tracked separately in [COURSE-QA-MATRIX.md](./COURSE-QA-MATRIX.md).
 
@@ -78,7 +78,7 @@ Use wording such as:
 
 ## Definition of provenance-clean
 
-The package can be marked **Provenance Clean** only when all of the following are true:
+Full **Public Redistribution / Provenance Clean** status requires all of the following; removing the known source images alone does not satisfy the remaining checks:
 
 - [x] no known unapproved source screenshots remain in the current public tree,
 - [ ] no long copied passages from restricted course material remain,
