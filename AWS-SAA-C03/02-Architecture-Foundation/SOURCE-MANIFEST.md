@@ -58,7 +58,7 @@ Use [SOURCES.md](./SOURCES.md) for the detailed documentation map and [CURRENTNE
 
 ## Provenance boundary
 
-Licensed source material is not part of the publishable teaching layer. The current repository tree no longer contains the 13 historical Student Guide-derived images that previously lived under `assets/source/`. Original Mermaid and SVG learning diagrams remain.
+Licensed source material is not part of the publishable teaching layer. The current repository tree no longer contains the 13 historical Student Guide-derived module images or the 7 Lab Guide-derived lab images identified during the audit (20 known source images total). Original Mermaid and SVG learning diagrams remain.
 
 Git history has **not** been rewritten, so earlier blobs may remain reachable from old commits. See [PROVENANCE.md](./PROVENANCE.md).
 
