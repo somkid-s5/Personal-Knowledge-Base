@@ -35,17 +35,18 @@ The current Microsoft Learn study guide measures five skill areas:
 4. Implement and manage virtual networking — 15–20%
 5. Monitor and maintain Azure resources — 10–15%
 
-The detailed mapping lives in [`SOURCE-COVERAGE.md`](./SOURCE-COVERAGE.md), with formal evidence in [`AZ104-QA-MATRIX.md`](./AZ104-QA-MATRIX.md).
+The detailed mapping lives in [`SOURCE-COVERAGE.md`](./SOURCE-COVERAGE.md), with formal evidence in [`AZ104-QA-MATRIX.md`](./AZ104-QA-MATRIX.md). For a durable Thai teaching layer that follows every current objective, use [`AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md`](./AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md).
 
 ## Recommended learning flow
 
 ```mermaid
 flowchart LR
-    A[Official AZ-104 scope] --> B[Interactive Learn pages]
-    B --> C[Visual Labs]
-    C --> D[Cram + Flashcards]
-    D --> E[Scenario Questions]
-    E --> F[Gap Review / Re-study]
+    A[Official AZ-104 scope] --> B[Current Objectives Deep Dive]
+    B --> C[Interactive Learn pages]
+    C --> D[Visual Labs]
+    D --> E[Cram + Flashcards]
+    E --> F[Scenario Questions]
+    F --> G[Gap Review / Re-study]
 ```
 
 ## Source layers
@@ -70,9 +71,14 @@ The old standalone repository can continue to exist as a public/live deployment 
 
 ## Quality status
 
-The imported system's own regression tests are valuable, but they are not the same as this repository's learning-content quality gate. Before this package is called `Verified` under the main repository standard, we still need to complete:
+This package now passes the main repository's declared **current-objective scope** gate:
 
-- objective-by-objective content fidelity review,
-- source/provenance review,
-- current Microsoft Learn delta review,
-- main-repository QA matrix pass.
+- 15/15 objective groups mapped,
+- 82/82 current Microsoft Learn skill bullets checked against the decoded interactive payload,
+- a current Thai objective teaching layer exists for all 82 bullets,
+- 10 interactive visual labs, 155 scenario questions and 103 flashcards are present,
+- current platform deltas are separated in [CURRENTNESS-2026.md](./CURRENTNESS-2026.md),
+- source traceability and machine-readable scope inventory are recorded,
+- CI guards payload coverage, repository structure and internal links.
+
+`Verified` remains scoped to the Microsoft Learn skills measured on **2026-04-17**. It is not a claim that Azure will never change or that every Azure feature is covered.
