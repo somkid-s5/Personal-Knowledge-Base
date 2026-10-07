@@ -17,7 +17,7 @@ Choose the path that matches your goal:
 3. **Avoid stale AWS assumptions:** read [Currentness Overlay — 2026](./CURRENTNESS-2026.md).
 4. **Practice:** use the [Thai Lab Guide](./Lab-Guide-TH/), then the [Mock Exam](./MOCK-EXAM-65.md).
 5. **Fast review:** [Cheat Sheet](./Architecting-on-AWS_Cheat-Sheet.md) + [Exam Mode](./EXAM-MODE.md).
-6. **Audit the evidence:** [Sources](./SOURCES.md) and [Provenance](./PROVENANCE.md).
+6. **Audit the evidence:** [Source Manifest](./SOURCE-MANIFEST.md), [Sources](./SOURCES.md) and [Provenance](./PROVENANCE.md).
 
 ```mermaid
 flowchart LR
