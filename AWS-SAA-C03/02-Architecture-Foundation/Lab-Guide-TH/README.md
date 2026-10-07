@@ -1,16 +1,15 @@
 # Architecting on AWS 7.12.4 — Lab Guide ภาษาไทย 🧪
 
-คู่มือทำ Lab ภาษาไทยที่แปลงจาก **Architecting on AWS 7.12.4 (EN) — Lab Guide**
+คู่มือ Lab ภาษาไทยสำหรับการเรียนส่วนตัวที่เรียบเรียงตามลำดับและเป้าหมายของ **Architecting on AWS 7.12.4 (EN) — Lab Guide** โดยคง reference ไปยังแหล่งเรียนต้นฉบับ และใช้ภาพอธิบายที่สร้างใน repository เอง
 
 ## รูปแบบของชุดนี้
 
 - คำอธิบายและขั้นตอน → **ภาษาไทย**
 - ชื่อ AWS services / Console menu / button / field / status → **คงภาษาอังกฤษ** เพื่อกดตามหน้าจอจริงได้
 - CLI commands / JSON policies / User Data / CloudFormation parameter names → **คงรูปแบบเดิม**
-- ตัด copyright, marketing, Additional resources, icon legend และข้อความประกอบที่ไม่จำเป็นต่อการทำ Lab
 - Optional Tasks ที่ยังเป็นส่วนหนึ่งของ Lab จะเก็บไว้และระบุว่า Optional ชัดเจน
 
-> ใช้คู่มือนี้สำหรับกดตาม AWS Builder Lab ได้โดยตรง หาก Console เปลี่ยน UI เล็กน้อย ให้ยึดชื่อ service/field ภาษาอังกฤษเป็นหลัก
+> ใช้เป็น companion note ระหว่างทำ AWS-hosted lab ที่ได้รับสิทธิ์เข้าถึง โดยให้ environment/instructions ของ official lab เป็น authoritative source เมื่อรายละเอียดต่างจากโน้ตนี้
 
 ---
 
