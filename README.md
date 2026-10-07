@@ -1,28 +1,47 @@
 # Cloud Engineer Learning Knowledge Base ☁️
 
-A long-lived personal knowledge base for cloud engineering, infrastructure, DevOps, security, Linux, Kubernetes, automation and certification learning.
+A long-lived personal knowledge base for cloud engineering and certification learning.
 
-This repository is designed to store **structured study notes, diagrams, labs, review material, practice explanations, interactive study tools and hands-on projects** in one consistent system — not as isolated repositories that drift apart.
+The repository is organized around **learning systems**, not provider folders. When you open the repo, the main decision should be **what you want to learn**, not whether a file originally came from a course, certification pack, or project repository.
 
-> **Repository architecture:** provider/domain → content type → learning package  
+> **Repository architecture:** learning system → learning layers → modules/labs/practice/QA  
 > **Default explanation language:** Thai, while preserving official English technical terminology  
-> **Quality model:** source-of-truth → teachable content → visual learning → practice/troubleshooting → QA  
-> **Canonical policy:** new learning-system integration should land here first; standalone repos may remain as mirrors/deployment surfaces when useful
+> **Quality model:** source-of-truth → teachable content → visual learning → practice/troubleshooting → QA
 
 ---
 
-## Start here
+## Start here — 3 learning systems
 
-### Learning libraries
+| Learning system | Goal | Status |
+|---|---|---|
+| [AWS-SAA-C03](./AWS-SAA-C03/) | AWS architecture + AWS Certified Solutions Architect – Associate | **Verified learning system** |
+| [Azure-AZ-104](./Azure-AZ-104/) | Microsoft Azure Administrator | **Verified Current Objective Scope** |
+| [GCP-ACE](./GCP-ACE/) | Google Cloud Associate Cloud Engineer | **Verified Non-Lab Objective Scope** |
 
-- [AWS Learning Library](./AWS/)
-- [Microsoft Azure Learning Library](./Azure/)
-- [Google Cloud Learning Library](./GCP/)
+~~~mermaid
+flowchart LR
+    ROOT[Cloud Engineer Knowledge Base]
+    ROOT --> AWS[AWS-SAA-C03]
+    ROOT --> AZ[Azure-AZ-104]
+    ROOT --> GCP[GCP-ACE]
+~~~
 
-### Repository standards
+### AWS is intentionally one system
+
+AWS-SAA-C03/ contains all AWS learning material needed by this repository:
+
+- 01-Certification-Core/ — current SAA-C03 scope and exam-oriented learning
+- 02-Architecture-Foundation/ — Architecting on AWS 7.12.4 long-form theory
+- 03-Hands-On-Projects/ — Cloud Engineer Lab Project 00–34
+
+These are **layers of one system**, not separate AWS products in the root catalog.
+
+---
+
+## Repository standards
 
 - [AGENTS.md](./AGENTS.md) — mandatory rules for humans and AI agents
-- [SKILL.md](./SKILL.md) — authoring router that selects the correct source mode
+- [SKILL.md](./SKILL.md) — authoring router
 - [Authoring Skills](./skills/) — Internet-first and Source-ingestion workflows
 - [Repository Architecture](./docs/REPOSITORY-ARCHITECTURE.md)
 - [Content Standard](./docs/CONTENT-STANDARD.md)
@@ -30,130 +49,90 @@ This repository is designed to store **structured study notes, diagrams, labs, r
 - [Visual Learning Standard](./docs/VISUAL-STANDARD.md)
 - [Quality Gate](./docs/QUALITY-GATE.md)
 - [Current Repository Baseline Audit — 2026-10-07](./docs/REPOSITORY-AUDIT-2026-10-07.md)
-- [Historical Repository Audit — 2026-10-06](./docs/REPOSITORY-AUDIT-2026-10-06.md)
-- [Repository Consolidation — 2026-10-06](./docs/REPOSITORY-CONSOLIDATION-2026-10-06.md)
 - [Templates](./templates/)
 
-### Two ways to build new learning content
-
-1. **Internet-first** — build from scratch using the current official exam guide, learning path, course syllabus and product documentation as the source of truth.
-2. **Source-ingestion** — start from PDFs/slides/docs/images/course files supplied by the user, read and account for the full source set, then reconstruct it into this repository format. Current web research becomes a clearly labeled supplement when needed.
-
-See [SKILL.md](./SKILL.md) for routing rules.
-
----
-
-## Current learning packages
-
-| Provider | Type | Package | Status |
-|---|---|---|---|
-| AWS | Course | [Architecting on AWS 7.12.4](./AWS/Courses/Architecting-on-AWS-7.12.4/) | **Verified Course Scope** — 13/13 module families + 7/7 companion lab guides mapped; 2026 currentness overlay/source map/QA matrix added. known licensed source-image blocker removed from current tree; Git-history caveat documented |
-| AWS | Certification | [AWS Certified Solutions Architect – Associate (SAA-C03)](./AWS/Certifications/SAA-C03/) | **Verified Current Objective Scope** — 14/14 tasks and 189/189 current published Knowledge/Skill bullets accounted for as of 2026-10-06, with a current-scope deep dive, hands-on mappings and original scenarios; known provenance-unclear legacy practice files removed from the current tree |
-| AWS | Projects | [Cloud Engineer Lab](./AWS/Projects/Cloud-Engineer-Lab/) | **Verified Project Workbook Structure & Safety Baseline** — Project 00 + Projects 01–34; 35/35 workbooks satisfy the common learning contract with cost/cleanup guidance, temporary-credential baseline and CI audit |
-| Azure | Certification | [AZ-104 — Microsoft Azure Administrator](./Azure/Certifications/AZ-104/) | **Verified Current Objective Scope** — Microsoft Learn 2026-04-17 scope; 15/15 objective groups and 82/82 skill-bullet evidence checks pass against the decoded interactive payload, with 10 labs / 155 scenarios / 103 flashcards |
-| GCP | Certification | [Associate Cloud Engineer (ACE)](./GCP/Certifications/Associate-Cloud-Engineer/) | **Verified non-lab scope** — mapped to the current Standard Exam Guide + 17 Google Skills activities, with visual guide and objective-by-objective QA matrix |
-
-“Verified” always means verified against a declared scope and date. It does **not** mean permanent truth or guaranteed exam success. See [Quality Gate](./docs/QUALITY-GATE.md).
+Historical migration records remain under [docs/](./docs/) but are not the current architecture authority.
 
 ---
 
 ## Repository structure
 
-```text
+~~~text
 Cloud-Engineer/
 ├─ README.md
 ├─ AGENTS.md
-├─ SKILL.md                       # authoring-mode router
+├─ SKILL.md
+├─ docs/
 ├─ skills/
-│  ├─ INTERNET-FIRST-CURRICULUM.md
-│  └─ SOURCE-INGESTION-CURRICULUM.md
-├─ docs/                          # repository-wide standards / audits
-├─ templates/                     # reusable note/lab/package templates
-├─ AWS/
+├─ templates/
+│
+├─ AWS-SAA-C03/
 │  ├─ README.md
-│  ├─ Courses/
-│  │  └─ Architecting-on-AWS-7.12.4/
-│  ├─ Certifications/
-│  │  └─ SAA-C03/
-│  └─ Projects/
-│     └─ Cloud-Engineer-Lab/
-├─ Azure/
+│  ├─ SOURCE-MANIFEST.md
+│  ├─ SYSTEM-QA.md
+│  ├─ 01-Certification-Core/
+│  ├─ 02-Architecture-Foundation/
+│  └─ 03-Hands-On-Projects/
+│
+├─ Azure-AZ-104/
 │  ├─ README.md
-│  └─ Certifications/
-│     └─ AZ-104/
-│        ├─ README.md
-│        ├─ SOURCE-MANIFEST.md
-│        ├─ SOURCE-COVERAGE.md
-│        └─ interactive/           # imported cram-book/site source
-└─ GCP/
+│  ├─ SOURCE-MANIFEST.md
+│  ├─ AZ104-QA-MATRIX.md
+│  ├─ CURRENTNESS-2026.md
+│  └─ interactive/
+│
+└─ GCP-ACE/
    ├─ README.md
-   └─ Certifications/
-      └─ Associate-Cloud-Engineer/
-```
+   ├─ SOURCE-MANIFEST.md
+   ├─ ACE-100-PERCENT-QA-MATRIX.md
+   ├─ Module-01-...
+   └─ Lab-Guide-TH/
+~~~
 
-Future domains such as Kubernetes, Linux, DevOps or Security should be added only when real reusable content exists, following the same taxonomy described in [Repository Architecture](./docs/REPOSITORY-ARCHITECTURE.md).
+## Why Learning-System First
 
----
+The old provider-first model (AWS/Courses, AWS/Certifications, AWS/Projects) was technically tidy but poor for learner navigation: one cloud appeared as several unrelated products.
 
-## How content should feel
+The current rule is:
 
-A learning note in this repository should not stop at “what is this service?”. High-quality content should help answer:
+> **One learner goal = one top-level learning system.**
 
-1. **What problem does it solve?**
-2. **How does it work / what is the mental model?**
-3. **When should I choose it — and when not?**
-4. **What are the tradeoffs?**
-5. **What does the request/data/identity path look like?**
-6. **What commonly fails and where should I check first?**
-7. **What security, availability and cost implications matter?**
-8. **What should I be able to explain or do after learning it?**
+A system may contain multiple source layers internally. For example, a current certification can use a historical course for deep theory and a project track for hands-on practice without exposing three separate root packages.
 
-For flow-heavy subjects, diagrams are part of the explanation rather than decoration.
+If a future certification has a genuinely different learning goal, create another explicit system such as AWS-SAP-C02 or Azure-AZ-305 rather than adding another generic provider bucket.
 
 ---
 
-## Adding a new course, certification or topic
+## Two ways to build new content
 
-The first decision is now the source mode:
+1. **Internet-first** — build from the current official exam guide, learning path, syllabus and product documentation.
+2. **Source-ingestion** — start from user-supplied PDFs/slides/docs/course files, reconstruct the learning material faithfully, then add clearly separated current verification where needed.
 
-```mermaid
-flowchart TD
-    N[New content] --> Q{Substantial course/source files supplied?}
-    Q -->|No| I[Internet-first skill]
-    Q -->|Yes| S[Source-ingestion skill]
-    I --> P[Plan learning package]
-    S --> P
-    P --> W[Write for understanding]
-    W --> V[Visual pass]
-    V --> X[Practice / troubleshooting]
-    X --> F[Fact-check / source fidelity]
-    F --> QG[Quality gate]
-    QG --> PUB[Publish + update navigation]
-```
+See [SKILL.md](./SKILL.md).
 
-The detailed routing and workflows are in [SKILL.md](./SKILL.md) and [`skills/`](./skills/). Reuse files under [`templates/`](./templates/) rather than inventing a new format for every package.
+## Content quality expectations
 
----
+A strong learning system should answer:
 
-## Accuracy and maintenance principles
+1. What problem does this solve?
+2. How does it work?
+3. When should I choose it — and when not?
+4. What are the tradeoffs?
+5. What does the request/data/identity path look like?
+6. What commonly fails and where should I check first?
+7. What security, availability and cost implications matter?
+8. What should I be able to explain or do after learning it?
 
-- Internet-first content should prefer official exam guides, learning paths and vendor documentation as primary sources.
-- Source-ingestion content should preserve traceability to the supplied course/source set and label later Internet updates separately.
-- Record verification dates for changing certification/course/product scope.
-- Avoid freezing volatile pricing, quota, availability or product lifecycle facts as timeless truths.
-- Keep official service names, commands, API names and menu labels searchable in English.
-- Do not store credentials, production secrets, exam dumps or proprietary grader solutions.
-- Do not redistribute proprietary course figures/screenshots without appropriate rights; prefer original explanatory diagrams.
-- A structural cleanup should preserve technical meaning; content rewrites and path migrations should be reviewable separately when possible.
+Diagrams are part of the explanation when relationships or flows matter.
+
+## Accuracy and maintenance
+
+- Prefer current official vendor documentation for changing technical facts.
+- Record exam/course verification dates.
+- Keep historical/versioned sources identifiable instead of silently rewriting history.
+- Do not store secrets, exam dumps, hidden grader logic or unlicensed proprietary figures.
+- Treat Verified as a scope/date claim backed by source and QA evidence, never as permanent truth.
 
 ---
 
-## Reading on GitHub / mobile / Obsidian
-
-Content is authored primarily in Markdown so it works directly on GitHub and remains portable to editors such as Obsidian. Mermaid is preferred for durable architecture, flow, decision and troubleshooting diagrams.
-
-Interactive study tools and full hands-on project source can live inside a package when they provide real learning value; the package README must still explain source, status, scope and maintenance expectations.
-
----
-
-> Build notes that are useful **after the exam**, not only on exam day.
+> Open the repo → choose a learning system → follow one guided path.
