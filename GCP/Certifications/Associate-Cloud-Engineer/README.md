@@ -1,7 +1,10 @@
 # Google Cloud Associate Cloud Engineer — Study Notes ภาษาไทย 📘
 
-> โน้ตสำหรับคนที่ชอบอ่าน: อธิบายเหตุผล วิธีทำงาน ตัวอย่างงาน System Admin และวิธีเลือกบริการ ไม่ใช่รายการคำศัพท์ให้ท่องอย่างเดียว  
-> ตรวจแหล่งข้อมูลและหน้า Google Skills: **5 ตุลาคม 2026** · รูปแบบ Markdown สำหรับ GitHub / มือถือ / Obsidian
+> **Status:** **Verified Non-Lab Objective Scope** — Standard Exam Guide + 17/17 Google Skills activities mapped  
+> **Last repository verification:** 2026-10-07  
+> **Source manifest:** [SOURCE-MANIFEST.md](./SOURCE-MANIFEST.md)  
+> **QA evidence:** [ACE-100-PERCENT-QA-MATRIX.md](./ACE-100-PERCENT-QA-MATRIX.md)  
+> โน้ตสำหรับคนที่ชอบอ่าน: อธิบายเหตุผล วิธีทำงาน ตัวอย่างงาน System Admin และวิธีเลือกบริการ ไม่ใช่รายการคำศัพท์ให้ท่องอย่างเดียว
 
 ## เริ่มอ่านตรงนี้
 
@@ -12,6 +15,7 @@
 5. เปิด [สารบัญหัวข้อใหญ่/ย่อยตามหลักสูตร Google Skills](./GOOGLE-SKILLS-CURRICULUM.md) เพื่อเชื่อมกับบทโน้ตเชิงหัวข้อ
 6. ใช้ [Lab Guide ภาษาไทย](./Lab-Guide-TH/README.md) และ [ตารางเทียบแล็บกับ Path](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md); แล็บเสริมใน repo ไม่แทน Google Skills grader
 7. ทบทวนด้วย [Cheat Sheet](./CHEAT-SHEET.md), [Glossary](./GLOSSARY.md) และ [สถานการณ์พร้อมคำอธิบาย](./EXAM-SCENARIOS.md)
+8. ถ้าต้องการตรวจที่มา/วันที่/ขอบเขตที่ใช้ประกาศความครบ ให้เปิด [Source Manifest](./SOURCE-MANIFEST.md) และ [100% QA Matrix](./ACE-100-PERCENT-QA-MATRIX.md)
 
 ## วิธีเรียนที่แนะนำ: Visual → Concept → Practice → Troubleshoot
 
