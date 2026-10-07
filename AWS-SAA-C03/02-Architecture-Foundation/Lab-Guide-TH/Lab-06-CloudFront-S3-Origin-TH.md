@@ -15,12 +15,6 @@ flowchart TB
 
 ![Lab 6 architecture diagram](assets/diagrams/lab-06-architecture.svg)
 
-### Source diagram จาก Lab Guide
-
-![Lab 6 source diagram](assets/source/lab-06-cloudfront-s3-architecture.jpg)
-
-
-
 > Diagram นี้เป็นภาพสรุปเพื่อช่วยทำความเข้าใจโครงสร้างของบท/แล็บ โดยยึดแนวคิดจากคู่มือต้นฉบับ
 > คู่มือภาษาไทยสำหรับทำ Lab 6 จาก *Architecting on AWS 7.12.4 Lab Guide*  
 > ช่วงต้นฉบับ: หน้า 118–145  
