@@ -18,7 +18,7 @@
 3. ติดตั้ง Docker Desktop พร้อมเชื่อมต่อ WSL 2 integration สำเร็จ
 4. ติดตั้งเครื่องมือจัดการคอนเทนเนอร์และคลัสเตอร์ (kubectl, Helm, Ansible, Terragrunt) สำเร็จ
 5. เชื่อมต่อ VS Code จากฝั่ง Windows เข้าไปทำงานในสภาพแวดล้อม WSL ได้ผ่าน Extension
-6. คอนฟิก AWS CLI Named Profile ใน WSL และทดสอบการดึงข้อมูล STS สำเร็จ
+6. ตั้งค่า AWS CLI profile ด้วย temporary credentials (เช่น IAM Identity Center หรือ `aws login`) และทดสอบ STS สำเร็จ
 
 ---
 
@@ -43,7 +43,7 @@ graph TD
     end
 
     subgraph Cloud ["AWS Cloud"]
-        STS["STS (Verify Key)"]
+        STS["STS (Verify Identity / Session)"]
         AWS_Res["AWS Resources"]
     end
 
