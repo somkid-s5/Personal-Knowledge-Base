@@ -1,10 +1,10 @@
 # AZ-104 — Microsoft Azure Administrator
 
-> **Status:** Review — imported interactive study system; main-repository QA normalization in progress  
+> **Status:** **Verified Current Objective Scope** — 15/15 objective groups and 82/82 current skill bullets evidenced in the decoded interactive payload  
 > **Build mode:** Hybrid — source-ingestion + current official verification  
 > **Imported source repo:** `somkid-s5/az-104-master-cram-book` @ `ad6c2913af351b2b30feb29f5594999891b4d994`  
 > **Current official scope:** Microsoft Learn skills measured as of **2026-04-17**  
-> **Last repository verification:** 2026-10-06  
+> **Last repository verification:** 2026-10-07  
 > **Canonical home:** this package in `Cloud-Engineer`
 
 [Back to Azure Learning Library](../../README.md)
@@ -35,7 +35,7 @@ The current Microsoft Learn study guide measures five skill areas:
 4. Implement and manage virtual networking — 15–20%
 5. Monitor and maintain Azure resources — 10–15%
 
-The detailed mapping lives in [`SOURCE-COVERAGE.md`](./SOURCE-COVERAGE.md).
+The detailed mapping lives in [`SOURCE-COVERAGE.md`](./SOURCE-COVERAGE.md), with formal evidence in [`AZ104-QA-MATRIX.md`](./AZ104-QA-MATRIX.md).
 
 ## Recommended learning flow
 
