@@ -34,9 +34,16 @@ This guide outlines the optimal sequence to tackle these 34 projects.
 
 ---
 
-## When are you ready for a job?
-- **Junior Cloud Engineer:** After completing Projects 01-11.
-- **Cloud Engineer:** After completing Projects 01-18.
-- **Senior Cloud Engineer:** After completing Projects 01-25.
-- **Staff/Principal Engineer:** After completing Projects 01-30.
-- **Cloud Architect:** After completing all 34 projects.
+## Suggested portfolio milestones
+
+Project completion is **not a guarantee of a job title or seniority**. Senior/Staff/Architect roles also depend on production ownership, incident experience, communication, design judgment and organizational scope.
+
+Use these as portfolio checkpoints instead:
+
+- **Projects 01–11:** strong checkpoint to begin applying for junior/cloud-infrastructure roles and discuss foundational projects in interviews.
+- **Projects 01–18:** broader Cloud/DevOps portfolio with Kubernetes, IaC, operations and FinOps exposure.
+- **Projects 01–25:** advanced practice set for discussing multi-region, platform, security and reliability tradeoffs.
+- **Projects 01–30:** staff-level *concept practice* around migration, GitOps, observability, FinOps and SecOps; real Staff/Principal seniority still requires organizational leadership experience.
+- **Projects 01–34:** end-to-end architecture portfolio and capstone discussion material; it does not by itself confer a Cloud Architect role.
+
+The best signal is not merely “completed the project,” but being able to explain the architecture, tradeoffs, failure modes, verification evidence and cleanup/cost decisions without reading the workbook.
