@@ -1,5 +1,7 @@
 # ☁️ Cloud Engineer Lab: จาก Sysadmin สู่ผู้เชี่ยวชาญด้าน Cloud (34 Hands-on Projects) 🇹🇭
 
+> **AWS-SAA-C03 layer 03/03 — Hands-On Projects:** implementation, troubleshooting, cost and cleanup practice for the unified AWS learning system.
+
 Welcome to the **Cloud Engineer Lab**, a self-paced project track for building practical Cloud / Platform / DevOps skills. This package contains **Project 00 (environment setup) + 34 hands-on projects (01–34)** built around realistic AWS-centered engineering scenarios.
 
 > **Package status:** **Verified Project Workbook Structure & Safety Baseline** — Project 00 + Projects 01–34 pass the shared workbook/audit contract as of 2026-10-07  
