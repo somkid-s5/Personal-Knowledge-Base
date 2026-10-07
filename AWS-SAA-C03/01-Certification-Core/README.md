@@ -1,5 +1,7 @@
 # AWS Certified Solutions Architect – Associate (SAA-C03) — Study Hub 🌩️
 
+> **AWS-SAA-C03 layer 01/03 — Certification Core:** current exam scope, gap study, scenarios and objective QA.
+
 > **Status:** **Verified Current Objective Scope**  
 > **Objective scope verified:** 2026-10-06  
 > **Practice provenance reviewed:** 2026-10-07  
