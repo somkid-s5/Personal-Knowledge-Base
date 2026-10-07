@@ -4,12 +4,18 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 ASSETS=ROOT/"interactive"/"assets"
-INVENTORY=ROOT/"official-skills-2026-04-17.json"
+INVENTORY=ROOT/"official-skills-2026-04-17.json"\nLABS=["rbac-lab.html","storage-lab.html","storage-access-lab.html","compute-lab.html","appservice-lab.html","containers-lab.html","networking-lab.html","loadbalancing-lab.html","monitor-lab.html","recovery-lab.html"]
 
 def load_data():
     parts=[p.read_text(encoding="utf-8").strip() for p in sorted(ASSETS.glob("content-data.*.b64"))]
     if not parts:
         raise SystemExit("No content-data.*.b64 files found")
+    return json.loads(gzip.decompress(base64.b64decode("".join(parts))).decode("utf-8"))
+
+def load_packed(pattern):
+    parts=[p.read_text(encoding="utf-8").strip() for p in sorted(ASSETS.glob(pattern))]
+    if not parts:
+        raise SystemExit(f"No files found for {pattern}")
     return json.loads(gzip.decompress(base64.b64decode("".join(parts))).decode("utf-8"))
 
 def norm(s):
@@ -24,6 +30,8 @@ def objective_text(o):
 def main():
     data=load_data()
     inventory=json.loads(INVENTORY.read_text(encoding="utf-8"))
+    questions=load_packed("question-bank.*.b64")
+    flashcards=load_packed("flashcards.*.b64")
     actual={}
     for d in data.get("domains",[]):
         for o in d.get("objectives",[]):
@@ -32,8 +40,18 @@ def main():
     print("AZ-104 payload integrity: OK")
     print("payload meta:", json.dumps(data.get("meta",{}), ensure_ascii=False))
     print("official inventory:", inventory["skills_measured"], "skill bullets=", inventory["total_skill_bullets"])
+    print("practice assets: questions=",len(questions),"flashcards=",len(flashcards),"labs=",sum((ROOT/"interactive"/x).exists() for x in LABS))
+    if len(questions) != 155:
+        failures_pre=[f"question bank expected 155, found {len(questions)}"]
+    else:
+        failures_pre=[]
+    if len(flashcards) != 103:
+        failures_pre.append(f"flashcards expected 103, found {len(flashcards)}")
+    missing_labs=[x for x in LABS if not (ROOT/"interactive"/x).exists()]
+    if missing_labs:
+        failures_pre.append(f"missing lab files: {missing_labs}")
 
-    failures=[]
+    failures=list(failures_pre)
     passed=0
     objective_results=[]
     for expected in inventory["objectives"]:
