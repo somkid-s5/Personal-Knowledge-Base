@@ -98,6 +98,8 @@ Domain นี้มี weight สูงและเชื่อมกับป�
 - security culture
 - metrics / KRI / dashboards / reporting
 
+ใช้ [Domain 2 Security Governance](./02-Security-Governance/)
+
 ### Stage 5 — Domain 5: Security Operations & Incident Response
 
 เน้น:
@@ -111,6 +113,8 @@ Domain นี้มี weight สูงและเชื่อมกับป�
 - configuration / change management
 - vulnerability / security testing
 - physical/social penetration concepts
+
+ใช้ [Domain 5 Security Operations & Incident Response](./05-Security-Operations-Incident-Response/)
 
 ---
 
@@ -171,6 +175,15 @@ Authentication vs Authorization
 ~~~
 
 ---
+
+## Final review loop
+
+หลังครบ 5 stages:
+
+1. ทบทวน [CHEAT-SHEET.md](./CHEAT-SHEET.md)
+2. ทำ [CURRENT-SCOPE-SCENARIOS.md](./CURRENT-SCOPE-SCENARIOS.md)
+3. ดู [OBJECTIVE-COVERAGE-2026.md](./OBJECTIVE-COVERAGE-2026.md) และอธิบาย 19 objectives ด้วยคำของตัวเอง
+4. กลับไปเรียนเฉพาะ weak areas
 
 ## Readiness gate
 
