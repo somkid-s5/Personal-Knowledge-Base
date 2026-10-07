@@ -1,10 +1,10 @@
-# AGENTS.md — Cloud Engineer Knowledge Base Rules
+# AGENTS.md — Personal Knowledge Base Rules
 
 This file defines repository-wide instructions for humans and AI agents.
 
 ## Mission
 
-Maintain this repository as a long-lived, high-quality learning knowledge base for cloud, infrastructure, DevOps, security, Linux, Kubernetes, automation and related engineering topics.
+Maintain this repository as a long-lived, high-quality personal learning knowledge base. Current systems focus on cloud and cybersecurity, but future systems may cover infrastructure, DevOps, Linux, networking, databases, automation or other technical goals the owner is actively learning.
 
 ## Mandatory workflow
 
@@ -48,9 +48,9 @@ Maintain this repository as a long-lived, high-quality learning knowledge base f
 
 Use the learning-system-first taxonomy defined in `docs/REPOSITORY-ARCHITECTURE.md`.
 
-Top-level learning content should be organized by learner goal, for example `AWS-SAA-C03`, `Azure-AZ-104`, or `GCP-ACE`. Courses, projects, labs, current-objective notes and practice material belong inside the relevant system as learning layers when they support the same goal.
+Top-level learning content should be organized by an active learner goal, for example `AWS-SAA-C03`, `Azure-AZ-104`, `GCP-ACE`, or `ISC2-CC`. Courses, books, projects, labs, current-objective notes and practice material belong inside the relevant system as learning layers when they support the same goal.
 
-Do not recreate generic provider roots such as `AWS/`, `Azure/` or `GCP/` unless the architecture policy is explicitly changed.
+Do not recreate generic provider or dump roots such as `AWS/`, `Azure/`, `GCP/`, `Books/`, `Courses/` or `Misc/`. The connected Drive may remain a broad source library; promotion into GitHub should be selective and goal-driven.
 
 ## Change discipline
 
