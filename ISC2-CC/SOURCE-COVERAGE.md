@@ -3,52 +3,51 @@
 [Back to ISC2-CC](./README.md) · [Source Manifest](./SOURCE-MANIFEST.md)
 
 > **Coverage date:** 2026-10-07  
-> **Status:** Inventory complete for the currently discovered Drive source set; semantic ingestion is not complete
+> **Status:** **COMPLETE for the supplied/discovered private source set + current 2026 objective mapping**
 
-## Current-source coverage
+## Current official objective coverage
 
-| Source unit | Repository representation | Status |
+| Domain | Repository representation | Status |
 |---|---|---|
-| 2026 Domain 1 — Security Principles | [Domain 1 Teaching Note](./01-Security-Principles.md) | TEACHING-IN-PROGRESS |
-| 2026 Domain 2 — Security Governance | [Current Exam Map](./CURRENT-EXAM-MAP.md) | SCOPE-MAPPED |
-| 2026 Domain 3 — IAM Concepts | [Domain 3 Teaching Note](./03-Identity-Access-Management.md) | TEACHING-IN-PROGRESS |
-| 2026 Domain 4 — Networking and Cloud Security Concepts | [Domain 4 Teaching Note](./04-Networking-Cloud-Security.md) | TEACHING-IN-PROGRESS |
-| 2026 Domain 5 — Security Operations and Incident Response | [Current Exam Map](./CURRENT-EXAM-MAP.md) | SCOPE-MAPPED |
+| 1 — Security Principles | [Domain 1](./01-Security-Principles.md) | COMPLETE |
+| 2 — Security Governance | [Domain 2](./02-Security-Governance/) | COMPLETE |
+| 3 — IAM Concepts | [Domain 3](./03-Identity-Access-Management.md) | COMPLETE |
+| 4 — Networking and Cloud Security | [Domain 4](./04-Networking-Cloud-Security.md) | COMPLETE |
+| 5 — Security Operations and Incident Response | [Domain 5](./05-Security-Operations-Incident-Response/) | COMPLETE |
 
-`SCOPE-MAPPED` means the current objective area is registered. It does **not** mean full teaching coverage exists.
+Detailed objective evidence: [OBJECTIVE-COVERAGE-2026.md](./OBJECTIVE-COVERAGE-2026.md) — **19/19 numbered objectives**.
 
-## Private-source ingestion coverage
+## Private-source accounting
 
 | Private source | Current handling | Status |
 |---|---|---|
-| Thor Study Guide Domain 1 | current Domain 1 foundation reconstructed; access-control material reserved for Domain 3 remap | PARTIAL |
-| Thor Study Guide Domain 2 | must remap into current domains | PENDING |
-| Thor Study Guide Domain 3 | IAM concepts remapped to current Domain 3; physical-security sections intentionally deferred | PARTIAL |
-| Thor Study Guide Domain 4 | current networking/cloud concepts remapped; SIEM/SOAR, backup, resilience, scanning and other legacy topics deferred | PARTIAL |
-| Thor Quick Sheet Domain 1 | supporting review source for current Domain 1 | PARTIAL |
-| Thor Quick Sheet Domain 2 | review aid / gap evidence | PENDING |
-| Thor Quick Sheet Domain 3 | supporting IAM review source; non-IAM physical material excluded from current Domain 3 | PARTIAL |
-| Thor Quick Sheet Domain 4 | supporting network/cloud review source; legacy out-of-domain material intentionally excluded | PARTIAL |
-| Thor Quick Sheet Domain 5 | review aid / gap evidence | PENDING |
-| Thor Mnemonics | reference-only unless useful concepts are reconstructed | REFERENCE-ONLY / PENDING REVIEW |
-| Thor Study Plan | reconstructed into [STUDY-PLAN.md](./STUDY-PLAN.md) using current-domain order | REFERENCE-ONLY / REVIEWED |
-| Full Thor Study Guide Domain 5 | not found in discovered source set | MISSING-SOURCE |
+| Thor Study Guide Domain 1 | current D1 reconstruction + cross-domain remap | ACCOUNTED |
+| Thor Study Guide Domain 2 | BC/DR → D2; IR → D5 | ACCOUNTED |
+| Thor Study Guide Domain 3 | IAM → D3; legacy physical emphasis remapped/reference-only | ACCOUNTED |
+| Thor Study Guide Domain 4 | network/cloud → D4; operations/testing → D5; resilience → D2 | ACCOUNTED |
+| Thor Quick Sheet Domain 1 | D1 review support | ACCOUNTED |
+| Thor Quick Sheet Domain 2 | D2/D5 review support | ACCOUNTED |
+| Thor Quick Sheet Domain 3 | D3 review support | ACCOUNTED |
+| Thor Quick Sheet Domain 4 | D4 + remap support | ACCOUNTED |
+| Thor Quick Sheet Domain 5 | D5 data/crypto/config + D2 awareness remap | ACCOUNTED |
+| Thor Mnemonics | reviewed; safe/current mnemonics only, otherwise reference-only | ACCOUNTED |
+| Thor Study Plan | reconstructed as [STUDY-PLAN.md](./STUDY-PLAN.md) | ACCOUNTED |
 
-## Required next pass
+See [LEGACY-SOURCE-REMAP.md](./LEGACY-SOURCE-REMAP.md) for topic-level old-to-new handling.
 
-For each source:
+## Source not supplied
 
-1. read the entire file systematically,
-2. extract its concept inventory,
-3. map concepts to the 2026 objective map,
-4. mark concepts that remain useful,
-5. identify outdated organization or terminology,
-6. identify current objectives not taught by the source,
-7. reconstruct the teaching layer in original Thai wording,
-8. add original visuals where they improve understanding.
+A full **Thor Study Guide — Domain 5** is not present in the Drive source set.
 
-## Completion condition
+It is documented as unavailable rather than silently assumed. Current Domain 5 teaching is grounded in the official ISC2 2026 outline/current guidance plus the supplied Domain 5 Quick Sheet where relevant.
 
-This file may move to `COMPLETE` only when every registered private source is accounted for and every current 2026 objective has corresponding repository teaching coverage.
+## Coverage interpretation
 
-No such claim is made yet.
+COMPLETE here means:
+
+- every supplied/discovered private source file is accounted for,
+- every current numbered ISC2 CC objective has a teaching artifact,
+- old source organization is not mistaken for current scope,
+- proprietary source PDFs/figures are not redistributed.
+
+It does **not** mean every sentence of the private sources was copied, every cybersecurity topic is covered, or an exam pass is guaranteed.
