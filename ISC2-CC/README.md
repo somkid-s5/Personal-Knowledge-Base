@@ -1,6 +1,6 @@
 # ISC2-CC — Certified in Cybersecurity
 
-> **System status:** **Candidate Verified Current Objective Teaching Scope — 19/19 objectives mapped; awaiting final CI gate**  
+> **System status:** **Verified Current Objective Teaching Scope — 19/19 numbered objectives; verified 2026-10-07**  
 > **Primary scope authority:** ISC2 Certified in Cybersecurity Exam Outline effective **2026-09-01**  
 > **Build mode:** Hybrid — Source-ingestion + current official scope verification  
 > **Last scope verification:** 2026-10-07
@@ -89,7 +89,7 @@ Evidence: [OBJECTIVE-COVERAGE-2026.md](./OBJECTIVE-COVERAGE-2026.md), [SOURCE-CO
 
 `Verified Current Objective Teaching Scope` means every current numbered objective has a teaching artifact and the supplied private source set is accounted for at the declared verification date. It does **not** mean every possible cybersecurity topic is covered, guarantee an exam pass, or make historical proprietary sources redistributable.
 
-The system may be promoted from candidate status after repository CI passes.
+Repository CI passed for the verification candidate. Re-verify this claim when ISC2 changes the outline or when the source/scope contract changes.
 
 ## Evidence
 
