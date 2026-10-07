@@ -1,6 +1,6 @@
 # Cloud Engineer Lab — Consolidation Note
 
-> **Canonical package:** `AWS/Projects/Cloud-Engineer-Lab/`  
+> **Canonical package:** `AWS-SAA-C03/03-Hands-On-Projects/`  
 > **Imported:** 2026-10-06  
 > **Source repository:** `somkid-s5/Cloud-Engineer-Lab`  
 > **Source commit:** `14a4925efcd7158fe7a093b79fd2a58d778703c2`
