@@ -4,8 +4,8 @@ This file is a package-local compatibility entry point for tools that automatica
 
 It is **not** a separate source of repository policy. Follow the canonical rules in this order:
 
-1. [Repository AGENTS.md](../../../AGENTS.md)
-2. [Repository SKILL.md](../../../SKILL.md)
+1. [Repository AGENTS.md](../../AGENTS.md)
+2. [Repository SKILL.md](../../SKILL.md)
 3. [Cloud Engineer Lab Project Standard](./PROJECT-STANDARD.md)
 4. This package README and the individual project workbook
 
