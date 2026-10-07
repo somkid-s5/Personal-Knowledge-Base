@@ -386,3 +386,20 @@ for node in $OLD_NODES; do
   kubectl drain $node --ignore-daemonsets --delete-emptydir-data --force --grace-period=60
 done
 ```
+
+---
+
+## Cost & Cleanup Safety
+
+> [!WARNING]
+> EKS, EC2 worker nodes, NAT Gateway, Load Balancer, EBS และ data transfer สามารถสร้างค่าใช้จ่ายต่อเนื่องแม้ไม่มีผู้ใช้งานแอป
+
+ถ้า environment นี้เป็น lab แบบ disposable ให้ cleanup ตาม dependency:
+
+1. ลบ application/Ingress/Service แบบ `LoadBalancer` ที่สร้าง cloud load balancers
+2. ลบ workload, Karpenter capacity และ node groups ที่ไม่ต้องใช้
+3. destroy Terraform stack/state ที่เป็นเจ้าของ VPC/EKS/NAT/ALB resources
+4. ตรวจ EBS volumes, snapshots, Elastic IPs และ Load Balancers ที่อาจ orphan
+5. ตรวจ Billing/Cost Explorer หลัง destroy
+
+อย่ารัน destroy กับ production state หรือผิด AWS account/profile
