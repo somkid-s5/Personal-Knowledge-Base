@@ -1,5 +1,7 @@
 # Repository Audit — 2026-10-06
 
+> **Historical snapshot.** This file records the repository state during the first architecture migration. For the current baseline, see [Repository Baseline Audit — 2026-10-07](./REPOSITORY-AUDIT-2026-10-07.md).
+
 ## Executive summary
 The repository already contains strong learning material, especially the Architecting on AWS package and the GCP Associate Cloud Engineer package. The main weakness was not technical content volume; it was **repository-level consistency and governance**.
 
