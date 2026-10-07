@@ -4,7 +4,7 @@
 > **Skills measured date:** 2026-04-17  
 > **Repository check:** 2026-10-07
 
-This matrix records the current 15 objective groups from Microsoft Learn and where the imported interactive system teaches/reinforces them. CI now decodes the real packed payload and validates a machine-readable 82-skill inventory; the detailed evidence summary is in [AZ104-QA-MATRIX.md](./AZ104-QA-MATRIX.md).
+This matrix records the current 15 objective groups from Microsoft Learn and where the learning system teaches/reinforces them. CI decodes the real packed payload and validates a machine-readable 82-skill inventory; the detailed evidence summary is in [AZ104-QA-MATRIX.md](./AZ104-QA-MATRIX.md), while [AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md](./AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md) provides the current Thai teaching layer.
 
 | Domain | Objective group | Imported area | Status |
 |---|---|---|---|
@@ -32,11 +32,14 @@ This matrix records the current 15 objective groups from Microsoft Learn and whe
 - Implement and manage virtual networking — **15–20%**
 - Monitor and maintain Azure resources — **10–15%**
 
-## Gate to `Verified`
+## Verification result
 
-Before changing these rows from `REVIEW` to `COMPLETE`, verify the individual bullets beneath each objective group against both:
+The current declared scope passes:
 
-1. the imported Learn/Cram/Lab experience, and
-2. the current Microsoft Learn study guide.
+- **15/15 objective groups**
+- **82/82 official skill-bullet evidence checks**
+- every objective group has real decoded teaching content rather than a heading-only placeholder
+- all 82 current skills also have a durable explanatory layer in the current-objectives deep dive
+- visual/practice layers remain supplemental evidence rather than substitutes for objective coverage
 
-Missing bullets must become explicit gap notes or new learning content; they must not be inferred from the objective heading alone.
+Re-run the coverage audit whenever Microsoft publishes a new skills-measured date or the packed interactive payload is regenerated.
