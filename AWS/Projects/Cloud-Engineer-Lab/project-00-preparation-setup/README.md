@@ -318,3 +318,19 @@ ls -l README.md
    - เพิ่มคำสั่งไว้ท้ายไฟล์: `export AWS_PROFILE="developer-dev"`
    - เซฟและปิดไฟล์ จากนั้นรีเฟรชการตั้งค่าใหม่: `source ~/.bashrc`
 3. เป็นผลจากการตั้งค่า metadata mounting ที่ไม่ถูกต้อง ให้ตรวจสอบไฟล์ `/etc/wsl.conf` ว่ามีส่วนของ `options = "metadata,umask=22,fmask=11"` ครบถ้วนหรือไม่ แล้วรีสตาร์ท WSL (`wsl --shutdown`)
+
+---
+
+## Cost & Cleanup Safety
+
+> [!NOTE]
+> Project 00 ติดตั้งเครื่องมือบนเครื่องเป็นหลักและไม่ควรสร้าง AWS workload ที่มีค่าใช้จ่าย แต่การมี AWS Account ไม่ได้แปลว่า resource ที่สร้างใน project ถัดไปจะฟรีเสมอ
+
+ก่อนเริ่ม project ถัดไป:
+
+- เปิด Billing/Cost Management และตรวจสอบ Free Tier/credit status ของ account
+- ตั้ง AWS Budget หรือ spend alert ขนาดเล็กให้เหมาะกับบัญชีทดลอง
+- ยืนยัน Account ID ด้วย `aws sts get-caller-identity` ทุกครั้งก่อน deploy
+- อย่าเก็บ long-term access keys ถ้า temporary credentials ใช้งานได้
+
+Cleanup ของ project นี้คือถอน/ปิดเครื่องมือ local ที่ไม่ต้องการและลบ credential แบบ long-term ที่สร้างไว้โดยไม่จำเป็น Project 00 เองไม่ควรมี billable AWS resource ให้ destroy
