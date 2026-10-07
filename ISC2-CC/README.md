@@ -31,6 +31,7 @@ Current teaching artifacts:
 
 - [Domain 1 — Security Principles](./01-Security-Principles.md)
 - [Domain 3 — Identity and Access Management](./03-Identity-Access-Management.md)
+- [Domain 4 — Networking and Cloud Security](./04-Networking-Cloud-Security.md)
 - [Current Study Plan](./STUDY-PLAN.md)
 
 ## Source model
@@ -58,7 +59,7 @@ The repository does **not** copy the proprietary PDFs themselves.
 1. Read [CURRENT-EXAM-MAP.md](./CURRENT-EXAM-MAP.md) to understand the 2026 target.
 2. Follow [STUDY-PLAN.md](./STUDY-PLAN.md) for the current recommended sequence.
 3. Start with [Domain 1 — Security Principles](./01-Security-Principles.md), then continue with [Domain 3 — Identity and Access Management](./03-Identity-Access-Management.md).
-4. Continue with Domain 4 because networking/cloud security is the largest technical domain.
+4. Continue with [Domain 4 — Networking and Cloud Security](./04-Networking-Cloud-Security.md) because it is the largest technical domain.
 5. Study Domain 2 to connect governance, resilience and security awareness.
 6. Finish with Domain 5 to connect daily operations, monitoring, incident response and testing.
 7. Use repository-authored scenarios and review notes as they are added.
@@ -72,7 +73,7 @@ Already done:
 - private Drive source set inventoried,
 - pre-2026 material clearly separated from current scope,
 - current-source and QA scaffolding created,
-- current teaching notes created for Domain 1 and Domain 3,
+- current teaching notes created for Domain 1, Domain 3 and Domain 4,
 - historical Thor study-plan concepts reconstructed into a current 2026 study plan.
 
 Still pending:
@@ -80,8 +81,8 @@ Still pending:
 - full read of every private source file,
 - source-to-2026-objective mapping,
 - identification of 2026 topics missing from older material,
-- Domain 2, 4 and 5 Thai teaching notes,
-- full source-fidelity pass for Domain 1 and Domain 3 material,
+- Domain 2 and Domain 5 Thai teaching notes,
+- full source-fidelity pass for Domain 1, Domain 3 and Domain 4 material,
 - original diagrams and practice scenarios,
 - final quality-gate review.
 
