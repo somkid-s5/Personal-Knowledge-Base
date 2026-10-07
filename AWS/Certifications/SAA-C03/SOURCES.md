@@ -1,6 +1,6 @@
 # SAA-C03 Sources & Freshness Policy
 
-[Back to SAA Hub](./README.md) · [QA Matrix](./QA-MATRIX.md) · [Current Scope Deep Dive](./CURRENT-SCOPE-DEEP-DIVE.md)
+[Back to SAA Hub](./README.md) · [Source Manifest](./SOURCE-MANIFEST.md) · [QA Matrix](./QA-MATRIX.md) · [Practice Provenance](./PRACTICE-PROVENANCE.md)
 
 > **Last verified:** 2026-10-06
 
@@ -110,5 +110,6 @@ Re-run SAA objective QA when any of these happen:
 
 - Never store real exam dumps.
 - Do not treat third-party practice-question text as repository-owned unless licensing/provenance is clear.
+- The six provenance-unclear historical walkthrough files were removed from the current tree on 2026-10-07; use repository-authored scenarios instead.
 - Prefer original scenarios written from public exam objectives and AWS documentation.
 - AWS objective wording should be paraphrased in teaching notes where practical; link to the official guide for the authoritative wording.
