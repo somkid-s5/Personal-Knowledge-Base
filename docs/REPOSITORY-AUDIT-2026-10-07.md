@@ -6,13 +6,14 @@
 
 ## Executive summary
 
-The repository now presents learning content as **three top-level learning systems**:
+The repository now operates as a **personal learning knowledge base** with four active top-level learning systems:
 
 1. AWS-SAA-C03
 2. Azure-AZ-104
 3. GCP-ACE
+4. ISC2-CC
 
-This replaces the previous provider-first navigation where AWS appeared as separate Course, Certification and Project packages. The new model optimizes for learner experience: choose one goal at the root, then follow the system's internal learning path.
+This retains the learning-system-first navigation while broadening the repository mission beyond Cloud Engineer-only material. The connected Drive is treated as a source library; GitHub remains the curated set of active learning goals.
 
 Governance, source traceability, QA evidence and CI remain repository-wide.
 
@@ -25,6 +26,7 @@ The AWS learner model is now explicit: **Certification = target**, **Course = me
 | AWS-SAA-C03 | AWS architecture + SAA-C03 | current certification core + versioned architecture foundation + hands-on project track | **Verified learning system** |
 | Azure-AZ-104 | Microsoft Azure Administrator | current-objective teaching + interactive practice/labs | **Verified Current Objective Scope** |
 | GCP-ACE | Google Cloud Associate Cloud Engineer | integrated modules + learning-path activities + visuals/labs | **Verified Non-Lab Objective Scope** |
+| ISC2-CC | ISC2 Certified in Cybersecurity | current 2026 objective authority + private historical study sources awaiting remap | **In Progress** |
 
 Verification remains bounded by each system's declared source, date and QA definition.
 
@@ -127,6 +129,12 @@ Current evidence:
 
 Official Google Skills grader completion remains external by design.
 
+## ISC2 CC system
+
+ISC2-CC is added as the first non-cloud-provider learning system. The current official ISC2 CC exam outline effective 2026-09-01 is the scope authority. Existing private Drive materials are retained as historical/source-ingestion references and must be remapped before any completeness claim because they predate the 2026 outline refresh.
+
+The initial system records the current five domains, source inventory and known ingestion gaps. It is deliberately **In Progress**, not Verified.
+
 ## Governance layer
 
 Repository-wide controls include:
@@ -161,7 +169,7 @@ choose learner goal/system
 
 Current hard checks include:
 
-1. canonical top-level learning systems exist,
+1. canonical active learning systems exist,
 2. generic provider-first roots do not return,
 3. Verified systems expose SOURCE-MANIFEST.md and system-level QA evidence,
 4. AWS-SAA-C03 retains its three required ordered layers,
@@ -208,7 +216,7 @@ The repository does not claim:
 
 | Dimension | Assessment |
 |---|---|
-| Root navigation | **Simple: 3 learning systems** |
+| Root navigation | **Simple: 4 active learning systems** |
 | AWS learner UX | **Unified — target → course → projects model explicit** |
 | Architecture/governance | **Mature baseline** |
 | Source traceability | **Strong** |
@@ -219,6 +227,6 @@ The repository does not claim:
 
 ## Principle going forward
 
-The repository should feel like a bookshelf with a few complete learning systems, not a file server grouped by vendor.
+The repository should feel like a personal bookshelf with a few curated learning systems, not a mirror of every file stored in Drive.
 
-> Open root → choose AWS-SAA-C03, Azure-AZ-104 or GCP-ACE → follow one coherent learning journey.
+> Open root → choose an active learning system → follow one coherent learning journey. Keep raw/source material in Drive until it deserves promotion into the curated knowledge base.
