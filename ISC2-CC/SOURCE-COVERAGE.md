@@ -9,7 +9,7 @@
 
 | Source unit | Repository representation | Status |
 |---|---|---|
-| 2026 Domain 1 — Security Principles | [Current Exam Map](./CURRENT-EXAM-MAP.md) | SCOPE-MAPPED |
+| 2026 Domain 1 — Security Principles | [Domain 1 Teaching Note](./01-Security-Principles.md) | TEACHING-IN-PROGRESS |
 | 2026 Domain 2 — Security Governance | [Current Exam Map](./CURRENT-EXAM-MAP.md) | SCOPE-MAPPED |
 | 2026 Domain 3 — IAM Concepts | [Current Exam Map](./CURRENT-EXAM-MAP.md) | SCOPE-MAPPED |
 | 2026 Domain 4 — Networking and Cloud Security Concepts | [Current Exam Map](./CURRENT-EXAM-MAP.md) | SCOPE-MAPPED |
@@ -21,17 +21,17 @@
 
 | Private source | Current handling | Status |
 |---|---|---|
-| Thor Study Guide Domain 1 | must remap into current domains | PENDING |
+| Thor Study Guide Domain 1 | current Domain 1 foundation reconstructed; access-control material reserved for Domain 3 remap | PARTIAL |
 | Thor Study Guide Domain 2 | must remap into current domains | PENDING |
 | Thor Study Guide Domain 3 | must remap into current domains | PENDING |
 | Thor Study Guide Domain 4 | must remap into current domains | PENDING |
-| Thor Quick Sheet Domain 1 | review aid / gap evidence | PENDING |
+| Thor Quick Sheet Domain 1 | supporting review source for current Domain 1 | PARTIAL |
 | Thor Quick Sheet Domain 2 | review aid / gap evidence | PENDING |
 | Thor Quick Sheet Domain 3 | review aid / gap evidence | PENDING |
 | Thor Quick Sheet Domain 4 | review aid / gap evidence | PENDING |
 | Thor Quick Sheet Domain 5 | review aid / gap evidence | PENDING |
 | Thor Mnemonics | reference-only unless useful concepts are reconstructed | REFERENCE-ONLY / PENDING REVIEW |
-| Thor Study Plan | sequencing reference | REFERENCE-ONLY / PENDING REVIEW |
+| Thor Study Plan | reconstructed into [STUDY-PLAN.md](./STUDY-PLAN.md) using current-domain order | REFERENCE-ONLY / REVIEWED |
 | Full Thor Study Guide Domain 5 | not found in discovered source set | MISSING-SOURCE |
 
 ## Required next pass
