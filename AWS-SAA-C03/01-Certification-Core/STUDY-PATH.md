@@ -20,7 +20,7 @@ flowchart LR
 
 ## Phase 1 — Build durable architecture foundations
 
-Use [`../../Courses/Architecting-on-AWS-7.12.4/`](../../Courses/Architecting-on-AWS-7.12.4/) as the primary long-form architecture course.
+Use [`../02-Architecture-Foundation/`](../02-Architecture-Foundation/) as the primary long-form architecture course.
 
 Read in order:
 
@@ -38,7 +38,7 @@ Read in order:
 12. Edge Services
 13. Backup and Recovery
 
-The course is intentionally versioned. Use its [`CURRENTNESS-2026.md`](../../Courses/Architecting-on-AWS-7.12.4/CURRENTNESS-2026.md) for important modern AWS deltas.
+The course is intentionally versioned. Use its [`CURRENTNESS-2026.md`](../02-Architecture-Foundation/CURRENTNESS-2026.md) for important modern AWS deltas.
 
 ## Phase 2 — Learn current certification-only gaps
 
@@ -74,7 +74,7 @@ Do not memorize the counts for the exam. The purpose of the table is repository 
 
 ## Phase 4 — Reinforce with hands-on architecture
 
-Use selected projects from [`../../Projects/Cloud-Engineer-Lab/`](../../Projects/Cloud-Engineer-Lab/).
+Use selected projects from [`../03-Hands-On-Projects/`](../03-Hands-On-Projects/).
 
 High-value SAA projects:
 
