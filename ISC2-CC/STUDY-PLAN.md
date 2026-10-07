@@ -82,6 +82,8 @@ Current official scope
 
 Domain นี้มี weight สูงและเชื่อมกับประสบการณ์ infra ได้เยอะ
 
+ใช้ [Domain 4 Networking & Cloud Security note](./04-Networking-Cloud-Security.md)
+
 ---
 
 ## รอบที่ 2 — Governance + Operations
