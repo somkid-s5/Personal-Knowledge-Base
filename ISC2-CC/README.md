@@ -1,6 +1,6 @@
 # ISC2-CC — Certified in Cybersecurity
 
-> **System status:** **In Progress — current scope locked; private source ingestion and teaching reconstruction pending**  
+> **System status:** **Verified Current Objective Teaching Scope — 19/19 numbered objectives; verified 2026-10-07**  
 > **Primary scope authority:** ISC2 Certified in Cybersecurity Exam Outline effective **2026-09-01**  
 > **Build mode:** Hybrid — Source-ingestion + current official scope verification  
 > **Last scope verification:** 2026-10-07
@@ -30,9 +30,14 @@ See [CURRENT-EXAM-MAP.md](./CURRENT-EXAM-MAP.md) for the current study map.
 Current teaching artifacts:
 
 - [Domain 1 — Security Principles](./01-Security-Principles.md)
+- [Domain 2 — Security Governance](./02-Security-Governance/)
 - [Domain 3 — Identity and Access Management](./03-Identity-Access-Management.md)
 - [Domain 4 — Networking and Cloud Security](./04-Networking-Cloud-Security.md)
+- [Domain 5 — Security Operations and Incident Response](./05-Security-Operations-Incident-Response/)
+- [19-Objective Coverage](./OBJECTIVE-COVERAGE-2026.md)
 - [Current Study Plan](./STUDY-PLAN.md)
+- [Cheat Sheet](./CHEAT-SHEET.md)
+- [25 Scenario Practice](./CURRENT-SCOPE-SCENARIOS.md)
 
 ## Source model
 
@@ -60,37 +65,31 @@ The repository does **not** copy the proprietary PDFs themselves.
 2. Follow [STUDY-PLAN.md](./STUDY-PLAN.md) for the current recommended sequence.
 3. Start with [Domain 1 — Security Principles](./01-Security-Principles.md), then continue with [Domain 3 — Identity and Access Management](./03-Identity-Access-Management.md).
 4. Continue with [Domain 4 — Networking and Cloud Security](./04-Networking-Cloud-Security.md) because it is the largest technical domain.
-5. Study Domain 2 to connect governance, resilience and security awareness.
-6. Finish with Domain 5 to connect daily operations, monitoring, incident response and testing.
-7. Use repository-authored scenarios and review notes as they are added.
+5. Study [Domain 2 — Security Governance](./02-Security-Governance/) to connect GRC, resilience, awareness and measurement.
+6. Finish with [Domain 5 — Security Operations and Incident Response](./05-Security-Operations-Incident-Response/) to connect data protection, monitoring, IR, assets and testing.
+7. Review with [CHEAT-SHEET.md](./CHEAT-SHEET.md) and [CURRENT-SCOPE-SCENARIOS.md](./CURRENT-SCOPE-SCENARIOS.md).
 
 ## Current state
 
-Already done:
+Completed in the current teaching-scope pass:
 
-- current 2026 ISC2 CC scope identified,
-- official domain weights recorded,
-- private Drive source set inventoried,
-- pre-2026 material clearly separated from current scope,
-- current-source and QA scaffolding created,
-- current teaching notes created for Domain 1, Domain 3 and Domain 4,
-- historical Thor study-plan concepts reconstructed into a current 2026 study plan.
+- official 2026 ISC2 CC scope and weights verified,
+- **19/19 numbered objectives** mapped to repository teaching artifacts,
+- all five current domains have Thai teaching content,
+- AI-security concepts are integrated across all five domains,
+- all 11 supplied/discovered private Drive source files are explicitly accounted for,
+- pre-2026 Thor domain structure is remapped in [LEGACY-SOURCE-REMAP.md](./LEGACY-SOURCE-REMAP.md),
+- the unavailable full Thor Domain 5 Study Guide remains documented as **not supplied**, not silently inferred,
+- current study plan, cheat sheet and 25 original scenarios are available,
+- proprietary PDFs/figures are not vendored into the repository.
 
-Still pending:
-
-- full read of every private source file,
-- source-to-2026-objective mapping,
-- identification of 2026 topics missing from older material,
-- Domain 2 and Domain 5 Thai teaching notes,
-- full source-fidelity pass for Domain 1, Domain 3 and Domain 4 material,
-- original diagrams and practice scenarios,
-- final quality-gate review.
+Evidence: [OBJECTIVE-COVERAGE-2026.md](./OBJECTIVE-COVERAGE-2026.md), [SOURCE-COVERAGE.md](./SOURCE-COVERAGE.md), [SYSTEM-QA.md](./SYSTEM-QA.md).
 
 ## Completion rule
 
-Do not label this system `Verified`, `Complete` or `100%` until every current official objective is mapped to teaching content and every registered private source is accounted for.
+`Verified Current Objective Teaching Scope` means every current numbered objective has a teaching artifact and the supplied private source set is accounted for at the declared verification date. It does **not** mean every possible cybersecurity topic is covered, guarantee an exam pass, or make historical proprietary sources redistributable.
 
-Current status is intentionally **In Progress**.
+Repository CI passed for the verification candidate. Re-verify this claim when ISC2 changes the outline or when the source/scope contract changes.
 
 ## Evidence
 
@@ -98,6 +97,8 @@ Current status is intentionally **In Progress**.
 - [Source Manifest](./SOURCE-MANIFEST.md)
 - [Source Coverage](./SOURCE-COVERAGE.md)
 - [System QA](./SYSTEM-QA.md)
+- [19-Objective Coverage](./OBJECTIVE-COVERAGE-2026.md)
+- [Legacy Source Remap](./LEGACY-SOURCE-REMAP.md)
 
 ## Official references
 

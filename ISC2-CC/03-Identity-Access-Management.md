@@ -201,6 +201,34 @@ Employment ends
 
 ---
 
+## 3.5 IAM frameworks and tools
+
+Current objective 3.1 ระบุ frameworks and tools โดยตรง
+
+ในระดับ CC ให้เข้าใจ **หน้าที่** มากกว่าท่อง vendor:
+
+- **Directory / identity store** — เก็บ identities และ attributes
+- **Identity Provider (IdP)** — authenticate และออก identity assertions/tokens
+- **IAM platform** — manage users, groups, roles, permissions และ policies
+- **Identity Governance / IGA** — access request, approval, certification/review และ lifecycle governance
+- **Privileged Access Management (PAM)** — ควบคุม privileged identities, sessions และ credentials
+- **Federation / SSO tooling** — สร้าง trust และลด duplicate authentication silos
+- **Provisioning automation** — create/update/deprovision access ตาม authoritative lifecycle events
+
+Mental model:
+
+~~~text
+HR / source of truth
+→ identity lifecycle
+→ IAM / directory / IdP
+→ applications and resources
+→ access review / governance
+~~~
+
+tool ไม่แทน least privilege หรือ ownership หาก role design ผิด automation ก็สามารถ provision สิทธิ์ผิดได้เร็วขึ้นเช่นกัน
+
+---
+
 ## 4. Joiner → Mover → Leaver
 
 อีก mental model ที่ใช้ในชีวิตจริงคือ JML

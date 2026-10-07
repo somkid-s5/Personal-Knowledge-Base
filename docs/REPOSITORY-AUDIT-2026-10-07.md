@@ -26,14 +26,14 @@ The AWS learner model is now explicit: **Certification = target**, **Course = me
 | AWS-SAA-C03 | AWS architecture + SAA-C03 | current certification core + versioned architecture foundation + hands-on project track | **Verified learning system** |
 | Azure-AZ-104 | Microsoft Azure Administrator | current-objective teaching + interactive practice/labs | **Verified Current Objective Scope** |
 | GCP-ACE | Google Cloud Associate Cloud Engineer | integrated modules + learning-path activities + visuals/labs | **Verified Non-Lab Objective Scope** |
-| ISC2-CC | ISC2 Certified in Cybersecurity | current 2026 objective authority + private historical study sources awaiting remap | **In Progress** |
+| ISC2-CC | ISC2 Certified in Cybersecurity | current 2026 objective teaching + private historical source remap + review/practice | **Verified Current Objective Teaching Scope — 19/19** |
 
 Verification remains bounded by each system's declared source, date and QA definition.
 
 ## Canonical repository shape
 
 ~~~text
-Cloud-Engineer/
+Personal-Knowledge-Base/
 ├─ README.md
 ├─ AGENTS.md
 ├─ SKILL.md
@@ -42,7 +42,8 @@ Cloud-Engineer/
 ├─ templates/
 ├─ AWS-SAA-C03/
 ├─ Azure-AZ-104/
-└─ GCP-ACE/
+├─ GCP-ACE/
+└─ ISC2-CC/
 ~~~
 
 Generic provider roots such as AWS/, Azure/ and GCP/ are no longer canonical.
@@ -131,9 +132,19 @@ Official Google Skills grader completion remains external by design.
 
 ## ISC2 CC system
 
-ISC2-CC is added as the first non-cloud-provider learning system. The current official ISC2 CC exam outline effective 2026-09-01 is the scope authority. Existing private Drive materials are retained as historical/source-ingestion references and must be remapped before any completeness claim because they predate the 2026 outline refresh.
+ISC2-CC is the first non-cloud-provider learning system. The official ISC2 CC exam outline effective 2026-09-01 is the current scope authority.
 
-The initial system records the current five domains, source inventory and known ingestion gaps. It is deliberately **In Progress**, not Verified.
+Current evidence:
+- 5/5 domains have Thai teaching content,
+- 19/19 numbered objectives map to teaching artifacts,
+- AI-security concepts are integrated across all five domains,
+- all 11 supplied/discovered private Drive source files are explicitly accounted for,
+- the pre-2026 Thor domain organization is remapped to the current outline,
+- the unavailable full Thor Domain 5 Study Guide is documented as not supplied rather than silently inferred,
+- current study plan, cheat sheet and 25 original scenarios are present,
+- repository quality CI passed for the verification candidate.
+
+Declared status: **Verified Current Objective Teaching Scope — 19/19**, verified 2026-10-07. This is a bounded current-objective/source-accounting claim, not an exam-pass guarantee.
 
 ## Governance layer
 

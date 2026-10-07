@@ -19,23 +19,25 @@ The following files were discovered under the private `ISC2-CC` course folder.
 
 | Source file | Type | Intended role | Read/ingestion status |
 |---|---|---|---|
-| Thor’s Study Guide — CC Domain 1 | PDF | historical foundation | Core concepts reviewed for current Domain 1 reconstruction; full fidelity pass pending |
-| Thor’s Study Guide — CC Domain 2 | PDF | historical foundation | Registered; full ingestion pending |
-| Thor’s Study Guide — CC Domain 3 | PDF | historical foundation | IAM-relevant concepts reviewed and remapped; physical-security material deferred to appropriate current domain; full fidelity pass pending |
-| Thor’s Study Guide — CC Domain 4 | PDF | historical foundation | Current Domain 4 concepts reviewed/remapped; non-current topics deferred to Domain 2/5 or reference-only; full fidelity pass pending |
-| Thor’s Quick Sheets — CC Domain 1 | PDF | historical review aid | Reviewed as supporting Domain 1 reference; full fidelity pass pending |
-| Thor’s Quick Sheets — CC Domain 2 | PDF | historical review aid | Registered; full ingestion pending |
-| Thor’s Quick Sheets — CC Domain 3 | PDF | historical review aid | Reviewed as supporting IAM reference; full fidelity pass pending |
-| Thor’s Quick Sheets — CC Domain 4 | PDF | historical review aid | Reviewed as supporting networking/cloud reference; full fidelity pass pending |
-| Thor’s Quick Sheets — CC Domain 5 | PDF | historical review aid | Registered; full ingestion pending |
-| Thor’s Mnemonics — CC | PDF | mnemonic/review aid | Registered; reference review pending |
+| Thor’s Study Guide — CC Domain 1 | PDF | historical foundation | Reviewed and accounted; current concepts reconstructed in Domain 1, cross-domain material remapped |
+| Thor’s Study Guide — CC Domain 2 | PDF | historical foundation | Reviewed and accounted; BC/DR → Domain 2, incident material → Domain 5 |
+| Thor’s Study Guide — CC Domain 3 | PDF | historical foundation | Reviewed and accounted; IAM retained, legacy physical emphasis remapped/reference-only |
+| Thor’s Study Guide — CC Domain 4 | PDF | historical foundation | Reviewed and accounted; network/cloud retained, operations/testing/resilience topics remapped |
+| Thor’s Quick Sheets — CC Domain 1 | PDF | historical review aid | Reviewed and accounted |
+| Thor’s Quick Sheets — CC Domain 2 | PDF | historical review aid | Reviewed and accounted; remapped to current Domain 2/5 |
+| Thor’s Quick Sheets — CC Domain 3 | PDF | historical review aid | Reviewed and accounted |
+| Thor’s Quick Sheets — CC Domain 4 | PDF | historical review aid | Reviewed and accounted; out-of-domain topics remapped |
+| Thor’s Quick Sheets — CC Domain 5 | PDF | historical review aid | Reviewed and accounted; data/crypto/config retained, awareness remapped to Domain 2 |
+| Thor’s Mnemonics — CC | PDF | mnemonic/review aid | Reviewed; reference-only policy recorded in Legacy Source Remap |
 | Thor’s Study Plan — CC | PDF | historical study sequencing | Reviewed; reconstructed as current [STUDY-PLAN.md](./STUDY-PLAN.md) |
 
 ## Known source gap
 
 A full **Thor Study Guide — Domain 5** PDF was not found in the discovered Drive folder/search results. Domain 5 currently has a Quick Sheet but not a matching full Study Guide in the registered source set.
 
-This is recorded as a source-set gap, not silently inferred as complete.
+This is recorded as **not supplied**. It does not block current-objective teaching coverage because the current Domain 5 scope is established from official ISC2 sources and the supplied Domain 5 Quick Sheet is accounted for.
+
+See [LEGACY-SOURCE-REMAP.md](./LEGACY-SOURCE-REMAP.md) for explicit old-to-new topic accounting.
 
 ## Version/currentness warning
 

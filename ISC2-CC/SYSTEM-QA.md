@@ -3,38 +3,58 @@
 [Back to ISC2-CC](./README.md)
 
 > **QA date:** 2026-10-07  
-> **Current status:** **In Progress**
+> **Current status:** **Verified Current Objective Teaching Scope — 19/19 objectives**
 
 ## Gate status
 
 | Check | Result |
 |---|---|
 | Current official exam outline identified | **PASS** |
-| 2026 effective date recorded | **PASS** |
+| Current outline effective date 2026-09-01 recorded | **PASS** |
 | Current five domains and weights recorded | **PASS** |
-| Private Drive source inventory registered | **PASS** |
-| Older private sources clearly separated from current scope | **PASS** |
-| Missing full Domain 5 study guide recorded | **PASS** |
-| Full read of all private sources | **PENDING** |
-| Source-to-current-objective remap | **PARTIAL — Domain 1, Domain 3 and Domain 4 source concepts remapped** |
-| Current objective teaching coverage | **PARTIAL — Domain 1, Domain 3 and Domain 4 current teaching notes added** |
-| Original diagrams / learning visuals | **PARTIAL — Domain 1, Domain 3, Domain 4 and study-plan Mermaid models added** |
-| Original practice / review layer | **PARTIAL — Domain 1/3/4 knowledge checks + current study-loop guidance added** |
-| Final quality gate | **PENDING** |
+| 19 numbered official objectives inventoried | **PASS** |
+| 19/19 objectives mapped to teaching artifacts | **PASS** |
+| All five domains have Thai teaching content | **PASS** |
+| Current AI-security guidance integrated across all domains | **PASS** |
+| Private Drive source inventory registered | **PASS — 11 supplied/discovered files** |
+| Every supplied/discovered private source accounted for | **PASS** |
+| Old domain structure explicitly remapped | **PASS — Legacy Source Remap** |
+| Full Thor Domain 5 Study Guide absence documented | **PASS — not supplied** |
+| Original diagrams / learning visuals | **PASS — mental models/Mermaid across the system** |
+| Original practice / review layer | **PASS — domain checks + 25 mixed scenarios + cheat sheet** |
+| Proprietary PDFs/figures kept out of repository | **PASS** |
+| Internal source/objective evidence | **PASS** |
+| Repository CI | **PASS — 6/6 repository quality jobs** |
 
-## Status decision
+## Objective evidence
 
-The system must remain **In Progress**.
+[OBJECTIVE-COVERAGE-2026.md](./OBJECTIVE-COVERAGE-2026.md) records **19/19** current numbered objectives with teaching artifacts.
 
-It may not be labeled `Verified`, `Complete` or `100%` until source ingestion, current-objective teaching coverage and repository QA are complete.
+## Source evidence
 
-## Scope boundary
+- [SOURCE-MANIFEST.md](./SOURCE-MANIFEST.md)
+- [SOURCE-COVERAGE.md](./SOURCE-COVERAGE.md)
+- [LEGACY-SOURCE-REMAP.md](./LEGACY-SOURCE-REMAP.md)
 
-This QA currently verifies only that:
+## Review/practice evidence
 
-- the current exam target is correctly established,
-- the discovered source set is registered,
-- known gaps are explicit,
-- current and historical sources are not silently blended.
+- [STUDY-PLAN.md](./STUDY-PLAN.md)
+- [CHEAT-SHEET.md](./CHEAT-SHEET.md)
+- [CURRENT-SCOPE-SCENARIOS.md](./CURRENT-SCOPE-SCENARIOS.md)
 
-It does not yet verify exam readiness or complete teaching coverage.
+## Verification boundary
+
+Verified claim:
+
+> **Verified Current Objective Teaching Scope — 19/19 numbered objectives, verified 2026-10-07**
+
+This claim means current official objective coverage and source accounting are evidenced.
+
+It does **not** mean:
+
+- guaranteed exam readiness/pass,
+- every possible cybersecurity fact is included,
+- the private proprietary Thor materials are redistributable,
+- future ISC2 outline changes are automatically covered.
+
+Re-verify the official outline when the certification changes.
