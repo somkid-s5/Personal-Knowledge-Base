@@ -1,6 +1,6 @@
 # Cloud Engineer Lab — Project Workbook Standard
 
-[Back to Cloud Engineer Lab](./README.md) · [Repository-wide AGENTS.md](../../../AGENTS.md) · [SKILL.md](../../../SKILL.md)
+[Back to Cloud Engineer Lab](./README.md) · [Repository-wide AGENTS.md](../../AGENTS.md) · [SKILL.md](../../SKILL.md)
 
 Every project in this track is a **hands-on workbook**, not only a code sample. The project must teach the learner how to reason about the system, build it, verify it, break/debug it, and leave the account/workstation in a safe state.
 
