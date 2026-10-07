@@ -1,6 +1,6 @@
 # AZ-104 Source Manifest
 
-> **Package:** `Azure/Certifications/AZ-104`  
+> **Package:** `Azure-AZ-104`  
 > **Last updated:** 2026-10-07
 
 | Source | Type | Role | Version / snapshot | Status |
