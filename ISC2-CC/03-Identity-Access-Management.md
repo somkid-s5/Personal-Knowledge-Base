@@ -24,7 +24,7 @@ Domain 3 ใน outline 2026 โฟกัส IAM โดยตรง ไม่ใ
 
 ---
 
-# 1. Mental model ใหญ่ของ IAM
+## 1. Mental model ใหญ่ของ IAM
 
 IAM ตอบ 4 คำถาม:
 
@@ -62,7 +62,7 @@ IAM ที่ดีไม่ได้จบตอนสร้าง account
 
 ---
 
-# 2. Identity คืออะไร
+## 2. Identity คืออะไร
 
 Identity คือ representation ของ entity ที่ระบบใช้เพื่อผูก authentication, attributes และ permissions
 
@@ -86,7 +86,7 @@ identity อาจเป็น:
 
 ---
 
-# 3. Identity lifecycle management
+## 3. Identity lifecycle management
 
 Current Domain 3.1 ระบุ lifecycle หลักเป็น:
 
@@ -97,7 +97,7 @@ Role definition
 → Deprovision
 ~~~
 
-## 3.1 Role definition
+### 3.1 Role definition
 
 ก่อนสร้าง access ต้องรู้ก่อนว่า identity มีหน้าที่อะไร
 
@@ -122,7 +122,7 @@ role definition ที่ดีช่วยลดการให้สิทธ�
 
 ---
 
-## 3.2 Provisioning
+### 3.2 Provisioning
 
 Provisioning คือการสร้างหรือเปิด access ที่จำเป็นให้ identity
 
@@ -146,7 +146,7 @@ Provisioning ควรอิง:
 
 ---
 
-## 3.3 Review
+### 3.3 Review
 
 Access review ตอบคำถามว่า:
 
@@ -174,7 +174,7 @@ Access review ตอบคำถามว่า:
 
 ---
 
-## 3.4 Deprovisioning
+### 3.4 Deprovisioning
 
 Deprovisioning คือการยกเลิก access เมื่อไม่จำเป็น
 
@@ -201,11 +201,11 @@ Employment ends
 
 ---
 
-# 4. Joiner → Mover → Leaver
+## 4. Joiner → Mover → Leaver
 
 อีก mental model ที่ใช้ในชีวิตจริงคือ JML
 
-## Joiner
+### Joiner
 
 คนหรือ workload ใหม่เข้าระบบ
 
@@ -216,7 +216,7 @@ Employment ends
 - มี approval
 - มี expiry ถ้าชั่วคราว
 
-## Mover
+### Mover
 
 identity เปลี่ยนหน้าที่
 
@@ -237,7 +237,7 @@ review old entitlements
 → grant new role
 ~~~
 
-## Leaver
+### Leaver
 
 identity ไม่ควรใช้งานแล้ว
 
@@ -250,7 +250,7 @@ identity ไม่ควรใช้งานแล้ว
 
 ---
 
-# 5. Principle of Least Privilege (PoLP)
+## 5. Principle of Least Privilege (PoLP)
 
 หลักคือ:
 
@@ -283,7 +283,7 @@ Read objects from one bucket
 
 ---
 
-## 5.1 Least privilege ไม่ใช่ “ให้สิทธิ์น้อยที่สุดจนทำงานไม่ได้”
+### 5.1 Least privilege ไม่ใช่ “ให้สิทธิ์น้อยที่สุดจนทำงานไม่ได้”
 
 เป้าหมายไม่ใช่ zero access
 
@@ -297,7 +297,7 @@ minimum sufficient access
 
 ---
 
-# 6. Separation of Duties (SoD)
+## 6. Separation of Duties (SoD)
 
 SoD แบ่ง critical process ออกจากกัน เพื่อไม่ให้คนหรือ identity เดียวควบคุมทุกขั้นตอน
 
@@ -329,7 +329,7 @@ SoD ลด:
 
 ---
 
-## 6.1 Least Privilege vs Separation of Duties
+### 6.1 Least Privilege vs Separation of Duties
 
 ต่างกันแบบนี้:
 
@@ -342,9 +342,9 @@ SoD ลด:
 
 ---
 
-# 7. Access control models
+## 7. Access control models
 
-## 7.1 DAC — Discretionary Access Control
+### 7.1 DAC — Discretionary Access Control
 
 เจ้าของ object มีอำนาจตัดสินใจว่าใครเข้าถึงได้
 
@@ -371,7 +371,7 @@ Owner decides
 
 ---
 
-## 7.2 MAC — Mandatory Access Control
+### 7.2 MAC — Mandatory Access Control
 
 access ถูกกำหนดจาก security labels / classification และ clearance ตาม policy กลาง
 
@@ -395,7 +395,7 @@ Central classification policy decides
 
 ---
 
-## 7.3 RBAC — Role-Based Access Control
+### 7.3 RBAC — Role-Based Access Control
 
 permission ถูกผูกกับ role แล้ว user ถูก assign เข้า role
 
@@ -425,7 +425,7 @@ Somkid
 
 ---
 
-## 7.4 ABAC — Attribute-Based Access Control
+### 7.4 ABAC — Attribute-Based Access Control
 
 decision ใช้ attributes หลายด้าน
 
@@ -459,7 +459,7 @@ Context + attributes decide
 
 ---
 
-# 8. Authentication และ MFA ใน IAM
+## 8. Authentication และ MFA ใน IAM
 
 Domain 1 ปู AAA มาแล้ว
 
@@ -487,11 +487,11 @@ Password + PIN
 
 ---
 
-# 9. Federation และ SSO
+## 9. Federation และ SSO
 
 Thor source เดิมมี federation และ SSO ซึ่งยังเป็น concept ที่มีประโยชน์ต่อ IAM แม้ current objective จะเน้น lifecycle และ logical access controls
 
-## Federation
+### Federation
 
 Federation คือการสร้าง trust ระหว่าง identity systems
 
@@ -509,7 +509,7 @@ Identity Provider
 - centralize identity lifecycle
 - ลดจำนวน password silos
 
-## SSO
+### SSO
 
 Single Sign-On คือ user authenticate ครั้งหนึ่งแล้วเข้าได้หลาย application ตาม trust relationship
 
@@ -521,9 +521,9 @@ authorization ยังต้องแยกตาม role/resource
 
 ---
 
-# 10. Centralized vs decentralized identity
+## 10. Centralized vs decentralized identity
 
-## Centralized
+### Centralized
 
 identity/policy ถูกจัดการจากศูนย์กลาง
 
@@ -539,7 +539,7 @@ identity/policy ถูกจัดการจากศูนย์กลาง
 - dependency สูง
 - identity platform outage กระทบหลายระบบ
 
-## Decentralized
+### Decentralized
 
 แต่ละ system จัดการ identity เอง
 
@@ -559,7 +559,7 @@ modern enterprise มักพยายาม centralize identity source แล�
 
 ---
 
-# 11. Privileged access
+## 11. Privileged access
 
 Privileged accounts ต้องถูกควบคุมเข้มกว่า standard users
 
@@ -585,7 +585,7 @@ Privileged accounts ต้องถูกควบคุมเข้มกว่
 
 ---
 
-# 12. Human vs machine identities
+## 12. Human vs machine identities
 
 ระบบสมัยใหม่มี machine identities จำนวนมาก
 
@@ -616,7 +616,7 @@ define purpose
 
 ---
 
-# 13. AI bots / agents ใน IAM
+## 13. AI bots / agents ใน IAM
 
 ISC2 outline 2026 ย้ำว่า automated systems และ AI bots ต้องผ่าน identity lifecycle เช่นเดียวกับ identity อื่น
 
@@ -662,7 +662,7 @@ flowchart LR
 
 ---
 
-# 14. AI-assisted authentication
+## 14. AI-assisted authentication
 
 Current ISC2 guidance ยังชี้ถึงการใช้ AI/analytics เพื่อช่วย authentication เช่นตรวจ:
 
@@ -690,7 +690,7 @@ AI เป็นตัวช่วย detection ไม่ใช่เหตุผ
 
 ---
 
-# 15. Access review scenario
+## 15. Access review scenario
 
 สมมติ:
 
@@ -726,41 +726,41 @@ role change
 
 ---
 
-# 16. Common IAM failures
+## 16. Common IAM failures
 
-## Orphaned account
+### Orphaned account
 
 ไม่มี owner แต่ยัง active
 
-## Privilege creep
+### Privilege creep
 
 สะสมสิทธิ์จาก role เก่าเรื่อย ๆ
 
-## Shared credential
+### Shared credential
 
 หลายคนใช้ account เดียว ทำ attribution ยาก
 
-## Permanent admin
+### Permanent admin
 
 สิทธิ์สูงถูกเปิดไว้ตลอดแม้ใช้เดือนละครั้ง
 
-## Overprivileged service account
+### Overprivileged service account
 
 app ถูกให้ broad role เพื่อ “ให้มันใช้ได้ก่อน”
 
-## Missing review
+### Missing review
 
 permission ถูกต้องตอนสร้าง แต่ไม่เคยตรวจอีก
 
-## Weak offboarding
+### Weak offboarding
 
 disable user แต่ลืม token, API key, VPN หรือ secondary account
 
 ---
 
-# 17. Decision practice
+## 17. Decision practice
 
-## Scenario A
+### Scenario A
 
 Contractor หมดสัญญาวันนี้ แต่ account ยังต้องเก็บไว้เพื่อ audit
 
@@ -774,7 +774,7 @@ Contractor หมดสัญญาวันนี้ แต่ account ยั�
 
 ---
 
-## Scenario B
+### Scenario B
 
 ทีม developer ทุกคนมี Production Admin เพราะ deploy ง่าย
 
@@ -788,7 +788,7 @@ Contractor หมดสัญญาวันนี้ แต่ account ยั�
 
 ---
 
-## Scenario C
+### Scenario C
 
 บริษัทใช้ SSO แล้วคิดว่า “ทุก app ปลอดภัยเท่ากันแล้ว”
 
@@ -796,7 +796,7 @@ Contractor หมดสัญญาวันนี้ แต่ account ยั�
 
 ---
 
-## Scenario D
+### Scenario D
 
 AI bot ต้องอ่าน alert และ restart service หนึ่งตัว
 
@@ -808,7 +808,7 @@ AI bot ต้องอ่าน alert และ restart service หนึ่ง�
 
 ---
 
-# 18. Common traps
+## 18. Common traps
 
 | Trap | วิธีคิดที่ถูก |
 |---|---|
@@ -823,7 +823,7 @@ AI bot ต้องอ่าน alert และ restart service หนึ่ง�
 
 ---
 
-# 19. Knowledge Check
+## 19. Knowledge Check
 
 ตอบโดยไม่เปิดโน้ต:
 

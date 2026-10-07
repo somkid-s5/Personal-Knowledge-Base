@@ -47,9 +47,9 @@ Security ไม่ได้เริ่มจากการซื้อ firewal
 
 ---
 
-# 2. Cybersecurity concepts
+## 2. Cybersecurity concepts
 
-## 2.1 CIA Triad
+### 2.1 CIA Triad
 
 ### Confidentiality — ใคร “เห็น” ข้อมูลได้
 
@@ -128,7 +128,7 @@ Integrity ไม่ได้หมายถึงแค่ข้อมูลห�
 
 ---
 
-## 2.2 CIA ไม่ได้มีคำตอบเดียวเสมอ
+### 2.2 CIA ไม่ได้มีคำตอบเดียวเสมอ
 
 หลาย control ช่วยมากกว่าหนึ่งด้าน เช่น encryption ช่วย Confidentiality เป็นหลัก แต่ถ้าใช้ digital signature ก็ช่วย Integrity และ Non-repudiation ได้ด้วย
 
@@ -142,7 +142,7 @@ Integrity ไม่ได้หมายถึงแค่ข้อมูลห�
 
 ---
 
-# 3. AAA — Authentication, Authorization, Accounting
+## 3. AAA — Authentication, Authorization, Accounting
 
 จำ flow:
 
@@ -151,7 +151,7 @@ Identify → Authenticate → Authorize → Account
 ฉันคือใคร → พิสูจน์ → ทำอะไรได้ → บันทึกว่าเกิดอะไรขึ้น
 ~~~
 
-## Authentication
+### Authentication
 
 ตอบคำถามว่า:
 
@@ -167,7 +167,7 @@ Identify → Authenticate → Authorize → Account
 
 ---
 
-## Authorization
+### Authorization
 
 เกิดหลัง authentication
 
@@ -185,7 +185,7 @@ IAM เชิงลึกจะไปอยู่ Domain 3 แต่ Domain 1 �
 
 ---
 
-## Accounting / Accountability
+### Accounting / Accountability
 
 เราต้องสามารถย้อนดูได้ว่า:
 
@@ -206,7 +206,7 @@ IAM เชิงลึกจะไปอยู่ Domain 3 แต่ Domain 1 �
 
 ---
 
-# 4. Non-repudiation
+## 4. Non-repudiation
 
 Non-repudiation คือความสามารถในการสร้างหลักฐานที่ทำให้ผู้กระทำปฏิเสธการกระทำได้ยาก
 
@@ -223,7 +223,7 @@ Non-repudiation คือความสามารถในการสร้�
 
 ---
 
-# 5. Privacy
+## 5. Privacy
 
 Privacy สนใจว่าองค์กรควร:
 
@@ -247,9 +247,9 @@ Privacy  = ใช้ข้อมูลอย่างเหมาะสมแล
 
 ---
 
-# 6. Risk Management
+## 6. Risk Management
 
-## 6.1 Risk คืออะไร
+### 6.1 Risk คืออะไร
 
 ใช้ mental model แบบง่าย:
 
@@ -273,7 +273,7 @@ Impact: salary / PII exposure
 Risk: unauthorized access to payroll data
 ~~~
 
-## 6.2 Risk lifecycle
+### 6.2 Risk lifecycle
 
 มองแบบวงจร:
 
@@ -290,7 +290,7 @@ Security ไม่ใช่ “แก้ครั้งเดียวแล้�
 
 ---
 
-## 6.3 Risk treatment
+### 6.3 Risk treatment
 
 วิธีตอบสนองความเสี่ยงที่พบบ่อย:
 
@@ -305,7 +305,7 @@ Risk acceptance ควรเป็นการตัดสินใจที่�
 
 ---
 
-# 7. Governance
+## 7. Governance
 
 Governance ตอบคำถามว่า:
 
@@ -325,17 +325,17 @@ Standard
 Procedure
 ~~~
 
-## Regulation / Law
+### Regulation / Law
 
 ข้อกำหนดภายนอกที่องค์กรอาจมีหน้าที่ต้องปฏิบัติตาม
 
-## Framework
+### Framework
 
 โครงช่วยจัดระบบการบริหารหรือ controls
 
 framework ไม่ใช่ checklist ที่ต้องทำเหมือนกันทุกองค์กรเสมอไป
 
-## Policy
+### Policy
 
 ผู้บริหารกำหนดว่า “องค์กรต้องการอะไร”
 
@@ -343,7 +343,7 @@ framework ไม่ใช่ checklist ที่ต้องทำเหมื�
 
 > Privileged access must use multi-factor authentication.
 
-## Standard
+### Standard
 
 กำหนด requirement ที่สม่ำเสมอและวัดได้
 
@@ -351,7 +351,7 @@ framework ไม่ใช่ checklist ที่ต้องทำเหมื�
 
 > All privileged accounts must use phishing-resistant MFA where supported.
 
-## Procedure
+### Procedure
 
 บอกขั้นตอนว่าทำอย่างไร
 
@@ -372,11 +372,11 @@ Procedure = How
 
 ---
 
-# 8. Security Controls
+## 8. Security Controls
 
 Current outline แบ่ง control เป็นสามกลุ่มใหญ่
 
-## Technical controls
+### Technical controls
 
 ใช้ technology เพื่อ enforce security
 
@@ -389,7 +389,7 @@ Current outline แบ่ง control เป็นสามกลุ่มให�
 - IDS/IPS
 - access control
 
-## Administrative controls
+### Administrative controls
 
 ใช้ governance/process/people
 
@@ -401,7 +401,7 @@ Current outline แบ่ง control เป็นสามกลุ่มให�
 - risk assessment
 - separation of duties process
 
-## Physical controls
+### Physical controls
 
 ปกป้องพื้นที่และอุปกรณ์
 
@@ -418,11 +418,11 @@ Current outline แบ่ง control เป็นสามกลุ่มให�
 
 ---
 
-# 9. Due Care vs Due Diligence
+## 9. Due Care vs Due Diligence
 
 สองคำนี้ชอบสับสน
 
-## Due Care
+### Due Care
 
 การลงมือทำสิ่งที่สมเหตุสมผลเพื่อปกป้ององค์กร
 
@@ -433,7 +433,7 @@ Current outline แบ่ง control เป็นสามกลุ่มให�
 - train staff
 - protect backups
 
-## Due Diligence
+### Due Diligence
 
 การตรวจสอบอย่างต่อเนื่องว่าสิ่งที่ควรทำถูกทำจริงและยังเพียงพอ
 
@@ -453,7 +453,7 @@ Due Diligence = ตรวจว่าทำแล้วและยังเห�
 
 ---
 
-# 10. Professional and Ethical Conduct
+## 10. Professional and Ethical Conduct
 
 Security professional มักเข้าถึงสิ่งที่คนทั่วไปเข้าไม่ได้ เช่น logs, credentials, vulnerabilities, sensitive data และ privileged systems
 
@@ -471,7 +471,7 @@ ISC2 Code of Ethics เป็นส่วนหนึ่งของ current Dom
 
 ---
 
-# 11. AI Security ใน Domain 1
+## 11. AI Security ใน Domain 1
 
 Outline 2026 ใส่ AI security กระจายอยู่ในทุก domain
 
@@ -505,9 +505,9 @@ AI tools ต้องอยู่ใต้ policy, legal requirements, risk appe
 
 ---
 
-# 12. Decision practice
+## 12. Decision practice
 
-## Scenario A
+### Scenario A
 
 บริษัทพบว่า employee ใช้บัญชี admin เดียวกัน 5 คน
 
@@ -521,7 +521,7 @@ AI tools ต้องอยู่ใต้ policy, legal requirements, risk appe
 
 ---
 
-## Scenario B
+### Scenario B
 
 ระบบมี encryption แข็งแรง แต่ข้อมูลถูกส่งให้ vendor โดยไม่มี business purpose
 
@@ -529,7 +529,7 @@ AI tools ต้องอยู่ใต้ policy, legal requirements, risk appe
 
 ---
 
-## Scenario C
+### Scenario C
 
 องค์กรซื้อ firewall ใหม่แต่ไม่เคยทำ risk assessment
 
@@ -547,7 +547,7 @@ business / asset
 
 ---
 
-# 13. Common traps
+## 13. Common traps
 
 | Trap | วิธีคิดที่ถูก |
 |---|---|
@@ -561,7 +561,7 @@ business / asset
 
 ---
 
-# 14. Knowledge Check
+## 14. Knowledge Check
 
 ลองตอบโดยไม่เปิดโน้ต:
 
