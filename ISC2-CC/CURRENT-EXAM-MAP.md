@@ -105,6 +105,8 @@ Who are you?
 
 ## Domain 4 — Networking and Cloud Security Concepts
 
+Teaching note: [04-Networking-Cloud-Security.md](./04-Networking-Cloud-Security.md)
+
 Current study buckets:
 
 - OSI and TCP/IP foundations,
