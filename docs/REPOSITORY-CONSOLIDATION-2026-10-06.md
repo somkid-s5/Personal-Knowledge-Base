@@ -1,5 +1,7 @@
 # Repository Consolidation — 2026-10-06
 
+> **Historical migration record.** Consolidation status has advanced since this document was written. For the current package/QA baseline, see [Repository Baseline Audit — 2026-10-07](./REPOSITORY-AUDIT-2026-10-07.md).
+
 ## Goal
 
 Make `somkid-s5/Cloud-Engineer` the primary long-term learning knowledge base while preserving the useful identity of source courses, certifications, interactive study tools and hands-on project repositories.
