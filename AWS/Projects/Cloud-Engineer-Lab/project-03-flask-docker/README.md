@@ -372,3 +372,16 @@ CMD ["python", "app.py"]
 ผลการเปรียบเทียบขนาด Image:
 - ขนาดสุดท้ายของ image ที่ลดรูปได้จะมีขนาดอยู่ที่ประมาณ 85MB (จากเดิมประมาณ 130MB บน slim หรือ 1GB บน image ปกติ)
 - ข้อแนะนำเชิงปฏิบัติ: Alpine เหมาะกับบริการขนาดเล็กที่ไม่มีความซับซ้อน แต่หากต้องการใช้งาน library ในกลุ่ม data science เช่น pandas หรือ numpy อาจเกิดปัญหาความเข้ากันได้ของ C library (musl vs glibc) ทำให้ต้องใช้เวลา compile จาก source code นานมากและอาจเกิด runtime error ที่วิเคราะห์ยากในอนาคต
+
+---
+
+## Cost & Cleanup Safety
+
+ถ้ารันเฉพาะ local Docker จะไม่สร้างค่า AWS โดยตรง แต่ถ้าต่อยอดไป ECR, EC2, EKS หรือ managed services ให้ตรวจราคาและ Billing ของ resource จริงก่อน deploy
+
+หลังจบ lab:
+
+- หยุดและลบ container/network/image ที่สร้างเพื่อทดลองเมื่อไม่ต้องใช้ต่อ
+- ถ้า push image ไป ECR ให้ลบ image/repository ที่ไม่ต้องเก็บ
+- ถ้าสร้าง EC2/EKS หรือ cloud resources เพิ่ม ให้ลบด้วยเครื่องมือ/IaC ตัวเดียวกับที่ใช้สร้าง
+- ตรวจ Billing/Cost Explorer หากมีการ deploy ขึ้น AWS
