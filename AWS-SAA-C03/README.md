@@ -35,6 +35,26 @@ flowchart LR
 | [02-Architecture-Foundation](./02-Architecture-Foundation/) | Architecting on AWS 7.12.4 modules 01–13, companion labs, diagrams and currentness overlay | **Verified Course Scope** |
 | [03-Hands-On-Projects](./03-Hands-On-Projects/) | Project 00 + Projects 01–34 for implementation and troubleshooting | **Verified Project Workbook Structure & Safety Baseline** |
 
+## Course vs Certification vs Projects
+
+ทั้งสามส่วนมีหน้าที่ต่างกัน แต่ไม่ได้เป็นคนละระบบ:
+
+| Part | คำถามที่ตอบ | บทบาทใน AWS-SAA-C03 |
+|---|---|---|
+| **Certification Core** | “SAA-C03 ปัจจุบันต้องรู้อะไรบ้าง?” | เป็น **เป้าหมายและขอบเขต** ของการเรียน |
+| **Architecture Foundation (Course)** | “จะเรียนหัวข้อเหล่านั้นให้เข้าใจจริงได้อย่างไร?” | เป็น **เนื้อหาหลักสำหรับสร้างความเข้าใจ** ผ่าน Architecting on AWS |
+| **Hands-On Projects** | “เอาความรู้ไปใช้จริงและ troubleshoot ได้ไหม?” | เป็น **ภาคปฏิบัติ** เพื่อเปลี่ยนความรู้เป็นทักษะ |
+
+Mental model ที่ใช้กับระบบนี้คือ:
+
+```text
+Certification = เป้าหมาย
+Course        = วิธีเรียนให้เข้าใจ
+Projects      = วิธีพิสูจน์ว่าใช้จริงได้
+```
+
+ดังนั้นเวลาจะเพิ่มเนื้อหาใหม่ ให้ถามก่อนว่าเนื้อหานั้นช่วย **เป้าหมาย SAA-C03 / AWS architecture learning** อยู่หรือไม่ ถ้าใช่ ให้ใส่เป็น layer ภายในระบบนี้ ไม่ต้องสร้าง AWS package ใหม่ที่ root
+
 ## Why this is one system
 
 The three layers have different source identities and maintenance cycles, but they serve one learner goal: **become competent at AWS architecture while preparing for SAA-C03**.
