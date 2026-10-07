@@ -245,3 +245,15 @@ while True:
     shard_iterator = response['NextShardIterator']
 ```
 
+---
+
+## Cost & Cleanup Safety
+
+Lambda, EventBridge, SQS/SNS และ DynamoDB มักคิดเงินตาม usage แต่ event loop, retention หรือ test traffic ที่ตั้งผิดสามารถสร้างค่าใช้จ่ายโดยไม่ตั้งใจ
+
+หลังจบ lab:
+
+- ปิด producer/test traffic ก่อน เพื่อไม่ให้ event ใหม่ไหลเข้าระหว่าง cleanup
+- destroy Terraform-owned resources หรือ delete EventBridge rules/targets, Lambda functions, queues/topics และ DynamoDB tables ที่สร้างเฉพาะ lab
+- ตรวจ DLQ, message retention และ CloudWatch log groups ว่ามีข้อมูลที่ต้องเก็บหรือไม่
+- ตรวจ Billing/Cost Explorer หลัง cleanup

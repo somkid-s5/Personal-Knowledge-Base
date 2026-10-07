@@ -252,3 +252,19 @@ exports.handler = async (event) => {
 };
 ```
 เชื่อมต่อฟังก์ชันนี้เข้ากับเหตุการณ์ **Origin Response** ใน CloudFront distribution ผ่านโค้ด Terraform
+
+---
+
+## Cost & Cleanup Safety
+
+Resource ที่ควรจับตาเรื่องค่าใช้จ่ายคือ S3 storage/requests, CloudFront requests/data transfer และบริการเสริมที่คุณเปิดเพิ่มเอง
+
+หลังจบ lab:
+
+1. ลบ/disable CloudFront distribution ที่สร้างเพื่อทดลองเมื่อไม่ใช้งานแล้ว
+2. ลบ object/version ที่ไม่ต้องเก็บและลบ S3 bucket ของ lab
+3. ลบ DNS/WAF/Lambda หรือ resource เสริมถ้าคุณสร้างเพิ่มจาก exercise
+4. ถ้าสร้างด้วย IaC ให้ใช้ destroy/delete workflow ของ IaC นั้นแทนการลบสุ่มจาก Console
+5. ตรวจ Billing/Cost Explorer อีกครั้งเพื่อยืนยันว่าไม่มี resource ค้าง
+
+> S3 bucket ที่เปิด versioning อาจยังมี object versions/delete markers เหลืออยู่และทำให้ลบ bucket ไม่สำเร็จ ตรวจให้ครบก่อนถือว่า cleanup เสร็จ

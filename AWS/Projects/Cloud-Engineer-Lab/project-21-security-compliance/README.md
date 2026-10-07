@@ -315,3 +315,17 @@ def handler(event, context):
         )
 ```
 
+---
+
+## Cost & Cleanup Safety
+
+Security services เช่น AWS Config, GuardDuty, WAF, CloudWatch และ EventBridge/Lambda automation สามารถมีค่าใช้จ่ายได้แม้ traffic ต่ำ
+
+หลังจบ lab:
+
+- destroy Terraform-owned resources หาก environment นี้สร้างด้วย Terraform
+- ลบ WAF rules/web ACL associations, Config rules และ remediation resources ที่สร้างเฉพาะ lab
+- ปิดหรือลบ GuardDuty detector เฉพาะ **isolated lab account** เมื่อแน่ใจว่าไม่ใช่ security control ที่ต้องเก็บ
+- ลบ test Lambda/EventBridge resources และ log groups ตามความเหมาะสม
+- อย่า cleanup ด้วยวิธีที่ทำให้ shared/production account สูญเสีย security baseline
+- ตรวจ Billing/Cost Explorer หลังจบ

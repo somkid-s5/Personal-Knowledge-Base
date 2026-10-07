@@ -528,3 +528,18 @@ FROM python:3.7
   kubectl run unsigned --image=nginx
   ```
   หากนโยบายถูกต้องคำสั่งด้านบนจะล้มเหลวเนื่องจากไม่มีลายเซ็นดิจิทัลประกอบ
+
+---
+
+## Cost & Cleanup Safety
+
+การสแกน container ในเครื่องอาจไม่เกิดค่า cloud แต่ ECR, EKS/EC2 และระบบ logging/security integration ที่เปิดเพิ่มสามารถมีค่าใช้จ่ายได้
+
+หลังจบ lab:
+
+- ลบ EKS/test cluster หรือ EC2 worker ที่สร้างเฉพาะ lab
+- ลบ ECR images/repositories ที่ไม่ต้องเก็บ
+- ถอน security agents/operators ที่ติดตั้งเพื่อทดลองใน shared cluster
+- ลบ temporary log destinations หรือ IAM resources ที่สร้างเฉพาะ lab
+- ถ้า Terraform เป็น resource owner ให้ใช้ `terraform destroy` จาก state/workspace ที่ถูกต้อง
+- ตรวจ Billing/Cost Explorer หลัง cleanup

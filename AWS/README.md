@@ -23,7 +23,7 @@ flowchart LR
 
 ## Projects
 
-- [Cloud Engineer Lab](./Projects/Cloud-Engineer-Lab/) — 34 AWS-centered hands-on projects plus preparation setup, progressing from foundation through architect-level scenarios with Terraform, Kubernetes, CI/CD, security, FinOps and observability.
+- [Cloud Engineer Lab](./Projects/Cloud-Engineer-Lab/) — **Verified Project Workbook Structure & Safety Baseline**: Project 00 + Projects 01–34; all 35 workbooks pass the common scenario/architecture/implementation/verification/troubleshooting/exercise/cost/cleanup contract, with current human-auth guidance and CI regression audit.
 
 ## Why these stay as separate packages
 

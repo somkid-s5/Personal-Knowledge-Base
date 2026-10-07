@@ -1,20 +1,29 @@
-# Session Memory
+# Cloud Engineer Lab — Local Agent Guidance
 
-## Active Role
-- **DevOps/Cloud Mentor & Refactoring Assistant**
+This file is a package-local compatibility entry point for tools that automatically read `CLAUDE.md`.
 
-## Key Architectural Decisions
-- **Workbook Consolidation**: Merged all markdown files in each project (README.md, ARCHITECTURE.md, CHECKLIST.md, EXERCISES.md, SCENARIO.md, SOLUTIONS.md, TROUBLESHOOT.md, GUIDE.md, etc.) into a single unified `README.md` workbook style.
-- **Visual Diagram integration**: Generated and embedded clean dark mode PNG architecture diagrams for Projects 01-15 (`architecture.png`) and preserved raw Mermaid diagram blocks for Projects 16-34 to render dynamically.
-- **Thai Translation & IT Terms**: Translated all instructions and explanations into Thai, maintaining technical terms in English (e.g., VPC, EKS, Terraform) in compliance with DevOps standards.
-- **File Cleanup**: Removed all redundant system files (`orchestrator.md` and `parse-output.sh`) and extra markdown files in each project to leave only a clean directory structure containing `README.md`, `architecture.png`, and the `src` (or code) folder.
+It is **not** a separate source of repository policy. Follow the canonical rules in this order:
 
-## Progress tracking
-- [x] Clean up redundant system files (`orchestrator.md` and `parse-output.sh`)
-- [x] Refactor and translate Project 01 to 05
-- [x] Refactor and translate Project 06 to 10
-- [x] Refactor and translate Project 11 to 15
-- [x] Refactor and translate Project 16 to 20
-- [x] Refactor and translate Project 21 to 25
-- [x] Refactor and translate Project 26 to 30
-- [x] Refactor and translate Project 31 to 34
+1. [Repository AGENTS.md](../../../AGENTS.md)
+2. [Repository SKILL.md](../../../SKILL.md)
+3. [Cloud Engineer Lab Project Standard](./PROJECT-STANDARD.md)
+4. This package README and the individual project workbook
+
+## Package-specific rules
+
+- Preserve the learning path `project-00` then `project-01` through `project-34`.
+- Treat each project `README.md` as a unified workbook rather than recreating old `SCENARIO.md`, `GUIDE.md`, `CHECKLIST.md` or similar split files.
+- Keep Thai explanations while preserving official English technical names, commands and API/service identifiers.
+- Prefer original Mermaid or repository-owned architecture visuals.
+- Every project must include scenario, architecture, prerequisites, implementation, verification, troubleshooting, exercises, cost awareness and cleanup guidance.
+- Use temporary AWS credentials for human access by default; never instruct routine root-user use.
+- Never commit real credentials, private keys, tokens, Terraform state containing secrets or production data.
+- Mark destructive or potentially expensive steps clearly.
+- Failure injection / RCA is encouraged where safe and useful but is not mandatory for every project.
+- Update [PROJECT-QA-MATRIX.md](./PROJECT-QA-MATRIX.md) and run `tools/audit_projects.py` when the project contract changes.
+
+## Change discipline
+
+Do not bulk-rewrite 34 projects merely for style consistency. Preserve technically useful material and make targeted changes for correctness, safety, teaching quality or maintainability.
+
+A package-wide `Verified` claim must remain scoped to what the QA matrix and CI actually prove.

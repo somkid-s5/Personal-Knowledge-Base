@@ -18,7 +18,7 @@
 3. ติดตั้ง Docker Desktop พร้อมเชื่อมต่อ WSL 2 integration สำเร็จ
 4. ติดตั้งเครื่องมือจัดการคอนเทนเนอร์และคลัสเตอร์ (kubectl, Helm, Ansible, Terragrunt) สำเร็จ
 5. เชื่อมต่อ VS Code จากฝั่ง Windows เข้าไปทำงานในสภาพแวดล้อม WSL ได้ผ่าน Extension
-6. คอนฟิก AWS CLI Named Profile ใน WSL และทดสอบการดึงข้อมูล STS สำเร็จ
+6. ตั้งค่า AWS CLI profile ด้วย temporary credentials (เช่น IAM Identity Center หรือ `aws login`) และทดสอบ STS สำเร็จ
 
 ---
 
@@ -43,7 +43,7 @@ graph TD
     end
 
     subgraph Cloud ["AWS Cloud"]
-        STS["STS (Verify Key)"]
+        STS["STS (Verify Identity / Session)"]
         AWS_Res["AWS Resources"]
     end
 
@@ -193,17 +193,51 @@ sudo add-apt-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible -y
 ```
 
-### Task 9: กำหนดค่า AWS Credentials และ Named Profile
-รันคำสั่งระบุสิทธิ์ใช้งานภายใน WSL Terminal
-1. สมัครใช้งาน AWS Account (สำหรับเข้าใช้งาน Free Tier)
-2. เข้าสู่ระบบด้วย Root User ไปที่บริการ IAM -> ไปที่ Users -> Create user ตั้งชื่อผู้ใช้งาน เช่น `developer-workstation`
-3. แนบสิทธิ์ `AdministratorAccess` (สำหรับการทำแล็บ)
-4. คลิกที่ชื่อผู้ใช้งาน -> แท็บ Security credentials -> ไปที่ Access keys -> คลิก Create access key -> เลือก "Command Line Interface (CLI)" ติ๊กยอมรับเงื่อนไข แล้วเซฟไฟล์คีย์ไว้
-5. เปิด WSL Terminal แล้วรันตั้งค่า Named Profile:
+### Task 9: ตั้งค่า AWS CLI Authentication แบบ Temporary Credentials
+
+สำหรับผู้ใช้งานที่เป็นคน (human/workforce identity) **ไม่ใช้ Root User ทำงานประจำ และไม่สร้าง IAM user + long-term access key + AdministratorAccess เป็นค่าเริ่มต้น** แนวทางปัจจุบันคือใช้ temporary credentials
+
+#### ทางเลือก A — IAM Identity Center / Federation (แนะนำสำหรับหลาย Account/องค์กร)
+
+1. ใช้ account/permission set ที่ผู้ดูแลกำหนดให้
+2. ตั้งค่า SSO profile:
+
 ```bash
-aws configure --profile developer-dev
+aws configure sso --profile developer-dev
 ```
-6. กรอกข้อมูล Access Key ID, Secret Access Key, region เป็น `ap-southeast-1` และ output เป็น `json`
+
+3. ล็อกอิน:
+
+```bash
+aws sso login --profile developer-dev
+```
+
+4. ทดสอบ:
+
+```bash
+aws sts get-caller-identity --profile developer-dev
+```
+
+#### ทางเลือก B — AWS CLI local sign-in
+
+AWS CLI v2 รุ่นที่รองรับ `aws login` สามารถใช้ browser/console sign-in เพื่อรับ temporary credentials โดยไม่ต้องเก็บ access key ระยะยาวไว้ในเครื่อง
+
+```bash
+aws login --profile developer-dev
+aws sts get-caller-identity --profile developer-dev
+```
+
+ถ้า CLI ของคุณยังไม่รองรับ `aws login` ให้อัปเดต AWS CLI v2 ก่อน
+
+#### Long-term access keys ใช้เมื่อไร
+
+ใช้เฉพาะกรณีที่มีข้อจำกัดจริงและไม่สามารถใช้ temporary credentials ได้เท่านั้น หากจำเป็น:
+
+- อย่าใช้ Root access keys
+- ให้สิทธิ์เท่าที่ต้องใช้ (least privilege) แทน `AdministratorAccess` แบบถาวร
+- เปิด MFA ตามกรณีที่รองรับ
+- rotate/remove key เมื่อหมดความจำเป็น
+- ห้าม commit `~/.aws/credentials`, access keys หรือ secrets ลง Git
 
 ---
 
@@ -215,14 +249,17 @@ aws configure --profile developer-dev
 ```bash
 aws sts get-caller-identity --profile developer-dev
 ```
-ผลลัพธ์ที่ถูกต้องต้องแสดงสิทธิ์ผู้ใช้งานในระบบของคุณ:
+ผลลัพธ์ที่ถูกต้องต้องแสดง Account และ ARN ของ principal/role/session ที่กำลังใช้งาน เช่น:
+
 ```json
 {
-    "UserId": "AIDAXOXO...",
-    "Account": "123456789012",
-    "Arn": "arn:aws:iam::123456789012:user/developer-workstation"
+  "UserId": "AROA...:session-name",
+  "Account": "123456789012",
+  "Arn": "arn:aws:sts::123456789012:assumed-role/YourRole/session-name"
 }
 ```
+
+รูปแบบ ARN อาจต่างกันตามวิธี authentication; ประเด็นคือยืนยันว่าเป็น account/role ที่ตั้งใจใช้ก่อนสร้างทรัพยากร
 
 2. ตรวจสอบเวอร์ชันของเครื่องมือทั้งหมด:
 ```bash
@@ -281,3 +318,19 @@ ls -l README.md
    - เพิ่มคำสั่งไว้ท้ายไฟล์: `export AWS_PROFILE="developer-dev"`
    - เซฟและปิดไฟล์ จากนั้นรีเฟรชการตั้งค่าใหม่: `source ~/.bashrc`
 3. เป็นผลจากการตั้งค่า metadata mounting ที่ไม่ถูกต้อง ให้ตรวจสอบไฟล์ `/etc/wsl.conf` ว่ามีส่วนของ `options = "metadata,umask=22,fmask=11"` ครบถ้วนหรือไม่ แล้วรีสตาร์ท WSL (`wsl --shutdown`)
+
+---
+
+## Cost & Cleanup Safety
+
+> [!NOTE]
+> Project 00 ติดตั้งเครื่องมือบนเครื่องเป็นหลักและไม่ควรสร้าง AWS workload ที่มีค่าใช้จ่าย แต่การมี AWS Account ไม่ได้แปลว่า resource ที่สร้างใน project ถัดไปจะฟรีเสมอ
+
+ก่อนเริ่ม project ถัดไป:
+
+- เปิด Billing/Cost Management และตรวจสอบ Free Tier/credit status ของ account
+- ตั้ง AWS Budget หรือ spend alert ขนาดเล็กให้เหมาะกับบัญชีทดลอง
+- ยืนยัน Account ID ด้วย `aws sts get-caller-identity` ทุกครั้งก่อน deploy
+- อย่าเก็บ long-term access keys ถ้า temporary credentials ใช้งานได้
+
+Cleanup ของ project นี้คือถอน/ปิดเครื่องมือ local ที่ไม่ต้องการและลบ credential แบบ long-term ที่สร้างไว้โดยไม่จำเป็น Project 00 เองไม่ควรมี billable AWS resource ให้ destroy

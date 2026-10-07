@@ -297,3 +297,17 @@ end
     script  mask.lua
     call    mask_cc
 ```
+
+---
+
+## Cost & Cleanup Safety
+
+Observability stack สามารถสร้างค่า ingest/storage สูง โดยเฉพาะ log retention, OpenSearch/managed backend, S3 และ compute ที่รัน Loki/Grafana
+
+หลังจบ lab:
+
+- ถอน Helm releases/manifests ของ Fluent Bit, Loki, Grafana หรือ collector ที่สร้างเฉพาะ lab
+- ลบ test indices, log groups หรือ buckets ตาม retention requirement
+- ถ้ามี OpenSearch/managed logging domain ที่สร้างเพื่อทดลอง ให้ลบเมื่อไม่ใช้ต่อ
+- ลบ EKS/EC2 resources เฉพาะ lab หาก environment เป็น disposable
+- ตรวจ retention policy และ Billing/Cost Explorer เพื่อกันค่า ingest/storage ค้าง

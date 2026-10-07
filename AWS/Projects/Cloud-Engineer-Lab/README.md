@@ -1,6 +1,11 @@
 # ☁️ Cloud Engineer Lab: จาก Sysadmin สู่ผู้เชี่ยวชาญด้าน Cloud (34 Hands-on Projects) 🇹🇭
 
-Welcome to the **Cloud Engineer Lab**, a comprehensive, self-paced learning path designed to transform you into a professional Cloud Engineer. This repository contains 34 hands-on projects, each representing real-world enterprise scenarios on AWS.
+Welcome to the **Cloud Engineer Lab**, a self-paced project track for building practical Cloud / Platform / DevOps skills. This package contains **Project 00 (environment setup) + 34 hands-on projects (01–34)** built around realistic AWS-centered engineering scenarios.
+
+> **Package status:** **Verified Project Workbook Structure & Safety Baseline** — Project 00 + Projects 01–34 pass the shared workbook/audit contract as of 2026-10-07  
+> **Canonical workbook standard:** [PROJECT-STANDARD.md](./PROJECT-STANDARD.md)  
+> **Learning order:** [LEARNING_PATH.md](./LEARNING_PATH.md)  
+> **Quality evidence:** [PROJECT-QA-MATRIX.md](./PROJECT-QA-MATRIX.md)
 
 ---
 
@@ -20,11 +25,11 @@ Welcome to the **Cloud Engineer Lab**, a comprehensive, self-paced learning path
 > [!TIP]
 > **Highlight ของ Lab นี้:**
 > - เน้นการใช้เครื่องมือมาตรฐานโลก (Terraform, EKS, Istio, ArgoCD, Vault)
-> - ทุก Lab มีส่วน **"ทดลองให้พัง" (Failure Testing)** และ **"Incident Stories"** (บทเรียนจากความล่มสลายจริง)
+> - ทุก Project มี **Troubleshooting**; หลาย Project โดยเฉพาะระดับกลาง–สูงเพิ่ม Failure Testing, Incident/RCA หรือ Chaos exercise เมื่อเหมาะและปลอดภัย
 > - อธิบายแนวคิดยากๆ ด้วยการเปรียบเทียบ (Analogy) และการทำ **Root Cause Analysis (RCA)**
 
 ## 💎 What Makes This Repo Special (ความต่างของ Repo นี้)
-- **Incident-First Approach**: เราไม่ได้สอนแค่การสร้างระบบที่สมบูรณ์แบบ แต่เราสอนให้คุณรับมือกับระบบที่ "กำลังจะพัง" ผ่านเรื่องราว Incident จริง (เช่น [The Health Check Loop of Death](labs/advanced/lab-production-architecture.md#incident-report))
+- **Operational / Incident Thinking**: ทุก Project ต้องสอนการตรวจสอบและ Troubleshooting ส่วน Failure Injection / Incident / RCA จะใช้ใน Project ที่เหมาะสม (เช่น [The Health Check Loop of Death](labs/advanced/lab-production-architecture.md#incident-report))
 - **Real-World Architecture Thinking**: ทุกโปรเจกต์ไม่ได้สอนแค่การกดสร้าง Resource แต่สอนให้ "คิด" แบบ Cloud Engineer ว่าทำไมต้องเลือกใช้ Service นี้ และมันตอบโจทย์ธุรกิจอย่างไร
 - **Troubleshooting Mindset**: เน้นการทำ **Root Cause Analysis (RCA)** เมื่อระบบพัง เพื่อฝึกทักษะการแก้ปัญหาหน้าสิ่วหน้าขวานในงานจริง
 - **Production-Aware Explanations**: เนื้อหาครอบคลุมถึงพฤติกรรมของระบบในระดับ Production เช่น การจัดการ Traffic Spike, การทำ Failover และการบริหารจัดการต้นทุน (FinOps)
@@ -97,11 +102,14 @@ Welcome to the **Cloud Engineer Lab**, a comprehensive, self-paced learning path
 ---
 
 ## 🏆 เตรียมความพร้อมสำหรับใบเซอร์ (Certification Prep)
-เนื้อหาใน Lab นี้ถูกออกแบบมาให้ครอบคลุมความรู้สำหรับ:
-- AWS Certified Solutions Architect (Associate & Professional)
-- AWS Certified DevOps Engineer (Professional)
-- Certified Kubernetes Administrator (CKA)
-- HashiCorp Certified: Terraform Associate
+Project track นี้ **ไม่ใช่ certification curriculum ที่รับรอง objective coverage ของข้อสอบแต่ละใบ** แต่ช่วยฝึกทักษะ hands-on ที่เกี่ยวข้องกับหลายเส้นทาง เช่น:
+
+- AWS architecture / operations / DevOps
+- Kubernetes administration and platform engineering
+- Terraform / Infrastructure as Code
+- Security, FinOps and observability
+
+สำหรับ coverage ของ certification ให้ใช้ package certification ที่มี objective QA โดยตรง เช่น [SAA-C03](../../Certifications/SAA-C03/).
 
 ---
 
@@ -111,18 +119,20 @@ Welcome to the **Cloud Engineer Lab**, a comprehensive, self-paced learning path
 > ติดตั้งเครื่องมือเหล่านี้ให้ครบก่อนเริ่มทำโปรเจกต์ใดๆ
 
 ### บัญชีและสิทธิ์
-- **AWS Account** พร้อม IAM User ที่มีสิทธิ์ `AdministratorAccess` (สำหรับ Lab)
-- ตั้งค่า **AWS CLI**: `aws configure` พร้อม Access Key และ Region (`ap-southeast-1`)
+- **AWS Account** สำหรับ lab โดยแนะนำให้แยกจาก production
+- สำหรับ human access ให้ใช้ **temporary credentials** เป็นค่าเริ่มต้น เช่น IAM Identity Center/federation หรือ AWS CLI local sign-in ที่รองรับ
+- หลีกเลี่ยง Root User สำหรับงานประจำ และอย่าใช้ long-lived `AdministratorAccess` access key เป็น baseline
+- เริ่มจาก [Project 00](./project-00-preparation-setup/) เพื่อจัด AWS CLI profile และตรวจ identity ด้วย STS
 
 ### เครื่องมือพื้นฐาน (ทุก Project)
 | เครื่องมือ | เวอร์ชันแนะนำ | ดาวน์โหลด |
 |:---|:---:|:---|
-| AWS CLI | v2.x | [aws.amazon.com/cli](https://aws.amazon.com/cli/) |
-| Terraform | >= 1.7 | [terraform.io](https://www.terraform.io/downloads) |
-| Docker Desktop | >= 4.x | [docker.com](https://www.docker.com/products/docker-desktop) |
-| kubectl | >= 1.29 | [kubernetes.io](https://kubernetes.io/docs/tasks/tools/) |
-| Helm | >= 3.14 | [helm.sh](https://helm.sh/docs/intro/install/) |
-| Python | >= 3.11 | [python.org](https://www.python.org/downloads/) |
+| AWS CLI | Current AWS CLI v2 | [aws.amazon.com/cli](https://aws.amazon.com/cli/) |
+| Terraform | Current stable compatible with the project code | [terraform.io](https://www.terraform.io/downloads) |
+| Docker Desktop / Engine | Current supported release | [docker.com](https://www.docker.com/products/docker-desktop) |
+| kubectl | Compatible with the Kubernetes/EKS version used by the project | [kubernetes.io](https://kubernetes.io/docs/tasks/tools/) |
+| Helm | Current supported release | [helm.sh](https://helm.sh/docs/intro/install/) |
+| Python | Current supported Python 3 release compatible with project dependencies | [python.org](https://www.python.org/downloads/) |
 
 ### เครื่องมือเสริม (สำหรับ Project ขั้นสูง)
 | เครื่องมือ | ใช้ใน Project | ดาวน์โหลด |
@@ -137,16 +147,24 @@ aws --version && terraform --version && docker --version && kubectl version --cl
 ```
 
 > [!CAUTION]
-> **ค่าใช้จ่าย AWS:** Project ระดับ Mid-Senior (12+) ใช้ทรัพยากรที่มีค่าใช้จ่าย  
-> **ลบทรัพยากรทุกครั้งหลังทดสอบ** ด้วย `terraform destroy` เพื่อหลีกเลี่ยงค่าใช้จ่ายที่ไม่จำเป็น
+> **ค่าใช้จ่าย AWS:** Project ทุกระดับอาจสร้างค่าใช้จ่าย ขึ้นกับ service, Region, traffic และสถานะ Free Tier/credits ของบัญชี  
+> ทุก workbook ต้องมี Cost/Cleanup guidance และควรลบ resource ด้วย **resource owner ที่ถูกต้อง** เช่น Terraform, CloudFormation, Helm/Kubernetes หรือ service-specific workflow — ไม่ใช่ใช้ `terraform destroy` กับทุกกรณี
 
 ---
 
 ## 📝 วิธีการเริ่มเรียน (How to Use)
-1. อ่าน **SCENARIO.md** ในแต่ละโปรเจกต์เพื่อเข้าใจปัญหา
-2. ทำตามขั้นตอนใน **GUIDE.md** เพื่อสร้างระบบ
-3. ทำการทดสอบในส่วน **"ทดลองให้พัง"** เพื่อดูผลลัพธ์
-4. ตรวจสอบความถูกต้องผ่าน **CHECKLIST.md**
+
+แต่ละ Project ถูก consolidate เป็น **workbook เดียวใน `README.md`** แล้ว ไม่ต้องหาไฟล์ `SCENARIO.md`, `GUIDE.md` หรือ `CHECKLIST.md` แบบโครงเก่า
+
+1. อ่าน **Scenario + Constraints + Architecture** ก่อนลงมือ
+2. ทำ **Tasks** พร้อมอธิบายเหตุผลของแต่ละการตัดสินใจ
+3. ตรวจผลใน **Verification**
+4. ฝึก **Troubleshooting** และ Failure/Incident exercise เมื่อ Project นั้นมี
+5. ทำ **Exercises** โดยพยายามตอบเองก่อนดูแนวทาง
+6. อ่าน **Cost & Cleanup Safety** และเก็บ resource ให้เรียบร้อย
+7. ไป Project ถัดไปตาม [LEARNING_PATH.md](./LEARNING_PATH.md)
+
+มาตรฐาน workbook ทั้งหมดอยู่ใน [PROJECT-STANDARD.md](./PROJECT-STANDARD.md).
 
 ---
 
