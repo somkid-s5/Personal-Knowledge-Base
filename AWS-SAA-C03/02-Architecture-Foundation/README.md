@@ -1,5 +1,7 @@
 # Architecting on AWS 7.12.4 — Study Notes 📘
 
+> **AWS-SAA-C03 layer 02/03 — Architecture Foundation:** long-form theory and course-aligned labs used by the unified SAA learning system.
+
 > **Status:** **Verified Course Scope** — 13/13 module families and 7/7 companion lab guides mapped; currentness overlay present  
 > **Last course/currentness review:** 2026-10-07  
 > **Historical course source:** *Architecting on AWS 7.12.4 (EN) — Student Guide* + corresponding Lab Guide  
