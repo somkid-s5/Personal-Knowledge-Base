@@ -48,11 +48,45 @@ for top in ROOT.iterdir():
         for package in content_type.iterdir():
             if not package.is_dir() or package.name.startswith("."):
                 continue
-            if not (package / "README.md").is_file():
+            readme = package / "README.md"
+            if not readme.is_file():
                 errors.append(
                     "Learning package is missing README.md: "
                     f"{package.relative_to(ROOT)}"
                 )
+                continue
+
+            # Verified packages have a stronger evidence contract than ordinary packages.
+            # Detect an explicit status line near the top of the package README so prose
+            # elsewhere in the document cannot accidentally trigger this gate.
+            head = "\n".join(
+                readme.read_text(encoding="utf-8", errors="ignore").splitlines()[:20]
+            )
+            status_lines = [
+                line for line in head.splitlines()
+                if "status:" in line.casefold()
+                or "package status:" in line.casefold()
+            ]
+            is_verified = any("verified" in line.casefold() for line in status_lines)
+
+            if is_verified:
+                if not (package / "SOURCE-MANIFEST.md").is_file():
+                    errors.append(
+                        "Verified package is missing SOURCE-MANIFEST.md: "
+                        f"{package.relative_to(ROOT)}"
+                    )
+
+                qa_files = [
+                    candidate
+                    for candidate in package.glob("*.md")
+                    if "qa" in candidate.name.casefold()
+                    and candidate.name.casefold() != "readme.md"
+                ]
+                if not qa_files:
+                    errors.append(
+                        "Verified package is missing package-level QA evidence: "
+                        f"{package.relative_to(ROOT)}"
+                    )
 
 # Guard against known legacy root layouts returning after the migration.
 for legacy in ("AWS_SAA_C03",):
