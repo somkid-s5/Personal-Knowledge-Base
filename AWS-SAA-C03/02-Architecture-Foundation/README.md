@@ -6,7 +6,7 @@
 > **Current scope cross-check:** AWS Classroom Training catalog + current Architecting on AWS course outline  
 > **Current-tree provenance:** **CLEAN for known source-image blocker** — licensed source diagrams were removed; Git history has not been rewritten
 
-[← AWS Learning Library](../../README.md)
+[← AWS-SAA-C03 Learning System](../README.md)
 
 ## Start here
 
