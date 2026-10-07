@@ -1,6 +1,6 @@
 # Repository Governance & Standards
 
-This directory contains repository-wide rules that apply across providers and learning packages.
+This directory contains repository-wide rules that apply across top-level learning systems and their internal learning layers.
 
 ## Read in this order
 1. [Repository Architecture](./REPOSITORY-ARCHITECTURE.md)
