@@ -309,3 +309,20 @@ data_capture_config = DataCaptureConfig(
 # Attach to Endpoint and schedule monitoring job daily
 ```
 
+---
+
+## Cost & Cleanup Safety
+
+> [!WARNING]
+> Project นี้มีความเสี่ยงค่าใช้จ่ายสูง เพราะ SageMaker, GPU/accelerated instances, EKS/EC2, EBS และ data storage สามารถคิดเงินได้เร็ว
+
+ก่อน deploy ให้ตั้ง budget/alert และเลือก instance size เท่าที่จำเป็น
+
+หลังจบ:
+
+- stop/delete SageMaker endpoints, notebook หรือ training resources ที่สร้างเพื่อ lab
+- scale down/delete GPU node pools และ EKS/EC2 resources
+- ลบ ECR images และ S3 artifacts ที่ไม่ต้องเก็บ
+- destroy Terraform-owned infrastructure
+- ตรวจ EBS volumes/snapshots และ Elastic IPs ที่ orphan
+- ตรวจ Cost Explorer/Billing ทันทีหลัง cleanup
