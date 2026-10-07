@@ -376,3 +376,19 @@
     dest: /etc/fail2ban/jail.local
   notify: Restart Fail2Ban
 ```
+
+---
+
+## Cost & Cleanup Safety
+
+ถ้าฝึก hardening บน EC2 ให้ถือว่า instance, EBS, Elastic IP และ traffic อาจมีค่าใช้จ่ายตาม account/Region/usage
+
+หลังจบ lab:
+
+- terminate EC2 test instance ที่ไม่ต้องใช้ต่อ
+- ตรวจ EBS volumes/snapshots และ Elastic IP ที่เหลือโดยไม่ตั้งใจ
+- ลบ Security Group หรือ test key material ที่สร้างเฉพาะ lab เมื่อไม่มี dependency
+- ถ้าใช้ local VM แทน EC2 ให้ลบ VM/snapshot ที่ไม่ต้องการเพื่อคืนพื้นที่เครื่อง
+- ตรวจ Billing/Cost Explorer หลัง cleanup
+
+อย่านำ hardening experiment ไปยิงกับ production host; ใช้ disposable test host เท่านั้น
