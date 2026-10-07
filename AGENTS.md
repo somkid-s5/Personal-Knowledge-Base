@@ -46,15 +46,16 @@ Maintain this repository as a long-lived, high-quality learning knowledge base f
 
 ## Repository structure
 
-Use the taxonomy defined in `docs/REPOSITORY-ARCHITECTURE.md`:
-`<Domain-or-Provider>/<Content-Type>/<Learning-Package>/`.
+Use the learning-system-first taxonomy defined in `docs/REPOSITORY-ARCHITECTURE.md`.
 
-Existing canonical provider types include `Courses`, `Certifications`, `Topics` and `Projects`. New top-level roots require a clear domain-level purpose and README.
+Top-level learning content should be organized by learner goal, for example `AWS-SAA-C03`, `Azure-AZ-104`, or `GCP-ACE`. Courses, projects, labs, current-objective notes and practice material belong inside the relevant system as learning layers when they support the same goal.
+
+Do not recreate generic provider roots such as `AWS/`, `Azure/` or `GCP/` unless the architecture policy is explicitly changed.
 
 ## Change discipline
 
 - Prefer one focused branch/PR per structural or content theme.
-- Preserve relative links when moving a whole package. If paths change, update root/provider navigation in the same change.
+- Preserve relative links when moving a whole package. If paths change, update root/system navigation in the same change.
 - Avoid silent mass rewrites of already-verified content.
 - Structural migrations must not change technical meaning unless explicitly part of the change.
 
