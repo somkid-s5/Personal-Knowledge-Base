@@ -56,7 +56,7 @@ These files are study companions. The actual AWS-hosted lab environment and inst
 | Operations / troubleshooting | Operational checks and failure thinking are present, but depth varies by module | **PASS for course level** |
 | Reviewability | Cheat sheet, exam mode, mock exam, answer key and module reviews exist | **PASS** |
 | Current-product accuracy | Historical course material is separated from a currentness overlay | **PASS with overlay** |
-| Source provenance / redistribution | Original Mermaid/SVG visuals retained; 13 Student Guide-derived source images removed from current tree; Git-history caveat documented | **PASS — current tree** |
+| Source-image provenance | Original Mermaid/SVG visuals retained; 13 Student Guide-derived module images + 7 Lab Guide-derived lab images removed from current tree; Git-history caveat documented | **PASS — known image blocker** |
 
 ## 4. Currentness gate
 
@@ -74,6 +74,6 @@ Current high-impact deltas already documented include:
 
 As of 2026-10-06 the correct package label is:
 
-> **Verified Course Scope — 13/13 modules + 7/7 companion lab guides; currentness overlay present; known source-image blocker removed from the current tree.**
+> **Verified Course Scope — 13/13 modules + 7/7 companion lab guides; currentness overlay present; known module/lab source-image blocker removed from the current tree.**
 
 Do not shorten this to “everything in AWS is current” or “complete AWS architecture reference.” The package is a high-quality reader for the named course, augmented with current AWS notes.
