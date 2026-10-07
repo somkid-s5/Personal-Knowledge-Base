@@ -27,6 +27,11 @@ This distinction matters because the CC outline changed materially on 2026-09-01
 
 See [CURRENT-EXAM-MAP.md](./CURRENT-EXAM-MAP.md) for the current study map.
 
+Current teaching artifacts:
+
+- [Domain 1 — Security Principles](./01-Security-Principles.md)
+- [Current Study Plan](./STUDY-PLAN.md)
+
 ## Source model
 
 ~~~text
@@ -50,11 +55,12 @@ The repository does **not** copy the proprietary PDFs themselves.
 ## Recommended learning order
 
 1. Read [CURRENT-EXAM-MAP.md](./CURRENT-EXAM-MAP.md) to understand the 2026 target.
-2. Study Domain 1 and Domain 3 first to establish security and access-control mental models.
-3. Continue with Domain 4 because networking/cloud security is the largest technical domain.
-4. Study Domain 2 to connect governance, resilience and security awareness.
-5. Finish with Domain 5 to connect daily operations, monitoring, incident response and testing.
-6. Use future repository-authored scenarios and review notes after the source-remap pass is complete.
+2. Follow [STUDY-PLAN.md](./STUDY-PLAN.md) for the current recommended sequence.
+3. Start with [Domain 1 — Security Principles](./01-Security-Principles.md), then move to Domain 3 to establish security and access-control mental models.
+4. Continue with Domain 4 because networking/cloud security is the largest technical domain.
+5. Study Domain 2 to connect governance, resilience and security awareness.
+6. Finish with Domain 5 to connect daily operations, monitoring, incident response and testing.
+7. Use repository-authored scenarios and review notes as they are added.
 
 ## Current state
 
@@ -64,14 +70,17 @@ Already done:
 - official domain weights recorded,
 - private Drive source set inventoried,
 - pre-2026 material clearly separated from current scope,
-- current-source and QA scaffolding created.
+- current-source and QA scaffolding created,
+- first current teaching note created for Domain 1,
+- historical Thor study-plan concepts reconstructed into a current 2026 study plan.
 
 Still pending:
 
 - full read of every private source file,
 - source-to-2026-objective mapping,
 - identification of 2026 topics missing from older material,
-- Thai domain teaching notes,
+- Domain 2–5 Thai teaching notes,
+- full source-fidelity pass for Domain 1 material,
 - original diagrams and practice scenarios,
 - final quality-gate review.
 
