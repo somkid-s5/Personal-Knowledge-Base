@@ -1,10 +1,10 @@
 # Architecting on AWS 7.12.4 — Study Notes 📘
 
 > **Status:** **Verified Course Scope** — 13/13 module families and 7/7 companion lab guides mapped; currentness overlay present  
-> **Last course/currentness review:** 2026-10-06  
+> **Last course/currentness review:** 2026-10-07  
 > **Historical course source:** *Architecting on AWS 7.12.4 (EN) — Student Guide* + corresponding Lab Guide  
 > **Current scope cross-check:** AWS Classroom Training catalog + current Architecting on AWS course outline  
-> **Public redistribution readiness:** **REVIEW** — historical source screenshots still require provenance cleanup
+> **Current-tree provenance:** **CLEAN for known source-image blocker** — licensed source diagrams were removed; Git history has not been rewritten
 
 [← AWS Learning Library](../../README.md)
 
@@ -192,7 +192,7 @@ Designed for portable learning:
 
 Licensed course material and source screenshots should remain in the private reference location when redistribution rights are not clear.
 
-Historical `assets/source/` files still exist in this repository today and are explicitly tracked as a cleanup blocker in [PROVENANCE.md](./PROVENANCE.md). Do not add more source screenshots.
+Historical `assets/source/` images have been removed from the current tree. Do not add proprietary source screenshots back; keep licensed reference material outside the publishable learning tree. See [PROVENANCE.md](./PROVENANCE.md) for the Git-history caveat.
 
 ---
 
