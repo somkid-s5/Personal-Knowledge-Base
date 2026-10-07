@@ -2,7 +2,7 @@
 
 [Back to package README](./README.md) · [Currentness overlay](./CURRENTNESS-2026.md) · [Sources](./SOURCES.md) · [Provenance](./PROVENANCE.md)
 
-> **QA date:** 2026-10-06  
+> **QA date:** 2026-10-07  
 > **Course-fidelity source:** *Architecting on AWS 7.12.4 (EN) — Student Guide* / Lab Guide  
 > **Current public scope cross-check:** AWS Classroom Training → **Architecting on AWS** course outline currently linked from the AWS Training catalog  
 > **Important:** PASS below means the repository covers the declared course scope. It does not mean every AWS product feature outside this course is covered.
@@ -56,7 +56,7 @@ These files are study companions. The actual AWS-hosted lab environment and inst
 | Operations / troubleshooting | Operational checks and failure thinking are present, but depth varies by module | **PASS for course level** |
 | Reviewability | Cheat sheet, exam mode, mock exam, answer key and module reviews exist | **PASS** |
 | Current-product accuracy | Historical course material is separated from a currentness overlay | **PASS with overlay** |
-| Source provenance / redistribution | Original diagrams are safe directionally; embedded Student Guide source screenshots still require cleanup/review | **REVIEW** |
+| Source provenance / redistribution | Original Mermaid/SVG visuals retained; 13 Student Guide-derived source images removed from current tree; Git-history caveat documented | **PASS — current tree** |
 
 ## 4. Currentness gate
 
@@ -74,6 +74,6 @@ Current high-impact deltas already documented include:
 
 As of 2026-10-06 the correct package label is:
 
-> **Verified Course Scope — 13/13 modules + 7/7 companion lab guides; currentness overlay present; provenance cleanup still required before public-redistribution readiness.**
+> **Verified Course Scope — 13/13 modules + 7/7 companion lab guides; currentness overlay present; known source-image blocker removed from the current tree.**
 
 Do not shorten this to “everything in AWS is current” or “complete AWS architecture reference.” The package is a high-quality reader for the named course, augmented with current AWS notes.
