@@ -2,7 +2,7 @@
 
 Welcome to the **Cloud Engineer Lab**, a self-paced project track for building practical Cloud / Platform / DevOps skills. This package contains **Project 00 (environment setup) + 34 hands-on projects (01–34)** built around realistic AWS-centered engineering scenarios.
 
-> **Package status:** QA-governed project track  
+> **Package status:** **Verified Project Workbook Structure & Safety Baseline** — Project 00 + Projects 01–34 pass the shared workbook/audit contract as of 2026-10-07  
 > **Canonical workbook standard:** [PROJECT-STANDARD.md](./PROJECT-STANDARD.md)  
 > **Learning order:** [LEARNING_PATH.md](./LEARNING_PATH.md)  
 > **Quality evidence:** [PROJECT-QA-MATRIX.md](./PROJECT-QA-MATRIX.md)
