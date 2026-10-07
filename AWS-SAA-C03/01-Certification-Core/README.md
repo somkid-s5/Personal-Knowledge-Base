@@ -8,7 +8,7 @@
 > **Exam weights:** Secure 30% · Resilient 26% · High-Performing 24% · Cost-Optimized 20%  
 > **Important:** the AWS service list is non-exhaustive and can change; this verification is date-scoped, not permanent
 
-[← AWS Learning Library](../../README.md)
+[← AWS-SAA-C03 Learning System](../README.md)
 
 ## Start here
 
@@ -21,8 +21,8 @@ Use this order rather than jumping directly into random practice questions:
 5. [Original Current-Scope Scenarios](./CURRENT-SCOPE-SCENARIOS.md) — 20 repository-authored practice scenarios.
 6. [Source Manifest](./SOURCE-MANIFEST.md) + [Sources & Freshness Policy](./SOURCES.md) — source roles and revalidation rules.
 7. [Practice & Provenance Policy](./PRACTICE-PROVENANCE.md) — what practice content may enter the repository.
-8. [Architecting on AWS 7.12.4](../../Courses/Architecting-on-AWS-7.12.4/) — long-form architecture foundation.
-9. [Cloud Engineer Lab](../../Projects/Cloud-Engineer-Lab/) — hands-on architecture and failure practice.
+8. [Architecting on AWS 7.12.4](../02-Architecture-Foundation/) — long-form architecture foundation.
+9. [Cloud Engineer Lab](../03-Hands-On-Projects/) — hands-on architecture and failure practice.
 
 ## Learning architecture
 
@@ -101,7 +101,7 @@ Read [`CURRENT-SCOPE-DEEP-DIVE.md`](./CURRENT-SCOPE-DEEP-DIVE.md) for the actual
 
 ## Hands-on reinforcement
 
-Selected high-value projects from [`../../Projects/Cloud-Engineer-Lab/`](../../Projects/Cloud-Engineer-Lab/):
+Selected high-value projects from [`../03-Hands-On-Projects/`](../03-Hands-On-Projects/):
 
 | Area | Projects |
 |---|---|
