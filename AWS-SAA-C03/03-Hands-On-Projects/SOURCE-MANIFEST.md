@@ -3,7 +3,7 @@
 [Back to package README](./README.md) · [Migration Note](./MIGRATION-NOTE.md) · [Project Standard](./PROJECT-STANDARD.md) · [QA Matrix](./PROJECT-QA-MATRIX.md)
 
 > **Package type:** original hands-on project track  
-> **Canonical home:** `AWS/Projects/Cloud-Engineer-Lab/`  
+> **Canonical home:** `AWS-SAA-C03/03-Hands-On-Projects/`  
 > **Manifest reviewed:** 2026-10-07
 
 ## Source classes
