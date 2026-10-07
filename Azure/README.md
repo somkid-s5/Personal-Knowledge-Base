@@ -6,7 +6,7 @@ This directory is the canonical home for Microsoft Azure learning packages in th
 
 ## Certifications
 
-- [AZ-104 — Microsoft Azure Administrator](./Certifications/AZ-104/) — imported interactive 2026 cram-book system, current-scope mapping and future canonical AZ-104 notes.
+- [AZ-104 — Microsoft Azure Administrator](./Certifications/AZ-104/) — **Verified Current Objective Scope**: 15/15 objective groups and 82/82 current skill bullets evidenced against the decoded 2026 interactive learning payload, with labs, scenarios and currentness QA.
 
 ## Structure for future Azure content
 
