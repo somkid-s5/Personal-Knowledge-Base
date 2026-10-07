@@ -42,3 +42,12 @@ jobs:
       - uses: actions/checkout@v5
       - name: Decode and inventory AZ-104 learning payload
         run: python Azure/Certifications/AZ-104/tools/audit_payload.py
+
+
+  aws-project-track:
+    name: Validate AWS project workbooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Audit Cloud Engineer Lab project contract
+        run: python AWS/Projects/Cloud-Engineer-Lab/tools/audit_projects.py
