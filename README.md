@@ -29,7 +29,8 @@ This repository is designed to store **structured study notes, diagrams, labs, r
 - [Source & Fact-Checking Policy](./docs/SOURCE-POLICY.md)
 - [Visual Learning Standard](./docs/VISUAL-STANDARD.md)
 - [Quality Gate](./docs/QUALITY-GATE.md)
-- [Repository Audit & Roadmap — 2026-10-06](./docs/REPOSITORY-AUDIT-2026-10-06.md)
+- [Current Repository Baseline Audit — 2026-10-07](./docs/REPOSITORY-AUDIT-2026-10-07.md)
+- [Historical Repository Audit — 2026-10-06](./docs/REPOSITORY-AUDIT-2026-10-06.md)
 - [Repository Consolidation — 2026-10-06](./docs/REPOSITORY-CONSOLIDATION-2026-10-06.md)
 - [Templates](./templates/)
 
