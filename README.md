@@ -17,7 +17,7 @@ The repository is organized around **learning systems**, not provider folders. W
 | [AWS-SAA-C03](./AWS-SAA-C03/) | AWS architecture + AWS Certified Solutions Architect – Associate | **Verified learning system** |
 | [Azure-AZ-104](./Azure-AZ-104/) | Microsoft Azure Administrator | **Verified Current Objective Scope** |
 | [GCP-ACE](./GCP-ACE/) | Google Cloud Associate Cloud Engineer | **Verified Non-Lab Objective Scope** |
-| [ISC2-CC](./ISC2-CC/) | ISC2 Certified in Cybersecurity — current 2026 outline | **In Progress — scope locked, source ingestion pending** |
+| [ISC2-CC](./ISC2-CC/) | ISC2 Certified in Cybersecurity — current 2026 outline | **Verified Current Objective Teaching Scope — 19/19** |
 
 ~~~mermaid
 flowchart LR
