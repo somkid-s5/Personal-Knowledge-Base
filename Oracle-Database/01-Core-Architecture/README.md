@@ -2,6 +2,10 @@
 
 [← Oracle Database](../README.md)
 
+## Detailed lessons
+
+- [Lesson 01 — Oracle Database Architecture (TH)](./Lesson-01-Oracle-Database-Architecture-TH.md) — instance/database, memory, background processes, lifecycle, self-check
+
 ## Mental model
 
 Oracle separates the **database** from the **instance**.
