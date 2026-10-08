@@ -3,7 +3,7 @@
 [กลับสารบัญ ACE](../README.md) · [คู่มืออ่านตาม Path](../LEARNING-PATH-STUDY-GUIDE-TH.md) · [เปิด Lab Guide](./README.md) · [Google Skills ACE Path](https://www.skills.google/paths/11)
 
 > ตรวจสอบชื่อกิจกรรมและ syllabus: 5 ตุลาคม 2026  
-> **ข้อสรุป:** Companion Labs 5 ตัวใน repo ไม่ใช่ชุด Lab ของ Google Skills และไม่ครอบคลุม official hands-on ทั้ง Path ตารางนี้บอกเฉพาะความสัมพันธ์ของหัวข้อ เพื่อช่วยเลือกอ่าน ไม่ได้ยืนยันว่าขั้นตอนหรือคะแนน lab ตรงกัน
+> **ข้อสรุป:** Companion Labs 6 ตัวใน repo ไม่ใช่ชุด Lab ของ Google Skills และไม่ครอบคลุม official hands-on ทั้ง Path ตารางนี้บอกเฉพาะความสัมพันธ์ของหัวข้อ เพื่อช่วยเลือกอ่าน ไม่ได้ยืนยันว่าขั้นตอนหรือคะแนน lab ตรงกัน
 
 ## วิธีอ่านสถานะ
 
@@ -21,7 +21,7 @@ Google Skills Labs ใช้ credentials และ project ชั่วครา
 | 2 | Build a Certification Study Guide: ACE Exam Prep | สร้าง Gemini Notebook และ study guide | ไม่มี — ไม่ใช่ Cloud provisioning lab | ไม่ใช่ Cloud lab |
 | 3 | Essential Google Cloud Infrastructure: Foundation | Console/Cloud Shell, LAMP Marketplace, VPC, Private Google Access/Cloud NAT, VM creation/configuration | [Activity 03 โน้ต+แบบฝึก](../Path-Activity-03-Foundation-TH.md), Lab 01 (Cloud Shell), Lab 02 (VPC/private VM/NAT) | เนื้อหา/แบบฝึกประกบแล้ว; ยังไม่ใช่ official lab หรือ grader |
 | 4 | Essential Google Cloud Infrastructure: Core Services | IAM, bucket/encryption, Cloud SQL, billing data in BigQuery, Cloud Observability | [Activity 04 โน้ต+แบบฝึก](../Path-Activity-04-Core-Services-TH.md), Lab 01 (bucket/IAM), Lab 03 (logs บางส่วน) | มีโน้ตและแบบฝึกประกบทุกหัวข้อ; ยังไม่ใช่ official lab หรือ grader |
-| 5 | Elastic Google Cloud Infrastructure: Scaling and Automation | HA VPN, Application Load Balancer/autoscaling, Internal Load Balancer, Terraform | [Activity 05 โน้ต+worksheet](../Path-Activity-05-Scaling-Automation-TH.md), Lab 02, Lab 05 | มีโน้ต/worksheet ประกบ; ยังไม่มี lab runbook provisioning ตรง course/grader |
+| 5 | Elastic Google Cloud Infrastructure: Scaling and Automation | HA VPN, Application Load Balancer/autoscaling, Internal Load Balancer, Terraform | [Activity 05 โน้ต+worksheet](../Path-Activity-05-Scaling-Automation-TH.md), Lab 02, Lab 05, [Lab 06 (Application LB/MIG)](./Lab-06-Compute-Engine-Load-Balancing.md) | มีคู่มือ LB เสริมแล้ว; HA VPN/Internal LB และ official grader ยังไม่ครอบคลุม |
 | 6 | Getting Started with Google Kubernetes Engine | Cloud Build, GKE Autopilot cluster, deploy/manage/inspect workloads | [Activity 06 โน้ต+แบบฝึก](../Path-Activity-06-GKE-TH.md), Lab 04 | มีโน้ต/แบบฝึกประกบ; ยังไม่ใช่ course grader |
 | 7 | Developing Applications with Cloud Run: Fundamentals | Least-privilege IAM for Cloud Run; Pub/Sub integration | [Activity 07 โน้ต+แบบฝึก](../Path-Activity-07-Cloud-Run-TH.md), Lab 03 | มีโน้ต/แบบฝึกประกบ; Lab 03 ไม่แทน official task/grader |
 | 8 | Developing Applications with Cloud Run Functions | HTTP/event functions, Workflows/VPC, Firestore integration | [Activity 08 โน้ต+แบบฝึก](../Path-Activity-08-Cloud-Run-Functions-TH.md) | มีโน้ต/แบบฝึกประกบ; ยังไม่ใช่ official lab/grader |
@@ -31,7 +31,7 @@ Google Skills Labs ใช้ credentials และ project ชั่วครา
 | 12 | AI Infrastructure: Deployment Types | GCE/GKE, network, accelerator, inference architecture | [Activity 12 โน้ต+worksheet](../Path-Activity-12-AI-Deployment-Types-TH.md) | มีโน้ต/worksheet; ไม่มี deployment grader |
 | 13 | Logging and Monitoring in Google Cloud | Multi-project monitoring, uptime, alerts/SLOs, log analytics, audit | [Activity 13 โน้ต+worksheet](../Path-Activity-13-Logging-Monitoring-TH.md), Lab 03 (logs บางส่วน) | มีโน้ต; Lab 03 ครอบคลุมบางส่วนเท่านั้น |
 | 14 | Getting Started with Terraform for Google Cloud | Resources, dependencies/lifecycle, modules, backend/state | [Activity 14 โน้ต+worksheet](../Path-Activity-14-Terraform-Getting-Started-TH.md), Lab 05 | มีโน้ต; Lab 05 ครอบคลุมบางส่วนเท่านั้น |
-| 15 | Implementing Cloud Load Balancing for Compute Engine (Skill Badge) | Network, Application, Internal Load Balancing; challenge lab | [Activity 15 โน้ตทบทวน](../Path-Activity-15-Load-Balancing-Skill-Badge-TH.md) | มีโน้ต; ไม่มี load-balancer Companion Lab หรือ badge grader |
+| 15 | Implementing Cloud Load Balancing for Compute Engine (Skill Badge) | Network, Application, Internal Load Balancing; challenge lab | [Activity 15 โน้ตทบทวน](../Path-Activity-15-Load-Balancing-Skill-Badge-TH.md), [Lab 06](./Lab-06-Compute-Engine-Load-Balancing.md) | มี Companion Lab สำหรับ external Application LB; ไม่ครอบคลุม LB ทุกประเภทหรือ badge grader |
 | 16 | Deploy Kubernetes Applications on Google Cloud (Skill Badge) | Docker, Artifact Registry, GKE, Deployments/Services, challenge lab | [Activity 16 โน้ตทบทวน](../Path-Activity-16-Kubernetes-Applications-Skill-Badge-TH.md), Lab 04 | มีโน้ต; Lab 04 ช่วยฝึกแต่ไม่แทน badge challenge |
 | 17 | Build Infrastructure with Terraform on Google Cloud (Skill Badge) | Modules, state, import/change infrastructure, challenge lab | [Activity 17 โน้ตทบทวน](../Path-Activity-17-Terraform-Build-Infrastructure-Skill-Badge-TH.md), Lab 05 | มีโน้ต; Lab 05 ช่วยฝึกแต่ไม่แทน badge challenge |
 
@@ -53,4 +53,5 @@ Google Skills Labs ใช้ credentials และ project ชั่วครา
 | [03 Cloud Run revisions และ logs](./Lab-03-Cloud-Run-Revisions-and-Logs.md) | authentication, revision traffic, log review | 7, 13 | Pub/Sub, Cloud Run Functions และ full Observability Labs |
 | [04 GKE Deployment และ debugging](./Lab-04-GKE-Deployment-and-Debugging.md) | cluster, Deployment, Service, troubleshooting | 6, 16 | Cloud Build course flow และ badge challenge |
 | [05 Terraform VPC และ state](./Lab-05-Terraform-VPC-and-State.md) | HCL, plan, state, change และ cleanup | 5, 14, 17 | HA VPN/LB labs และ badge challenge |
+| [06 Compute Engine Load Balancing](./Lab-06-Compute-Engine-Load-Balancing.md) | external Application LB, MIG, health check, curl, cleanup | 5, 15 | HA VPN, Network/Internal LB และ badge grader |
 
