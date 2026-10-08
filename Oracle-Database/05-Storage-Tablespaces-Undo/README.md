@@ -2,6 +2,14 @@
 
 [← Oracle Database](../README.md)
 
+## Standalone Thai lessons
+
+- [Lesson 15 — Database Storage Overview](./Lesson-15-Database-Storage-Overview-TH.md)
+- [Lesson 16 — Creating and Managing Tablespaces](./Lesson-16-Creating-and-Managing-Tablespaces-TH.md)
+- [Lesson 17 — Improving Space Usage](./Lesson-17-Improving-Space-Usage-TH.md)
+- [Lesson 18 — Managing Undo Data](./Lesson-18-Managing-Undo-Data-TH.md)
+- [Lab 09 — Storage and Undo Inspection](../10-Labs/Lab-09-Storage-and-Undo-Inspection.md)
+
 ## Storage hierarchy
 
 ~~~text
