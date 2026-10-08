@@ -6,7 +6,7 @@
 
 | Source lessons | Repository learning layer | Status |
 |---|---|---|
-| 1–2 | 01 Core Architecture | MAPPED |
+| 1–2 | 01 Core Architecture | Lesson 01 original Thai teaching + read-only inspection lab **authored, static-only**; full source lesson fidelity and Lesson 02 still PENDING |
 | 3–6 | 02 Instance Administration | MAPPED |
 | 7–11 | 03 Networking / Listener | MAPPED |
 | 12–14 | 04 Multitenant CDB/PDB | MAPPED |
