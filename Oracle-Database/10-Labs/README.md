@@ -24,10 +24,11 @@ This repository will create **original companion labs** that practice the same s
 ## Available original companion labs
 
 - [Lab 01 — Inspect Oracle Architecture (read-only)](./Lab-01-Architecture-Inspection.md) — identity, SGA/PGA, file structures, CDB/PDB; static-reviewed, not executed
+- [Lab 02 — Connection & Identity Inspection (read-only)](./Lab-02-Connection-and-Identity-Inspection.md) — Easy Connect, session identity, listener observation; static-reviewed, not executed
 
 ## Planned companion labs
 
-- Lab 02 (planned) — Create a CDB/PDB safely
+- Future lab — Create a CDB/PDB safely
 - Lab 03 (planned) — Startup/shutdown and parameter inspection
 - Lab 04 (planned) — Listener/service troubleshooting
 - Lab 04 — PDB lifecycle
