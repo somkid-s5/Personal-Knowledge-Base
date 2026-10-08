@@ -2,6 +2,10 @@
 
 [← Oracle Database](../README.md)
 
+## Detailed lessons
+
+- [Lesson 03 — Creating Oracle Database Using DBCA (TH)](./Lesson-03-Creating-Database-Using-DBCA-TH.md) — preflight, CDB/PDB planning, GUI workflow, validation and troubleshooting
+
 ## Scope
 
 Mapped primarily from lessons 3–6:
