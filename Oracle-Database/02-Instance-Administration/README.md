@@ -8,6 +8,8 @@
 
 - [Lesson 04 — Creating Database Using SQL Commands (TH)](./Lesson-04-Creating-Database-Using-SQL-TH.md) — manual build sequence, PFILE/SPFILE, CREATE DATABASE, verification, safety
 
+- [Lesson 05 — Starting Up and Shutting Down a Database Instance (TH)](./Lesson-05-Instance-Startup-Shutdown-TH.md) — NOMOUNT/MOUNT/OPEN, shutdown modes, PDB scope, operational recovery
+
 ## Scope
 
 Mapped primarily from lessons 3–6:
