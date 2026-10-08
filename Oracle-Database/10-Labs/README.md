@@ -36,11 +36,12 @@ This repository will create **original companion labs** that practice the same s
 
 - [Lab 07 — Shared Server / CMAN read-only diagnostics](./Lab-07-Shared-Server-and-CMAN-Read-Only.md) — original tabletop/read-only exercise, not live tested
 
+- [Lab 08 — PDB Lifecycle / Seed / Clone inspection](./Lab-08-PDB-Lifecycle-Read-Only.md) — original multitenant companion exercise, not live tested
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely
 - Planned — Listener/service troubleshooting
-- Future lab — PDB lifecycle
 - Future lab — Tablespace growth and space troubleshooting
 - Future lab — Users/roles/least privilege
 - Future lab — Data Pump / loading workflow
