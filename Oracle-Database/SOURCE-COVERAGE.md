@@ -7,7 +7,7 @@
 | Source lessons | Repository learning layer | Status |
 |---|---|---|
 | 1–2 | 01 Core Architecture | Lessons 01–02 original Thai teaching + two read-only companion labs **authored, static-only**; full page-level source fidelity still PENDING |
-| 3–6 | 02 Instance Administration | Lessons 03–04 original Thai teaching + companion planning/inspection Labs 03–04 **authored, static-only**; Lessons 05–06 and full source-fidelity PENDING |
+| 3–6 | 02 Instance Administration | Lessons 03–05 original Thai teaching + companion Labs 03–05 **authored, static-only**; Lesson 06 and full source-fidelity PENDING |
 | 7–11 | 03 Networking / Listener | MAPPED |
 | 12–14 | 04 Multitenant CDB/PDB | MAPPED |
 | 15–18 | 05 Storage / Tablespaces / Undo | MAPPED |
