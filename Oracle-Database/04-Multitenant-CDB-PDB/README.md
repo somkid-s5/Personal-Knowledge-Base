@@ -2,6 +2,13 @@
 
 [← Oracle Database](../README.md)
 
+## Thai standalone lessons
+
+- [Lesson 12 — Creating PDBs from Seed](./Lesson-12-Creating-PDBs-from-Seed-TH.md)
+- [Lesson 13 — Other PDB Creation Techniques](./Lesson-13-Other-PDB-Creation-Techniques-TH.md)
+- [Lesson 14 — Managing PDBs](./Lesson-14-Managing-PDBs-TH.md)
+- [Lab 08 — PDB Lifecycle read-only companion](../10-Labs/Lab-08-PDB-Lifecycle-Read-Only.md)
+
 ## Mental model
 
 ~~~text
