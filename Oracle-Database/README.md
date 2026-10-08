@@ -24,6 +24,14 @@ current Oracle 26ai documentation
 
 The goal is not to preserve an old 19c course as if it were current. The goal is to keep durable Oracle DBA knowledge while making current-version changes explicit.
 
+## Current draft teaching resources
+
+- [Lessons 10–31 compact Thai Teaching Atlas](./LESSONS-10-31-TH-TEACHING-ATLAS-DRAFT.md) — working draft, not full source fidelity
+- [Eight-group original practice workbook](./10-Labs/LESSONS-07-31-PRACTICE-WORKBOOK-TH.md) — exercises not executed
+- Standalone Lesson 07–09 under [Networking](./03-Networking-Listener/)
+
+**31 lesson topics represented, but full semantic verification and live lab testing remain pending.**
+
 ## Learning layers
 
 1. [01-Core-Architecture](./01-Core-Architecture/)
