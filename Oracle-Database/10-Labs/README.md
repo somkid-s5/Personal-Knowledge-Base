@@ -38,15 +38,16 @@ This repository will create **original companion labs** that practice the same s
 
 - [Lab 08 — PDB Lifecycle / Seed / Clone inspection](./Lab-08-PDB-Lifecycle-Read-Only.md) — original multitenant companion exercise, not live tested
 
+- [Lab 09 — Storage, tablespaces and undo (read-only)](./Lab-09-Storage-and-Undo-Inspection.md) — original lab, static only
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely
 - Planned — Listener/service troubleshooting
-- Future lab — Tablespace growth and space troubleshooting
 - Future lab — Users/roles/least privilege
 - Future lab — Data Pump / loading workflow
 - Lab 08 — ADR/alert log/session diagnostics
-- Lab 09 — Performance triage
+- Future lab — Performance triage
 - Lab 10 — 19c vs 26ai current-behavior review
 
 Each mutating lab must include prerequisites, permissions, risk, verification and cleanup/rollback.
