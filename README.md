@@ -10,7 +10,7 @@ The repository is organized around **learning systems**, not provider folders. W
 
 ---
 
-## Start here — 4 active learning systems
+## Start here — 5 active learning systems
 
 | Learning system | Goal | Status |
 |---|---|---|
@@ -18,6 +18,7 @@ The repository is organized around **learning systems**, not provider folders. W
 | [Azure-AZ-104](./Azure-AZ-104/) | Microsoft Azure Administrator | **Verified Current Objective Scope** |
 | [GCP-ACE](./GCP-ACE/) | Google Cloud Associate Cloud Engineer | **Verified Non-Lab Objective Scope** |
 | [ISC2-CC](./ISC2-CC/) | ISC2 Certified in Cybersecurity — current 2026 outline | **Verified Current Objective Teaching Scope — 19/19** |
+| [Oracle-Database](./Oracle-Database/) | Oracle Database administration — 19c foundation + current 26ai layer | **In Progress — foundation mapped, current layer established** |
 
 ~~~mermaid
 flowchart LR
@@ -26,6 +27,7 @@ flowchart LR
     ROOT --> AZ[Azure-AZ-104]
     ROOT --> GCP[GCP-ACE]
     ROOT --> CC[ISC2-CC]
+    ROOT --> ORA[Oracle-Database]
 ~~~
 
 ### AWS is intentionally one system
@@ -90,11 +92,23 @@ Historical migration records remain under [docs/](./docs/) but are not the curre
 │  ├─ Module-01-...
 │  └─ Lab-Guide-TH/
 │
-└─ ISC2-CC/
+├─ ISC2-CC/
+│  ├─ README.md
+│  ├─ SOURCE-MANIFEST.md
+│  ├─ SOURCE-COVERAGE.md
+│  ├─ CURRENT-EXAM-MAP.md
+│  └─ SYSTEM-QA.md
+│
+└─ Oracle-Database/
    ├─ README.md
    ├─ SOURCE-MANIFEST.md
    ├─ SOURCE-COVERAGE.md
-   ├─ CURRENT-EXAM-MAP.md
+   ├─ VERSION-MAP.md
+   ├─ 19c-to-26ai-DELTA.md
+   ├─ 01-Core-Architecture/
+   ├─ ...
+   ├─ 09-Oracle-26ai-Current/
+   ├─ 10-Labs/
    └─ SYSTEM-QA.md
 ~~~
 
