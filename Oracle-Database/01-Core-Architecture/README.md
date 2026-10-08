@@ -5,6 +5,7 @@
 ## Detailed lessons
 
 - [Lesson 01 — Oracle Database Architecture (TH)](./Lesson-01-Oracle-Database-Architecture-TH.md) — instance/database, memory, background processes, lifecycle, self-check
+- [Lesson 02 — Accessing an Oracle Database (TH)](./Lesson-02-Accessing-Oracle-Database-TH.md) — SQL*Plus, service/SID/schema, SYSDBA, connection diagnostics
 
 ## Mental model
 
