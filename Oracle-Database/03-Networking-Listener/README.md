@@ -21,6 +21,14 @@ When a client cannot connect, separate:
 5. database/PDB state,
 6. authentication/authorization.
 
+## Thai standalone lessons
+
+- [07 — Oracle Net Services](./Lesson-07-Oracle-Net-Services-Overview-TH.md)
+- [08 — Naming Methods](./Lesson-08-Configuring-Naming-Methods-TH.md)
+- [09 — Listener Administration](./Lesson-09-Configuring-and-Administering-the-Listener-TH.md)
+- [10 — Shared Server Architecture](./Lesson-10-Shared-Server-Architecture-TH.md)
+- [11 — Oracle Connection Manager](./Lesson-11-Oracle-Connection-Manager-TH.md)
+
 ## Core topics
 
 Mapped from lessons 7–11:
