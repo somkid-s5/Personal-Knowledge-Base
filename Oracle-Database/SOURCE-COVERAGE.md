@@ -2,7 +2,7 @@
 
 [← Oracle Database](./README.md)
 
-> **Status:** 31/31 lesson titles have original Thai teaching drafts (01–18 standalone, 19–31 compact atlas). Full semantic fidelity, deep standalones and live execution remain PENDING.
+> **Status:** 31/31 lesson titles have original Thai teaching drafts (01–22 standalone, 23–31 compact atlas). Full semantic fidelity, deep standalones and live execution remain PENDING.
 
 | Source lessons | Repository learning layer | Status |
 |---|---|---|
@@ -11,7 +11,7 @@
 | 7–11 | 03 Networking / Listener | Lessons 07–11 standalone original Thai notes + Lab 07 read-only draft; Student Guide fidelity and live testing PENDING |
 | 12–14 | 04 Multitenant CDB/PDB | Lessons 12–14 standalone Thai drafts plus Lab 08 read-only; source fidelity and live testing PENDING |
 | 15–18 | 05 Storage / Tablespaces / Undo | Lessons 15–18 standalone Thai drafts plus Lab 09 read-only; source fidelity and live testing PENDING |
-| 19–22 | 06 Users / Roles / Security | Atlas draft; fidelity PENDING |
+| 19–22 | 06 Users / Roles / Security | Standalone Thai drafts 19–22 and Lab 10; source fidelity and live testing PENDING |
 | 23–28 | 08 Data Movement / Maintenance | Atlas draft; fidelity PENDING |
 | 29–31 | 07 Monitoring / Troubleshooting | Atlas draft; fidelity PENDING |
 
