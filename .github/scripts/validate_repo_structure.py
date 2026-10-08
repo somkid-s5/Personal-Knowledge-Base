@@ -27,6 +27,7 @@ REQUIRED_SYSTEMS = {
     "Azure-AZ-104",
     "GCP-ACE",
     "ISC2-CC",
+    "Oracle-Database",
 }
 
 IGNORE_TOP_LEVEL_DIRS = {
@@ -117,7 +118,7 @@ for legacy in sorted(LEGACY_ROOTS):
     if (ROOT / legacy).exists():
         errors.append(
             f"Legacy provider-first root '{legacy}' is not allowed. "
-            "Use a learner-goal system such as AWS-SAA-C03, Azure-AZ-104, GCP-ACE or ISC2-CC."
+            "Use a learner-goal system such as AWS-SAA-C03, Azure-AZ-104, GCP-ACE, ISC2-CC or Oracle-Database."
         )
 
 if errors:
