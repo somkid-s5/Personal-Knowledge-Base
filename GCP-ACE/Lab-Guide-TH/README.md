@@ -2,7 +2,7 @@
 
 [กลับสารบัญหลัก](../README.md)
 
-แล็บ 5 ตัวนี้เป็น Companion Labs ที่ออกแบบเพื่อทดลองแนวคิดในโน้ต ไม่ใช่คำแปล/เฉลยของแล็บ Google Skills และไม่ได้ใช้ grading tasks ของคอร์ส จึง **ไม่ครอบคลุม official labs ทั้ง Learning Path**
+แล็บ 6 ตัวนี้เป็น Companion Labs ที่ออกแบบเพื่อทดลองแนวคิดในโน้ต ไม่ใช่คำแปล/เฉลยของแล็บ Google Skills และไม่ได้ใช้ grading tasks ของคอร์ส จึง **ไม่ครอบคลุม official labs ทั้ง Learning Path**
 
 ดู [แผนที่ Learning Path → Labs](./LEARNING-PATH-LAB-MAP.md) เพื่อเทียบกิจกรรมทั้ง 17 รายการกับ Companion Labs ว่าหัวข้อใดใกล้เคียงและหัวข้อใดยังไม่มีคู่มือเฉพาะ
 
@@ -15,6 +15,7 @@
 | 03 | [Authenticated Cloud Run + revisions](./Lab-03-Cloud-Run-Revisions-and-Logs.md) | 02, 09, 11 | 30–45 นาที |
 | 04 | [GKE Deployment + Service + debugging](./Lab-04-GKE-Deployment-and-Debugging.md) | 08 | 45–75 นาที รวมเวลาสร้าง cluster |
 | 05 | [Terraform VPC + plan + destroy](./Lab-05-Terraform-VPC-and-State.md) | 12 | 30–45 นาที |
+| 06 | [Compute Engine Load Balancing + MIG + health check](./Lab-06-Compute-Engine-Load-Balancing.md) | 05, 10 | ขึ้นกับเวลา provision / debug |
 
 ## Environment และค่าใช้จ่าย
 
