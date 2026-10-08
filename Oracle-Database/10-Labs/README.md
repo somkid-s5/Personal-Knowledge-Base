@@ -40,14 +40,15 @@ This repository will create **original companion labs** that practice the same s
 
 - [Lab 09 — Storage, tablespaces and undo (read-only)](./Lab-09-Storage-and-Undo-Inspection.md) — original lab, static only
 
+- [Lab 10 — Users, roles, profiles and auditing (read-only)](./Lab-10-Users-Roles-Security-Inspection.md) — static-only companion lab
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely
 - Planned — Listener/service troubleshooting
-- Future lab — Users/roles/least privilege
 - Future lab — Data Pump / loading workflow
 - Lab 08 — ADR/alert log/session diagnostics
 - Future lab — Performance triage
-- Lab 10 — 19c vs 26ai current-behavior review
+- Future lab — 19c vs 26ai current-behavior review
 
 Each mutating lab must include prerequisites, permissions, risk, verification and cleanup/rollback.
