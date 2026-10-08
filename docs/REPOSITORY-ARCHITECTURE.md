@@ -17,7 +17,8 @@ This repository is a long-lived personal learning knowledge base. Its navigation
 ├─ <Learning-System-A>/
 ├─ <Learning-System-B>/
 ├─ <Learning-System-C>/
-└─ <Learning-System-D>/
+├─ <Learning-System-D>/
+└─ <Learning-System-E>/
 ~~~
 
 Current systems:
@@ -27,9 +28,10 @@ AWS-SAA-C03/
 Azure-AZ-104/
 GCP-ACE/
 ISC2-CC/
+Oracle-Database/
 ~~~
 
-A top-level learning-system name should communicate the actual learner goal. Certification-centered systems normally use a provider + certification identifier, for example AWS-SAA-C03, Azure-AZ-104, GCP-ACE and ISC2-CC. Non-certification systems may use a durable skill goal such as Linux-Administration when that goal becomes substantial enough to maintain.
+A top-level learning-system name should communicate the actual learner goal. Certification-centered systems normally use a provider + certification identifier, for example AWS-SAA-C03, Azure-AZ-104, GCP-ACE and ISC2-CC. Durable non-certification systems may use a goal name such as Oracle-Database when several product versions support one continuing learner goal. Non-certification systems may use a durable skill goal such as Linux-Administration when that goal becomes substantial enough to maintain.
 
 ## System contract
 

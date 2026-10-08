@@ -6,12 +6,13 @@
 
 ## Executive summary
 
-The repository now operates as a **personal learning knowledge base** with four active top-level learning systems:
+The repository now operates as a **personal learning knowledge base** with five active top-level learning systems:
 
 1. AWS-SAA-C03
 2. Azure-AZ-104
 3. GCP-ACE
 4. ISC2-CC
+5. Oracle-Database
 
 This retains the learning-system-first navigation while broadening the repository mission beyond Cloud Engineer-only material. The connected Drive is treated as a source library; GitHub remains the curated set of active learning goals.
 
@@ -27,6 +28,7 @@ The AWS learner model is now explicit: **Certification = target**, **Course = me
 | Azure-AZ-104 | Microsoft Azure Administrator | current-objective teaching + interactive practice/labs | **Verified Current Objective Scope** |
 | GCP-ACE | Google Cloud Associate Cloud Engineer | integrated modules + learning-path activities + visuals/labs | **Verified Non-Lab Objective Scope** |
 | ISC2-CC | ISC2 Certified in Cybersecurity | current 2026 objective teaching + private historical source remap + review/practice | **Verified Current Objective Teaching Scope — 19/19** |
+| Oracle-Database | Long-lived Oracle DBA administration | Oracle 19c Administration Workshop foundation + current Oracle AI Database 26ai layer | **In Progress** |
 
 Verification remains bounded by each system's declared source, date and QA definition.
 
@@ -43,7 +45,8 @@ Personal-Knowledge-Base/
 ├─ AWS-SAA-C03/
 ├─ Azure-AZ-104/
 ├─ GCP-ACE/
-└─ ISC2-CC/
+├─ ISC2-CC/
+└─ Oracle-Database/
 ~~~
 
 Generic provider roots such as AWS/, Azure/ and GCP/ are no longer canonical.
@@ -146,6 +149,10 @@ Current evidence:
 
 Declared status: **Verified Current Objective Teaching Scope — 19/19**, verified 2026-10-07. This is a bounded current-objective/source-accounting claim, not an exam-pass guarantee.
 
+## Oracle Database system
+
+Oracle-Database is version-resilient by design. The proprietary Oracle Database 19c Administration Workshop is used as the source-ingestion foundation, while Oracle AI Database 26ai official documentation is the current platform authority. The system currently maps all 31 source lessons into learning layers and registers eight official lab module groups, but remains **In Progress** until full lesson/lab semantic ingestion and current-version QA are complete.
+
 ## Governance layer
 
 Repository-wide controls include:
@@ -227,7 +234,7 @@ The repository does not claim:
 
 | Dimension | Assessment |
 |---|---|
-| Root navigation | **Simple: 4 active learning systems** |
+| Root navigation | **Simple: 5 active learning systems** |
 | AWS learner UX | **Unified — target → course → projects model explicit** |
 | Architecture/governance | **Mature baseline** |
 | Source traceability | **Strong** |
