@@ -30,13 +30,14 @@ This repository will create **original companion labs** that practice the same s
 
 - [Lab 04 — Manual creation planning and read-only inspection](./Lab-04-Manual-Database-Creation-Planning.md) — design worksheet, existing DB inspection, no provisioning
 
+- [Lab 05 — Instance lifecycle read-only and tabletop exercise](./Lab-05-Instance-Lifecycle-Read-Only.md) — inspect state, compare shutdown modes, change worksheet; no state changes
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely
-- Planned — Startup/shutdown and parameter inspection
 - Planned — Listener/service troubleshooting
 - Future lab — PDB lifecycle
-- Lab 05 — Tablespace growth and space troubleshooting
+- Future lab — Tablespace growth and space troubleshooting
 - Lab 06 — Users/roles/least privilege
 - Lab 07 — Data Pump / loading workflow
 - Lab 08 — ADR/alert log/session diagnostics
