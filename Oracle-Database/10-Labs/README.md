@@ -32,13 +32,15 @@ This repository will create **original companion labs** that practice the same s
 
 - [Lab 05 — Instance lifecycle read-only and tabletop exercise](./Lab-05-Instance-Lifecycle-Read-Only.md) — inspect state, compare shutdown modes, change worksheet; no state changes
 
+- [Lab 06 — Parameters, resource limits and ADR (read-only)](./Lab-06-Instance-Parameters-and-Diagnostics-Read-Only.md) — snapshots, parameter inspection and incident tabletop; not live-executed
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely
 - Planned — Listener/service troubleshooting
 - Future lab — PDB lifecycle
 - Future lab — Tablespace growth and space troubleshooting
-- Lab 06 — Users/roles/least privilege
+- Future lab — Users/roles/least privilege
 - Lab 07 — Data Pump / loading workflow
 - Lab 08 — ADR/alert log/session diagnostics
 - Lab 09 — Performance triage
