@@ -2,6 +2,14 @@
 
 [← Oracle Database](../README.md)
 
+## Standalone Thai lessons
+
+- [Lesson 19 — User Accounts](./Lesson-19-User-Accounts-TH.md)
+- [Lesson 20 — Privileges and Roles](./Lesson-20-Privileges-and-Roles-TH.md)
+- [Lesson 21 — Profiles and Resource Limits](./Lesson-21-Profiles-and-Resource-Limits-TH.md)
+- [Lesson 22 — Unified Auditing](./Lesson-22-Unified-Auditing-TH.md)
+- [Lab 10 — Security Inspection](../10-Labs/Lab-10-Users-Roles-Security-Inspection.md)
+
 ## Security model
 
 ~~~text
