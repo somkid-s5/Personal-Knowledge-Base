@@ -10,6 +10,8 @@
 
 - [Lesson 05 — Starting Up and Shutting Down a Database Instance (TH)](./Lesson-05-Instance-Startup-Shutdown-TH.md) — NOMOUNT/MOUNT/OPEN, shutdown modes, PDB scope, operational recovery
 
+- [Lesson 06 — Managing Database Instances (TH)](./Lesson-06-Managing-Database-Instances-TH.md) — initialization parameters, SPFILE/PFILE, resource limits, ADR and troubleshooting
+
 ## Scope
 
 Mapped primarily from lessons 3–6:
