@@ -8,7 +8,7 @@
 |---|---|---|
 | 1–2 | 01 Core Architecture | Lessons 01–02 original Thai teaching + two read-only companion labs **authored, static-only**; full page-level source fidelity still PENDING |
 | 3–6 | 02 Instance Administration | Lessons 03–06 original Thai teaching + companion Labs 03–06 **authored, static-only**; full source-fidelity review still PENDING |
-| 7–11 | 03 Networking / Listener | Lessons 07–09 standalone draft; 10–11 atlas draft; fidelity PENDING |
+| 7–11 | 03 Networking / Listener | Lessons 07–11 standalone original Thai notes + Lab 07 read-only draft; Student Guide fidelity and live testing PENDING |
 | 12–14 | 04 Multitenant CDB/PDB | Atlas draft; fidelity PENDING |
 | 15–18 | 05 Storage / Tablespaces / Undo | Atlas draft; fidelity PENDING |
 | 19–22 | 06 Users / Roles / Security | Atlas draft; fidelity PENDING |
