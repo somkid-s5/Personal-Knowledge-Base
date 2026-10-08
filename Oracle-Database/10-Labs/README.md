@@ -34,6 +34,8 @@ This repository will create **original companion labs** that practice the same s
 
 - [Lab 06 — Parameters, resource limits and ADR (read-only)](./Lab-06-Instance-Parameters-and-Diagnostics-Read-Only.md) — snapshots, parameter inspection and incident tabletop; not live-executed
 
+- [Lab 07 — Shared Server / CMAN read-only diagnostics](./Lab-07-Shared-Server-and-CMAN-Read-Only.md) — original tabletop/read-only exercise, not live tested
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely
@@ -41,7 +43,7 @@ This repository will create **original companion labs** that practice the same s
 - Future lab — PDB lifecycle
 - Future lab — Tablespace growth and space troubleshooting
 - Future lab — Users/roles/least privilege
-- Lab 07 — Data Pump / loading workflow
+- Future lab — Data Pump / loading workflow
 - Lab 08 — ADR/alert log/session diagnostics
 - Lab 09 — Performance triage
 - Lab 10 — 19c vs 26ai current-behavior review
