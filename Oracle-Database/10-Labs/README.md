@@ -28,12 +28,14 @@ This repository will create **original companion labs** that practice the same s
 
 - [Lab 03 — DBCA planning and post-create verification](./Lab-03-DBCA-Planning-and-Verification.md) — non-destructive worksheet and inspection; not live-executed
 
+- [Lab 04 — Manual creation planning and read-only inspection](./Lab-04-Manual-Database-Creation-Planning.md) — design worksheet, existing DB inspection, no provisioning
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely
 - Planned — Startup/shutdown and parameter inspection
 - Planned — Listener/service troubleshooting
-- Lab 04 — PDB lifecycle
+- Future lab — PDB lifecycle
 - Lab 05 — Tablespace growth and space troubleshooting
 - Lab 06 — Users/roles/least privilege
 - Lab 07 — Data Pump / loading workflow
