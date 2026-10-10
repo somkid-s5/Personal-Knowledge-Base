@@ -69,3 +69,23 @@ ORA-01555 snapshot too old: correlate longest query, workload churn, undo sizing
 - [Oracle 19c DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/)
 - [Oracle 26ai DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
 - [Oracle 26ai Managing Undo](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html)
+
+
+## Source-objective deepening — Temporary Undo, Redo Comparison and Retention Guarantee
+
+**Undo versus Redo:** Undo เก็บข้อมูลที่ต้องใช้คืนค่าก่อนหน้าเพื่อ rollback และ consistent reads ส่วน Redo บันทึกการเปลี่ยนแปลงใน redo stream เพื่อ recovery. Undo tablespace ไม่ใช่ archive log หรือ RMAN backup.
+
+**Temporary undo:** Oracle รองรับ temporary undo สำหรับ DML ที่เกิดกับ temporary tables ภายใต้ configuration ที่รองรับ ช่วยลดบางส่วนของ undo/redo overhead; `TEMP_UNDO_ENABLED` มี semantics ระดับ instance/session/PDB ที่ต้องตรวจ Oracle Reference ของ release นั้นและ environment ก่อนปรับ.
+
+**UNDO_RETENTION vs RETENTION GUARANTEE:** ค่า retention เป็นเป้าหมายเวลาที่ต้องเก็บ undo แต่ actual tuned retention ขึ้นกับพื้นที่และ workload. ถ้าเปิด retention guarantee, database อาจปฏิเสธ DML เมื่อพื้นที่ undo ไม่พอแทนการ overwrite unexpired extents. ต้องวาง capacity ตาม longest query และ transaction volume.
+
+~~~sql
+SELECT begin_time,end_time,tuned_undoretention,ssolderrcnt,nospaceerrcnt
+FROM v$undostat ORDER BY begin_time DESC FETCH FIRST 12 ROWS ONLY;
+SELECT name,value FROM v$parameter
+WHERE name IN ('undo_management','undo_retention','temp_undo_enabled');
+SELECT tablespace_name,retention FROM dba_tablespaces WHERE contents='UNDO';
+~~~
+
+**Case:** ORA-01555 ไม่ได้แปลว่าเพิ่ม `UNDO_RETENTION` แล้วหายเสมอไป — ตรวจ query runtime, data churn, undo pressure, read-consistency needs และ actual disk capacity.
+
