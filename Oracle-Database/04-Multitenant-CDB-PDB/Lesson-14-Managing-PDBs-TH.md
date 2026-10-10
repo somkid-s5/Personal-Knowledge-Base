@@ -52,3 +52,22 @@ SELECT name,open_mode,cdb FROM v$database;
 ## References
 - [Oracle 19c Multitenant Administrator's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/)
 - [Oracle 26ai documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/)
+
+
+## Source-objective deepening — PDB-level Parameters, HOST/PORT and Safe Drop
+
+Lesson 14 ต้นฉบับมีวัตถุประสงค์ให้ DBA พิจารณาผลกระทบของ **initialization parameter scope**, การกำหนด **HOST/PORT ของ PDB**, และการ **DROP PDB** อย่างถูกต้อง.
+
+- **Parameter scope:** parameter บางตัวปรับได้เฉพาะ CDB บางตัวปรับระดับ PDB ได้; ตรวจ `V$SYSTEM_PARAMETER`, `V$PARAMETER`, `ISPDB_MODIFIABLE` ของ release จริง และเก็บค่า baseline ของ root/PDB ก่อนเปลี่ยน. ไม่มีสิทธิ์สมมติว่าค่าใน root จะ override local ทุกตัวแบบเดียวกัน.
+- **HOST/PORT:** Oracle SQL PDB clauses สำหรับ endpoint naming โดยเฉพาะกรณี PDB ที่ถูกอ้างอิงโดย proxy ต้องใช้ตาม prerequisites, listener/VIP topology และ service registration; **ไม่ใช่คำสั่งตั้ง HTTP port ของ application**.
+- **DROP PDB:** destructive operation อาจลบไฟล์ถ้าเลือก clause ที่รวม datafiles. ต้องเก็บ source backup, verify target GUID/CON_ID/PDB name, close sessions, ตรวจ user workloads, export metadata และ change approvals ก่อน. ห้ามทดลอง DROP ใน read-only Lab 08.
+- **Restricted mode:** PDB `READ WRITE` แต่ `RESTRICTED=YES` อาจยัง block ordinary application users.
+
+~~~sql
+-- Safe observation only
+SELECT con_id,name,open_mode,restricted FROM v$pdbs ORDER BY con_id;
+SELECT name,value,ispdb_modifiable FROM v$parameter
+WHERE name IN ('open_cursors','optimizer_mode','sessions');
+~~~
+
+Reference: [Oracle 19c Multitenant Administration](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/overview-of-managing-a-multitenant-environment.html).
