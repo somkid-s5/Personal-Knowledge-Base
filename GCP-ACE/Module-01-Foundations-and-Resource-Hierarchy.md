@@ -1,5 +1,8 @@
 # Module 01 — Foundations & Resource Hierarchy
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Verify  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [บทถัดไป: IAM](./Module-02-IAM-Service-Accounts-and-Security.md)
 
 ## เป้าหมาย

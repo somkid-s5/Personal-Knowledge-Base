@@ -4,6 +4,10 @@
 > **Risk/cost:** <low/medium/high + note>  
 > **Cleanup required:** Yes/No
 
+## 🧠 Visual memory
+
+> **🧪 Build → 🔎 Check → ✅ Verify → 🧹 Cleanup.** Link to the learning system visual guide when useful; keep all commands and expected results in searchable Markdown.
+
 ## Goal
 What the learner will build/verify.
 

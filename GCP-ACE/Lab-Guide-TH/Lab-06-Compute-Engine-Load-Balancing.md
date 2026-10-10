@@ -1,5 +1,8 @@
 # Lab 06 — Load Balancing บน Compute Engine (Companion Lab ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🌐 Network → 🛡️ Rules → 🖥️ Backend → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [กลับ Lab Guide](./README.md) · [Lab Map](./LEARNING-PATH-LAB-MAP.md) · [Activity 15](../Path-Activity-15-Load-Balancing-Skill-Badge-TH.md)
 
 > สถานะ: **คู่มือฝึกเสริม (ยังไม่ได้รันจริง / ยังไม่ผ่าน Google Skills grader)** · จัดทำ 8 ตุลาคม 2026

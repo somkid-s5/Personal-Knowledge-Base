@@ -1,5 +1,8 @@
 ﻿# GitOps Enterprise (ระบบจัดการ Infrastructure และ App ระดับองค์กร) Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📜 Git → ⚙️ Controller → ☸️ Cluster → ✅ Reconcile → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 - **เรื่องราวสถานการณ์:**
   TechWave ผู้ให้บริการ SaaS ที่กำลังเติบโตอย่างรวดเร็ว ประสบปัญหาการจัดการระบบในคืนวันศุกร์ เวลา 23:45 น. (Manual Friday Disaster)

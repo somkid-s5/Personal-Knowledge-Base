@@ -1,5 +1,8 @@
 # Lab 09 — Storage, Tablespaces and Undo (Read-only)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Storage Lessons 15–18](../05-Storage-Tablespaces-Undo/README.md)
 
 > Original companion lab; not official Activity Guide. Static authored, **not executed**. Only authorized read-only queries; do not alter production.

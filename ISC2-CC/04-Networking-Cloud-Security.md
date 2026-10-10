@@ -1,5 +1,8 @@
 # ISC2 CC Domain 4 — Networking and Cloud Security Concepts
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🌐 Network → 🛡️ Rules → 🖥️ Backend  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Back to ISC2-CC](./README.md) · [Current Exam Map](./CURRENT-EXAM-MAP.md)
 
 > **Current exam weight:** 21.3%  

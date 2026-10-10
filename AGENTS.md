@@ -73,3 +73,13 @@ A package is publishable only when:
 - sources, provenance and verification dates are present where needed,
 - the relevant checklist in `docs/QUALITY-GATE.md` passes,
 - repository CI passes.
+
+## Icon-first teaching contract (2026-10-10)
+
+Read [Icon-First Learning Standard](./docs/ICON-FIRST-LEARNING-STANDARD.md) for all new and substantively updated teaching notes.
+
+- Make high-value relationships visual with original SVG icons, Mermaid, and a brief emoji memory cue; keep official English technical names and Thai teaching explanation.
+- Link from the package entry point to its visual guide. Major new lessons should give learners a 10-second icon cue near the top when useful.
+- Preserve searchable explanations, accurate version boundaries, lab steps, source citations and current verification labels; decoration never counts as source/objective coverage.
+- Vendor logos need provenance and appropriate rights; original pictograms must not be misrepresented as official service icons.
+- Confirm SVG is self-contained and relative links work before publishing.

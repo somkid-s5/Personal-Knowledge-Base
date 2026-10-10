@@ -38,3 +38,7 @@ Screenshots age quickly. If used:
 
 ## Assets
 Store reusable package visuals under `assets/diagrams/`. Store redistributable source/reference images under `assets/source/` only when licensing/ownership permits.
+
+## 2026 Icon-First companion policy
+
+Follow [Icon-First Learning Standard](./ICON-FIRST-LEARNING-STANDARD.md) for original role pictograms, emoji memory cues, official logo usage, accessibility, mobile readability and a cross-system visual gallery.

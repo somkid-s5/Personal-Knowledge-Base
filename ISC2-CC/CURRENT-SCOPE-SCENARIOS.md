@@ -1,5 +1,8 @@
 # ISC2 CC — Current-Scope Scenario Practice
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Verify  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [← ISC2-CC](./README.md)
 
 > **25 repository-authored scenarios** mapped to the 2026 outline. These are not exam dumps.

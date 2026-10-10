@@ -1,5 +1,8 @@
 # Lesson 30 — Monitoring Database Performance (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Monitoring & Troubleshooting](./README.md) · [Lab 13](../10-Labs/Lab-13-Oracle-Performance-Triage-Read-Only.md)
 
 > Original Thai teaching mapped to Oracle University 19c Administration Workshop Lesson 30. Source guide fidelity NOT VERIFIED, no SQL executed. SQL examples read-only; avoid unlicensed performance packs.

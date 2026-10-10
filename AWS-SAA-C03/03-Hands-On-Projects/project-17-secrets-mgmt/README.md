@@ -131,6 +131,9 @@ graph TD
 ใช้ Helm ในการติดตั้งและระบุการตั้งค่าที่จำเป็น:
 ```bash
 # ติดตั้งผ่าน Helm
+
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 👤 Identity → 🔑 Role → 🛡️ Scope → ✅ Verify → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
 helm repo add hashicorp https://helm.releases.hashicorp.com
 
 helm install vault hashicorp/vault \

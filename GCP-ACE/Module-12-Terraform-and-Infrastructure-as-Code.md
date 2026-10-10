@@ -1,5 +1,8 @@
 # Module 12 — Terraform & Infrastructure as Code
 
+> 🧠 **ภาพจำก่อนอ่าน:** 📜 Code → ⚙️ Deploy → ✅ Verify  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-11-Observability-and-Operations.md) · [ถัดไป](./Module-13-AI-Tooling-and-Modern-Services.md)
 
 ## 1. ทำไม CLI script อย่างเดียวอาจไม่พอ

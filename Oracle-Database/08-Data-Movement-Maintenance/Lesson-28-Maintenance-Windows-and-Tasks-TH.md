@@ -1,5 +1,8 @@
 # Lesson 28 — Automated Maintenance Tasks: Managing Tasks and Windows (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Data Movement & Maintenance](./README.md) · [Lab 12](../10-Labs/Lab-12-Automated-Maintenance-Inspection.md)
 
 > Original Thai material mapped to Oracle University 19c Administration Workshop Lesson 28. Page-level source fidelity and live execution **PENDING**. Examples are read-only; do not reconfigure Scheduler/Resource Manager during this lesson.

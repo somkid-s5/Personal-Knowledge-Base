@@ -6,6 +6,24 @@
 
 ---
 
+## 🌤️ Icon-First Quick Map — ดูภาพก่อนเข้า Module
+
+<img src="./assets/brand/simple-icons-googlecloud.svg" width="44" alt="Google Cloud brand icon from Simple Icons"> **Google Cloud — Brand recognition cue**
+
+> นี่คือ Brand Icon จากโครงการ Simple Icons เพื่อช่วยจำชื่อผู้ผลิต ไม่ใช่ Service Architecture Icon สำหรับอธิบาย Flow; ดู [Asset provenance](../docs/BRAND-ASSET-PROVENANCE.md)
+
+![GCP concept icon map](./assets/visual-memory/01-concept-path.svg)
+
+![GCP diagnostic icon map](./assets/visual-memory/02-diagnostic-path.svg)
+
+**🧠 จำ:** 📌 GCP ต้องรู้ active Project, Identity, API, IAM และ Quota ก่อนแก้ Resource; Cloud NAT เป็นทางออก ไม่ได้เปิด Inbound  
+**🩺 Diagnose:** ถ้า gcloud ได้ PERMISSION_DENIED ให้ตรวจ Active Account, Project, IAM Binding และ Organization Policies; ถ้า Private VM ออก Internet ไม่ได้ ให้เช็ก Route, NAT config, Firewall/Egress และ DNS
+
+> [!NOTE]
+> ภาพใหม่เป็น Original Concept Icons ไม่ใช่ Official Google Cloud Product Logos; สำหรับโลโก้จริงเปิด [Google Cloud Product Icons](https://cloud.google.com/icons). ทุกแผนภาพข้างล่างยังเป็นส่วนของ Visual Study Guide เดิม
+
+---
+
 ## 1) ภาพใหญ่ของ Google Cloud: Resource Hierarchy → Workload
 
 ```mermaid

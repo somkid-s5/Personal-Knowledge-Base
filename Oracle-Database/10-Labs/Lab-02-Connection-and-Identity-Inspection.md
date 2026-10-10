@@ -1,5 +1,8 @@
 # Lab 02 — Connection & Identity Inspection (Read-only)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 👤 Identity → 🔑 Access → 🛡️ Controls → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Database](../README.md) · [Lesson 02](../01-Core-Architecture/Lesson-02-Accessing-Oracle-Database-TH.md)
 
 > Companion exercise, not copied from Oracle University Activity Guide. **Static-only; not executed.**

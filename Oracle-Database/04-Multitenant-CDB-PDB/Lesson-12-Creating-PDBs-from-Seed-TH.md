@@ -1,5 +1,8 @@
 # Lesson 12 — Creating PDBs from Seed (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Multitenant Index](./README.md) · [Lab 08](../10-Labs/Lab-08-PDB-Lifecycle-Read-Only.md)
 
 > **Source:** Oracle University 19c Administration Workshop Lesson 12. Original Thai teaching; page-level Student Guide fidelity **pending**. SQL mutation examples here are **illustrative only** and were not executed.

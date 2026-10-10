@@ -1,5 +1,8 @@
 # Module 11 — Monitoring, Logging & Troubleshooting
 
+> 🧠 **ภาพจำก่อนอ่าน:** 📊 Metrics → 🧾 Logs → 🔎 Diagnose  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-10-Load-Balancing-and-Hybrid-Networking.md) · [ถัดไป](./Module-12-Terraform-and-Infrastructure-as-Code.md)
 
 ## 1. Resource ไม่เต็มไม่ได้แปลว่าระบบไม่ช้า

@@ -1,5 +1,8 @@
 # Lab 13 — Oracle Performance Triage & SQL Plan Inspection (Read-only)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lesson 29](../07-Monitoring-Troubleshooting/Lesson-29-Database-Performance-Overview-TH.md) · [Lesson 30](../07-Monitoring-Troubleshooting/Lesson-30-Monitoring-Database-Performance-TH.md) · [Lesson 31](../07-Monitoring-Troubleshooting/Lesson-31-Analyzing-SQL-and-Access-Paths-TH.md)
 
 > **Original companion exercise. NOT RUN on an Oracle instance.** The Activity Guide is proprietary and not reproduced. Requires authorized account with approved SELECT privileges; no AWR/ASH/ADDM, Tuning Pack, DDL, ALTER SYSTEM, KILL SESSION, or EXPLAIN PLAN writes.

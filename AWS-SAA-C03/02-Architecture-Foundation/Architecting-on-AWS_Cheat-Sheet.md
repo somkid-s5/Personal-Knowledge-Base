@@ -1,5 +1,8 @@
 # Architecting on AWS 7.12.4 — Cheat Sheet
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ดูภาพช่วยจำ แล้วอ่านรายละเอียด/คำสั่งในบทนี้
+
 > สำหรับทบทวนเร็วจาก Note Module 1–13  
 > Source basis: **Architecting on AWS 7.12.4 Student Guide + 26 module notes**  
 > ใช้ไฟล์นี้เพื่อจำ mental model และเลือก service ให้ถูก ไม่ใช่แทน Note ฉบับเต็มทั้งหมด

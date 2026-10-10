@@ -154,3 +154,7 @@ Update in the same change when applicable:
 - Prefer coherent paragraphs, tables and diagrams over walls of bullets.
 - Do not reduce full learning material into a cheat sheet unless the requested artifact is explicitly a cheat sheet.
 - Optimize for long-term understanding and maintainability, not maximum file count.
+
+## Visual-memory pass (after accuracy and source coverage)
+
+Apply [Icon-First Learning Standard](./docs/ICON-FIRST-LEARNING-STANDARD.md) to eligible modules and labs: add a concise emoji memory cue, choose a role-based original SVG or existing Mermaid visualization, pair every pictogram with technical labels and explanations, and link to the system visual guide. Do not recast source-fidelity or currentness claims in a visual-only pass.

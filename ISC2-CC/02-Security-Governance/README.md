@@ -1,5 +1,8 @@
 # Domain 2 — Security Governance
 
+> 🧠 **ภาพจำก่อนอ่าน:** 👤 Identity → 🔑 Access → 🛡️ Controls  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [← ISC2-CC](../README.md) · [Current Exam Map](../CURRENT-EXAM-MAP.md)
 
 > Weight: **17.3%** · Outline effective: **2026-09-01**

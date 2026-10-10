@@ -1,5 +1,8 @@
 # Lesson 23 — Introduction to Loading and Transporting Data (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Database](../README.md) · [Data Movement](./README.md) · [Lab 11](../10-Labs/Lab-11-Data-Movement-Read-Only.md)
 
 > Source mapping: Oracle University 19c Administration Workshop, Lesson 23. เรียบเรียงเนื้อหาใหม่จากหัวข้อบทและ Oracle 19c/26ai manuals — **ยังไม่ได้ตรวจเทียบ Student Guide รายหน้า** และยังไม่ทดสอบบน Oracle จริง

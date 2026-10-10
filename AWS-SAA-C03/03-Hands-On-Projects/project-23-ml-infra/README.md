@@ -132,6 +132,9 @@ import torch
 import torch.nn as nn
 
 # การนิยามโมเดล (Model definition)...
+
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
 # การโหลดข้อมูล (Data loading)...
 
 print(f"CUDA Available: {torch.cuda.is_available()}")

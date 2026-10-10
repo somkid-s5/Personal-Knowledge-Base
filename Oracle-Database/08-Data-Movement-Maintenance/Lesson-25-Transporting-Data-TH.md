@@ -1,5 +1,8 @@
 # Lesson 25 — Transporting Data (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Data Movement Index](./README.md) · [Lab 11](../10-Labs/Lab-11-Data-Movement-Read-Only.md)
 
 > Oracle University 19c Administration Workshop Lesson 25 mapped by topic. Original Thai teaching content; **no private Student Guide page-level verification**, no transport operation executed. Commands used in inspection are SELECT-only.

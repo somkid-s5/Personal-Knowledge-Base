@@ -1,5 +1,8 @@
 # Project 08: Serverless Web Application Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🖥️ Workload → 📈 Scale → 🩺 Health → ✅ Verify → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 
 ### ลูกค้า (The Client)

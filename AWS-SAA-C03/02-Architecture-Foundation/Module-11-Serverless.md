@@ -1,5 +1,8 @@
 # Module 11 — Serverless
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🖥️ Workload → 📈 Scale → 🩺 Health → ✅ Verify  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 🧭 Visual architecture
 
 ```mermaid

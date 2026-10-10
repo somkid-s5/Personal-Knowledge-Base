@@ -1,5 +1,8 @@
 # Module 03 — Cloud Shell, gcloud, Billing & Quotas
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Verify  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-02-IAM-Service-Accounts-and-Security.md) · [ถัดไป](./Module-04-VPC-Firewall-NAT-and-DNS.md)
 
 ## 1. Console กับ CLI ใช้ platform เดียวกัน

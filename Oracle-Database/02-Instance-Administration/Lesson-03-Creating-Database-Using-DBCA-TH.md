@@ -1,5 +1,8 @@
 # Lesson 03 — Creating an Oracle Database Using DBCA (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Database](../README.md) · [Instance Administration](./README.md) · [Lab 03](../10-Labs/Lab-03-DBCA-Planning-and-Verification.md)
 
 > **Source map:** Oracle University 19c Administration Workshop D106546GC10 — Lesson 3. **Original Thai reconstruction**, ไม่ได้ถอดทุกหน้าของ private Student Guide; source-fidelity review pending.  

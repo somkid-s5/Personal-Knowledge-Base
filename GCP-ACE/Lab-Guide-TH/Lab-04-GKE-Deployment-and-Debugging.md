@@ -1,5 +1,8 @@
 # Lab 04 — GKE Deployment, Service & Debugging
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📦 Image → ☸️ Workload → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lab index](./README.md) · [GKE concepts](../Module-08-GKE-and-Kubernetes.md)
 
 ## เป้าหมายและ prerequisites

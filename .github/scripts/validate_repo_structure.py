@@ -34,6 +34,7 @@ IGNORE_TOP_LEVEL_DIRS = {
     ".git",
     ".github",
     "docs",
+    "assets",  # shared cross-system visual assets, not a learning system
     "templates",
     "skills",
 }

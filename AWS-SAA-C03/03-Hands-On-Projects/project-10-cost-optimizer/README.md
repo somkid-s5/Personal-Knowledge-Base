@@ -1,5 +1,8 @@
 # Project 10: Cost Optimizer Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📊 Usage → 💰 Cost → ✅ Optimize → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 โปรเจกต์นี้เน้นการสร้างระบบอัตโนมัติเพื่อค้นหาและแจ้งเตือนเกี่ยวกับทรัพยากร AWS ที่สูญเปล่า (AWS resource waste) โดยใช้ Python (Boto3) และ AWS Lambda เพื่อสแกนหาทรัพยากรที่ไม่ได้ใช้งาน เช่น Underutilized EC2 Instances, Unattached EBS Volumes และความผิดปกติของค่าใช้จ่าย (Cost Anomalies) พร้อมส่งการแจ้งเตือนเพื่อให้ทีมจัดการได้ทันท่วงที
 
 ### ทักษะที่จะได้เรียนรู้ (Skills Learned)

@@ -1,5 +1,8 @@
 # Lab 11 — Data Movement Preflight & Read-only Inspection (Lessons 23–26)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Data Movement Lessons](../08-Data-Movement-Maintenance/README.md) · [Oracle Hub](../README.md)
 
 > **Lab type:** original companion workbook. **NOT RUN.** Oracle University Activity Guide task-level fidelity PENDING. Queries below are read-only. No expdp/impdp, sqlldr, CREATE DIRECTORY, DBMS_TTS procedure or file transfers.

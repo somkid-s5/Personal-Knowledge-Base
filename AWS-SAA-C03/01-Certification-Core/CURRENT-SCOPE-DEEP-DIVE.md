@@ -1,5 +1,8 @@
 # SAA-C03 Current Scope Deep Dive — 2026
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ดูภาพช่วยจำ แล้วอ่านรายละเอียด/คำสั่งในบทนี้
+
 [Back to SAA Hub](./README.md) · [Exam Guide Map](./EXAM-GUIDE-MAP.md) · [QA Matrix](./QA-MATRIX.md) · [Study Path](./STUDY-PATH.md)
 
 > **Verified against the current AWS web-based SAA-C03 Exam Guide:** 2026-10-06  

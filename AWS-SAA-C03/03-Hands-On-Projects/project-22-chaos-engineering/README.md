@@ -81,6 +81,9 @@ flowchart TD
 ใช้คำสั่งตรวจสอบค่าเฉลี่ย HTTP 2xx ในช่วงเวลาที่ผ่านมาผ่าน CloudWatch/Prometheus:
 ```bash
 # ตรวจสอบอัตราความสำเร็จปัจจุบันผ่าน CloudWatch/Prometheus
+
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
 # (ตัวอย่างคำสั่งสำหรับ CloudWatch)
 aws cloudwatch get-metric-statistics \
     --namespace AWS/ApplicationELB \

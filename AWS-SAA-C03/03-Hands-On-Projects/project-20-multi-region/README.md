@@ -95,6 +95,9 @@ graph TB
 
 ```bash
 # กำหนด Environment Variables สำหรับ Session นี้
+
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
 export AWS_REGION_PRIMARY="ap-southeast-1"  # สิงคโปร์ (Singapore)
 export AWS_REGION_SECONDARY="ap-southeast-2" # ซิดนีย์ (Sydney)
 

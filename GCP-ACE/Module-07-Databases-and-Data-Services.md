@@ -1,5 +1,8 @@
 # Module 07 — Databases, Analytics & Data Services
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-06-Storage-and-Data-Protection.md) · [ถัดไป](./Module-08-GKE-and-Kubernetes.md)
 
 ## 1. เริ่มจากงาน ไม่เริ่มจากชื่อบริการ

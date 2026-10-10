@@ -7,6 +7,14 @@
 
 [← Repository root](../README.md)
 
+## 🛡️ Visual Memory — ดูภาพก่อนอ่านบทเต็ม
+
+![ISC2 CC concept icon path](./assets/visual-memory/01-concept-path.svg)
+
+**🧠 🔒 Confidentiality · 🧾 Integrity · 🟢 Availability** — 📌 CIA คือผลลัพธ์ที่ต้องปกป้อง ไม่ใช่รายชื่อเครื่องมือ; หนึ่ง Control อาจช่วยมากกว่าหนึ่งด้าน
+
+[📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
+
 ## What this system is
 
 This is the personal learning system for **ISC2 Certified in Cybersecurity (CC)**.

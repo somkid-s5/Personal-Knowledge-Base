@@ -1,5 +1,8 @@
 # Lab 05 — Terraform VPC, Plan, State & Cleanup
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🌐 Network → 🛡️ Rules → 🖥️ Backend → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lab index](./README.md) · [Terraform concepts](../Module-12-Terraform-and-Infrastructure-as-Code.md)
 
 ## เป้าหมายและ prerequisites

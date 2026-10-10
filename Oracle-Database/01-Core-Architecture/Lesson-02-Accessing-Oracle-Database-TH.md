@@ -1,5 +1,8 @@
 # Lesson 02 — Accessing an Oracle Database (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Database](../README.md) · [Core Architecture](./README.md) · [Lab 02](../10-Labs/Lab-02-Connection-and-Identity-Inspection.md)
 
 > **Source mapping:** Oracle Database 19c Administration Workshop (D106546GC10), Lesson 2  

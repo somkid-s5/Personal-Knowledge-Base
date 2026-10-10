@@ -1,5 +1,8 @@
 # Lab 04 — Manual Oracle Database Creation: Design & Read-only Inspection
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lesson 04](../02-Instance-Administration/Lesson-04-Creating-Database-Using-SQL-TH.md) · [Labs index](./README.md)
 
 > **Original companion lab / static review only.** ไม่ใช่ Oracle University Activity Guide. **ไม่มีคำสั่ง CREATE DATABASE ที่ execute ได้** เพราะต้องมี disposable host พร้อมตรวจ path, identity, credentials, recovery และ ownership ก่อน. ไม่เคยรัน provisioning จริง.

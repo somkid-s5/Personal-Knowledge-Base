@@ -1,5 +1,8 @@
 ﻿# Internal Developer Platform (สร้างพอร์ทัลกลางสำหรับนักพัฒนาด้วย Backstage) Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📜 Catalog → 🧩 Templates → ⚙️ Delivery → ✅ Verify → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 
 เรื่องราวจำลองสำหรับความท้าทายนี้เกิดขึ้นที่ FastMove ซึ่งเป็นสตาร์ทอัพด้านขนส่งสินค้าสัญชาติไทยที่เพิ่งรับวิศวกรใหม่เข้ามาถึง 30 คน

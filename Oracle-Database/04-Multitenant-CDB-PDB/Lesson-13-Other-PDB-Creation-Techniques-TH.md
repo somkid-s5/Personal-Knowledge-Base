@@ -1,5 +1,8 @@
 # Lesson 13 — Using Other Techniques to Create PDBs (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Multitenant Index](./README.md) · [Lab 08](../10-Labs/Lab-08-PDB-Lifecycle-Read-Only.md)
 
 > **Source:** Oracle University 19c Administration Workshop Lesson 13. Original teaching material; Student Guide page-by-page verification **pending**. No clone/unplug/plug operations executed.

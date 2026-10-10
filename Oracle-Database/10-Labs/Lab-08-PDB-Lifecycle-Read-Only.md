@@ -1,5 +1,8 @@
 # Lab 08 — PDB Lifecycle, Seed, Clone & Migration Inspection (Read-only)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lesson 12](../04-Multitenant-CDB-PDB/Lesson-12-Creating-PDBs-from-Seed-TH.md) · [Lesson 13](../04-Multitenant-CDB-PDB/Lesson-13-Other-PDB-Creation-Techniques-TH.md) · [Lesson 14](../04-Multitenant-CDB-PDB/Lesson-14-Managing-PDBs-TH.md)
 
 > **Status:** Original companion lab, static-authored; not executed. Not an Oracle University Activity Guide reproduction. No CREATE/ALTER/DROP PDB or changes to CDB/PDB open state permitted in this lab.

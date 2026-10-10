@@ -1,5 +1,8 @@
 # Project 07: CI/CD Pipeline & Automated Deployment Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📜 Code → ⚙️ Deploy → 🔎 Drift → ✅ Verify → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 
 ### ลูกค้า (The Client)

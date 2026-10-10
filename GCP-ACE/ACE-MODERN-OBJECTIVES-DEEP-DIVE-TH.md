@@ -1,5 +1,8 @@
 # ACE Modern Objectives Deep Dive — หัวข้อใหม่/มักตกหล่นจากโน้ต ACE รุ่นเก่า
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 [กลับสารบัญ ACE](./README.md) · [Visual Study Guide](./VISUAL-STUDY-GUIDE-TH.md) · [Exam Map](./LEARNING-PATH.md)
 
 > ตรวจเทียบกับ [Standard Associate Cloud Engineer Exam Guide](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ณ **5 ตุลาคม 2026**  

@@ -1,5 +1,8 @@
 # Lab 03 — DBCA Planning and Post-create Verification (ปลอดภัย / ไม่สร้างจริง)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lesson 03](../02-Instance-Administration/Lesson-03-Creating-Database-Using-DBCA-TH.md) · [Labs index](./README.md)
 
 > Original companion lab, **static and read-only**. Does not reproduce proprietary Oracle University Activity Guide. Live deployment not executed. DBCA creation requires isolated sandbox, privileges, storage, and user approval in that environment.

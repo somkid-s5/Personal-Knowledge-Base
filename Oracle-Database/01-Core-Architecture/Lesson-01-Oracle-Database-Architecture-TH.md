@@ -1,5 +1,8 @@
 # Lesson 01 — Oracle Database Architecture (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Database](../README.md) · [Core Architecture](./README.md) · [Lesson 01 Read-only Lab](../10-Labs/Lab-01-Architecture-Inspection.md)
 
 > **Curriculum mapping:** Oracle University 19c Administration Workshop — Lesson 1: Introduction to Oracle Database  

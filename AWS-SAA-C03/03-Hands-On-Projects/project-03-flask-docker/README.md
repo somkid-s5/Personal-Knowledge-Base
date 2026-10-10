@@ -1,5 +1,8 @@
 # Project 03: Containerization Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📦 Image → ☸️ Workload → 🌐 Service → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 
 เหตุการณ์จำลอง:

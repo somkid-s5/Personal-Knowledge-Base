@@ -1,5 +1,8 @@
 # Module 10 — Networking 2
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🌐 Client → 🛣️ Network → 🛡️ Rules → 🖥️ Backend  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 🧭 Visual architecture
 
 ```mermaid

@@ -1,5 +1,8 @@
 # Lesson 10 — Configuring a Shared Server Architecture (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🌐 Network → 🛡️ Rules → 🖥️ Backend  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Hub](../README.md) · [Networking](./README.md) · [Lab 07](../10-Labs/Lab-07-Shared-Server-and-CMAN-Read-Only.md)
 
 > **Source:** Oracle University 19c Administration Workshop Lesson 10 (topic mapped, proprietary guide page-level check pending). Original Thai lesson, not copied training material. **Validation:** documented concepts reviewed against Oracle 19c Net Services Guide; SQL not executed.

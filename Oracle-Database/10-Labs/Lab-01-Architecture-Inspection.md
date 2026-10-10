@@ -1,5 +1,8 @@
 # Lab 01 — Inspect Oracle Architecture (Read-only)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle learning hub](../README.md) · [Lesson 01](../01-Core-Architecture/Lesson-01-Oracle-Database-Architecture-TH.md)
 
 > **Companion lab / original Thai exercises** — not an Oracle University Activity Guide reproduction.  

@@ -1,5 +1,8 @@
 # Module 02 — IAM, Service Accounts & Security
 
+> 🧠 **ภาพจำก่อนอ่าน:** 👤 Identity → 🔑 Access → 🛡️ Controls  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-01-Foundations-and-Resource-Hierarchy.md) · [ถัดไป](./Module-03-Tools-Billing-and-Quotas.md)
 
 ## 1. Authentication กับ Authorization

@@ -1,5 +1,8 @@
 # Lesson 31 — Analyzing SQL and Optimizing Access Paths (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Monitoring & Troubleshooting](./README.md) · [Lab 13](../10-Labs/Lab-13-Oracle-Performance-Triage-Read-Only.md)
 
 > Curriculum: Oracle University 19c Administration Workshop Lesson 31. Original Thai guide, not reproduced from proprietary material. Page-level Student Guide check and actual Oracle testing: **PENDING**. SQL examples read existing metadata only; `EXPLAIN PLAN` may write PLAN_TABLE rows so it is not part of read-only lab.

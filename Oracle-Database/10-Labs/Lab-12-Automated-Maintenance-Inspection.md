@@ -1,5 +1,8 @@
 # Lab 12 — Oracle AutoTask, Maintenance Windows & Scheduler (Read-only)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lesson 27](../08-Data-Movement-Maintenance/Lesson-27-Automated-Maintenance-Overview-TH.md) · [Lesson 28](../08-Data-Movement-Maintenance/Lesson-28-Maintenance-Windows-and-Tasks-TH.md)
 
 > Original companion practice, **NOT EXECUTED**. Never enable/disable AutoTask, open/close maintenance windows, tune resource plans or run privileged advisor packages in this exercise.

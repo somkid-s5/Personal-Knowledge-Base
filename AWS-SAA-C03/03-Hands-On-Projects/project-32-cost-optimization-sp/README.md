@@ -102,6 +102,9 @@ graph TD
 
 ```bash
 # ดู Recommendations สำหรับ EC2
+
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📊 Usage → 💰 Cost → ✅ Optimize → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
 aws compute-optimizer get-ec2-instance-recommendations \
   --filters name=Finding,values=Overprovisioned \
   --query 'instanceRecommendations[].{

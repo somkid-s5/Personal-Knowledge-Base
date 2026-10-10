@@ -1,5 +1,8 @@
 # ISC2 CC — Current 2026 Cheat Sheet
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Verify  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [← ISC2-CC](./README.md)
 
 > ใช้ทบทวนหลังเรียนเนื้อหาเต็ม ไม่ใช่ตัวแทนของ teaching notes

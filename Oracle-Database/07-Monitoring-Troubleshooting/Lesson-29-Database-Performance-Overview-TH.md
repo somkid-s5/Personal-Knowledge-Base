@@ -1,5 +1,8 @@
 # Lesson 29 — Database Monitoring and Tuning Performance Overview (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Monitoring & Troubleshooting](./README.md) · [Lab 13](../10-Labs/Lab-13-Oracle-Performance-Triage-Read-Only.md)
 
 > Oracle University 19c Administration Workshop Lesson 29. Original Thai learning content; NOT page-level checked against private Student Guide, nor executed on a database. 26ai documentation used for current reference. **AWR/ASH/ADDM may require Diagnostics Pack; SQL Tuning Advisor requires Tuning Pack depending on product/licensing.**

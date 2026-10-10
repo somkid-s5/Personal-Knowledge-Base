@@ -1,5 +1,8 @@
 # Module 8 — Automation
 
+> 🧠 **ภาพจำก่อนอ่าน:** 📜 Code → ⚙️ Deploy → 🔎 Drift → ✅ Verify  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 🧭 Visual architecture
 
 ```mermaid

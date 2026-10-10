@@ -1,5 +1,8 @@
 # Lab 07 — Shared Server & CMAN Diagnostic Workbook (Read-only)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lesson 10](../03-Networking-Listener/Lesson-10-Shared-Server-Architecture-TH.md) · [Lesson 11](../03-Networking-Listener/Lesson-11-Oracle-Connection-Manager-TH.md)
 
 > Original companion lab for Oracle Net Services. **Not an official Activity Guide lab. Not executed on an Oracle instance.** SELECT-only SQL and tabletop CMAN design. No ALTER SYSTEM, CMCTL state commands, editing cman.ora, or listener restarts.

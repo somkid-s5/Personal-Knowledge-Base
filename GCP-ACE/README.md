@@ -2,6 +2,14 @@
 
 [← Repository root](../README.md)
 
+## 🌤️ Visual Memory — ดูภาพก่อนอ่านบทเต็ม
+
+![GCP ACE concept icon path](./assets/visual-memory/01-concept-path.svg)
+
+**🧠 👤 Principal → 🔐 IAM → 🗂️ Project → ⚙️ Workload** — 📌 GCP ต้องรู้ active Project, Identity, API, IAM และ Quota ก่อนแก้ Resource; Cloud NAT เป็นทางออก ไม่ได้เปิด Inbound
+
+[📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-STUDY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
+
 > **Status:** **Verified Non-Lab Objective Scope** — Standard Exam Guide + 17/17 Google Skills activities mapped  
 > **Last repository verification:** 2026-10-07  
 > **Source manifest:** [SOURCE-MANIFEST.md](./SOURCE-MANIFEST.md)  

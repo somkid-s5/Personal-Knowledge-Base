@@ -1,5 +1,8 @@
 # Lesson 24 — Loading Data with SQL*Loader (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Hub](../README.md) · [Data Movement](./README.md) · [Lab 11](../10-Labs/Lab-11-Data-Movement-Read-Only.md)
 
 > Curriculum: Oracle University 19c Administration Workshop, Lesson 24. Original Thai teaching note; full guide fidelity PENDING. ตัวอย่าง control file ใช้เรียน syntax ไม่ใช่ production deployment. No live load executed.

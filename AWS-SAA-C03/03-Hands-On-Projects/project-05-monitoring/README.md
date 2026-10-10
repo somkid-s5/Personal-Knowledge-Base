@@ -1,5 +1,8 @@
 # Project 05: Monitoring Stack Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📊 Metrics → 🧾 Logs → 🔎 Diagnose → ✅ Verify → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 
 วันศุกร์ เวลา 5 ทุ่มตรง ขณะที่คุณกำลังจะเลิกงานและเตรียมตัวเริ่มวันหยุดสุดสัปดาห์ โทรศัพท์จาก CEO ก็ดังขึ้น

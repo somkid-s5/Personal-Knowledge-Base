@@ -1,5 +1,7 @@
 # Oracle Lessons 07–31 — Companion Practice Workbook ภาษาไทย
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
 > **Coverage:** 8 mapped source lab groups at topic level; all activities below are original simulated or read-only exercises. **Not** an Oracle University Activity Guide substitute; official lab task/grader and execution fidelity **NOT VERIFIED**.
 
 ## Safety rules

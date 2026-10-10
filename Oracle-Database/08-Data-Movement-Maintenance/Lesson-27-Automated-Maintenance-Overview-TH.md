@@ -1,5 +1,8 @@
 # Lesson 27 — Automated Maintenance Tasks Overview (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Data Movement & Maintenance](./README.md) · [Lab 12](../10-Labs/Lab-12-Automated-Maintenance-Inspection.md)
 
 > Oracle University 19c Administration Workshop Lesson 27, mapped by topic. Original Thai teaching content; Student Guide line/page fidelity and live test **PENDING**. Oracle 26ai has edition/features and current tooling differences.
