@@ -1,5 +1,8 @@
 # Lab 1 — Exploring and Interacting with the AWS Management Console and AWS CLI
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ดูภาพช่วยจำ แล้วอ่านรายละเอียด/คำสั่งในบทนี้
+
 ## 🗺️ Lab architecture
 
 ```mermaid

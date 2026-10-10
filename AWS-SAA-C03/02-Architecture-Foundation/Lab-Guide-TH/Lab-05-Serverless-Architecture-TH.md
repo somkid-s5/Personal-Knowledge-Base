@@ -1,5 +1,8 @@
 # Lab 5 — Build a Serverless Architecture
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🖥️ Workload → 📈 Scale → 🩺 Health → ✅ Verify → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ดูภาพช่วยจำ แล้วอ่านรายละเอียด/คำสั่งในบทนี้
+
 ## 🗺️ Lab architecture
 
 ```mermaid

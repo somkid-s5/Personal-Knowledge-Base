@@ -1,5 +1,8 @@
 # Lab 4 — Configure High Availability in Your Amazon VPC
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ดูภาพช่วยจำ แล้วอ่านรายละเอียด/คำสั่งในบทนี้
+
 ## 🗺️ Lab architecture
 
 ```mermaid

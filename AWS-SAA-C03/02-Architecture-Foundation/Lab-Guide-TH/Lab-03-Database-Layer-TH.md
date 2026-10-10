@@ -1,5 +1,8 @@
 # Lab 3 — Creating a Database Layer in Your Amazon VPC Infrastructure
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🔐 Protection → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ดูภาพช่วยจำ แล้วอ่านรายละเอียด/คำสั่งในบทนี้
+
 ## 🗺️ Lab architecture
 
 ```mermaid

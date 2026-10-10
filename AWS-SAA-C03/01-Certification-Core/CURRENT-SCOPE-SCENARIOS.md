@@ -1,5 +1,8 @@
 # SAA-C03 Current-Scope Scenarios — Original Practice
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ดูภาพช่วยจำ แล้วอ่านรายละเอียด/คำสั่งในบทนี้
+
 [Back to SAA Hub](./README.md) · [Deep Dive](./CURRENT-SCOPE-DEEP-DIVE.md) · [QA Matrix](./QA-MATRIX.md)
 
 > Original repository-authored scenarios based on public SAA-C03 objective families. These are **not real exam questions** and are intentionally written to test architecture reasoning rather than recall leaked wording.

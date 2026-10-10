@@ -1,5 +1,8 @@
 # Lab 2 — Building your Amazon VPC Infrastructure
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🌐 Client → 🛣️ Network → 🛡️ Rules → 🖥️ Backend → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ดูภาพช่วยจำ แล้วอ่านรายละเอียด/คำสั่งในบทนี้
+
 ## 🗺️ Lab architecture
 
 ```mermaid
