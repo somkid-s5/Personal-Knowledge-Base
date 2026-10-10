@@ -26,11 +26,12 @@ The goal is not to preserve an old 19c course as if it were current. The goal is
 
 ## Current draft teaching resources
 
-- [Lessons 10–31 compact Thai Teaching Atlas](./LESSONS-10-31-TH-TEACHING-ATLAS-DRAFT.md) — working draft, not full source fidelity
+- **Standalone Thai lessons 01–28** — browse learning layer folders below; original teaching drafts, not full Student Guide fidelity
+- [Lessons 10–31 compact Thai Teaching Atlas](./LESSONS-10-31-TH-TEACHING-ATLAS-DRAFT.md) — earlier working atlas retained as supplementary outline; **29–31 still awaiting standalone expansion**
 - [Eight-group original practice workbook](./10-Labs/LESSONS-07-31-PRACTICE-WORKBOOK-TH.md) — exercises not executed
-- Standalone Lesson 07–09 under [Networking](./03-Networking-Listener/)
+- [Data Movement and Maintenance Lessons 23–28](./08-Data-Movement-Maintenance/) and [Labs 11–12](./10-Labs/) now available as draft teaching material
 
-**31 lesson topics represented, but full semantic verification and live lab testing remain pending.**
+**Standalone lessons: 28/31 (90.3% of file coverage).** All 31 lesson topics represented including Atlas, but full semantic source verification, 26ai cross-version review, CI and live lab testing remain pending.
 
 ## Learning layers
 
