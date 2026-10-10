@@ -2,7 +2,7 @@
 
 [← Oracle Database](./README.md)
 
-> **Status:** 31/31 lesson titles have original Thai teaching drafts (01–22 standalone, 23–31 compact atlas). Full semantic fidelity, deep standalones and live execution remain PENDING.
+> **Status:** 31/31 lesson titles have original Thai teaching drafts (01–28 standalone, 29–31 compact atlas). Full semantic fidelity, deep standalones and live execution remain PENDING.
 
 | Source lessons | Repository learning layer | Status |
 |---|---|---|
@@ -12,7 +12,7 @@
 | 12–14 | 04 Multitenant CDB/PDB | Lessons 12–14 standalone Thai drafts plus Lab 08 read-only; source fidelity and live testing PENDING |
 | 15–18 | 05 Storage / Tablespaces / Undo | Lessons 15–18 standalone Thai drafts plus Lab 09 read-only; source fidelity and live testing PENDING |
 | 19–22 | 06 Users / Roles / Security | Standalone Thai drafts 19–22 and Lab 10; source fidelity and live testing PENDING |
-| 23–28 | 08 Data Movement / Maintenance | Atlas draft; fidelity PENDING |
+| 23–28 | 08 Data Movement / Maintenance | Standalone Thai drafts 23–28 + Lab 11/12 (read-only/tabletop); page-level source fidelity and live testing PENDING |
 | 29–31 | 07 Monitoring / Troubleshooting | Atlas draft; fidelity PENDING |
 
 ## Lab mapping
@@ -52,3 +52,10 @@ Verified requires:
 - [Lessons 10–31 Thai Teaching Atlas](./LESSONS-10-31-TH-TEACHING-ATLAS-DRAFT.md) — 22 compact draft sections; no claim of detailed chapter-level fidelity.
 - [Original 8-group lab practice workbook](./10-Labs/LESSONS-07-31-PRACTICE-WORKBOOK-TH.md) — tabletop/read-only exercise; no live provisioning.
 - Full Student Guide page-by-page ingest, official Activity Guide mapping, live lab execution, and 19c/26ai deep validation remain pending.
+
+## Lessons 23–28 — 2026-10-10 expansion
+
+- 6 original Thai standalone lessons authored for Data Pump/SQL*Loader/transportable/external tables and automated maintenance.
+- Labs 11 and 12 authored as read-only/tabletop workbooks. **No commands were run against an Oracle server**.
+- Source documentation links cross-checked for 19c/26ai topics; **NOT a private Student Guide page-by-page verification**.
+- Lesson 29–31 still compact in Teaching Atlas pending expansion.
