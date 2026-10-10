@@ -1,5 +1,8 @@
 ﻿# Cloud Migration Framework Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📦 Inventory → 🛠️ Migrate → 🔎 Test → ✅ Cutover → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 โปรเจกต์นี้จัดเตรียม Cloud Migration Framework ที่ครอบคลุมการย้าย Workload ที่ซับซ้อนขึ้นระบบ Cloud
 - ครอบคลุมขั้นตอน Assessment, Planning, Patterns และ Execution
 - ออกแบบมาสำหรับการย้ายระบบระดับ Enterprise ขนาดใหญ่

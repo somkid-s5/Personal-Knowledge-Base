@@ -1,5 +1,8 @@
 ﻿# Project 16: Advanced Networking Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🌐 VPC → 🛣️ Route → 🛡️ Rules → ✅ Verify → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 ณ บริษัท "ThaiLogistics" ซึ่งเป็นบริษัทโลจิสติกส์ขนาดใหญ่ ปัจจุบันบริษัทเติบโตรวดเร็วมาก
 ทำให้ตอนนี้มี AWS Accounts ถึง 15 บัญชี และแต่ละบัญชีต่างก็มี VPC เป็นของตัวเอง

@@ -1,5 +1,8 @@
 ﻿# Project 28: Observability Platform Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📊 Metrics → 🧾 Logs → 🔗 Traces → 🔎 Diagnose → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 
 - สถานที่: DataFlow ระบบ High-frequency trading platform

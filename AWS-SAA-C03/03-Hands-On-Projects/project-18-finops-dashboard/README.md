@@ -1,5 +1,8 @@
 ﻿# Project 18: FinOps Dashboard Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📊 CUR → 🧮 Athena → 📈 Dashboard → 💰 Optimize → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 โปรเจกต์นี้จะช่วยลดช่องว่างระหว่างทีม Engineering และทีม Finance โดยการสร้าง FinOps Dashboard ที่ใช้งานได้จริงเพื่อสร้าง Visibility ในการติดตามค่าใช้จ่าย AWS โดยใช้ Cost and Usage Report (CUR), Amazon Athena และ Grafana
 
 ทักษะที่จะได้เรียนรู้:
