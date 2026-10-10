@@ -33,6 +33,10 @@ The goal is not to preserve an old 19c course as if it were current. The goal is
 
 **Standalone lessons: 31/31 (100% of file coverage, not 100% verified).** All 31 lesson topics represented including Atlas, but full semantic source verification, 26ai cross-version review, CI and live lab testing remain pending.
 
+## Full-fidelity verification
+
+- [31-Lesson Full-Fidelity QA Tracker](./FULL-FIDELITY-QA-TRACKER.md) — GitHub readback confirmed all lesson files; separate PENDING gates for source-page comparison, 26ai, live labs, CI and security/licensing
+
 ## Learning layers
 
 1. [01-Core-Architecture](./01-Core-Architecture/)
