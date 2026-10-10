@@ -156,6 +156,9 @@ interface Tunnel1
 - ในกรณีที่มีหลาย VPC และต้องการเชื่อมโยงเครือข่ายเข้าด้วยกันผ่านจุดศูนย์กลาง (Hub-and-Spoke):
 ```hcl
 # Transit Gateway เป็น Hub ตัวกลาง
+
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🌐 Client → 🛣️ Network → 🛡️ Rules → 🖥️ Backend → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
 resource "aws_ec2_transit_gateway" "main" {
   amazon_side_asn = 64512
 }

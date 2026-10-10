@@ -98,6 +98,9 @@ graph TD
 
 ```hcl
 # src/terraform/main.tf
+
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
 resource "aws_iam_policy" "mfa_enforced" {
   name = "EnforceMFA"
   policy = jsonencode({

@@ -144,6 +144,9 @@ graph TD
 1. เปิดใช้งาน GuardDuty, Security Hub และ Macie ผ่านโค้ด Terraform ด้านล่างนี้:
 ```hcl
 # src/terraform/guardduty.tf
+
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🌐 Client → 🛣️ Network → 🛡️ Rules → 🖥️ Backend → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
 resource "aws_guardduty_detector" "main" {
   enable = true
 }

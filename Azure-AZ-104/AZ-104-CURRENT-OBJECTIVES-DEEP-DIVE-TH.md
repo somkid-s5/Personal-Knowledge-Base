@@ -1,5 +1,8 @@
 # AZ-104 Current Objectives Deep Dive — 2026
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 [Back to AZ-104](./README.md) · [Coverage Matrix](./SOURCE-COVERAGE.md) · [Source Manifest](./SOURCE-MANIFEST.md)
 
 > **Scope authority:** Microsoft Learn — Study guide for Exam AZ-104  

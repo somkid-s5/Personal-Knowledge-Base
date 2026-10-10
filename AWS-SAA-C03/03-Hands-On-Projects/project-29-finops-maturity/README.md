@@ -449,6 +449,9 @@ policies:
 ```hcl
 # Project 29: Advanced FinOps Budgeting and Anomaly Detection
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📊 Usage → 💰 Cost → ✅ Optimize → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 resource "aws_budgets_budget" "monthly" {
   name              = "monthly-budget"
   budget_type       = "COST"

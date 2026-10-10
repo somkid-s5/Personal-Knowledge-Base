@@ -1,5 +1,8 @@
 # คู่มืออ่านโน้ตตาม Google Skills Learning Path — ACE
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 [กลับสารบัญ ACE](./README.md) · [เปิด Learning Path ทางการ](https://www.skills.google/paths/11) · [สารบัญหัวข้อย่อยของหลักสูตร](./GOOGLE-SKILLS-CURRICULUM.md) · [แผนที่ Lab](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md)
 
 > รุ่นตรวจสอบ: 5 ตุลาคม 2026 · ยึดลำดับ 17 กิจกรรมที่หน้า ACE Learning Path แสดงในวันที่ตรวจสอบ  
