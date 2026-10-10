@@ -1,0 +1,107 @@
+# Lesson 31 — Analyzing SQL and Optimizing Access Paths (ภาษาไทย)
+
+[Monitoring & Troubleshooting](./README.md) · [Lab 13](../10-Labs/Lab-13-Oracle-Performance-Triage-Read-Only.md)
+
+> Curriculum: Oracle University 19c Administration Workshop Lesson 31. Original Thai guide, not reproduced from proprietary material. Page-level Student Guide check and actual Oracle testing: **PENDING**. SQL examples read existing metadata only; `EXPLAIN PLAN` may write PLAN_TABLE rows so it is not part of read-only lab.
+
+## Goals
+- อ่าน SQL execution plan จาก operation/access predicates/cardinality/cost
+- เปรียบเทียบ full table scan, index access and join methods โดยใช้ estimated/actual row data
+- เข้าใจ statistics, skew, histograms, bind variables, plan changes และ cardinality errors
+- ทำการวิเคราะห์อย่างปลอดภัยก่อน index/SQL rewrite/hints/stats change
+
+## 1. SQL optimizer mental model
+
+~~~mermaid
+flowchart TD
+ S[SQL statement and bind values] --> O[Optimizer]
+ ST[Table, column and index statistics] --> O
+ O --> P[Execution plan]
+ P --> A[Access paths]
+ P --> J[Join order and join methods]
+ A --> R[Runtime waits and rows]
+ J --> R
+~~~
+
+Oracle's cost-based optimizer ประเมินต้นทุนของหลาย candidate plans จาก object statistics, predicates, estimated rows และ available access methods. **Cost ไม่ใช่ milliseconds** และแผนที่ cost ต่ำกว่าไม่ได้การันตี response time ต่ำกว่าในทุก runtime.
+
+## 2. Common access paths
+
+| Operation | ทำอะไร | เหมาะเมื่อ |
+|---|---|---|
+| TABLE ACCESS FULL | อ่าน table blocks จำนวนมาก | ต้องคืนหลายแถว หรือ table เล็ก/parallel เหมาะ |
+| INDEX UNIQUE SCAN | หา entry ที่ match unique key | Equality predicate บน unique index |
+| INDEX RANGE SCAN | อ่านช่วง index keys | Selective range/equality predicates |
+| TABLE ACCESS BY INDEX ROWID | ไป table block ตาม rowid จาก index | ต้องคืน columns ที่ไม่ได้อยู่ใน index |
+| HASH JOIN | สร้าง/probe hash สำหรับ matching keys | Many-row joins; memory และ spill สำคัญ |
+| NESTED LOOPS | lookup inner row source ต่อ outer row | Outer cardinality เล็กและ inner access ดี |
+| SORT MERGE JOIN | sort/merge inputs | บาง sorted/range workloads |
+
+**อย่าติดป้าย TABLE ACCESS FULL ว่าผิดเสมอ**: ถ้าต้องอ่าน 70% ของตาราง ใช้ full scan อาจดีกว่า index lookup+random table I/O.
+
+## 3. Estimated vs actual cardinality
+
+Optimizer stats เช่น `NUM_ROWS`, NDV, histogram และ extended statistics มีผลต่อ estimate. หาก estimate 10 rows แต่จริง 2,000,000 rows อาจเลือก join order/index strategy ผิด.
+
+~~~sql
+-- Read-only: existing metadata from authorized tables only.
+SHOW CON_NAME
+SELECT owner,table_name,num_rows,last_analyzed,stale_stats
+FROM dba_tab_statistics
+WHERE owner='LAB_OWNER' AND object_type='TABLE'
+ORDER BY table_name;
+
+SELECT sql_id,child_number,plan_hash_value,executions,elapsed_time
+FROM v$sql
+WHERE executions > 0 AND parsing_schema_name='LAB_OWNER'
+ORDER BY elapsed_time DESC FETCH FIRST 10 ROWS ONLY;
+~~~
+
+**Important:** `V$SQL.ELAPSED_TIME` สะสมตลอด lifetime ของ child cursor (microseconds ใน documentation); ต้องเปรียบเทียบ deltas/time window, executions และ variance ก่อนสรุป. Output `DBA_TAB_STATISTICS.NUM_ROWS` เป็น optimizer statistic ไม่ใช่ transactional COUNT(*) แบบ real-time.
+
+## 4. Display existing cursor plan, without EXPLAIN PLAN
+
+~~~sql
+-- Example only: replace literal values with an approved SQL_ID and child number.
+-- Requires suitable SELECT grants and DBMS_XPLAN execution permissions.
+SELECT plan_table_output
+FROM TABLE(DBMS_XPLAN.DISPLAY_CURSOR(
+  sql_id => 'abcdef1234567',
+  cursor_child_no => 0,
+  format => 'TYPICAL'
+));
+~~~
+
+`DISPLAY_CURSOR` อ่าน execution plan ที่อยู่ใน cursor cache. ผลอาจไม่มีเมื่อ cursor aged out หรือสิทธิ์ไม่เพียงพอ. รูปแบบ `ALLSTATS LAST` ใช้ runtime plan stats ได้เมื่อมีการเก็บ execution statistics; อย่าสมมติว่า A-Rows มีให้ทุกแผน.
+
+**License rule:** `DISPLAY_AWR` และ AWR/ASH/ADDM ต้องตรวจ Oracle Diagnostics Pack entitlement. SQL Tuning Advisor, SQL Profiles และ Real-Time SQL Monitoring มักอยู่ภายใต้ Tuning Pack; ควรตรวจ 26ai Licensing Manual ตาม edition/deployment ก่อนใช้งาน.
+
+## 5. SQL tuning workflow
+1. ระบุ actual user impact, target SQL_ID, average/p95 latency and workload window.
+2. Capture baseline plan_hash_value, child cursor, parameter/bind-sensitive behavior and stats age.
+3. Compare estimated vs actual rows, key operations, predicates and join choice.
+4. Correlate wait events, buffer gets, physical reads, I/O latency and application fetch patterns.
+5. Simulate change in sandbox (index, rewrite, stats refresh, bind use) **one variable at a time**.
+6. Measure consistent test data/run plans; consider DML overhead of indexes, storage and locking.
+7. Have rollback and post-change verification before production deployment.
+
+## 6. Case studies
+
+**Case A: query has an index but optimizer chooses full scan.** If predicate selects most rows, full scan may be correct; inspect NDV, histogram, estimated rows, table size and projection.
+
+**Case B: SQL slow after statistics maintenance.** Compare plan hash and input values before/after; stats can change plan without code change. Never indiscriminately lock statistics as a first reaction.
+
+**Case C: high CPU?** SQL with high cumulative elapsed_time could be waiting on I/O/locks rather than CPU. Compare timed waits and CPU accounting; lifetime cumulative totals cannot prove a recent incident.
+
+## Self-check
+1. Cost vs actual elapsed time แตกต่างกันอย่างไร?
+2. เมื่อใด full table scan จึงเหมาะ?
+3. ทำไม bind-sensitive SQL อาจมี child cursors หลายตัว?
+4. จะตรวจว่าการเพิ่ม index ช่วย SELECT แต่ทำให้ DML แย่ลงอย่างไร?
+5. เพราะเหตุใด `EXPLAIN PLAN` ไม่เท่ากับแผนที่ cursor ใช้งานจริง?
+
+## References
+- [Oracle 26ai Optimizer Concepts](https://docs.oracle.com/en/database/oracle/oracle-database/26/tgsql/query-optimizer-concepts.html)
+- [Oracle 26ai Execution Plan Display](https://docs.oracle.com/en/database/oracle/oracle-database/26/tgsql/generating-and-displaying-execution-plans.html)
+- [Oracle 26ai DBMS_XPLAN](https://docs.oracle.com/en/database/oracle/oracle-database/26/arpls/DBMS_XPLAN.html)
+- [Oracle 26ai Licensing Information](https://docs.oracle.com/en/database/oracle/oracle-database/26/dblic/Licensing-Information.html)
