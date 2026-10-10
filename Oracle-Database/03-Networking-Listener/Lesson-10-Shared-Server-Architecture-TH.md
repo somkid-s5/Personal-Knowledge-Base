@@ -66,3 +66,12 @@ App มี 800 idle sessions แต่ระบบไม่ได้ใช้ CP
 - [Oracle 19c Configuring a Shared Server Architecture](https://docs.oracle.com/en/database/oracle/oracle-database/19/netag/configuring-shared-server-architecture.html)
 - [Oracle 19c Oracle Net Architecture](https://docs.oracle.com/en/database/oracle/oracle-database/19/netag/understanding-oracle-net-architecture.html)
 - [Oracle 26ai documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/)
+
+
+## Source-objective deepening — Enable and Control Shared Server (sandbox only)
+
+นอกจากแยก dedicated/shared แล้ว Lesson 10 ต้องเข้าใจขั้นตอน **enable** และ **control operations** ของ shared server. การตั้งค่า `SHARED_SERVERS` เปิด shared server process pool; `DISPATCHERS` กำหนด network dispatcher endpoint และ `MAX_SHARED_SERVERS` จำกัดจำนวน processes. ต้องเข้าใจ listener registration ของ dispatchers และ connect descriptor ที่ขอ `SERVER=SHARED`/ `SERVER=DEDICATED`.
+
+**Change design:** วัด baseline process count / latency / queue ก่อน → ตรวจ app-driver support และ UGA/memory → review target dispatchers/max servers → ทดลองบน sandbox → ทดสอบ dedicated fallback, workload mix และ session termination → เฝ้า `V$DISPATCHER`, `V$SHARED_SERVER`, `V$QUEUE`, `V$SESSION.SERVER` แบบหลายช่วงเวลา → document rollback. คำสั่ง `ALTER SYSTEM SET SHARED_SERVERS=...` หรือ `ALTER SYSTEM SET DISPATCHERS=...` มีผลกับ running instance; ห้ามใช้ระหว่าง read-only lab.
+
+**Failure mode:** กระบวนการ dispatcher ถูกลงทะเบียนแล้ว แต่ client อาจบังคับ `SERVER=DEDICATED` จึงไม่ได้ใช้ shared server. ตรวจ handler และ connect descriptor ก่อนสรุปว่าการตั้งค่าไม่ทำงาน.
