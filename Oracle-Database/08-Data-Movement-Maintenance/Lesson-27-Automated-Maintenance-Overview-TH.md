@@ -72,3 +72,18 @@ ORDER BY job_start_time DESC FETCH FIRST 20 ROWS ONLY;
 ## Official sources
 - [Oracle 26ai Automated Maintenance](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html)
 - [Oracle 19c Administration](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/)
+
+
+## Source-objective deepening — Proactive Maintenance Infrastructure
+
+วัตถุประสงค์ Lesson 27 เน้น infrastructure ที่ทำงานเชิงรุกไม่ใช่แค่รายการ AutoTask clients: รวม database-generated alerts, Automatic Workload Repository (AWR), Automatic Database Diagnostic Monitor (ADDM), Maintenance Windows/Scheduler/Resource Manager และ advisory tasks.
+
+- **Alert/threshold:** เหตุการณ์ที่ควรแจ้ง เช่น tablespace pressure, recovery area pressure หรือ status ไม่ปกติ; แยก event detection จาก notification delivery.
+- **AWR/ADDM:** ใช้ historical performance snapshots/diagnosis ใน entitlement ที่อนุญาต; **Oracle Diagnostics Pack** มีข้อกำหนด licensing ที่ต้องยืนยันก่อนเปิดใช้งานหรือ query features.
+- **Automated optimizer statistics:** ส่งผลต่อ execution plans, ต้องติดตาม job outcome และ plan regressions.
+- **Segment/SQL advisor:** recommendations ต้อง review workload, DDL impact และ Tuning Pack license ก่อน action.
+- **Maintenance windows:** Scheduler และ Resource Manager กำหนดช่วงและทรัพยากร จึงต้องสัมพันธ์กับ business peak และ backup windows.
+
+**Read-only operational practice:** ตรวจ `DBA_AUTOTASK_CLIENT`, `DBA_SCHEDULER_WINDOWS` และ `DBA_AUTOTASK_JOB_HISTORY` แล้วเขียน incident timeline ว่างานไหนเกิดก่อน/หลัง SQL slowdown. ไม่เรียก AWR/ADDM ใน lab ที่ยังไม่ตรวจ license.
+
+References: [Oracle 26ai Automated Maintenance Tasks](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html).
