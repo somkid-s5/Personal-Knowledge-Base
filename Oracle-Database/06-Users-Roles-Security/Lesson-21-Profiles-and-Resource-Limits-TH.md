@@ -42,3 +42,23 @@ SELECT name,value FROM v$parameter WHERE name='resource_limit';
 ## Official references
 - [Oracle 19c Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html)
 - [Oracle 26ai Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/dbseg/)
+
+
+## Source-objective deepening — Profile Lifecycle and Password Verification Functions
+
+นอกจากอ่าน profile แล้ว วัตถุประสงค์ของ Lesson 21 รวมการ **create and assign profiles** และการใช้ **Oracle-supplied password verification functions** ภายใน password policy. Oracle ships built-in password verification functions/scripts in supported versions, but function name, complexity rules, available scripts and installation process may change with releases. ตรวจ current 19c/26ai security guidance และ OS environment ห้าม copy legacy sample password policy มาใช้เป็นมาตรฐานทันที.
+
+- Profiles มีได้หนึ่ง profile ต่อ user ในขณะหนึ่ง; เปลี่ยน profile อาจมีผลหลัง reconnect หรือเมื่อ enforcement condition เข้ามา
+- Password restrictions (`FAILED_LOGIN_ATTEMPTS`, `PASSWORD_LIFE_TIME`, `PASSWORD_VERIFY_FUNCTION`) ต่างจาก resource restrictions (`SESSIONS_PER_USER`, `CPU_PER_SESSION`)
+- สำหรับ resource constraints ต้องตรวจ `RESOURCE_LIMIT` enforcement ส่วน password policies ไม่ได้เป็น synonym ของ parameter นี้
+- ก่อนเปลี่ยน profile ต้องวาง secret rotation, service accounts, app pool, monitoring และ rollback
+
+~~~sql
+SELECT username,profile,account_status FROM dba_users ORDER BY username;
+SELECT profile,resource_name,resource_type,limit
+FROM dba_profiles
+WHERE resource_name IN ('PASSWORD_VERIFY_FUNCTION','PASSWORD_LIFE_TIME','SESSIONS_PER_USER','FAILED_LOGIN_ATTEMPTS')
+ORDER BY profile,resource_name;
+~~~
+
+**Lab tabletop:** ออกแบบ policy แยก human DBA vs noninteractive app account; ระบุ MFA/secret vault, lockout risk, failed login alerting และ legal/security policy. ห้าม disable password function เพื่อ bypass compliance.
