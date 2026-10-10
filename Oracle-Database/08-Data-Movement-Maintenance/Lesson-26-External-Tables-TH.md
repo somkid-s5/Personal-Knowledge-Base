@@ -1,5 +1,8 @@
 # Lesson 26 — Using External Tables to Load and Transport Data (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Data Movement Index](./README.md) · [Lab 11](../10-Labs/Lab-11-Data-Movement-Read-Only.md)
 
 > Source mapping: Oracle University 19c Administration Workshop Lesson 26. Original Thai reconstruction; source fidelity and live execution **pending**. DDL example is deliberately commented out.
