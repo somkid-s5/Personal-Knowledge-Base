@@ -81,3 +81,18 @@ Inspecting scheduler config may need approved privileges. Confirm actual diction
 ## Sources
 - [Oracle 26ai Managing Automated Database Maintenance Tasks](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html)
 - [Oracle 26ai Database Resource Management & Task Scheduling](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/database-resource-management-and-task-scheduling.html)
+
+
+## Source-objective deepening — Enable/Disable Clients and Resource Plans
+
+Lesson 28 ให้รู้จักขั้นตอน configuration ด้วย ไม่ใช่เพียงอ่าน Scheduler windows.
+
+**Client control:** แนวคิด `DBMS_AUTO_TASK_ADMIN.ENABLE`/`DISABLE` สามารถควบคุม AutoTask client ใน scope ที่ supported; การ disable optimizer stats แบบทั่วระบบมีผลต่อ future plan quality. ห้าม execute บน production ตาม Workbook นี้.
+
+**Window lifecycle:** `DBMS_SCHEDULER` สามารถ create, set attributes, enable/disable, drop windows และจัด membership ใน `MAINTENANCE_WINDOW_GROUP` ตาม privileges. ต้องตรวจ `REPEAT_INTERVAL`, `DURATION`, timezone และ resource plan ใน window ก่อน change. การ remove window จาก group ไม่เท่ากับลบ scheduler window ทุกกรณี.
+
+**Resource allocation:** Resource Manager plan มีผลต่อ priority/CPU allocation ของ auto tasks เทียบ application workload; อย่าถือว่า setting 25% คือการใช้ CPU 25% คงที่. ต้องเทียบ resource waits, job duration และ peak latency เพื่อประเมิน.
+
+**Change lab (tabletop):** ในระบบทดสอบมี workload peak 22:00–23:00 และ window เริ่ม 22:00 ให้เสนอ: (1) baseline (2) ข้อดีข้อเสียเลื่อน window vs disable one client (3) resource plan design (4) approved SQL change set ที่ยังไม่ execute (5) rollback/re-enable plan (6) post-change verification of task completion.
+
+Reference: [26ai Managing Automated Maintenance Tasks](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html).
