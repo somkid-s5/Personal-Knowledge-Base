@@ -16,13 +16,14 @@
 | Current Oracle 26ai authority identified | PASS |
 | Version separation policy defined | PASS |
 | 19c→26ai delta scaffold | PASS |
-| 31/31 lesson topics have Thai draft coverage | DRAFT — 01–28 standalone; 29–31 compact atlas |
+| 31/31 lesson topics have Thai draft coverage | DRAFT — 01–31 standalone Thai draft files |
 | Full semantic ingestion of 31 lessons | PENDING — page-by-page source fidelity not established |
 | Eight source lab groups have original practice workbook | DRAFT — not executed |
 | Full lab fidelity mapping | PENDING |
 | Deep current 26ai delta validation | PENDING |
-| Complete teaching/review layer | PENDING — 3 standalone deep lessons remain |
-| Repository CI | PENDING |
+| Complete teaching/review layer | PENDING — all 31 standalone drafts authored, deeper teaching/source fidelity still required |
+| Repository CI | NOT CHECKED this turn |
+| Companion labs 01–13 execution | NOT RUN |
 
 ## Current decision
 
