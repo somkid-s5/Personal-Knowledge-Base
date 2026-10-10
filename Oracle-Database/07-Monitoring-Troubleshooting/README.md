@@ -2,6 +2,15 @@
 
 [← Oracle Database](../README.md)
 
+## Standalone Thai lessons and lab
+
+- [Lesson 29 — Performance Overview](./Lesson-29-Database-Performance-Overview-TH.md)
+- [Lesson 30 — Monitoring Database Performance](./Lesson-30-Monitoring-Database-Performance-TH.md)
+- [Lesson 31 — Analyzing SQL and Access Paths](./Lesson-31-Analyzing-SQL-and-Access-Paths-TH.md)
+- [Lab 13 — Performance and SQL Plan Read-only Triage](../10-Labs/Lab-13-Oracle-Performance-Triage-Read-Only.md)
+
+All lessons are original Thai drafts. Student Guide source-fidelity and live testing are PENDING; Diagnostics/Tuning Pack usage requires licensing review.
+
 ## Diagnostic flow
 
 ~~~text
