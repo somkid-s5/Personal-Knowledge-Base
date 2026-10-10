@@ -10,7 +10,7 @@
 
 ## 🧠 ภาพจำใน 10 วินาที
 
-**💻 Client → 📡 Listener → ⚙️ Instance → 🗄️ Datafiles**
+**ภาพจำ:** 💻 Client → 📡 Listener → ⚙️ Instance → 🗄️ Datafiles — ใช้จำแนวคิด ก่อนอ่านรายละเอียดด้านล่าง
 
 ![Oracle Database concept diagram](./assets/visual-memory/01-concept-path.svg)
 

@@ -17,7 +17,6 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
-
 ## What this package is
 
 This package consolidates the existing **AZ-104 2026 Master Cram Book** into the main personal learning knowledge base.

@@ -16,7 +16,6 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
-
 ## What this system is
 
 This is the long-lived Oracle Database learning system for DBA administration, troubleshooting and operations.

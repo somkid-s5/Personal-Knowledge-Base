@@ -56,7 +56,6 @@
 
 [อ่านคำอธิบายและเชื่อมไปบทเรียนเต็ม](./Oracle-Database/VISUAL-MEMORY-GUIDE-TH.md)
 
-
 ## 📖 Note style remains Markdown-first
 
 > [!TIP]

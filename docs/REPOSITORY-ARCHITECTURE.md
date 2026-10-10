@@ -14,6 +14,7 @@ This repository is a long-lived personal learning knowledge base. Its navigation
 ├─ docs/
 ├─ skills/
 ├─ templates/
+├─ assets/                # shared, original learning visuals
 ├─ <Learning-System-A>/
 ├─ <Learning-System-B>/
 ├─ <Learning-System-C>/

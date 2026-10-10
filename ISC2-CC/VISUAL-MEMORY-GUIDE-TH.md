@@ -10,11 +10,11 @@
 
 ## 🧠 ภาพจำใน 10 วินาที
 
-<img src="./assets/brand/simple-icons-isc2.svg" width="44" alt="ISC2 brand icon from Simple Icons"> **ISC2 — Brand recognition cue**
+<img src="./assets/brand/simple-icons-isc2.svg" width="44" alt="ISC2 brand icon from Simple Icons"> **ISC2 — Brand recognition cue** — สัญลักษณ์ช่วยจำชื่อองค์กร
 
 > นี่คือ Brand Icon จากโครงการ Simple Icons เพื่อช่วยจำชื่อผู้ผลิต ไม่ใช่ Service Architecture Icon สำหรับอธิบาย Flow; ดู [Asset provenance](../docs/BRAND-ASSET-PROVENANCE.md)
 
-**🔒 Confidentiality · 🧾 Integrity · 🟢 Availability**
+**ภาพจำ:** 🔒 Confidentiality · 🧾 Integrity · 🟢 Availability — ใช้จำแนวคิด ก่อนอ่านรายละเอียดด้านล่าง
 
 ![ISC2 CC concept diagram](./assets/visual-memory/01-concept-path.svg)
 

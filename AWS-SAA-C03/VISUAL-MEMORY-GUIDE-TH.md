@@ -10,7 +10,7 @@
 
 ## 🧠 ภาพจำใน 10 วินาที
 
-**🌐 Client → ⚖️ ALB → 🖥️ Healthy Target**
+**ภาพจำ:** 🌐 Client → ⚖️ ALB → 🖥️ Healthy Target — ใช้จำแนวคิด ก่อนอ่านรายละเอียดด้านล่าง
 
 ![AWS SAA-C03 concept diagram](./assets/visual-memory/01-concept-path.svg)
 

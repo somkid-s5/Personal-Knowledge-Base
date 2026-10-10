@@ -15,7 +15,6 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
-
 ## What this system is
 
 This is the personal learning system for **ISC2 Certified in Cybersecurity (CC)**.

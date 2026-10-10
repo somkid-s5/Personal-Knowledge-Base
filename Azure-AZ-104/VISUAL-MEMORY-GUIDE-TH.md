@@ -10,7 +10,7 @@
 
 ## 🧠 ภาพจำใน 10 วินาที
 
-**👤 Principal → 🔑 Role → 🗂️ Scope → ☁️ Resource**
+**ภาพจำ:** 👤 Principal → 🔑 Role → 🗂️ Scope → ☁️ Resource — ใช้จำแนวคิด ก่อนอ่านรายละเอียดด้านล่าง
 
 ![Azure AZ-104 concept diagram](./assets/visual-memory/01-concept-path.svg)
 

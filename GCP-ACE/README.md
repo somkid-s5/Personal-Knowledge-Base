@@ -10,7 +10,6 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-STUDY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
-
 > **Status:** **Verified Non-Lab Objective Scope** — Standard Exam Guide + 17/17 Google Skills activities mapped  
 > **Last repository verification:** 2026-10-07  
 > **Source manifest:** [SOURCE-MANIFEST.md](./SOURCE-MANIFEST.md)  
