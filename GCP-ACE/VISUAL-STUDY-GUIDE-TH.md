@@ -8,6 +8,10 @@
 
 ## 🌤️ Icon-First Quick Map — ดูภาพก่อนเข้า Module
 
+<img src="./assets/brand/simple-icons-googlecloud.svg" width="44" alt="Google Cloud brand icon from Simple Icons"> **Google Cloud — Brand recognition cue**
+
+> นี่คือ Brand Icon จากโครงการ Simple Icons เพื่อช่วยจำชื่อผู้ผลิต ไม่ใช่ Service Architecture Icon สำหรับอธิบาย Flow; ดู [Asset provenance](../docs/BRAND-ASSET-PROVENANCE.md)
+
 ![GCP concept icon map](./assets/visual-memory/01-concept-path.svg)
 
 ![GCP diagnostic icon map](./assets/visual-memory/02-diagnostic-path.svg)
