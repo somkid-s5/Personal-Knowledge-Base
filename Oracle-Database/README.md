@@ -41,6 +41,10 @@ The goal is not to preserve an old 19c course as if it were current. The goal is
 - [System QA](./SYSTEM-QA.md) — both GitHub Actions workflows passed a verified structural/lint baseline on 2026-10-10.
 - **Not yet Full Fidelity Verified:** full PDF semantic comparison, 26ai release testing and controlled Oracle sandbox labs remain pending.
 
+## First six lessons — detailed source-text review
+
+- [Lessons 01–06: 74-slide source-topic crosswalk](./SOURCE-PAGE-CROSSWALK-L01-L06.md) — source-text index and newly expanded Thai lesson coverage; diagrams, source examples and live Oracle validation remain open
+
 ## Full-fidelity verification
 
 - [31-Lesson Full-Fidelity QA Tracker](./FULL-FIDELITY-QA-TRACKER.md) — GitHub readback confirmed all lesson files; separate PENDING gates for source-page comparison, 26ai, live labs, CI and security/licensing
