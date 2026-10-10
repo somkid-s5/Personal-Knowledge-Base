@@ -149,3 +149,57 @@ WHERE name IN ('Diag Alert','Diag Trace');
 - [19c — Starting Up and Shutting Down](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/starting-up-and-shutting-down.html)
 - [26ai — SQL*Plus SHUTDOWN syntax and CDB/PDB scope](https://docs.oracle.com/en/database/oracle/oracle-database/26/sqpug/SHUTDOWN.html)
 - [19c — Starting and Shutting Down with SQL*Plus](https://docs.oracle.com/en/database/oracle/oracle-database/19/ntqrf/starting-and-shutting-down-a-database-with-sql-plus.html)
+
+## Source-page review (19c Lesson 05, slides 5-2 ถึง 5-10) — Shutdown Semantics และ PDB State
+
+### Database startup stages and practical boundaries
+
+```mermaid
+flowchart LR
+ START[Instance OFF] --> N[NOMOUNT]
+ N --> M[MOUNT]
+ M --> O[OPEN]
+ O --> P[PDBs open according to their state]
+```
+
+- **NOMOUNT:** initialization parameter file ถูกอ่าน, SGA/processes เปิด, alert log เริ่มรับข้อมูล. Control file ยังไม่จำเป็นต้องถูกเปิด.
+- **MOUNT:** database control files ถูกเปิดและ database ได้ผูกกับ instance แล้ว แต่ ordinary application access ยังไม่พร้อม.
+- **OPEN:** database datafiles และ redo structures ถูกตรวจ/เปิดเพื่อให้ตามสิทธิ์ของ users เข้าใช้งานได้. บน CDB, application PDB แต่ละตัวอาจยัง `MOUNTED`.
+- **CDB OPEN ไม่ได้ทำให้ PDB ทุกตัว OPEN READ WRITE**: ตรวจ `V$PDBS` แยกจาก `V$DATABASE`.
+
+### Shutdown mode decision table
+
+| Mode | New logins | Existing sessions and transactions | Risk |
+|---|---|---|---|
+| `NORMAL` | ไม่มี connections ใหม่ | รอ users ทุกคน disconnect | อาจรอนานจน operation ไม่จบ |
+| `TRANSACTIONAL` | ปิดไม่รับ new business transactions ตาม shutdown behavior | รอ active transactions สิ้นสุด ก่อนจบ sessions | transactions ที่ค้างทำให้รอ |
+| `IMMEDIATE` | ปฏิเสธ new connections | ยกเลิก SQL ที่กำลังทำและ rollback uncommitted transactions แล้วปิดอย่าง consistent | downtime/rollback time ขึ้นกับงานที่ค้าง |
+| `ABORT` | instance หยุดทันที | ไม่ทำ clean close/rollback ตอน shutdown | ต้องผ่าน instance recovery เมื่อ startup อีกครั้ง |
+
+`SHUTDOWN ABORT` ไม่ได้แปลว่าข้อมูล permanent เสียหายแน่ ๆ เพราะ Oracle ใช้ redo/undo ทำ crash recovery; แต่ไม่เหมาะเป็นขั้นตอนปกติและทำให้ downtime/availability risk สูงกว่า.
+
+### PDB state persistence and recovery expectation
+
+`ALTER PLUGGABLE DATABASE <pdb> OPEN` เปลี่ยน state ปัจจุบัน; `SAVE STATE` บันทึกโหมดที่ต้องการหลัง restart; `DISCARD STATE` คืน behavior mounted หลัง restart ตาม configuration. ใน RAC ความสัมพันธ์กับ instance scope ต้องอ่าน `DBA_PDB_SAVED_STATES`/Oracle Multitenant Guide ของ release นั้นก่อน.
+
+```sql
+-- Read-only inspection; NOT changing saved state
+SHOW CON_NAME
+SELECT con_id,name,open_mode,restricted FROM v$pdbs ORDER BY con_id;
+SELECT con_name,instance_name,state
+FROM dba_pdb_saved_states ORDER BY con_name;
+```
+
+`DBA_PDB_SAVED_STATES` view/column visibility ขึ้นกับ release และ current container; ถ้าไม่มี row ก็ไม่ได้หมายความว่า PDB เปิดไม่สำเร็จทันที.
+
+### Change-runbook tabletop
+
+1. สรุปผลกระทบต่อ client pools, current transactions, backup jobs และ replication/standby
+2. เก็บ `V$INSTANCE`, `V$DATABASE`, `V$PDBS`, listener services ก่อน maintenance
+3. เลือก shutdown mode ตาม planned downtime, transactions และ state consistency ไม่เลือก ABORT เป็น default
+4. ระบุว่าจะ run ผ่าน SRVCTL/Oracle Restart/RAC, OS service หรือ SQL*Plus ตาม ownership จริง
+5. ระบุ restore/rollback, post-start PDB open mode, saved states และ smoke test ของ app services
+
+**Read-only Lab:** ไม่รัน shutdown/startup/alter PDB บน production. การอธิบาย syntax ไม่ใช่ authorization ให้ทำ.
+
+Sources: [Oracle 19c Starting and Stopping the Database](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/starting-up-and-shutting-down.html), [19c PDB saved states](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/administering-pdbs-with-sql-plus.html).
