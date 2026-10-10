@@ -2,7 +2,7 @@
 
 [← Oracle Database](./README.md)
 
-> **Status:** 31/31 lesson titles have original Thai teaching drafts (01–31 standalone, Atlas retained as supplementary outline). Full semantic fidelity, deep standalones and live execution remain PENDING.
+> **Status (2026-10-10):** 31/31 standalone Thai drafts exist; **all 31 private lesson PDF objective sections reviewed** and mapped; 18 lesson drafts expanded for previously missing outcomes. Private Student Guide page-level semantics, live labs and complete 26ai validation remain PENDING.
 
 | Source lessons | Repository learning layer | Status |
 |---|---|---|
@@ -63,3 +63,10 @@ Verified requires:
 ## Standalone lesson draft milestone — 2026-10-10
 
 **All 31 of 31 Oracle University lesson titles have a dedicated Thai Markdown lesson file.** This measures structural/draft coverage only. It **does not** mean the Oracle University Student Guide content is reproduced or semantically verified, lab results are complete, or the 26ai version-delta audit is done. Companion Labs 01–13 are original exercises and have no recorded live pass.
+
+## Evidence-based original source check — 2026-10-10
+
+- [31-lesson Student Guide objective audit](./SOURCE-OBJECTIVE-COVERAGE-AUDIT.md): original objective sections inspected in connected Drive, no proprietary content reposted.
+- [Official Activity Guide exercise gap map](./OFFICIAL-ACTIVITY-GAP-MAP.md): private practice index inspected; original companion Labs 01–13 are **not** equivalent to actual mutating classroom exercises.
+- [CI validator](./qa/validate_kb.py) with [GitHub Actions workflow](../.github/workflows/oracle-kb-qa.yml): structural checks for all 31 lessons, 13 labs and relative Markdown links; **workflow result must be confirmed separately**.
+- **Objective-level mapping is not full page-level fidelity**; the source PDF diagrams, detailed slides, Activity Guide steps, real SQL results, cleanup and 26ai deltas still require independent verification.
