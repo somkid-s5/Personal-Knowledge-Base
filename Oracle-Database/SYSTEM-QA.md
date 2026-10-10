@@ -56,3 +56,12 @@ The current deliverable establishes the architecture, provenance and first teach
 - [Oracle Knowledge Base QA — SUCCESS](https://github.com/somkid-s5/Personal-Knowledge-Base/actions/runs/38020832734): 31 lesson files, 13 original labs and relative Markdown links validated.
 - [Repository Quality — SUCCESS](https://github.com/somkid-s5/Personal-Knowledge-Base/actions/runs/38020832731): governance Markdown lint, internal link, repository structure and preexisting cross-project jobs passed.
 - This certifies **repository structural/static checks only**; it does **not** certify 19c/26ai SQL correctness, source-page fidelity, official lab practice completion or production-readiness.
+
+## Focused source-text review — Lessons 01–06, 2026-10-10
+
+- Accessed and indexed text of private PDFs for Lessons 01–06; 74 source slide-number labels grouped and cross-referenced in [SOURCE-PAGE-CROSSWALK-L01-L06.md](./SOURCE-PAGE-CROSSWALK-L01-L06.md).
+- Authored new, original Thai teaching sections inside each Lesson 01–06 note, addressing practical concept/architecture gaps. No proprietary images, training text or Activity Guide credentials were copied.
+- Checked official 19c documentation for manual CDB seed file placement and database creation, PDB saved-state metadata and `ENABLE_DDL_LOGGING` licensing. No Oracle DB SQL execution occurred.
+- Current checkpoint is **text-page topic mapping only**; slide visuals, exact source worked examples, 26ai behavior and hands-on lab testing remain **PENDING**.
+- GitHub Actions must be observed on the newest commit independently; earlier passing CI runs do not prove later edits passed.
+
