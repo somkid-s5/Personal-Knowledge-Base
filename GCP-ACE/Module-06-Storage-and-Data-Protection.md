@@ -1,5 +1,8 @@
 # Module 06 — Cloud Storage & Data Protection
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-05-Compute-Engine-and-Instance-Groups.md) · [ถัดไป](./Module-07-Databases-and-Data-Services.md)
 
 ## 1. Object, block และ file storage

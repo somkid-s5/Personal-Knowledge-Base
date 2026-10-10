@@ -1,5 +1,8 @@
 # Module 04 — VPC, Firewall, Routes, NAT & DNS
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🌐 Network → 🛡️ Rules → 🖥️ Backend  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-03-Tools-Billing-and-Quotas.md) · [ถัดไป](./Module-05-Compute-Engine-and-Instance-Groups.md)
 
 ## 1. จุดต่างจาก AWS ที่ต้องตั้งหลักใหม่

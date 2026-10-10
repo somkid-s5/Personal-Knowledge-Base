@@ -1,5 +1,8 @@
 # Lab 02 — Private VM, OS Login, IAP & Cloud NAT
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🌐 Network → 🛡️ Rules → 🖥️ Backend → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lab index](./README.md) · [Network concepts](../Module-04-VPC-Firewall-NAT-and-DNS.md)
 
 ## เป้าหมายและ prerequisites

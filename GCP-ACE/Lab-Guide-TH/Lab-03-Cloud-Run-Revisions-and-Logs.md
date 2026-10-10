@@ -1,5 +1,8 @@
 # Lab 03 — Authenticated Cloud Run, Revisions & Logs
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📊 Metrics → 🧾 Logs → 🔎 Diagnose → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lab index](./README.md) · [Cloud Run concepts](../Module-09-Cloud-Run-and-Event-Driven-Services.md)
 
 ## เป้าหมายและ prerequisites

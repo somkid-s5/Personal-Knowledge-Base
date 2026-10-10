@@ -1,5 +1,8 @@
 # Module 05 — Compute Engine, Disks, MIG & Recovery
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🖥️ Workload → 📈 Scale → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-04-VPC-Firewall-NAT-and-DNS.md) · [ถัดไป](./Module-06-Storage-and-Data-Protection.md)
 
 ## 1. เมื่อไรควรใช้ VM

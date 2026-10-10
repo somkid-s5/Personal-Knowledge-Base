@@ -1,5 +1,8 @@
 # Lab 01 — Cloud Shell, Cloud Storage & IAM Impersonation
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 👤 Identity → 🔑 Access → 🛡️ Controls → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lab index](./README.md) · [แนวคิด IAM](../Module-02-IAM-Service-Accounts-and-Security.md)
 
 ## เป้าหมายและ prerequisites
