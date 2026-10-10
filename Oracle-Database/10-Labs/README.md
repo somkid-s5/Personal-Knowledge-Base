@@ -45,12 +45,13 @@ This repository will create **original companion labs** that practice the same s
 - [Lab 11 — Data Movement Preflight (read-only)](./Lab-11-Data-Movement-Read-Only.md) — original guided inspection and migration planning; NOT RUN
 - [Lab 12 — Automated Maintenance Inspection (read-only)](./Lab-12-Automated-Maintenance-Inspection.md) — original AutoTask/Scheduler workbook; NOT RUN
 
+- [Lab 13 — Performance Triage and SQL Plan Inspection (read-only)](./Lab-13-Oracle-Performance-Triage-Read-Only.md) — original companion lab, NOT RUN
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely
 - Planned — Listener/service troubleshooting
 - Lab 08 — ADR/alert log/session diagnostics
-- Future lab — Performance triage
 - Future lab — 19c vs 26ai current-behavior review
 
 Each mutating lab must include prerequisites, permissions, risk, verification and cleanup/rollback.
