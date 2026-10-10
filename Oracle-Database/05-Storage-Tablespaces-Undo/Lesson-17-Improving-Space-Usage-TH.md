@@ -69,3 +69,17 @@ Space reclamation can lock objects/change ROWIDs and affect indexes: assess impa
 - [Oracle 19c DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/)
 - [Oracle 26ai DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
 - [Oracle 26ai Managing Undo](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html)
+
+
+## Source-objective deepening — Private Temporary Tables, Compression, Resumable Allocation
+
+จุดที่ Lesson 17 ต้นฉบับเน้นเพิ่ม ได้แก่:
+- **Private Temporary Table (PTT):** temporary table มี metadata/data แบบ session-private ภายใต้ naming conventions และ duration ที่รองรับ. ต่างจาก Global Temporary Table ซึ่ง definition shared และ data private ตาม session/transaction. ควรใช้สำหรับ staging ที่ต้องการ isolation และ lifecycle สั้น ไม่ใช่แก้ปัญหา permanent table bloat.
+- **Compression:** การลดขนาด storage และ I/O อาจแลก CPU/latency และมี compression modes ที่ขึ้นกับ license/edition. ต้อง benchmark insert/update/query และแน่ใจว่า compression ที่เลือกได้รับอนุญาตก่อนนำไปใช้.
+- **Segment shrink:** คืน unused allocated segment space ใน supported segments/tablespace types; อาจเปลี่ยน ROWID และกระทบ long-running queries/index management. ต้องแยก shrink segment จาก resize datafile.
+- **Resumable space allocation:** คำสั่งที่พบ space errors แบบรองรับอาจ suspend ชั่วคราวรอ DBA เพิ่มพื้นที่ แทนล้มเหลวทันที; ต้องกำหนด timeout/alerting และระวัง long-running suspended transactions. ไม่ใช่ auto-extend ที่รับประกันว่าจะมี disk space.
+- **Locally managed tablespace/ASSM:** bitmaps จัดการ extents/segment free space ต่างชั้นกัน.
+
+**Practice tabletop:** load 1M records ลง staging แล้วเจอ ORA-01653: จะตัดสินใจขยาย tablespace, resume statement, compression หรือแก้ batch/segment design อย่างไร? เก็บ available disk, maxbytes, job timeout, licenses, locks และ transaction impact ก่อนตอบ.
+
+Oracle reference: [Oracle Database 19c Administrator's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/).
