@@ -43,3 +43,17 @@ FROM dba_tab_privs WHERE grantee='APP_USER';
 ## Official references
 - [Oracle 19c Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html)
 - [Oracle 26ai Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/dbseg/)
+
+
+## Source-objective deepening — Revoke Privileges / Role Hierarchies and Scope
+
+ต้นฉบับ Lesson 20 ครอบคลุมทั้ง **grant และ revoke**, common/local grants และ roles-to-roles. DBA ต้องทำ **permission graph** แสดง granted roles, inherited privileges และ direct object privileges ก่อน revoke; การถอน grant หนึ่งรายการอาจไม่ทำให้ effective privilege หายถ้ายังได้สิทธิ์ผ่านอีก role หรือ common grant.
+
+- `WITH ADMIN OPTION` และ `WITH GRANT OPTION` ใช้กับบริบทที่แตกต่างกัน; การถอนสิทธิ์อาจมี behavior ต่อ dependent grants ต่างกัน (ต้องอ่าน Oracle security reference ก่อน action)
+- Application definer-rights PL/SQL อาจไม่เห็น privileges ที่ได้ผ่าน role; direct grants สำคัญ
+- การ revoke `CREATE SESSION`, SELECT, EXECUTE หรือ role ใน production อาจทำ application outage ได้แม้ SQL statement สำเร็จ
+- Common privileges ใน CDB vs local PDB privileges แตกต่างกัน; `CONTAINER=ALL` ไม่ควรถูกคัดลอกไปใช้โดยไม่ตรวจ root scope
+
+**Read-only privilege map:** ตรวจ `DBA_SYS_PRIVS`, `DBA_TAB_PRIVS`, `DBA_ROLE_PRIVS` และ roles ที่ถูก grant ผ่านหลายชั้น; จัดทำ before/after expected privilege matrix บนกระดาษ ก่อนลงมือแก้ใน sandbox.
+
+**Self-check:** ถ้า REVOKE object grant สำเร็จ แต่ user ยัง SELECT ได้ สาเหตุใดเป็นไปได้บ้าง? หาก application procedure fail หลัง REVOKE ต้อง rollback grant อย่างไรให้ least privilege คงเดิม?
