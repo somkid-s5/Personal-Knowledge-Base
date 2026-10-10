@@ -2,7 +2,7 @@
 
 [Oracle Hub](./README.md) · [Source Manifest](./SOURCE-MANIFEST.md) · [System QA](./SYSTEM-QA.md)
 
-> **2026-10-10:** 31/31 standalone Thai teaching files were individually **read back from GitHub** and found. This is a *structural file-presence gate only*, not a source-fidelity, correctness, official lab or live execution certification. All below full-fidelity gates remain pending.
+> **2026-10-10:** 31/31 standalone Thai teaching files were individually **read back from GitHub** and found. This is a *structural file-presence gate only*, not a source-fidelity, correctness, official lab or live execution certification. **Source-objective reading (31/31), activity-index review and a clean structural/Markdown CI baseline are now confirmed.** The separate source-page, SQL runtime, official lab and comprehensive 26ai gates still remain pending.
 
 ## Meaning of statuses
 
@@ -72,3 +72,11 @@
 8. Update status to VERIFIED only after all relevant gates pass with evidence
 
 **Current overall status: IN PROGRESS — structural coverage complete, semantic and execution verification pending.**
+
+## New evidence added 2026-10-10
+
+- [Objective-level 31-lesson audit](./SOURCE-OBJECTIVE-COVERAGE-AUDIT.md) — objective sections of all private lesson PDFs inspected; 18 standalone lesson files received additional coverage notes.
+- [Official practice gap map](./OFFICIAL-ACTIVITY-GAP-MAP.md) — private Activity Guide practice index read and mapped to current original companion exercises; no live lab passes.
+- [Structural/static CI successes](./SYSTEM-QA.md) — both GitHub Actions workflows succeeded on baseline commit `ddad9c9e`; any newer commit should be checked separately.
+
+**Do not confuse structural CI success with runtime correctness or full source fidelity.**
