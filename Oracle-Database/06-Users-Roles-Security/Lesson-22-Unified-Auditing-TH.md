@@ -44,3 +44,26 @@ ORDER BY event_timestamp DESC FETCH FIRST 20 ROWS ONLY;
 ## Official references
 - [Oracle 19c Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html)
 - [Oracle 26ai Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/dbseg/)
+
+
+## Source-objective deepening — Activate Policies and Maintain Audit Trails
+
+Oracle University Lesson 22 ไม่ได้หยุดที่การอ่าน `UNIFIED_AUDIT_TRAIL`: DBA ต้องรู้ขั้นตอนแยก **enable unified auditing**, **define/enable audit policies**, และ **maintain/retain audit trails**.
+
+1. **Architecture and mode:** Oracle 19c environments อาจเป็น mixed-mode หรือ pure unified auditing; migration/feature state ต้องตรวจ Oracle binaries/options และ current version ก่อนเปลี่ยน mode. ไม่ใช่คำสั่ง toggle เล็ก ๆ.
+2. **Policy lifecycle:** เลือก security-relevant actions/privileges, users/roles, container, success/failure conditions → define policy → enable for applicable identities → verify generated events → document ownership and change impact.
+3. **Audit trail maintenance:** การ archive/cleanup ผ่าน supported mechanisms (เช่น `DBMS_AUDIT_MGMT` ตาม implementation) ต้องมี retention requirement, chain-of-custody, access control, backup/export, storage health และ approval; purge ก่อนเก็บหลักฐานอาจทำลาย forensic trail.
+4. **Visibility:** Audit roles/privileges เป็น sensitive access; app user ทั่วไปไม่ควร query all security events.
+
+**Read-only checks**:
+~~~sql
+SELECT policy_name,enabled_option,entity_name
+FROM audit_unified_enabled_policies ORDER BY policy_name;
+SELECT event_timestamp,dbusername,action_name,return_code
+FROM unified_audit_trail
+ORDER BY event_timestamp DESC FETCH FIRST 10 ROWS ONLY;
+~~~
+
+**Tabletop:** DBA พบ failed login จาก service account จำนวนมาก: จะออกแบบ policy ที่บันทึกเหตุการณ์ที่ต้องการและ retention ที่ปกป้อง PII ได้อย่างไร? ระบุ incident response ก่อนพิจารณา purge.
+
+References: [19c Database Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/), [26ai Security](https://docs.oracle.com/en/database/oracle/oracle-database/26/dbseg/).
