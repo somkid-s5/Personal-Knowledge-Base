@@ -69,3 +69,20 @@ ORA-01653 relates to segment allocation; ORA-01652 is commonly temp segment grow
 - [Oracle 19c DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/)
 - [Oracle 26ai DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
 - [Oracle 26ai Managing Undo](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html)
+
+
+## Source-objective deepening — Oracle Managed Files and Online Datafile Move
+
+Lesson 16 ครอบคลุม creation/alter/drop tablespace รวมถึง **Oracle Managed Files (OMF)** และ **moving/renaming online datafiles**. OMF ให้ Oracle จัดการ file naming/lifecycle ตาม destinations เช่น `DB_CREATE_FILE_DEST`; ช่วยลด manual naming errors แต่ยังต้องตรวจ volume ownership, ASM/OS capacity และ delete/restore safety.
+
+**Online datafile move:** Oracle รองรับ `ALTER DATABASE MOVE DATAFILE` ในการย้าย/เปลี่ยนชื่อ datafile ขณะ database เปิด. ต้องมีพื้นที่เพียงพอสำหรับ original และ copy ระหว่าง operation; ปลายทางที่มีชื่อซ้ำเป็นความเสี่ยงอย่างมากเมื่อใช้ `REUSE`. สำรวจ file mapping/read-only ก่อนและหลังที่ DBA อนุมัติ:
+
+~~~sql
+SELECT tablespace_name,file_id,file_name,bytes,status,autoextensible,maxbytes
+FROM dba_data_files ORDER BY tablespace_name,file_id;
+SELECT name,value FROM v$parameter WHERE name IN ('db_create_file_dest','db_recovery_file_dest');
+~~~
+
+**Change-control worksheet (do not execute):** source file owner → target filesystem/ASM and free capacity → supported SQL syntax → standby/backup dependencies → application load and window → after-move datafile path verification → rollback. DROP TABLESPACE ต้องแยก metadata removal กับ deletion of datafiles; ไม่ใช่คำสั่งล้างไฟล์ทดลองแบบปลอดภัย.
+
+Official: [Oracle 19c Managing Data Files](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/managing-data-files-and-temp-files.html).
