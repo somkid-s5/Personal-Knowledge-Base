@@ -52,13 +52,13 @@ Oracle 26ai docs อธิบาย external tables และ Vector data extens
 ~~~sql
 SHOW CON_NAME
 SELECT directory_name,directory_path FROM dba_directories ORDER BY directory_name;
-SELECT owner,table_name,default_directory_name,access_type
+SELECT owner,table_name,default_directory_name,type_name
 FROM dba_external_tables ORDER BY owner,table_name;
 SELECT owner,table_name,location
 FROM dba_external_locations ORDER BY owner,table_name;
 ~~~
 
-หมายเหตุ: `ACCESS_TYPE` ใน `DBA_EXTERNAL_TABLES` แสดง access driver; คอลัมน์ dictionary แตกต่างได้ตาม release จึงต้องตรวจ SQL Reference จริงหากเกิด ORA-00904. สิทธิ์ใน directory และ filesystem ตรวจแยกจากกัน.
+หมายเหตุ: `TYPE_NAME` ใน `DBA_EXTERNAL_TABLES` แสดง access driver (ส่วน `ACCESS_TYPE` บอกชนิด access parameters เช่น BLOB/CLOB); คอลัมน์ dictionary แตกต่างได้ตาม release จึงต้องตรวจ SQL Reference จริงหากเกิด ORA-00904. สิทธิ์ใน directory และ filesystem ตรวจแยกจากกัน.
 
 ## 4. Troubleshooting ORA-29913
 - ตรวจ underlying error code จาก trace/log อย่าสรุปจาก ORA-29913 เพียงอันเดียว
