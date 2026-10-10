@@ -133,3 +133,26 @@ flowchart LR
 **ฝึกคิด:** ข้อมูลลูกค้า 10 ล้านรายต้อง query ตาม customer_id บ่อยมาก จะเลือก sharding key อย่างไรเพื่อเลี่ยง hotspot และ cross-shard joins? เพราะเหตุใดการย้าย application ไป CDB ที่มี 5 PDB ไม่ใช่ sharding โดยอัตโนมัติ?
 
 เอกสารอ้างอิงเพิ่มเติม: [Oracle 19c Sharding Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/shard/).
+
+## Source-page review (19c Lesson 01, slides 1-2 ถึง 1-9) — Architecture เชิงเปรียบเทียบ
+
+ตรวจเนื้อหาแบบข้อความจาก PDF ต้นฉบับครอบคลุมภาพรวม database/instance, multitenant, instance configurations และ sharding; **ภาพประกอบต้นฉบับยังไม่ได้ตรวจความเที่ยงตรงแบบภาพต่อภาพ**.
+
+### Database vs Instance vs Shard vs PDB
+
+| ส่วน | เป็นอะไร | Sharing / isolation | ข้อควรจำ |
+|---|---|---|---|
+| Oracle Instance | SGA กับ background processes ขณะ database ทำงาน | instance อยู่บน host; RAC อาจมีหลาย instances เปิดฐานข้อมูลเดียวกัน | Restart instance ไม่เหมือน DROP database |
+| Database | datafiles, control files, online redo logs และ logical structures | persistent data and recovery boundary | DB files มีอยู่ได้แม้ instance หยุด |
+| CDB | database model ที่บรรจุ root, seed และ user PDBs | แบ่ง background processes/SGA ใน instance เดียว | แต่ละ PDB มี application data dictionary บางส่วน |
+| PDB | tenant namespace/portable application database ภายใน CDB | shares CDB resources แต่มี container-local objects/users | PDB OPEN state ตรวจแยกจาก CDB |
+| RAC | หลาย instances เปิด shared database ร่วมกัน | cluster/instance failover and shared storage | RAC ไม่ใช่ sharding |
+| Sharded database | logical data กระจายหลาย distinct shards | แยก workload/ข้อมูลข้าม database targets | Sharding key, routing และ cross-shard query เป็น design concern |
+
+### Diagnostic mental exercise
+
+กรณีระบบหนึ่งมี CDB เดียว PDB สองตัว แต่รายงานว่าลูกค้ากลุ่ม A และ B ต้องใช้ทรัพยากรแยกกัน: อธิบายว่าแยก PDB อย่างเดียวเพียงพอด้าน CPU/IO หรือไม่; ต่างจากการใช้ RAC เพื่อ HA และ Sharding เพื่อกระจาย data อย่างไร. ระบุ failure domain ของ storage, CDB root และแต่ละ application service.
+
+**Original diagram:** ผู้เรียนสร้าง diagram ใหม่จากตารางข้างบนเอง ห้ามคัดลอก interactive architecture artwork ของ Oracle ลง public repo.
+
+Source reference: [Oracle Database 19c Concepts](https://docs.oracle.com/en/database/oracle/oracle-database/19/cncpt/).
