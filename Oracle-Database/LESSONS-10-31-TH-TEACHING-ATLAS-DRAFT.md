@@ -1,5 +1,8 @@
 # Oracle Database — Lessons 10–31 Thai Teaching Atlas (Working Draft)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Learning Hub](./README.md) · [Source Coverage](./SOURCE-COVERAGE.md)
 
 > **DRAFT:** original Thai explanations aligned to 19c Oracle University Lesson titles. Not full-fidelity ingestion of licensed guides; no live labs executed; not a Verified certification claim. Current behavior must be checked with Oracle AI Database 26ai docs per feature. These are compact lesson starters, not replacements for full module lessons.
