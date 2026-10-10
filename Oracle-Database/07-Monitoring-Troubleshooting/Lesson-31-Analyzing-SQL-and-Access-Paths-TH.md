@@ -105,3 +105,18 @@ FROM TABLE(DBMS_XPLAN.DISPLAY_CURSOR(
 - [Oracle 26ai Execution Plan Display](https://docs.oracle.com/en/database/oracle/oracle-database/26/tgsql/generating-and-displaying-execution-plans.html)
 - [Oracle 26ai DBMS_XPLAN](https://docs.oracle.com/en/database/oracle/oracle-database/26/arpls/DBMS_XPLAN.html)
 - [Oracle 26ai Licensing Information](https://docs.oracle.com/en/database/oracle/oracle-database/26/dblic/Licensing-Information.html)
+
+
+## Source-objective deepening — SQL Tuning Advisor and SQL Access Advisor
+
+วัตถุประสงค์ Lesson 31 รวมการรู้จัก tools ที่ช่วย tune SQL และ workload. **ห้ามสรุปว่าแค่ใช้ DBMS_XPLAN เท่ากับใช้ SQL Advisors**
+
+- **SQL Tuning Advisor:** วิเคราะห์ SQL statement/high-load SQL และเสนอ SQL profile, statistics, index หรือ SQL rewrite candidates ตาม feature; ต้องตรวจ **Tuning Pack licensing** ใน environment จริง. Recommendation ไม่ใช่ auto-safe change.
+- **SQL Access Advisor:** วิเคราะห์ workload เพื่อเสนอ physical-design alternatives เช่น indexes/materialized views/partitioning ตาม features/edition ที่รองรับ; ต้องทดสอบผลรวมของ workload ไม่ optimize แค่ query เดียว. Check licensing and supported feature/version before calls.
+- **Methodology:** identify most expensive SQL by time/CPU/IO → analyze optimizer stats/cardinality and actual plan → evaluate advisor suggestion → test individually → test whole application/workload → document adverse effects on DML, storage, concurrency and rollback
+- **Stats management:** `DBMS_STATS` workflows มีผลต่อ optimizer plan. ค่าที่ stale หรือ histogram ที่เลือกไม่เหมาะอาจกระทบ cardinality; ห้าม gather stats production แบบไม่วาง window/backup of stats.
+- **Security:** ข้อมูล SQL text/binds และ advisor reports อาจมี sensitive literals; อย่าคัดลอกลง public issue logs.
+
+**Tabletop:** SQL A เร็วขึ้น 40% หลังเพิ่ม index แต่ batch DML B ช้าลง 35%. สรุปผลรวม workload ไม่ใช่ยกเลิกการวัด B; ระบุ plan stability, storage/redo impacts และ backout plan.
+
+References: [Oracle SQL Tuning Guide 26ai](https://docs.oracle.com/en/database/oracle/oracle-database/26/tgsql/), [Oracle 26ai Licensing](https://docs.oracle.com/en/database/oracle/oracle-database/26/dblic/).
