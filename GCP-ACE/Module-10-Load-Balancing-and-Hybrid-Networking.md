@@ -1,5 +1,8 @@
 # Module 10 — Load Balancing & Hybrid Connectivity
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🌐 Network → 🛡️ Rules → 🖥️ Backend  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-09-Cloud-Run-and-Event-Driven-Services.md) · [ถัดไป](./Module-11-Observability-and-Operations.md)
 
 ## 1. Load balancer ทำอะไร

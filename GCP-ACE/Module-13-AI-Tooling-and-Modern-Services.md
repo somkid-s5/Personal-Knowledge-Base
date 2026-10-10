@@ -1,5 +1,8 @@
 # Module 13 — AI Tooling & Modern Cloud Operations
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧠 Concept → 🗺️ Flow → 🔎 Verify  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-12-Terraform-and-Infrastructure-as-Code.md) · [Lab Guide](./Lab-Guide-TH/README.md)
 
 ## 1. ทำไมมีบทนี้

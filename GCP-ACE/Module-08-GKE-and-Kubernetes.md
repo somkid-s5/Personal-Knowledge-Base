@@ -1,5 +1,8 @@
 # Module 08 — GKE & Kubernetes Operations
 
+> 🧠 **ภาพจำก่อนอ่าน:** 📦 Image → ☸️ Workload → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-07-Databases-and-Data-Services.md) · [ถัดไป](./Module-09-Cloud-Run-and-Event-Driven-Services.md)
 
 ## 1. Container กับ Kubernetes คนละชั้น

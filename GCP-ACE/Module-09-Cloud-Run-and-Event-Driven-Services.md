@@ -1,5 +1,8 @@
 # Module 09 — Cloud Run, Functions & Event-Driven Services
 
+> 🧠 **ภาพจำก่อนอ่าน:** 📩 Event → ⚡ Runtime → ✅ Verify  
+> 🎨 [Visual Guide ของวิชานี้](./VISUAL-STUDY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [สารบัญ](./README.md) · [ก่อนหน้า](./Module-08-GKE-and-Kubernetes.md) · [ถัดไป](./Module-10-Load-Balancing-and-Hybrid-Networking.md)
 
 ## 1. Cloud Run เหมาะกับอะไร
