@@ -1,0 +1,27 @@
+name: Oracle Knowledge Base QA
+
+on:
+  push:
+    paths:
+      - 'Oracle-Database/**'
+      - '.github/workflows/oracle-kb-qa.yml'
+  pull_request:
+    paths:
+      - 'Oracle-Database/**'
+      - '.github/workflows/oracle-kb-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-oracle-knowledge-base:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify Python available
+        run: python3 --version
+      - name: Check lesson inventory, lab names and internal links
+        run: python3 Oracle-Database/qa/validate_kb.py
