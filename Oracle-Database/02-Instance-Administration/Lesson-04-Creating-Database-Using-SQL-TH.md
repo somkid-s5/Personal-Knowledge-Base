@@ -134,3 +134,59 @@ SELECT tablespace_name, status, contents FROM dba_tablespaces ORDER BY tablespac
 - [Oracle 19c — Creating and Configuring an Oracle Database](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/creating-and-configuring-an-oracle-database.html)
 - [Oracle 19c — Managing Control Files](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/managing-control-files.html)
 - [Oracle 26ai — Database Administrator's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
+
+## Source-page review (19c Lesson 04, slides 4-2 ถึง 4-7) — Creating CDB from SQL
+
+การสร้าง CDB ด้วย SQL ต่างจากการใช้ DBCA เพราะ DBA ต้องระบุ/ตรวจทุกส่วน: `ORACLE_SID`, initialization file, NOMOUNT, CDB root paths, redo/control/datafiles, PDB seed file mapping, catalog scripts และ post-create checks. **อย่าสรุปว่า CREATE DATABASE statement จบแล้ว DB พร้อมใช้งาน production**.
+
+### Sequence and why each step exists
+
+| Phase | What happens | Failure validation |
+|---|---|---|
+| Preparation | OS account, free storage, Oracle Home, target names, secure credentials | Wrong Oracle Home, path collision and permissions |
+| PFILE/SPFILE plan | `DB_NAME`, memory, file destinations, `ENABLE_PLUGGABLE_DATABASE=TRUE` for 19c manual CDB setup | Cannot NOMOUNT / conflicting SID |
+| Instance NOMOUNT | SGA, background processes initialized | Instance alert log, parameter parsing |
+| `CREATE DATABASE ... ENABLE PLUGGABLE DATABASE` | Creates CDB root and PDB seed physical structures | Incomplete datafiles / redo/control files |
+| Database dictionary scripts | Required catalog/data dictionary components for root/seed initialized | Script errors, invalid objects and logs |
+| Post-create | TEMP/UNDO/services/PDB/admin security, listener, backup and validation | CDB created but app login unusable |
+
+### Root → Seed file mapping
+
+For manual CDB creation the root datafiles and `PDB$SEED` files must not collide. Oracle 19c defines file-name selection priority:
+1. `ENABLE PLUGGABLE DATABASE SEED FILE_NAME_CONVERT` clause
+2. Oracle Managed Files (OMF) destination
+3. `PDB_FILE_NAME_CONVERT` initialization parameter
+
+Choosing multiple methods does not create several independent seed copies; Oracle uses precedence rules. `SEED FILE_NAME_CONVERT` is particularly important when root and seed live in separate approved directories.
+
+### Code review artifact (do not run)
+
+```sql
+-- Conceptual fragments only; deliberately not a runnable CREATE DATABASE script.
+-- DB_NAME and ORACLE_SID must match reviewed lab context.
+-- PFILE: enable_pluggable_database=TRUE
+-- SQL*Plus: STARTUP NOMOUNT PFILE='<lab-only-initialization-file>'
+-- CREATE DATABASE <labcdb> ... ENABLE PLUGGABLE DATABASE
+--    SEED FILE_NAME_CONVERT = ('<root-file-dir>', '<seed-file-dir>');
+-- AFTER CREATION: review and execute Oracle's catalog scripts only in approved isolated build.
+-- SQL*Plus: @?/rdbms/admin/catcdb.sql  (requires SQL*Plus script arguments/version review)
+```
+
+**Attention:** `catcdb.sql` or any catalog creation helper must be executed only according to the **exact installed Oracle Home/version** and official instructions, not blindly copied. It changes the database dictionary, and failure midway may require rebuild of an isolated disposable database. Postcreate initialization may use additional scripts/tools depending on release.
+
+### Read-only validation checklist
+
+```sql
+SELECT name,cdb,open_mode,log_mode FROM v$database;
+SELECT con_id,name,open_mode FROM v$pdbs ORDER BY con_id;
+SELECT name,value FROM v$parameter
+WHERE name IN ('db_name','enable_pluggable_database','db_create_file_dest');
+SELECT file_name,tablespace_name FROM dba_data_files
+WHERE tablespace_name IN ('SYSTEM','SYSAUX','UNDOTBS1');
+```
+
+The example tablespace name `UNDOTBS1` may differ. All dictionary results depend on current CDB/PDB. Missing seed rows from a PDB query may be a container scope issue, not proof of absent files.
+
+**Scenario:** DBA issues `CREATE DATABASE` without `ENABLE PLUGGABLE DATABASE` on 19c and later attempts `CREATE PLUGGABLE DATABASE`. Explain why this is a database-architecture error, not a listener problem.
+
+Sources: [Oracle 19c Creating a CDB](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/creating-and-configuring-a-cdb.html), [CREATE DATABASE SQL Reference](https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/CREATE-DATABASE.html).
