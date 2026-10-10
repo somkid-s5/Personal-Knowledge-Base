@@ -88,4 +88,3 @@ SELECT tablespace_name,retention FROM dba_tablespaces WHERE contents='UNDO';
 ```
 
 **Case:** ORA-01555 ไม่ได้แปลว่าเพิ่ม `UNDO_RETENTION` แล้วหายเสมอไป — ตรวจ query runtime, data churn, undo pressure, read-consistency needs และ actual disk capacity.
-
