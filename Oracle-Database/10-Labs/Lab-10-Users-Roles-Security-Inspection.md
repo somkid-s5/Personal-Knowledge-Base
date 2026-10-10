@@ -1,5 +1,8 @@
 # Lab 10 — User, Role, Profile and Audit Inspection (Read-only)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 👤 Identity → 🔑 Access → 🛡️ Controls → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lessons 19–22](../06-Users-Roles-Security/README.md)
 
 > **Status:** Original Thai companion lab, static reviewed, NOT EXECUTED. Does not reproduce official Oracle Activity Guide. No CREATE USER, ALTER USER, GRANT, REVOKE, AUDIT or other state-changing SQL.

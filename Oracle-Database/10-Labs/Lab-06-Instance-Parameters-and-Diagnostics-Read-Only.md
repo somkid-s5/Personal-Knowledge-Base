@@ -1,5 +1,8 @@
 # Lab 06 — Parameters, Resource Limits & ADR (Read-only)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lesson 06](../02-Instance-Administration/Lesson-06-Managing-Database-Instances-TH.md) · [Labs](./README.md)
 
 > **Original companion lab. Static review only; no live database execution.** All database tasks are SELECT-only. Not copied from Oracle University Activity Guide.

@@ -1,5 +1,8 @@
 # Lab 05 — Oracle Instance Lifecycle: Read-only Inspection & Change Simulation
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🗄️ Data → ⚙️ Process → 🩺 Health → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Lesson 05](../02-Instance-Administration/Lesson-05-Instance-Startup-Shutdown-TH.md) · [Lab Index](./README.md)
 
 > **Safety:** This is a read-only and tabletop lab. **Do not actually run STARTUP, SHUTDOWN, ALTER DATABASE or ALTER PLUGGABLE DATABASE** in this exercise. No live deployment/restart has been executed. No Oracle University proprietary steps copied.
