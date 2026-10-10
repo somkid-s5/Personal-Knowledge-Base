@@ -69,3 +69,21 @@ Do not conflate segment free space with filesystem free space; understand CDB/PD
 - [Oracle 19c DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/)
 - [Oracle 26ai DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
 - [Oracle 26ai Managing Undo](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html)
+
+
+## Source-objective deepening — Default Tablespaces, Blocks and Deferred Segments
+
+Oracle lesson 15 ต้องอธิบายหน้าที่ของ default tablespaces: **SYSTEM** เก็บ core dictionary, **SYSAUX** เก็บ auxiliary components, **TEMP** ใช้ temporary operations, **UNDO** รองรับ read consistency และ rollback, **USERS** เป็น default user-data tablespace ในหลาย DBCA templates (ไม่ใช่การรับรองว่ามีชื่อ USERS ในทุก environment). ต้องรู้ว่า tablespace ≠ datafile และ undo/redo ไม่ใช่สิ่งเดียวกัน.
+
+**Oracle Data Block** เป็นหน่วยเก็บข้อมูลบน database; block size เลือกตาม database design และข้อจำกัด platform. การอ่าน table เป็น blocks/segment extents กระทบ I/O, row chaining/migration และ buffer cache.
+
+**Deferred segment creation:** Oracle อาจสร้าง table metadata ก่อน โดยยังไม่ allocate segment/data extent จนมี insert ตาม config และ object type. ดังนั้น table object ที่มีอยู่ใน `DBA_TABLES` อาจยังไม่ปรากฏใน `DBA_SEGMENTS`; ไม่ใช่ corruption โดยอัตโนมัติ.
+
+~~~sql
+-- Read-only (requires DBA views)
+SELECT owner,table_name,segment_created FROM dba_tables
+WHERE owner='LAB_OWNER' ORDER BY table_name;
+SELECT owner,segment_name,segment_type,tablespace_name
+FROM dba_segments WHERE owner='LAB_OWNER' ORDER BY segment_name;
+~~~
+**คำถาม:** ตารางเปล่าที่ไม่มี segment กับตารางที่เคยมีข้อมูลแล้ว DELETE จนหมด ใช้พื้นที่เหมือนกันหรือไม่? ทำไม?
