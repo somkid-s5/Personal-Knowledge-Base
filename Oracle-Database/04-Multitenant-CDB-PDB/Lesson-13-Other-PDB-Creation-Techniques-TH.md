@@ -62,3 +62,17 @@ ORDER BY time DESC FETCH FIRST 15 ROWS ONLY;
 ## Official references
 - [19c Cloning a PDB or Non-CDB](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/cloning-a-pdb.html)
 - [19c Plugging in an Unplugged PDB](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/plugging-in-a-pdb.html)
+
+
+## Source-objective deepening — Non-CDB migration, Hot Clone, Relocate and Proxy PDB
+
+Lesson 13 ต้นฉบับมีความครอบคลุมกว่าวิธี clone/plug ทั่วไป: รวม **non-CDB → PDB**, **hot clone**, **near-zero downtime relocation**, และ **proxy PDB**.
+
+- **Non-CDB → PDB:** วาง compatibility, dictionary conversion, `noncdb_to_pdb.sql` (ตาม release ที่รองรับ), upgrade requirements, backup/restore และ client services. Migration plan ต้องทดสอบ objects/data completeness.
+- **Hot clone:** ที่มา local/remote, source open mode, local undo, ARCHIVELOG และ redo/availability requirements แตกต่างตาม configuration; การเปิด source READ WRITE ระหว่าง clone ต้องมี prerequisites รองรับ.
+- **Relocation:** ไม่ใช่เพียง copy datafiles; ต้องวาง remote CDB link, application service cutover, source/target modes, transaction drain, redo and recovery. ชื่อ near-zero downtime เป็นเป้าหมายของ workflow ที่มี prerequisites ไม่ใช่การรับประกัน downtime = 0.
+- **Proxy PDB:** เป็น local container ที่อ้างถึง **referenced PDB** ใน CDB ระยะไกล คำสั่งที่สั่งผ่าน proxy ถูกดำเนินงานที่ปลายทาง ไม่ได้หมายถึง data replica ทั่วไป. Syntax concept ใช้ `CREATE PLUGGABLE DATABASE ... AS PROXY FROM ...@db_link` (ห้าม execute production); ต้องออกแบบ database link, identity, local undo, ARCHIVELOG, remote availability และ privilege.
+
+**เปรียบเทียบ:** หากต้องการ staging copy สำหรับ UAT → clone; หากต้องการ move app PDB พร้อม cutover → relocation; หากต้องการ local logical access to remote PDB → proxy. Security/latency/availability blast radius ไม่เหมือนกัน.
+
+Reference: [19c Proxy PDB](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/creating-a-proxy-pdb.html), [19c PDB Relocation](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/relocating-a-pdb.html).
