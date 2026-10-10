@@ -28,7 +28,7 @@ Never convert the whole note into an image. Searchable Markdown, commands, confi
 - Use consistent semantic colors: green = healthy/verified, red = fault, amber = warning, blue = neutral network. Never encode state by color alone.
 - Prefer standalone SVG in `<Learning-System>/assets/visual-memory/` for polished, reusable static diagrams; use Mermaid for changeable flows and decision trees.
 - SVG must be self-contained: no script, animation, foreignObject, remote font, network request, external CSS, embedded credential or user data.
-- Include meaningful Markdown alt text: `![AWS ALB request path](./assets/visual-memory/01-concept-path.svg)`.
+- Include meaningful Markdown alt text: `![AWS ALB request path](../AWS-SAA-C03/assets/visual-memory/01-concept-path.svg)`.
 - Test at desktop and mobile widths. Keep label length short; split flow into more than one diagram if unreadable at narrow sizes.
 - Support GitHub Light/Dark rendering and mobile view; avoid raw HTML styling that GitHub sanitizes.
 - Follow each visual with a searchable text explanation and a concrete example.
