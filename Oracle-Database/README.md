@@ -4,7 +4,7 @@
 > **Primary source mode:** Hybrid — Source-ingestion + current official Oracle verification  
 > **Foundation source:** Oracle Database 19c: Administration Workshop (D106546GC10)  
 > **Current platform authority:** Oracle AI Database 26ai official documentation  
-> **Last current verification:** 2026-10-08
+> **Last targeted public docs/source-objective review:** 2026-10-10 (not full 26ai delta validation)
 
 [← Repository root](../README.md)
 
@@ -32,6 +32,14 @@ The goal is not to preserve an old 19c course as if it were current. The goal is
 - [Data Movement and Maintenance Lessons 23–28](./08-Data-Movement-Maintenance/), [Monitoring and SQL Lessons 29–31](./07-Monitoring-Troubleshooting/) and [Companion Labs 01–13](./10-Labs/) are available as teaching drafts
 
 **Standalone lessons: 31/31 (100% of file coverage, not 100% verified).** All 31 lesson topics represented including Atlas, but full semantic source verification, 26ai cross-version review, CI and live lab testing remain pending.
+
+## October 2026 source-audit milestone
+
+- **31/31** original Thai standalone lesson files verified in GitHub; **31/31 private Student Guide objective sections inspected** via connected Drive and source-gap teaching additions written to 18 lessons.
+- [Student Guide learning-objective audit](./SOURCE-OBJECTIVE-COVERAGE-AUDIT.md) — objective-level comparison; page/slide-by-page fidelity pending.
+- [Activity Guide practice gap audit](./OFFICIAL-ACTIVITY-GAP-MAP.md) — companion read-only Labs 01–13 do not establish official hands-on execution success.
+- [System QA](./SYSTEM-QA.md) — both GitHub Actions workflows passed a verified structural/lint baseline on 2026-10-10.
+- **Not yet Full Fidelity Verified:** full PDF semantic comparison, 26ai release testing and controlled Oracle sandbox labs remain pending.
 
 ## Full-fidelity verification
 
