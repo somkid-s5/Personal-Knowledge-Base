@@ -1,5 +1,8 @@
 # Lesson 8 — Configuring Naming Methods (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🌐 Network → 🛡️ Rules → 🖥️ Backend  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Hub](../README.md) · [Network Index](./README.md)
 
 > Original Thai learning note mapped to Oracle University 19c Administration Workshop Lesson 8. **Student Guide page-level verification pending; static only, not tested live.** Oracle 26ai documentation is current-version comparison, not a claim that all 19c commands work unmodified.

@@ -1,5 +1,8 @@
 # Lesson 06 — Managing Database Instances (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Database](../README.md) · [Instance Administration](./README.md) · [Lab 06](../10-Labs/Lab-06-Instance-Parameters-and-Diagnostics-Read-Only.md)
 
 > **Curriculum:** Oracle University 19c Administration Workshop (D106546GC10), Lesson 6 — lesson-topic alignment only; private Student Guide page-by-page verification **PENDING**. Written originally in Thai; not a transcript.

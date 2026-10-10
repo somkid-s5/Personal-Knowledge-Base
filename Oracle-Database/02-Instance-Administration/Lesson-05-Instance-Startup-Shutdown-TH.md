@@ -1,5 +1,8 @@
 # Lesson 05 — Starting Up and Shutting Down a Database Instance (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Database](../README.md) · [Instance Administration](./README.md) · [Lab 05](../10-Labs/Lab-05-Instance-Lifecycle-Read-Only.md)
 
 > **Source map:** Oracle University 19c Administration Workshop, Lesson 5. Original Thai teaching reconstruction based on lesson inventory and Oracle public docs; **not yet verified page by page against the private Student Guide**.  

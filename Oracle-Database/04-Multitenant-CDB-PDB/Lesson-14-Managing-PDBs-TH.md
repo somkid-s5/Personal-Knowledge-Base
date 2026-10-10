@@ -1,5 +1,8 @@
 # Lesson 14 — Managing Pluggable Databases (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Multitenant](./README.md) · [Companion Lab](../10-Labs/Lab-08-PDB-Lifecycle-Read-Only.md)
 
 > Oracle University 19c Administration Workshop Lesson 14 topic mapping. Original Thai educational reconstruction; Student Guide page-level fidelity PENDING. Read-only teaching; lifecycle commands must not be executed on production without approval.

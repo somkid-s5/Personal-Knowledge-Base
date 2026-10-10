@@ -1,5 +1,8 @@
 # Lesson 11 — Oracle Connection Manager (CMAN) (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🌐 Network → 🛡️ Rules → 🖥️ Backend  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Hub](../README.md) · [Networking](./README.md) · [Lab 07](../10-Labs/Lab-07-Shared-Server-and-CMAN-Read-Only.md)
 
 > **Source:** Oracle University 19c Administration Workshop Lesson 11 topic map; original Thai teaching notes. Student Guide page-level cross-check pending. Commands below for inspection/planning only; no live CMAN deployment tested.

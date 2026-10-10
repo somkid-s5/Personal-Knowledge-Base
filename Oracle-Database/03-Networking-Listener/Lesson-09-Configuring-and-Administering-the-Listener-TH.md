@@ -1,5 +1,8 @@
 # Lesson 09 — Configuring and Administering the Listener (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🌐 Network → 🛡️ Rules → 🖥️ Backend  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Networking index](./README.md)
 
 > Original Thai teaching, mapped to Oracle University 19c Administration Workshop Lesson 9. Source page-level fidelity and live execution: **PENDING**.
