@@ -2,7 +2,7 @@
 
 [← Oracle Database](./README.md)
 
-> **Status:** 31/31 lesson titles have original Thai teaching drafts (01–28 standalone, 29–31 compact atlas). Full semantic fidelity, deep standalones and live execution remain PENDING.
+> **Status:** 31/31 lesson titles have original Thai teaching drafts (01–31 standalone, Atlas retained as supplementary outline). Full semantic fidelity, deep standalones and live execution remain PENDING.
 
 | Source lessons | Repository learning layer | Status |
 |---|---|---|
@@ -13,7 +13,7 @@
 | 15–18 | 05 Storage / Tablespaces / Undo | Lessons 15–18 standalone Thai drafts plus Lab 09 read-only; source fidelity and live testing PENDING |
 | 19–22 | 06 Users / Roles / Security | Standalone Thai drafts 19–22 and Lab 10; source fidelity and live testing PENDING |
 | 23–28 | 08 Data Movement / Maintenance | Standalone Thai drafts 23–28 + Lab 11/12 (read-only/tabletop); page-level source fidelity and live testing PENDING |
-| 29–31 | 07 Monitoring / Troubleshooting | Atlas draft; fidelity PENDING |
+| 29–31 | 07 Monitoring / Troubleshooting | Standalone Thai drafts 29–31 + Lab 13 read-only; source fidelity and live testing PENDING |
 
 ## Lab mapping
 
@@ -58,4 +58,8 @@ Verified requires:
 - 6 original Thai standalone lessons authored for Data Pump/SQL*Loader/transportable/external tables and automated maintenance.
 - Labs 11 and 12 authored as read-only/tabletop workbooks. **No commands were run against an Oracle server**.
 - Source documentation links cross-checked for 19c/26ai topics; **NOT a private Student Guide page-by-page verification**.
-- Lesson 29–31 still compact in Teaching Atlas pending expansion.
+- Lessons 29–31 now expanded as standalone Thai drafts; original Atlas retained as supplementary outline.
+
+## Standalone lesson draft milestone — 2026-10-10
+
+**All 31 of 31 Oracle University lesson titles have a dedicated Thai Markdown lesson file.** This measures structural/draft coverage only. It **does not** mean the Oracle University Student Guide content is reproduced or semantically verified, lab results are complete, or the 26ai version-delta audit is done. Companion Labs 01–13 are original exercises and have no recorded live pass.
