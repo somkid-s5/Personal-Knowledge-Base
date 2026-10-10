@@ -80,3 +80,12 @@
 - [Structural/static CI successes](./SYSTEM-QA.md) — both GitHub Actions workflows succeeded on baseline commit `ddad9c9e`; any newer commit should be checked separately.
 
 **Do not confuse structural CI success with runtime correctness or full source fidelity.**
+
+## Deep-source review checkpoint — Lessons 01–06 (2026-10-10)
+
+- [Lesson 01–06 source-slide topic crosswalk](./SOURCE-PAGE-CROSSWALK-L01-L06.md) inventories **74 slide-numbered pages** from six separate private 19c course PDFs.
+- Each of Lessons 01–06 now includes a new original Thai source-page review section with conceptual explanations and safe inspection/planning exercises.
+- Newly developed explanations include RAC/sharding, SQL Developer/Enterprise Manager architecture, DBCA templates and NLS_LANG, manually created CDB seed file precedence, PDB lifecycle/saved states, ADR/DDL logging and common-data dictionary visibility.
+- The 74-page index is a **textual source topic index, not an independent audit of the diagrams, every claim, exact commands or the visuals**. Student Guide full-semantic status therefore remains **PENDING** for all six.
+- The executable Oracle 19c/26ai sandbox and actual Lab execution evidence are still unavailable; the lab gate remains **NOT RUN**.
+
