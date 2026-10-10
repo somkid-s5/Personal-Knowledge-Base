@@ -25,8 +25,8 @@
 | Full lab fidelity mapping | PENDING — official mutating tasks not executed |
 | Deep current 26ai delta validation | PENDING |
 | Complete teaching/review layer | PENDING — all 31 standalone drafts authored, deeper teaching/source fidelity still required |
-| Structural QA script/workflow | CREATED — Python unit/sanity patterns checked; workflow full run NOT CONFIRMED |
-| Repository CI | NOT VERIFIED — no passing workflow result observed |
+| Structural QA script/workflow | PASS — GitHub Actions Oracle Knowledge Base QA on ddad9c9e |
+| Repository CI | PASS — GitHub Actions Repository Quality on ddad9c9e |
 | Companion labs 01–13 execution | NOT RUN |
 
 ## Current decision
@@ -46,6 +46,13 @@ The current deliverable establishes the architecture, provenance and first teach
 - [Source objective audit](./SOURCE-OBJECTIVE-COVERAGE-AUDIT.md): 31/31 private source lesson objective sections accessed in connected Google Drive. Not a review of all 19c guide pages.
 - [Activity Guide gap map](./OFFICIAL-ACTIVITY-GAP-MAP.md): inspected practice index and identified tasks requiring actual isolated CDB/PDB, listener, grants, SQL Loader and parameter changes. 13 original companion labs remain NOT RUN.
 - [Standalone lessons and structural QA tracker](./FULL-FIDELITY-QA-TRACKER.md): 31/31 files verified earlier via individual GitHub fetch.
-- [QA script](./qa/validate_kb.py) and workflow `/.github/workflows/oracle-kb-qa.yml` created. **Do not record CI PASS until GitHub Actions reports a passing run.**
+- [QA script](./qa/validate_kb.py) and workflow `/.github/workflows/oracle-kb-qa.yml` created. **GitHub Actions reports PASS on commit ddad9c9e; later commits require their own run verification.**
 - Oracle University Student/Activity Guides explicitly restrict redistribution; only original teaching conclusions/lesson mappings are in this public-facing repository; no proprietary PDFs or credentials should be committed.
 - Full completion is blocked by **uncompleted page-by-page semantic comparison**, **no approved disposable Oracle 19c/26ai runtime to execute labs**, and **no observed passing CI result**.
+
+## Verified GitHub Actions checkpoint — 2026-10-10
+
+- Baseline commit: `ddad9c9e51472f051244ebf7210c9a09c672dbad`.
+- [Oracle Knowledge Base QA — SUCCESS](https://github.com/somkid-s5/Personal-Knowledge-Base/actions/runs/38020832734): 31 lesson files, 13 original labs and relative Markdown links validated.
+- [Repository Quality — SUCCESS](https://github.com/somkid-s5/Personal-Knowledge-Base/actions/runs/38020832731): governance Markdown lint, internal link, repository structure and preexisting cross-project jobs passed.
+- This certifies **repository structural/static checks only**; it does **not** certify 19c/26ai SQL correctness, source-page fidelity, official lab practice completion or production-readiness.
