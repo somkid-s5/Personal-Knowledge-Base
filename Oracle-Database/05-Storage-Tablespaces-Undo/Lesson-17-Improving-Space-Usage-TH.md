@@ -8,6 +8,7 @@
 เข้าใจ **Space allocation, HWM and reclaim** พร้อมวิเคราะห์ Oracle storage problems อย่างเป็นลำดับ ไม่แก้ด้วยการเพิ่ม datafile หรือเปลี่ยน initialization parameters โดยไม่มีหลักฐาน.
 
 ## Mental model
+
 ```mermaid
 flowchart TB
  DB[(Oracle Database)] --> TS[Tablespace: logical storage]
@@ -69,7 +70,6 @@ Space reclamation can lock objects/change ROWIDs and affect indexes: assess impa
 - [Oracle 19c DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/)
 - [Oracle 26ai DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
 - [Oracle 26ai Managing Undo](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html)
-
 
 ## Source-objective deepening — Private Temporary Tables, Compression, Resumable Allocation
 

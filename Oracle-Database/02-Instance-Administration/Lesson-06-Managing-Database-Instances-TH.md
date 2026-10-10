@@ -35,7 +35,8 @@ flowchart LR
 
 `SCOPE=SPFILE`/`BOTH` ต้องใช้กับ instance ที่ startup โดยใช้ SPFILE; การใช้กับ PFILE-only configuration ทำให้เกิด error. บาง dynamic parameters มีผลกับ **future sessions** ตาม semantics ของ parameter/DEFERRED; ไม่ควรอ้างว่าแก้แล้วทุก session เปลี่ยนทันที.
 
-**ทำความเข้าใจ syntax แต่ไม่รัน:**
+### ทำความเข้าใจ syntax แต่ไม่รัน:
+
 ```sql
 -- STATE-CHANGING EXAMPLES: FOR REFERENCE ONLY; DO NOT EXECUTE
 -- ALTER SYSTEM SET some_parameter = some_value SCOPE=MEMORY;

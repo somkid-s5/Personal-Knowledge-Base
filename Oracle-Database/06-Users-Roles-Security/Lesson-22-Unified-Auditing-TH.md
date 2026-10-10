@@ -16,14 +16,14 @@
 
 **Governance:** scope CDB/PDB, policy condition, audited action, retention, access controls, personal/sensitive data, overhead และ incident correlation. ไม่ควรเปิด policy ครอบคลุมทุก SELECT โดยไม่มี capacity/security plan.
 
-~~~sql
+```sql
 SHOW CON_NAME
 SELECT policy_name,enabled_option,entity_name
 FROM audit_unified_enabled_policies;
 SELECT event_timestamp,dbusername,action_name,return_code
 FROM unified_audit_trail
 ORDER BY event_timestamp DESC FETCH FIRST 20 ROWS ONLY;
-~~~
+```
 
 **Audit drill:** การไม่พบ event ไม่พิสูจน์ว่าไม่มีการกระทำ: ตรวจ enabled policies, scope, privileges, filters, write delay และระบบรวบรวม audit logs. ห้าม export unredacted audit trails ไป public repository.
 
@@ -45,7 +45,6 @@ ORDER BY event_timestamp DESC FETCH FIRST 20 ROWS ONLY;
 - [Oracle 19c Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html)
 - [Oracle 26ai Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/dbseg/)
 
-
 ## Source-objective deepening — Activate Policies and Maintain Audit Trails
 
 Oracle University Lesson 22 ไม่ได้หยุดที่การอ่าน `UNIFIED_AUDIT_TRAIL`: DBA ต้องรู้ขั้นตอนแยก **enable unified auditing**, **define/enable audit policies**, และ **maintain/retain audit trails**.
@@ -56,13 +55,14 @@ Oracle University Lesson 22 ไม่ได้หยุดที่การอ�
 4. **Visibility:** Audit roles/privileges เป็น sensitive access; app user ทั่วไปไม่ควร query all security events.
 
 **Read-only checks**:
-~~~sql
+
+```sql
 SELECT policy_name,enabled_option,entity_name
 FROM audit_unified_enabled_policies ORDER BY policy_name;
 SELECT event_timestamp,dbusername,action_name,return_code
 FROM unified_audit_trail
 ORDER BY event_timestamp DESC FETCH FIRST 10 ROWS ONLY;
-~~~
+```
 
 **Tabletop:** DBA พบ failed login จาก service account จำนวนมาก: จะออกแบบ policy ที่บันทึกเหตุการณ์ที่ต้องการและ retention ที่ปกป้อง PII ได้อย่างไร? ระบุ incident response ก่อนพิจารณา purge.
 

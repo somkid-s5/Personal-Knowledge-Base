@@ -10,6 +10,7 @@
 - Record exact Oracle version, current PDB, and observation timestamp
 
 ## Part A — Identify connection mode
+
 ```sql
 SHOW USER
 SHOW CON_NAME
@@ -17,14 +18,17 @@ SELECT server, COUNT(*) total_sessions FROM v$session GROUP BY server;
 SELECT name,value FROM v$parameter
 WHERE name IN ('shared_servers','max_shared_servers','dispatchers','max_dispatchers');
 ```
+
 **Expected:** Different connection mode categories may appear; a zero shared-session count is not a failure if shared servers are not configured.
 
 ## Part B — Dispatcher and shared-server health
+
 ```sql
 SELECT name,status,busy,idle FROM v$dispatcher;
 SELECT name,status,requests,busy FROM v$shared_server;
 SELECT type,queued,wait,totalq FROM v$queue;
 ```
+
 **Expected:** These views may return zero rows when shared server is unused. View access is controlled. Counters represent accumulated and point-in-time data; correlate multiple samples before conclusions.
 
 ## Part C — CMAN architecture tabletop

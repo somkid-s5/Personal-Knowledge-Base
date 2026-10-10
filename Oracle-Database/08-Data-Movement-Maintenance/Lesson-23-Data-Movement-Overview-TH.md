@@ -45,13 +45,13 @@ flowchart TD
 
 `DIRECTORY` เป็น database object ที่ map ไปยัง path ฝั่ง database server. Client ที่เรียก `expdp` อาจอยู่คนละเครื่อง: dump ที่ `DUMPFILE=...` โดยทั่วไปถูกเขียนฝั่ง server ตาม DIRECTORY ไม่ใช่ลง laptop ของ operator. ต้องมี OS permissions และ database READ/WRITE grants ที่เหมาะสม.
 
-~~~sql
+```sql
 -- Read-only metadata; DBA views require approved privileges.
 SHOW CON_NAME
 SELECT directory_name, directory_path FROM dba_directories ORDER BY directory_name;
 SELECT owner_name, job_name, operation, job_mode, state
 FROM dba_datapump_jobs ORDER BY owner_name,job_name;
-~~~
+```
 
 เมื่อพบ job ปรากฏใน view ไม่ได้แปลว่ากำลังย้ายข้อมูลอยู่ ณ ตอนนั้น: ตรวจ STATE และ log. อย่า kill/stop job เพียงเพราะชื่อดูแปลก.
 

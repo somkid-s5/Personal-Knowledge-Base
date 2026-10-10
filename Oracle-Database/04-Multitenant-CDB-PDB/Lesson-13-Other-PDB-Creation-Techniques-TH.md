@@ -16,6 +16,7 @@
 | Relocate | ย้าย PDB ตาม supported architecture | service cutover, downtime, connection handling, redo requirements |
 
 ## Clone flow
+
 ```mermaid
 flowchart LR
  S[Source PDB] --> C[Compatibility and backup checks]
@@ -28,6 +29,7 @@ flowchart LR
 Hot clone requirements depend on `ARCHIVELOG`, local undo mode and supported source/target configuration. เก็บ archive logs ที่จำเป็นจนการ clone จบสมบูรณ์. การ copy ไม่เท่ากับการยืนยันว่าข้อมูล business ถูกต้อง.
 
 ## Read-only assessment
+
 ```sql
 SHOW CON_NAME
 SELECT con_id,name,open_mode FROM v$pdbs ORDER BY con_id;
@@ -36,6 +38,7 @@ SELECT name,cause,type,message,status
 FROM pdb_plug_in_violations
 ORDER BY time DESC FETCH FIRST 15 ROWS ONLY;
 ```
+
 `PDB_PLUG_IN_VIOLATIONS` อาจมี columns แตกต่างตาม version และ privileges; หาก query ไม่ผ่านให้ตรวจ catalog/reference ของรุ่นจริงก่อน อย่าให้ blanket grants.
 
 ## Migration decision worksheet
@@ -62,7 +65,6 @@ ORDER BY time DESC FETCH FIRST 15 ROWS ONLY;
 ## Official references
 - [19c Cloning a PDB or Non-CDB](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/cloning-a-pdb.html)
 - [19c Plugging in an Unplugged PDB](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/plugging-in-a-pdb.html)
-
 
 ## Source-objective deepening — Non-CDB migration, Hot Clone, Relocate and Proxy PDB
 

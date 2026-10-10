@@ -9,7 +9,7 @@
 
 ## 1. Layers of observability
 
-~~~mermaid
+```mermaid
 flowchart TD
  U[User symptom] --> A[App requests / JDBC pool]
  A --> S[Database service and PDB]
@@ -20,7 +20,7 @@ flowchart TD
  SQ --> T[Time-series analysis]
  R --> T
  L --> T
-~~~
+```
 
 Good monitoring is **symptom + timestamp + correlation**, not a dashboard of random percentages. A single snapshot at 10:20 does not disprove an ORA-12519 error at 10:05.
 
@@ -39,7 +39,7 @@ Good monitoring is **symptom + timestamp + correlation**, not a dashboard of ran
 
 ## 3. Read-only SQL snapshots
 
-~~~sql
+```sql
 SHOW CON_NAME
 SELECT name,open_mode,cdb FROM v$database;
 SELECT con_id,name,open_mode FROM v$pdbs ORDER BY con_id;
@@ -53,7 +53,7 @@ SELECT sid,serial#,username,status,event,wait_class,blocking_session
 FROM v$session
 WHERE type='USER' AND username IS NOT NULL
 FETCH FIRST 20 ROWS ONLY;
-~~~
+```
 
 `V$SESSION` มีข้อมูลของ users/processes จริง: อย่าเผย usernames/SQL text ใน public logs. Query ระหว่าง peak ต้องมี authorized DBA privileges และ limit result. `V$SESSION` data ณ เวลานั้น ไม่ใช่ reliable history จนมี sampling.
 
@@ -80,7 +80,6 @@ Possible causes include listener available handlers, database process capacity, 
 - [Oracle 26ai Measuring Database Performance](https://docs.oracle.com/en/database/oracle/oracle-database/26/tgdba/measuring-database-performance.html)
 - [Oracle 26ai Database Reference](https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/)
 
-
 ## Source-objective deepening — Server Metrics, Threshold Alerts and Monitoring Tools
 
 Lesson 30 เน้น **performance views/tools** และ **statistics/metrics collected by Oracle**. ต้องแยก cumulative statistics, interval metrics, alert thresholds, instance vs PDB scope และ notification pipeline.
@@ -91,7 +90,7 @@ Lesson 30 เน้น **performance views/tools** และ **statistics/metric
 - **Tools:** SQL*Plus read-only, Enterprise Manager, independent monitoring platform และ ADR/log collectors มี coverage/permissions ต่างกัน. Enterprise Manager email/alert setup ต้องมี delivery tests.
 - **Risk:** AWR/ASH/ADDM access ต้องตรวจ Diagnostics Pack entitlement; ไม่มี pack ก็ยังเก็บ OS/DB metrics และ application latency ผ่าน authorized methods ได้
 
-~~~sql
+```sql
 -- Read-only, approved sandbox account only
 SELECT metric_name,value,metric_unit,begin_time,end_time
 FROM v$sysmetric
@@ -99,6 +98,6 @@ WHERE rownum <= 20;
 SELECT object_name,reason,message_type,message_level
 FROM dba_outstanding_alerts
 WHERE rownum <= 20;
-~~~
+```
 
 **Drill:** ตั้ง threshold สำหรับ sessions/processes อย่างไรให้ตรวจ intermittent saturation ได้? ออกแบบ sampling interval, false positives, incident timestamp, escalation path และ remediation owner โดยไม่รัน ALTER SYSTEM.

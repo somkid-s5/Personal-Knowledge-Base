@@ -35,6 +35,7 @@ flowchart LR
 Client connect descriptor สามารถขอ `(SERVER=SHARED)` หรือ `(SERVER=DEDICATED)`; หาก client บังคับ shared แต่ dispatcher ไม่พร้อม connection อาจถูกปฏิเสธ. ต้องตรวจ pool ที่ application ใช้ ไม่ใช่เปิด shared server เพื่อแก้ JDBC connection leak แบบไม่วิเคราะห์.
 
 ## Read-only diagnostics
+
 ```sql
 SHOW CON_NAME
 SELECT name, value FROM v$parameter
@@ -45,6 +46,7 @@ SELECT name, status, busy, idle FROM v$dispatcher;
 SELECT name, status, requests, busy FROM v$shared_server;
 SELECT type, queued, wait, totalq FROM v$queue;
 ```
+
 > ต้องได้รับ view privileges; ค่า counter และ available columns ตรวจใน database reference รุ่นจริงก่อนรัน. `V$QUEUE` เป็น view ที่ควบคุมสิทธิ์เข้มงวด อย่าให้ `SELECT ANY TABLE`/DBA โดยไม่จำเป็น.
 
 ### Reading results
@@ -66,7 +68,6 @@ App มี 800 idle sessions แต่ระบบไม่ได้ใช้ CP
 - [Oracle 19c Configuring a Shared Server Architecture](https://docs.oracle.com/en/database/oracle/oracle-database/19/netag/configuring-shared-server-architecture.html)
 - [Oracle 19c Oracle Net Architecture](https://docs.oracle.com/en/database/oracle/oracle-database/19/netag/understanding-oracle-net-architecture.html)
 - [Oracle 26ai documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/)
-
 
 ## Source-objective deepening — Enable and Control Shared Server (sandbox only)
 

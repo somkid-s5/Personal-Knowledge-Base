@@ -16,13 +16,13 @@
 
 **Design:** application runtime role ไม่ควรมี DBA/SELECT ANY TABLE. สำหรับ stored definer-rights code สิทธิ์ object ที่ใช้ภายในมักต้อง grant ตรงให้ owner แทนการพึ่ง role. ตรวจ `CURRENT_SCHEMA` กับชื่อ owner ใน error ORA-00942.
 
-~~~sql
+```sql
 SHOW CON_NAME
 SELECT grantee,privilege FROM dba_sys_privs WHERE grantee='APP_USER';
 SELECT grantee,granted_role FROM dba_role_privs WHERE grantee='APP_USER';
 SELECT owner,table_name,grantee,privilege
 FROM dba_tab_privs WHERE grantee='APP_USER';
-~~~
+```
 
 **Least privilege exercise:** หา schema owner, SELECT ที่ต้องการ, direct grant หรือ role ที่เข้ากับ execution context แล้วเสนอ change/rollback ก่อนใช้ GRANT จริง.
 
@@ -43,7 +43,6 @@ FROM dba_tab_privs WHERE grantee='APP_USER';
 ## Official references
 - [Oracle 19c Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html)
 - [Oracle 26ai Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/dbseg/)
-
 
 ## Source-objective deepening — Revoke Privileges / Role Hierarchies and Scope
 

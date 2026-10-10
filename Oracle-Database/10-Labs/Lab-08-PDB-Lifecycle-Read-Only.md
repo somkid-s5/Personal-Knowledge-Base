@@ -8,6 +8,7 @@
 Approved Oracle CDB sandbox and read-only account with privileges for `V$PDBS`, `V$SERVICES` and selected catalog views. Record DB version and CDB root vs PDB scope. Avoid sharing real hostnames and service identifiers publicly.
 
 ## Task 1 — Inspect the environment
+
 ```sql
 SHOW USER
 SHOW CON_NAME
@@ -15,6 +16,7 @@ SELECT name,cdb,open_mode FROM v$database;
 SELECT con_id,name,open_mode,restricted FROM v$pdbs ORDER BY con_id;
 SELECT name,network_name,con_id FROM v$services ORDER BY con_id,name;
 ```
+
 Expected: distinguish PDB$SEED, CDB$ROOT context, actual application PDBs, open modes and services.
 
 ## Task 2 — Explain the Seed path
@@ -24,11 +26,13 @@ Write down a conceptual creation plan: CDB root privilege → choose name → ap
 Complete: source/target versions/patch, encryption keys, charset/time zone, source open mode, target storage, backup/restore evidence, service cutover, application data validation and rollback.
 
 On a CDB with read permission:
+
 ```sql
 SELECT name,cause,type,message,status
 FROM pdb_plug_in_violations
 FETCH FIRST 10 ROWS ONLY;
 ```
+
 An empty violation list does not validate your future migration; review constraints for that source and target.
 
 ## Task 4 — Availability scenario

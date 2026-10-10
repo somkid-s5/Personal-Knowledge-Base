@@ -8,31 +8,37 @@
 Oracle 19c or 26ai sandbox, SQLcl/SQL*Plus, privileges on DBA and V$ views. Record instance, container, timestamp and redact internal datafile paths.
 
 ## Task 1: inspect logical storage
-~~~sql
+
+```sql
 SHOW CON_NAME
 SELECT tablespace_name,contents,status,bigfile
 FROM dba_tablespaces ORDER BY tablespace_name;
-~~~
+```
+
 Explain permanent versus temporary versus undo and block/extent/segment/datafile relationship.
 
 ## Task 2: inspect file capacity
-~~~sql
+
+```sql
 SELECT tablespace_name,file_name,bytes,autoextensible,maxbytes
 FROM dba_data_files ORDER BY tablespace_name;
 SELECT tablespace_name,file_name,bytes,autoextensible,maxbytes
 FROM dba_temp_files ORDER BY tablespace_name;
 SELECT tablespace_name,SUM(bytes) free_extent_bytes
 FROM dba_free_space GROUP BY tablespace_name;
-~~~
+```
+
 Allocated space, free extents, autoextend max and underlying filesystem/ASM capacity are separate. Do not sum current bytes and maxbytes as independent space.
 
 ## Task 3: investigate undo
-~~~sql
+
+```sql
 SELECT tablespace_name,status,SUM(bytes) undo_bytes
 FROM dba_undo_extents GROUP BY tablespace_name,status;
 SELECT begin_time,end_time,tuned_undoretention,ssolderrcnt,nospaceerrcnt
 FROM v$undostat ORDER BY begin_time DESC FETCH FIRST 12 ROWS ONLY;
-~~~
+```
+
 Explain ACTIVE/UNEXPIRED/EXPIRED and that undo retention guarantee can prioritize retention at expense of DML.
 
 ## Troubleshooting workshop
@@ -48,4 +54,4 @@ Explain ACTIVE/UNEXPIRED/EXPIRED and that undo retention guarantee can prioritiz
 
 Cleanup: no resources created. Verification status: NOT RUN.
 
-Official reference: https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html
+Official reference: <https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html>

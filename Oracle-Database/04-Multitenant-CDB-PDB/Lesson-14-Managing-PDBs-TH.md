@@ -8,6 +8,7 @@
 เข้าใจ CDB กับ PDB administrative scope, open modes, save state, common vs local users, service registration, monitoring และ troubleshooting.
 
 ## State diagram
+
 ```mermaid
 flowchart LR
   M[MOUNTED] --> W[READ WRITE]
@@ -19,6 +20,7 @@ flowchart LR
 PDB อาจเป็น MOUNTED แม้ instance และ CDB จะ OPEN. `SAVE STATE` สามารถบันทึกสถานะการเปิดสำหรับ startup ครั้งถัดไปใน configuration ที่รองรับ แต่ไม่ใช่การรับประกันว่า service/client พร้อมใช้งาน.
 
 ## Query ที่ปลอดภัย
+
 ```sql
 SHOW USER
 SHOW CON_NAME
@@ -53,7 +55,6 @@ SELECT name,open_mode,cdb FROM v$database;
 - [Oracle 19c Multitenant Administrator's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/)
 - [Oracle 26ai documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/)
 
-
 ## Source-objective deepening — PDB-level Parameters, HOST/PORT and Safe Drop
 
 Lesson 14 ต้นฉบับมีวัตถุประสงค์ให้ DBA พิจารณาผลกระทบของ **initialization parameter scope**, การกำหนด **HOST/PORT ของ PDB**, และการ **DROP PDB** อย่างถูกต้อง.
@@ -63,11 +64,11 @@ Lesson 14 ต้นฉบับมีวัตถุประสงค์ให�
 - **DROP PDB:** destructive operation อาจลบไฟล์ถ้าเลือก clause ที่รวม datafiles. ต้องเก็บ source backup, verify target GUID/CON_ID/PDB name, close sessions, ตรวจ user workloads, export metadata และ change approvals ก่อน. ห้ามทดลอง DROP ใน read-only Lab 08.
 - **Restricted mode:** PDB `READ WRITE` แต่ `RESTRICTED=YES` อาจยัง block ordinary application users.
 
-~~~sql
+```sql
 -- Safe observation only
 SELECT con_id,name,open_mode,restricted FROM v$pdbs ORDER BY con_id;
 SELECT name,value,ispdb_modifiable FROM v$parameter
 WHERE name IN ('open_cursors','optimizer_mode','sessions');
-~~~
+```
 
 Reference: [Oracle 19c Multitenant Administration](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/overview-of-managing-a-multitenant-environment.html).

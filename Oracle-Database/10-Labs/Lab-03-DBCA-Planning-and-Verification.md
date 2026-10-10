@@ -30,6 +30,7 @@
 ## Task 2 — Review DBCA interface
 
 บน sandbox Oracle host:
+
 ```bash
 command -v dbca
 dbca -help
@@ -55,16 +56,20 @@ WHERE name IN ('Diag Alert','Diag Trace');
 ## Task 4 — Review connectivity without change
 
 From approved database host:
+
 ```bash
 lsnrctl status
 lsnrctl services
 ```
 
 From client, connect with prompting (replace example values):
+
 ```bash
 sqlplus 'labuser@//db.example.test:1521/labpdb.example.test'
 ```
+
 Inside SQL*Plus:
+
 ```sql
 SHOW USER
 SHOW CON_NAME

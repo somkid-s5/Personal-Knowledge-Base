@@ -65,7 +65,7 @@ flowchart TB
 
 ## 4. GUI workflow — DBCA (แนวทางฝึก)
 
-**ทำบนเครื่อง Lab ที่อนุญาตเท่านั้น**
+### ทำบนเครื่อง Lab ที่อนุญาตเท่านั้น
 1. เปิด `dbca` จาก Oracle Home ที่ตั้งใจใช้; ตรวจ version และ selected Oracle Home
 2. เลือก Create Database; ตรวจชนิด template และ configuration type ที่ UI นั้นรองรับ
 3. กรอกชื่อ database, SID, CDB/PDB ตามโจทย์ sandbox; ตรวจชื่ออีกครั้งก่อน Next
@@ -150,7 +150,6 @@ SELECT name, value FROM v$diag_info WHERE name IN ('Diag Trace','Diag Alert');
 - [Oracle 19c Database Configuration Assistant](https://docs.oracle.com/en/database/oracle/oracle-database/19/ntdbi/creating-and-configuring-an-oracle-database.html)
 - [Oracle AI Database 26ai Administration documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
 - [Oracle AI Database 26ai Reference](https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/)
-
 
 ## Source-objective deepening — Generate Database Creation Scripts by DBCA
 

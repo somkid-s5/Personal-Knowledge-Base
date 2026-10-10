@@ -126,7 +126,6 @@ flowchart LR
 - [Oracle 26ai — Memory Architecture](https://docs.oracle.com/en/database/oracle/oracle-database/26/cncpt/memory-architecture.html)
 - [Oracle 26ai — V$INSTANCE](https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/V-INSTANCE.html)
 
-
 ## Source-objective deepening — Oracle Sharding (19c)
 
 นอกจาก memory/process/storage และ Multitenant แล้ว Lesson 01 ต้นฉบับยังให้รู้จัก **Database Sharding**. Sharding คือการกระจายข้อมูลตาม sharding key ไปยังหลายฐานข้อมูล (shards) เพื่อ scale horizontally; แต่ละ shard เป็นฐานข้อมูลที่จัดการข้อมูลส่วนหนึ่งของ logical sharded database. **Sharding ไม่เท่ากับ PDB**: PDB หลายตัวอาจ share CDB instance เดียว ในขณะที่ shard กระจายความรับผิดชอบด้านข้อมูลและ workload ข้ามฐานข้อมูล/hosts. งาน DBA ต้องวาง sharding key, query routing, cross-shard queries, distributed operations, HA/backup และ placement ของ shards. ใน Oracle ecosystem ต้องแยก shard catalog, shard directors และ shards ตาม implementation.

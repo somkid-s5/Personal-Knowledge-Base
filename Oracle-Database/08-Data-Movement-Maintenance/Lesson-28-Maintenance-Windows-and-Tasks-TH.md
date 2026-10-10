@@ -11,14 +11,14 @@
 
 Window เป็นช่วงเวลาที่ Scheduler กำหนดให้ job หรือ resource plan ทำงาน. Automated maintenance framework ใช้ windows ที่อยู่ใน `MAINTENANCE_WINDOW_GROUP` โดยมักมี predefined windows สำหรับวันในสัปดาห์.
 
-~~~mermaid
+```mermaid
 flowchart TD
  A[Oracle Scheduler] --> W[Maintenance window]
  W --> G[MAINTENANCE_WINDOW_GROUP]
  G --> J[ORA$AT scheduled job]
  J --> R[Resource Manager plan]
  J --> H[Execution result / job history]
-~~~
+```
 
 **Important:** ไม่ใช่ทุก Scheduler window จะกระตุ้น AutoTask; ต้องอยู่ใน maintenance group และมี client enabled. Window open ไม่ได้แปลว่าทุก job สำเร็จ.
 
@@ -31,7 +31,7 @@ flowchart TD
 
 ## 3. Inspect without changing anything
 
-~~~sql
+```sql
 SHOW CON_NAME
 SELECT window_name,enabled,repeat_interval,duration,resource_plan
 FROM dba_scheduler_windows
@@ -44,7 +44,7 @@ ORDER BY window_name;
 
 SELECT client_name,status
 FROM dba_autotask_client ORDER BY client_name;
-~~~
+```
 
 Inspecting scheduler config may need approved privileges. Confirm actual dictionary columns from installed Oracle reference if behavior differs; never require SYSDBA for a learning lab.
 
@@ -81,7 +81,6 @@ Inspecting scheduler config may need approved privileges. Confirm actual diction
 ## Sources
 - [Oracle 26ai Managing Automated Database Maintenance Tasks](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html)
 - [Oracle 26ai Database Resource Management & Task Scheduling](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/database-resource-management-and-task-scheduling.html)
-
 
 ## Source-objective deepening — Enable/Disable Clients and Resource Plans
 

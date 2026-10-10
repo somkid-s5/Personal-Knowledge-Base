@@ -9,34 +9,34 @@ Authorized lab SQL account with narrowly scoped read permissions to Scheduler/Au
 
 ## Task 1 — Identify scope and clients
 
-~~~sql
+```sql
 SHOW USER
 SHOW CON_NAME
 SELECT client_name,status FROM dba_autotask_client ORDER BY client_name;
-~~~
+```
 
 Which tasks are enabled? Why doesn't enabled guarantee success?
 
 ## Task 2 — Inspect scheduled windows
 
-~~~sql
+```sql
 SELECT window_name,enabled,repeat_interval,duration,resource_plan
 FROM dba_scheduler_windows ORDER BY window_name;
 SELECT window_group_name,window_name
 FROM dba_scheduler_wingroup_members
 WHERE window_group_name='MAINTENANCE_WINDOW_GROUP'
 ORDER BY window_name;
-~~~
+```
 
 Record timezone, calendar expression, effective timing and expected workload peaks; report whether members are actually enabled.
 
 ## Task 3 — Confirm historic job outcomes
 
-~~~sql
+```sql
 SELECT client_name,window_name,job_status,job_start_time,job_duration,job_error
 FROM dba_autotask_job_history
 ORDER BY job_start_time DESC FETCH FIRST 20 ROWS ONLY;
-~~~
+```
 
 **Expected:** completed jobs with statuses, not guaranteed success. In some configurations history may be empty for authorized user. Separate actual job completion from client enabled state.
 
@@ -61,4 +61,4 @@ Incident: users report slow queries 22:00–23:00. DBA observes a predefined mai
 
 Cleanup: none beyond disconnect.
 
-Official docs: https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html
+Official docs: <https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html>

@@ -8,6 +8,7 @@
 แยก CMAN ออกจาก Listener/Connection Pool, เข้าใจ access control, connection concentration/multiplexing, gateway routing, CMON, CMCTL และ cman.ora
 
 ## Architecture
+
 ```mermaid
 flowchart LR
  A[App clients] --> B[CMAN gateway and access rules]
@@ -41,11 +42,13 @@ Connection concentration หมายถึงลดจำนวน transport co
 
 ## Read-only checks
 บน database หลัง client connect สำเร็จ:
+
 ```sql
 SHOW CON_NAME
 SELECT sys_context('USERENV','SERVICE_NAME') service_name FROM dual;
 SELECT name, network_name FROM v$services ORDER BY name;
 ```
+
 บน host สามารถตรวจ **ไฟล์ config ในโหมดอ่านอย่างเดียว** ตาม change policy ได้: เก็บ hash/config snapshot โดยไม่เผย private addresses หรือ authentication data. สำหรับ CMCTL คำสั่ง inspection และ syntax แตกต่างตามรุ่น; ตรวจ official help ของ installed build ก่อนใช้.
 
 ## Troubleshooting
@@ -67,7 +70,6 @@ SELECT name, network_name FROM v$services ORDER BY name;
 - [Oracle 26ai — Configure cman.ora](https://docs.oracle.com/en/database/oracle/oracle-database/26/netag/configuring-cman-ora-file-oracle-connection-manager-host.html)
 - [Oracle 26ai — CMAN parameters and rules](https://docs.oracle.com/en/database/oracle/oracle-database/26/netrf/oracle-connection-manager-parameters.html)
 - [Oracle 19c — Shared-server/session multiplexing](https://docs.oracle.com/en/database/oracle/oracle-database/19/netag/configuring-shared-server-architecture.html)
-
 
 ## Source-objective deepening — CMCTL lifecycle and multiplexing
 

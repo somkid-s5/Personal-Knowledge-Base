@@ -15,12 +15,14 @@
 ## Task 1 — Verify client location
 
 Linux/macOS Bash:
+
 ```bash
 command -v sqlplus
 printf 'TNS_ADMIN=%s\n' "${TNS_ADMIN:-not-set}"
 ```
 
 Windows PowerShell:
+
 ```powershell
 Get-Command sqlplus -ErrorAction SilentlyContinue
 $env:TNS_ADMIN

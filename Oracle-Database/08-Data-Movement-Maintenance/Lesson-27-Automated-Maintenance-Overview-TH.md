@@ -11,7 +11,7 @@
 
 ฐานข้อมูลมี workload, statistics และ physical space เปลี่ยนตลอด. Automation ช่วยลด manual upkeep แต่ไม่ควรทำให้ DBA มองไม่เห็นผลข้างเคียง. **Optimizer statistics** ใช้สำหรับ cardinality/selectivity decisions ไม่ใช่ตารางเก็บข้อมูลธุรกิจ และการ gather stats อาจทำให้ plan เปลี่ยนได้.
 
-~~~mermaid
+```mermaid
 flowchart LR
  A[Maintenance window] --> B[AutoTask framework]
  B --> S[Optimizer statistics]
@@ -20,7 +20,7 @@ flowchart LR
  S --> H[History / outcomes]
  D --> H
  T --> H
-~~~
+```
 
 ## 2. Three core task categories
 
@@ -42,7 +42,7 @@ flowchart LR
 
 ## 4. Read-only SQL
 
-~~~sql
+```sql
 SHOW CON_NAME
 SELECT client_name,status
 FROM dba_autotask_client ORDER BY client_name;
@@ -50,7 +50,7 @@ FROM dba_autotask_client ORDER BY client_name;
 SELECT client_name,job_status,job_start_time,job_duration
 FROM dba_autotask_job_history
 ORDER BY job_start_time DESC FETCH FIRST 20 ROWS ONLY;
-~~~
+```
 
 การอ่าน dictionary views อาจต้อง DBA-approved privileges. คอลัมน์ `JOB_STATUS` และ `JOB_DURATION` ต้องตรวจกับ Oracle Database Reference ของ release ที่ติดตั้งก่อนใช้งาน production diagnostics; ให้เริ่มจาก `SELECT * FROM ... WHERE ROWNUM <= 3` ใน isolated sandbox ถ้าคอลัมน์ต่างกัน. **การ execute queries นี้ไม่ได้เปิด/ปิด tasks**.
 
@@ -72,7 +72,6 @@ ORDER BY job_start_time DESC FETCH FIRST 20 ROWS ONLY;
 ## Official sources
 - [Oracle 26ai Automated Maintenance](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html)
 - [Oracle 19c Administration](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/)
-
 
 ## Source-objective deepening — Proactive Maintenance Infrastructure
 

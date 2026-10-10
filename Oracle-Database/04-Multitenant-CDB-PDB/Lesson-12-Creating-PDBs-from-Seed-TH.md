@@ -8,6 +8,7 @@
 อธิบาย CDB$ROOT, PDB$SEED, user PDB; วางแผนชื่อ PDB, datafiles, administrator, open mode, service และการตรวจสอบหลังสร้างได้อย่างถูกต้อง
 
 ## Mental model
+
 ```mermaid
 flowchart TB
  A[CDB Instance] --> ROOT[CDB$ROOT]
@@ -28,6 +29,7 @@ PDB$SEED เป็น read-only template สำหรับสร้าง PDB; 
 5. วาง backup/recovery plan, post-create services, audit, monitoring, resource limits
 
 ## SQL creation sequence — **state-changing, NOT executable lab**
+
 ```sql
 -- Illustration only: DO NOT RUN. Credentials and storage mapping intentionally omitted.
 -- In authorized disposable sandbox, DBA reviews:
@@ -40,6 +42,7 @@ PDB$SEED เป็น read-only template สำหรับสร้าง PDB; 
 คำสั่ง `SAVE STATE` เก็บเป้าหมาย open state สำหรับ subsequent CDB restart ตาม support/instance scope ไม่ใช่การเปิดฐานข้อมูล ณ เวลาที่ใช้คำสั่งนั้น. ควรตรวจ state ของ PDB และ listener/service แยกจากกัน. `CREATE_FILE_DEST` ใช้ได้ตามเงื่อนไข target destination และ storage type ในเอกสารของรุ่นนั้น.
 
 ## Verification (read-only)
+
 ```sql
 SHOW CON_NAME
 SELECT con_id,name,open_mode,restricted FROM v$pdbs ORDER BY con_id;

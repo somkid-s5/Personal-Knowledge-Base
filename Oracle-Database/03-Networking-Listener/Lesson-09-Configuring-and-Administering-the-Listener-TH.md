@@ -8,6 +8,7 @@
 เข้าใจว่า listener ต่างจาก database instance; วินิจฉัย listener endpoint, dynamic service registration, dedicated handlers และ PDB services โดยไม่รีสตาร์ทระบบเพื่อเดาสาเหตุ
 
 ## Architecture
+
 ```mermaid
 flowchart LR
  A[JDBC / SQLcl] --> B[TCP listener]
@@ -20,11 +21,14 @@ Listener รับ connection request และส่งต่อให้ handl
 
 ## Read-only inspection
 บน server ที่ได้รับอนุญาต:
+
 ```bash
 lsnrctl status
 lsnrctl services
 ```
+
 บน SQL session ที่มี view privilege:
+
 ```sql
 SHOW CON_NAME
 SELECT name,network_name,con_id FROM v$services ORDER BY name;
@@ -48,5 +52,5 @@ SELECT name,value FROM v$parameter WHERE name IN ('local_listener','remote_liste
 - ทำไมการเพิ่ม processes อาจไม่แก้ JDBC connection leak?
 
 ## Official source
-- https://docs.oracle.com/en/database/oracle/oracle-database/26/netag/overview-oracle-net-listener.html
-- https://docs.oracle.com/en/database/oracle/oracle-database/26/netag/registering-information-local-listener.html
+- <https://docs.oracle.com/en/database/oracle/oracle-database/26/netag/overview-oracle-net-listener.html>
+- <https://docs.oracle.com/en/database/oracle/oracle-database/26/netag/registering-information-local-listener.html>

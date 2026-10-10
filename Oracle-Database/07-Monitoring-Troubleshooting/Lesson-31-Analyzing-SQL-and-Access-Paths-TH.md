@@ -12,7 +12,7 @@
 
 ## 1. SQL optimizer mental model
 
-~~~mermaid
+```mermaid
 flowchart TD
  S[SQL statement and bind values] --> O[Optimizer]
  ST[Table, column and index statistics] --> O
@@ -21,7 +21,7 @@ flowchart TD
  P --> J[Join order and join methods]
  A --> R[Runtime waits and rows]
  J --> R
-~~~
+```
 
 Oracle's cost-based optimizer ประเมินต้นทุนของหลาย candidate plans จาก object statistics, predicates, estimated rows และ available access methods. **Cost ไม่ใช่ milliseconds** และแผนที่ cost ต่ำกว่าไม่ได้การันตี response time ต่ำกว่าในทุก runtime.
 
@@ -43,7 +43,7 @@ Oracle's cost-based optimizer ประเมินต้นทุนของ�
 
 Optimizer stats เช่น `NUM_ROWS`, NDV, histogram และ extended statistics มีผลต่อ estimate. หาก estimate 10 rows แต่จริง 2,000,000 rows อาจเลือก join order/index strategy ผิด.
 
-~~~sql
+```sql
 -- Read-only: existing metadata from authorized tables only.
 SHOW CON_NAME
 SELECT owner,table_name,num_rows,last_analyzed,stale_stats
@@ -55,13 +55,13 @@ SELECT sql_id,child_number,plan_hash_value,executions,elapsed_time
 FROM v$sql
 WHERE executions > 0 AND parsing_schema_name='LAB_OWNER'
 ORDER BY elapsed_time DESC FETCH FIRST 10 ROWS ONLY;
-~~~
+```
 
 **Important:** `V$SQL.ELAPSED_TIME` สะสมตลอด lifetime ของ child cursor (microseconds ใน documentation); ต้องเปรียบเทียบ deltas/time window, executions และ variance ก่อนสรุป. Output `DBA_TAB_STATISTICS.NUM_ROWS` เป็น optimizer statistic ไม่ใช่ transactional COUNT(*) แบบ real-time.
 
 ## 4. Display existing cursor plan, without EXPLAIN PLAN
 
-~~~sql
+```sql
 -- Example only: replace literal values with an approved SQL_ID and child number.
 -- Requires suitable SELECT grants and DBMS_XPLAN execution permissions.
 SELECT plan_table_output
@@ -70,7 +70,7 @@ FROM TABLE(DBMS_XPLAN.DISPLAY_CURSOR(
   cursor_child_no => 0,
   format => 'TYPICAL'
 ));
-~~~
+```
 
 `DISPLAY_CURSOR` อ่าน execution plan ที่อยู่ใน cursor cache. ผลอาจไม่มีเมื่อ cursor aged out หรือสิทธิ์ไม่เพียงพอ. รูปแบบ `ALLSTATS LAST` ใช้ runtime plan stats ได้เมื่อมีการเก็บ execution statistics; อย่าสมมติว่า A-Rows มีให้ทุกแผน.
 
@@ -105,7 +105,6 @@ FROM TABLE(DBMS_XPLAN.DISPLAY_CURSOR(
 - [Oracle 26ai Execution Plan Display](https://docs.oracle.com/en/database/oracle/oracle-database/26/tgsql/generating-and-displaying-execution-plans.html)
 - [Oracle 26ai DBMS_XPLAN](https://docs.oracle.com/en/database/oracle/oracle-database/26/arpls/DBMS_XPLAN.html)
 - [Oracle 26ai Licensing Information](https://docs.oracle.com/en/database/oracle/oracle-database/26/dblic/Licensing-Information.html)
-
 
 ## Source-objective deepening — SQL Tuning Advisor and SQL Access Advisor
 
