@@ -67,3 +67,16 @@ SELECT name, network_name FROM v$services ORDER BY name;
 - [Oracle 26ai — Configure cman.ora](https://docs.oracle.com/en/database/oracle/oracle-database/26/netag/configuring-cman-ora-file-oracle-connection-manager-host.html)
 - [Oracle 26ai — CMAN parameters and rules](https://docs.oracle.com/en/database/oracle/oracle-database/26/netrf/oracle-connection-manager-parameters.html)
 - [Oracle 19c — Shared-server/session multiplexing](https://docs.oracle.com/en/database/oracle/oracle-database/19/netag/configuring-shared-server-architecture.html)
+
+
+## Source-objective deepening — CMCTL lifecycle and multiplexing
+
+วัตถุประสงค์ต้นฉบับยังครอบคลุมการใช้ **Oracle Connection Manager Control utility (CMCTL)** และการตั้งค่า **session multiplexing**. DBA ต้องแยกงาน configuration (`cman.ora`) ออกจาก administration (CMCTL) และ client connect descriptors:
+
+- **Configuration review:** listener address, Rule List (source/destination/service), parameter list และ gateway-process capacity
+- **Multiplexing feasibility:** ต้องตรวจ shared-server support, transport connections, application session semantics และ features ที่รองรับ ก่อนออกแบบ connection concentration
+- **CMCTL:** มีคำสั่งจัดการ service/processes และคำสั่งอ่านสถานะ; ชื่อ/รูปแบบตรวจ `cmctl help` บน version ที่ใช้งานจริง
+- **Security:** ACL สำหรับ clients และ administration เป็นคนละ boundary; ระวังเปิด allow-all โดยไม่ได้ตั้งใจ
+- **Validation:** client A permitted, client B denied, backend listener/service available, application login and throughput baselines; มี recovery route หาก gateway เป็น single point of failure
+
+**Practice:** จัดทำ `cman.ora` *decision worksheet* สำหรับ subnet ทดสอบสองชุดและอธิบาย rule precedence; ยังไม่เปิดจริงและห้ามเผย internal network configuration. อย่ารัน start/stop/reload ของ CMCTL ใน read-only lab.
