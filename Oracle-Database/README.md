@@ -26,12 +26,12 @@ The goal is not to preserve an old 19c course as if it were current. The goal is
 
 ## Current draft teaching resources
 
-- **Standalone Thai lessons 01–28** — browse learning layer folders below; original teaching drafts, not full Student Guide fidelity
-- [Lessons 10–31 compact Thai Teaching Atlas](./LESSONS-10-31-TH-TEACHING-ATLAS-DRAFT.md) — earlier working atlas retained as supplementary outline; **29–31 still awaiting standalone expansion**
+- **Standalone Thai lessons 01–31** — browse learning layer folders below; original teaching drafts, not full Student Guide fidelity
+- [Lessons 10–31 compact Thai Teaching Atlas](./LESSONS-10-31-TH-TEACHING-ATLAS-DRAFT.md) — earlier working atlas retained as supplementary outline; all 31 have since been expanded into standalone teaching drafts
 - [Eight-group original practice workbook](./10-Labs/LESSONS-07-31-PRACTICE-WORKBOOK-TH.md) — exercises not executed
-- [Data Movement and Maintenance Lessons 23–28](./08-Data-Movement-Maintenance/) and [Labs 11–12](./10-Labs/) now available as draft teaching material
+- [Data Movement and Maintenance Lessons 23–28](./08-Data-Movement-Maintenance/), [Monitoring and SQL Lessons 29–31](./07-Monitoring-Troubleshooting/) and [Companion Labs 01–13](./10-Labs/) are available as teaching drafts
 
-**Standalone lessons: 28/31 (90.3% of file coverage).** All 31 lesson topics represented including Atlas, but full semantic source verification, 26ai cross-version review, CI and live lab testing remain pending.
+**Standalone lessons: 31/31 (100% of file coverage, not 100% verified).** All 31 lesson topics represented including Atlas, but full semantic source verification, 26ai cross-version review, CI and live lab testing remain pending.
 
 ## Learning layers
 
