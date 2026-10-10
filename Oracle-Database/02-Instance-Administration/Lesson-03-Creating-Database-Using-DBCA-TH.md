@@ -163,3 +163,45 @@ Lesson 03 ต้นฉบับไม่ได้สอนแค่ wizard เ�
 **Lab tabletop:** เปิด DBCA ใน isolated lab → review summary → เลือก generate scripts ตาม UI/version ที่รองรับ → ตรวจชุดไฟล์และทำ secret sanitization → ปิดโดยไม่ execute creation. ต้องแยกสถานะ **scripts generated** ออกจาก **database created**. Syntax ของ silent-mode generation ตรวจด้วย `dbca -help` บน Oracle Home ที่ติดตั้งจริง.
 
 Reference: [19c Database Configuration Assistant](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/creating-and-configuring-an-oracle-database.html).
+
+## Source-page review (19c Lesson 03, slides 3-2 ถึง 3-11) — Templates, Charset และ Client Conversion
+
+เนื้อหาจาก PDF ต้นฉบับชี้ให้เห็นว่า **การเลือก character set เป็น design decision ก่อนสร้าง database** เช่นเดียวกับ storage และ template ไม่ใช่ option ที่กลับมาแก้ได้ง่ายหลัง production เริ่มเก็บข้อมูล.
+
+### DBCA planning: workload template
+
+| Template/approach | ตัวอย่าง workload | DBA ต้องพิจารณา |
+|---|---|---|
+| General Purpose / Transaction Processing | OLTP, service APIs, many small transactions | memory sizing, redo, undo, connection capacity, backup |
+| Data Warehouse | analytical scans/batch processing | parallelism, I/O throughput, temp space, compression license |
+| Custom Database | mixed workload, special compliance/storage | manually review files, initialization params, features and storage topology |
+
+ชื่อ template และ default values แตกต่างได้ตาม Oracle release/installer. อย่ารับค่า default เพียงเพราะ wizard ตอบว่า creation successful.
+
+### Charset and NLS_LANG — ปัญหาข้อมูลไทยจริง
+
+- **Database character set** กำหนดการเก็บข้อความชนิด `CHAR`/`VARCHAR2`/`CLOB`. `AL32UTF8` รองรับ Unicode; `TH8TISASCII` เป็น character set เก่าที่มีความเสี่ยงในการแลกเปลี่ยนข้อความข้ามระบบ.
+- **Client character set** เป็นชุดอักขระของ bytes ที่ Oracle client มองเห็น; `NLS_LANG` ของ OCI/SQL*Plus บางประเภทต้องตรงกับการเข้ารหัส **ข้อมูลฝั่ง client จริง** ไม่ใช่ตั้ง `AL32UTF8` ตาม server โดยอัตโนมัติ. SQL Developer/JDBC และ drivers อื่นอาจจัดการ charset ต่างจาก OCI.
+- การตั้งค่า `NLS_LANG` ผิดบน legacy client อาจทำให้ Oracle Net *ไม่แปลง* bytes ที่ควรแปลง กลายเป็น mojibake/ข้อมูลเสีย ทั้งที่ insert ไม่มี error.
+- การย้าย 19c ที่ใช้ `TH8TISASCII` ไป 26ai ที่ใช้ `AL32UTF8` ต้องทำ **test data migration, charset scanner/DMU readiness, Thai representative rows, length expansion, byte-vs-char semantics, verification and rollback** ก่อน cutover.
+- อย่าแก้ charset ของ production database ด้วยคำสั่งตัวเดียวหรือ `ALTER DATABASE CHARACTER SET` แบบฝืน conversion.
+
+```sql
+-- Read-only: confirm actual database character set and NLS context
+SELECT parameter,value FROM nls_database_parameters
+WHERE parameter IN ('NLS_CHARACTERSET','NLS_NCHAR_CHARACTERSET');
+SELECT parameter,value FROM nls_session_parameters
+WHERE parameter IN ('NLS_LANGUAGE','NLS_TERRITORY','NLS_DATE_FORMAT');
+```
+
+### DBCA scripts generation and validation
+
+1. เลือก template และ CDB/PDB strategy
+2. ตั้ง approved filesystem/ASM destinations, memory sizing, admin credential handling, charset และ backup requirements
+3. เลือกสร้าง **database creation scripts** แทน execute database create ตาม options ของ installed DBCA; inspect SQL/sh files before execution
+4. ตรวจ scripts ระบุ OS path, target SID, init params, root/seed datafiles, post-create data dictionary initialization และ error handling ครบ
+5. เก็บ script copies ใน private vault ที่ไม่มี credentials; เผยแพร่เฉพาะ sanitized examples
+
+**Expected evidence:** screenshot DBCA summary (sanitized), hashes of generated scripts, planned CDB/PDB services, separate code review, DBCA log path and original rollback plan.
+
+Sources: [19c Database Character Set Considerations](https://docs.oracle.com/en/database/oracle/oracle-database/19/nlspg/), [Oracle Database Installation Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/).
