@@ -175,13 +175,13 @@ PDF ต้นฉบับไม่ได้ครอบคลุมแค่ SQL
 - **Local OS SYSDBA authentication** (`sqlplus / as sysdba`) อาศัย OS groups/permissions และ Oracle Home บน server; ไม่ใช่ทางลัด remote login และไม่ควรใช้กับ application account.
 - **DBA navigator** แสดงเมนูไม่ได้หมายความว่า user มีสิทธิ์ ALTER/VIEW ทุกประเภท. วาง dedicated least-privilege monitoring identity สำหรับ read-only inspection.
 
-~~~text
+```text
 Client / tool
   → connect descriptor (host:port/service)
   → listener/service handler
   → authenticated user session in specific PDB
   → authorized SQL/DBA operation
-~~~
+```
 
 ### Lab thought experiment
 
