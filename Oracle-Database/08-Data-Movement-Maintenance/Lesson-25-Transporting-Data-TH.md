@@ -81,7 +81,7 @@ Lesson 25 ต้นฉบับมี **Data Pump Export/Import**, **transport t
 
 **Data Pump architecture:** Client CLI `expdp`/`impdp` เรียก server-side job ที่ประสานโดย DBMS_DATAPUMP (master table, worker processes, dump files และ status). `DIRECTORY` ชี้ server-side path. Metadata/data processing มี filters/remap, job modes และ compatibility ที่ต้อง validate; `DBA_DATAPUMP_JOBS` เป็น view สำหรับ inspect job state.
 
-### Transport paths:
+### Transport paths
 - **Image copy:** ใช้ physical copies ของ tablespace datafiles พร้อม metadata ที่ target ต้องใช้
 - **Backup set:** ใช้ RMAN-supported backup sets/conversion and transport mechanisms ตาม version/platform; ไม่ได้เท่ากับเอา binary file ธรรมดามา import ด้วย Data Pump
 - **Whole database transport:** ต้องตรวจ platform endian, database files, control file/redo, RMAN procedures, initialization parameters, DBID/compatibility, TDE และ backup/recovery prerequisites. ไม่ใช่ table-level Data Pump export
