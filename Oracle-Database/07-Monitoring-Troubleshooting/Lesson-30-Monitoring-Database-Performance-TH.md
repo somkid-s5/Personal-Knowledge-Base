@@ -79,3 +79,26 @@ Possible causes include listener available handlers, database process capacity, 
 ## References
 - [Oracle 26ai Measuring Database Performance](https://docs.oracle.com/en/database/oracle/oracle-database/26/tgdba/measuring-database-performance.html)
 - [Oracle 26ai Database Reference](https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/)
+
+
+## Source-objective deepening — Server Metrics, Threshold Alerts and Monitoring Tools
+
+Lesson 30 เน้น **performance views/tools** และ **statistics/metrics collected by Oracle**. ต้องแยก cumulative statistics, interval metrics, alert thresholds, instance vs PDB scope และ notification pipeline.
+
+- **System and session stats:** `V$SYSSTAT`, `V$SESSTAT` และ SQL counters ใช้เปรียบเทียบแบบ delta ระหว่าง timestamp สองจุด ไม่แปล lifetime totals ว่า requests ต่อวินาที
+- **Metric views:** `V$SYSMETRIC`, `V$SYSMETRIC_HISTORY` ใช้ดู metric periods ตามรุ่น/privileges; historical retention ของ views ไม่แทน monitoring TSDB
+- **Server-generated alerts:** ตรวจ advisory/threshold settings และ outstanding alerts จาก views ที่ available ภายใต้ edition/version, เช่น `DBA_OUTSTANDING_ALERTS` / alert history
+- **Tools:** SQL*Plus read-only, Enterprise Manager, independent monitoring platform และ ADR/log collectors มี coverage/permissions ต่างกัน. Enterprise Manager email/alert setup ต้องมี delivery tests.
+- **Risk:** AWR/ASH/ADDM access ต้องตรวจ Diagnostics Pack entitlement; ไม่มี pack ก็ยังเก็บ OS/DB metrics และ application latency ผ่าน authorized methods ได้
+
+~~~sql
+-- Read-only, approved sandbox account only
+SELECT metric_name,value,metric_unit,begin_time,end_time
+FROM v$sysmetric
+WHERE rownum <= 20;
+SELECT object_name,reason,message_type,message_level
+FROM dba_outstanding_alerts
+WHERE rownum <= 20;
+~~~
+
+**Drill:** ตั้ง threshold สำหรับ sessions/processes อย่างไรให้ตรวจ intermittent saturation ได้? ออกแบบ sampling interval, false positives, incident timestamp, escalation path และ remediation owner โดยไม่รัน ALTER SYSTEM.
