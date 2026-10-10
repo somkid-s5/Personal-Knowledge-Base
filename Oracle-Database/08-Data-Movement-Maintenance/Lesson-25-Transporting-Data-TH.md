@@ -74,3 +74,20 @@ FETCH FIRST 20 ROWS ONLY;
 ## References
 - [Oracle 26ai Transportable Tablespace Export](https://docs.oracle.com/en/database/oracle/oracle-database/26/sutil/starting-oracle-data-pump.export.html)
 - [Oracle 19c Self-contained set](https://docs.oracle.com/en/database/oracle/oracle-database/19/spmds/task-1-pick-a-self-contained-set-of-tablespaces.html)
+
+
+## Source-objective deepening — Data Pump Architecture, Image Copies and Backup Sets
+
+Lesson 25 ต้นฉบับมี **Data Pump Export/Import**, **transport tablespaces by image copies or backup sets**, และ **transport databases using datafiles or backup sets** ไม่ใช่แค่ transportable tablespace file copy.
+
+**Data Pump architecture:** Client CLI `expdp`/`impdp` เรียก server-side job ที่ประสานโดย DBMS_DATAPUMP (master table, worker processes, dump files และ status). `DIRECTORY` ชี้ server-side path. Metadata/data processing มี filters/remap, job modes และ compatibility ที่ต้อง validate; `DBA_DATAPUMP_JOBS` เป็น view สำหรับ inspect job state.
+
+**Transport paths:**
+- **Image copy:** ใช้ physical copies ของ tablespace datafiles พร้อม metadata ที่ target ต้องใช้
+- **Backup set:** ใช้ RMAN-supported backup sets/conversion and transport mechanisms ตาม version/platform; ไม่ได้เท่ากับเอา binary file ธรรมดามา import ด้วย Data Pump
+- **Whole database transport:** ต้องตรวจ platform endian, database files, control file/redo, RMAN procedures, initialization parameters, DBID/compatibility, TDE และ backup/recovery prerequisites. ไม่ใช่ table-level Data Pump export
+- **Cross-platform conversion:** เลือก RMAN conversion/method ที่ได้รับรอง; target version ต้องรองรับและมี complete file inventory
+
+**Decision matrix:** ถ้าย้าย schema เล็กและ remap owners → logical Data Pump; ถ้าย้ายหลาย TB และ compatible platform → transportable approach; ถ้าย้ายทั้ง database และต้องรักษา physical state → RMAN/whole-database transport plan. ทั้งสามต้องทำ sandbox rehearsal, backup/restore test, validation และ rollback.
+
+Reference: [Oracle 19c Backup and Recovery User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/), [Oracle 26ai Utilities](https://docs.oracle.com/en/database/oracle/oracle-database/26/sutil/).
