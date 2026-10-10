@@ -97,6 +97,9 @@ resource "aws_sqs_queue" "payment_queue" {
 ตัวอย่างโค้ดจำลองการทำ Outbox Publisher ด้วย Python:
 ```python
 # src/python/outbox_publisher.py
+
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 📩 Event → ⚡ Runtime → 🗄️ Dependency → ✅ Verify → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
 # (จำลองการทำงาน) อ่านจาก DB และส่งเหตุการณ์
 event_bus.put_events(
     Entries=[{

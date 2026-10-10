@@ -1,5 +1,8 @@
 # Project 13: Service Mesh with Istio Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 
 เช้าวันศุกร์ ณ บริษัทสตาร์ทอัปส่งอาหารชื่อ "QuickOrder" ทีมวิศวกรได้เติบโตขึ้นและแยกแอปพลิเคชันจาก Monolith ออกเป็น 15 Microservices จนทำให้เกิดปัญหาความวุ่นวายตามมา

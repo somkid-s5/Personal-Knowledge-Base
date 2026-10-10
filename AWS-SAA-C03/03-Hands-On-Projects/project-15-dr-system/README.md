@@ -1,5 +1,8 @@
 # Project 15: Disaster Recovery System Workbook
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🧪 Lab → 🧠 Concept → 🗺️ Flow → 🔎 Check → ✅ Explain → 🧹 Cleanup  
+> 🎨 [Visual Guide ของวิชานี้](../../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 1. Scenario (สถานการณ์จำลอง)
 
 วันจันทร์ เวลา 10:00 น. คุณทำงานที่ SecureBank Thai ซึ่งเป็น Fintech ที่กำลังเติบโต
