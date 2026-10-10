@@ -133,3 +133,73 @@ flowchart TD
 
 ### 26ai note
 Oracle 26ai documents include revised diagnostic trace classification, rotation/segmentation and dump-size behavior; **do not assume identical alert/trace operational defaults between 19c and 26ai**. Confirm edition and settings before defining log-retention/monitoring policy.
+
+## Source-page review (19c Lesson 06, slides 6-2 ถึง 6-22) — Dictionary, ADR, DDL Log และ Container Data
+
+### 1. Parameter file search and change scope
+
+On Unix-like systems common default parameter file locations are under `$ORACLE_HOME/dbs` (Oracle Home/Windows details differ). SPFILE เป็น binary initialization file ที่ Oracle ปรับผ่าน supported SQL; PFILE เป็น text file ที่ DBA version-controls privately. การแก้ binary SPFILE ด้วย text editor เป็นความผิดพลาดรุนแรง.
+
+- `SCOPE=MEMORY`: runtime only (eligible dynamic parameter), lost on restart
+- `SCOPE=SPFILE`: future startup only; requires SPFILE
+- `SCOPE=BOTH`: current and persisted; constrained by parameter modifiability
+- `ALTER SESSION` affects session scope where modifiable; `ALTER SYSTEM` may affect broader state, `DEFERRED` flags affect future sessions
+
+### 2. ADR hierarchy and diagnostic evidence
+
+```text
+diagnostic_dest
+  └─ diag/rdbms/<database>/<instance>/
+       ├─ alert/          (including structured alert log)
+       ├─ trace/          (text alert, process traces)
+       ├─ incident/
+       ├─ hm/             (health monitor)
+       └─ log/            (DDL and other logs when configured)
+```
+
+`V$DIAG_INFO` ช่วยหา location ที่ Oracle ใช้จริง. `adrci` เป็นเครื่องมืออ่าน diagnostic data; หลีกเลี่ยง cleanup/purge ใน production ระหว่าง incident เพราะ logs เป็นหลักฐาน.
+
+```sql
+SELECT name,value FROM v$diag_info ORDER BY name;
+SELECT instance_name,startup_time,status FROM v$instance;
+```
+
+### 3. DDL logging — ไม่ใช่ Unified Auditing
+
+`ENABLE_DDL_LOGGING` รองรับการบันทึก DDL ที่กำหนดไว้ใน text/XML diagnostic logs ตาม version. **DDL logging ไม่ทดแทน Unified Auditing**, ไม่บันทึกทุก SQL หรือ SELECT และไม่รับรอง user attribution/forensics แบบเดียวกับ policies. ตรวจ edition และ Oracle Database Lifecycle Management Pack licensing ก่อน enable/ใช้ feature; ห้ามแก้ parameter ตาม tutorial โดยไม่ตรวจสิทธิ์และ audit requirement.
+
+```sql
+-- Observation only
+SELECT name,value FROM v$parameter
+WHERE name IN ('enable_ddl_logging','diagnostic_dest','max_dump_file_size');
+```
+
+### 4. Dynamic Performance Views vs Data Dictionary
+
+| Category | Example | Interpretation |
+|---|---|---|
+| `V$*` | `V$INSTANCE`, `V$SESSION`, `V$PARAMETER` | Current instance/runtime information (often transient/cumulative) |
+| `DBA_*` | `DBA_TABLESPACES`, `DBA_USERS`, `DBA_OBJECTS` | Dictionary metadata visible to privileged DBA |
+| `ALL_*` | `ALL_TABLES`, `ALL_OBJECTS` | Objects accessible to current user |
+| `USER_*` | `USER_TABLES`, `USER_OBJECTS` | Objects in current schema |
+| `CDB_*` | `CDB_TABLES`, `CDB_USERS` | Multi-container metadata subject to current container and CONTAINER_DATA |
+
+**`CONTAINER_DATA`** controls a common user's visibility across containers for certain CDB_/V$ views; do not assume root query returns all PDB metadata for every account. Querying as SYSDBA on production should not be the default way to bypass privilege restrictions.
+
+```sql
+SHOW USER
+SHOW CON_NAME
+SELECT owner,table_name FROM all_tables FETCH FIRST 10 ROWS ONLY;
+SELECT username,common,account_status
+FROM cdb_users FETCH FIRST 10 ROWS ONLY;
+```
+
+### Failure investigation checklist
+
+1. Identify symptom: parameter ignored after restart, expected DDL log absent, wrong PDB scope or missing dictionary rows
+2. Capture `V$PARAMETER` and `V$SPPARAMETER` delta (roles permitting), current instance and ORACLE_HOME
+3. Validate ADR diag location, timestamps, trace permission and log retention before changes
+4. If missing cross-PDB rows, test container, common-user privileges and `CONTAINER_DATA` rather than assuming data loss
+5. Plan root cause/rollback; use approved changes only in isolated lab
+
+Sources: [Oracle 19c Administrator's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/), [Oracle 19c Database Reference](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/).
