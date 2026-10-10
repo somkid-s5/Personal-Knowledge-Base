@@ -9,6 +9,15 @@
 
 [← Repository root](../README.md)
 
+## 🔷 Visual Memory — ดูภาพก่อนอ่านบทเต็ม
+
+![Azure AZ-104 concept icon path](./assets/visual-memory/01-concept-path.svg)
+
+**🧠 👤 Principal → 🔑 Role → 🗂️ Scope → ☁️ Resource** — 📌 Azure RBAC ต้องมอง Principal + Role Definition + Scope + Role Assignment พร้อมกัน; PIM, Deny Assignment และเงื่อนไขอื่นอาจมีผล
+
+[📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
+
+
 ## What this package is
 
 This package consolidates the existing **AZ-104 2026 Master Cram Book** into the main personal learning knowledge base.

@@ -25,6 +25,10 @@ Run this before marking a package `Verified`, `Complete`, or `100%` within a dec
 - [ ] Diagrams are readable and explained by surrounding text.
 - [ ] Screenshots are used only when UI location matters.
 
+- [ ] Icon/emoji memory cues match the subject and are paired with searchable technical labels.
+- [ ] SVG visual guides and diagrams render without remote dependencies and have meaningful alt text.
+- [ ] Official vendor logos, if present, have provenance and rights guidance; original pictograms are not mislabeled.
+
 ## E. Accuracy and safety
 - [ ] High-impact claims use current official sources.
 - [ ] Volatile facts are dated or linked rather than frozen as timeless truth.

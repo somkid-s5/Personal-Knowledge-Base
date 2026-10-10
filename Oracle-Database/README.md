@@ -8,6 +8,15 @@
 
 [← Repository root](../README.md)
 
+## 🗄️ Visual Memory — ดูภาพก่อนอ่านบทเต็ม
+
+![Oracle Database concept icon path](./assets/visual-memory/01-concept-path.svg)
+
+**🧠 💻 Client → 📡 Listener → ⚙️ Instance → 🗄️ Datafiles** — 📌 Database = Persistent Files; Instance = SGA + Processes. Listener รับ/จัดการขั้นตอน Connect ไม่ได้ Proxy ทุกคำสั่ง SQL
+
+[📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
+
+
 ## What this system is
 
 This is the long-lived Oracle Database learning system for DBA administration, troubleshooting and operations.

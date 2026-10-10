@@ -57,3 +57,11 @@ jobs:
       - uses: actions/checkout@v5
       - name: Guard canonical SAA practice layer
         run: python AWS-SAA-C03/01-Certification-Core/tools/audit_provenance.py
+
+  icon-first-visuals:
+    name: Validate icon-first visuals
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate SVG structure and system visual guide links
+        run: python .github/scripts/validate_visual_learning.py

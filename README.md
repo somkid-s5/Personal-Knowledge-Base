@@ -10,6 +10,13 @@ The repository is organized around **learning systems**, not provider folders. W
 
 ---
 
+## 🎨 เรียนจาก Icon + Diagram ก่อนอ่านเนื้อหา
+
+![Five learning systems visual overview](./assets/visual-memory/learning-map.svg)
+
+**🧠 จำภาพก่อน → 📘 อ่าน Markdown → 🧪 ลง Lab → 🩺 Troubleshoot**  
+เปิด [Icon-First Visual Gallery](./VISUAL-GALLERY.md) เพื่อดูแผนภาพของทุกวิชา โดยคงเนื้อหา Note, Lab และ Source-of-Truth เดิมครบถ้วน
+
 ## Start here — 5 active learning systems
 
 | Learning system | Goal | Status |
@@ -51,6 +58,8 @@ These are **layers of one system**, not separate AWS products in the root catalo
 - [Content Standard](./docs/CONTENT-STANDARD.md)
 - [Source & Fact-Checking Policy](./docs/SOURCE-POLICY.md)
 - [Visual Learning Standard](./docs/VISUAL-STANDARD.md)
+- [Icon-First Learning Standard](./docs/ICON-FIRST-LEARNING-STANDARD.md)
+- [Visual Gallery](./VISUAL-GALLERY.md)
 - [Quality Gate](./docs/QUALITY-GATE.md)
 - [Current Repository Baseline Audit — 2026-10-07](./docs/REPOSITORY-AUDIT-2026-10-07.md)
 - [Templates](./templates/)

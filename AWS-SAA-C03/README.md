@@ -6,6 +6,15 @@
 
 [← Repository root](../README.md)
 
+## 🌩️ Visual Memory — ดูภาพก่อนอ่านบทเต็ม
+
+![AWS SAA-C03 concept icon path](./assets/visual-memory/01-concept-path.svg)
+
+**🧠 🌐 Client → ⚖️ ALB → 🖥️ Healthy Target** — 📌 ALB เลือก Target ตาม Listener Rule, Target Group และสถานะ Healthy; การมี EC2 ไม่ได้แปลว่า Backend พร้อมรับงาน
+
+[📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
+
+
 ## Start here
 
 This folder is the single AWS learning system in this repository. Do not treat the course, certification notes and project track as separate top-level AWS products.

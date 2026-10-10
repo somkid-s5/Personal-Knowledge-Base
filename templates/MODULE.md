@@ -2,6 +2,14 @@
 
 [Back to package README](./README.md)
 
+## 🧠 Visual memory (10 seconds)
+
+> **Memory cue:** 🌐 → 🔐 → 🖥️ — replace with icons relevant to this topic, and link to the system's visual guide.
+
+`![Concise concept diagram](./assets/visual-memory/your-topic.svg)`
+
+Explain the actual technical roles here. Adapt the image path or omit it if not relevant; never leave a broken sample link.
+
 ## Learning outcomes
 After this module, you should be able to:
 1. ...
