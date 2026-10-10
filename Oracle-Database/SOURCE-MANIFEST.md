@@ -9,10 +9,10 @@
 
 | Source | Version/type | Role | Status |
 |---|---|---|---|
-| Oracle Database 19c: Administration Workshop Student Guide, D106546GC10 | Oracle University / 2022 | Primary foundation course | Registered; structured ingestion started |
-| Oracle Database 19c: Administration Workshop Activity Guide, D106546GC10 | Oracle University / 2022 | Official course practices | Registered; lab mapping started |
-| OracleLearning / Docs / Lesson 1–31 PDFs | Per-lesson extracts | Lesson-level source traceability | Registered |
-| OracleLearning / labs / 8 module folders | Lab assets | Hands-on source set | Registered |
+| Oracle Database 19c: Administration Workshop Student Guide, D106546GC10 | Oracle University / 2022 | Primary foundation course | Original 31 lesson objective sections inspected 2026-10-10; full page-level semantic review PENDING |
+| Oracle Database 19c: Administration Workshop Activity Guide, D106546GC10 | Oracle University / 2022 | Official course practices | Activity Guide table of contents inspected 2026-10-10; detailed practice step comparison and lab execution PENDING |
+| OracleLearning / Docs / Lesson 1–31 PDFs | Per-lesson extracts | Lesson-level source traceability | All 31 lesson PDFs located and objectives read 2026-10-10 |
+| OracleLearning / labs / 8 module folders | Lab assets | Hands-on source set | All eight folders located; task-by-task scripts/execution NOT VERIFIED |
 | OracleLearning / setup | Setup/build source | Environment support | Registered |
 | Oracle_Udemy course files | PDFs/PPTX/practice files | Secondary explanation/practice source | Registered; selective ingestion pending |
 
@@ -87,3 +87,10 @@ The Oracle University guides explicitly identify themselves as proprietary Oracl
 Do not commit source PDFs, proprietary figures or long copied passages.
 
 Repository content must be original teaching reconstruction with source traceability.
+
+## Direct-source review checkpoint — 2026-10-10
+
+- Connected user's Google Drive folder `Oracle Database / Oracle_Oraclelearning / Docs` contains **31 separate lesson PDFs** corresponding to the listed lessons. Objective sections were inspected for every lesson and summarized in [SOURCE-OBJECTIVE-COVERAGE-AUDIT.md](./SOURCE-OBJECTIVE-COVERAGE-AUDIT.md).
+- `D106546GC10_sg.pdf` and `D106546GC10_ag.pdf` were accessible through the connected Drive; the latter's practice index was inspected. [OFFICIAL-ACTIVITY-GAP-MAP.md](./OFFICIAL-ACTIVITY-GAP-MAP.md) records gaps between official exercise goals and original read-only companion labs.
+- The source is **Oracle proprietary / Oracle Internal & Oracle Academy Use Only**. It is **not** published, attached or mirrored into this GitHub repo. No example lab usernames/passwords from the source should be reused or posted.
+- Current evidence **does not establish page-by-page source fidelity**, full source assets ingestion, student-guide screenshots/diagrams validation or successful lab execution.
