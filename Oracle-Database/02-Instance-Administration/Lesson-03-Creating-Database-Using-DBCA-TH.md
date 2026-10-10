@@ -150,3 +150,17 @@ SELECT name, value FROM v$diag_info WHERE name IN ('Diag Trace','Diag Alert');
 - [Oracle 19c Database Configuration Assistant](https://docs.oracle.com/en/database/oracle/oracle-database/19/ntdbi/creating-and-configuring-an-oracle-database.html)
 - [Oracle AI Database 26ai Administration documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
 - [Oracle AI Database 26ai Reference](https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/)
+
+
+## Source-objective deepening — Generate Database Creation Scripts by DBCA
+
+Lesson 03 ต้นฉบับไม่ได้สอนแค่ wizard เพื่อ create database แต่ยังมีวัตถุประสงค์ **Generate Database Creation Scripts**. DBCA สามารถเตรียม scripts/configuration สำหรับ DBA review โดยไม่ให้ wizard สร้าง database ทันที (screen/labels แตกต่างตาม release). ก่อนนำ scripts ไปใช้ต้องตรวจ:
+1. ชื่อ CDB/PDB/SID/DB_UNIQUE_NAME, file placement, storage, memory และ character set
+2. script ordering, SQL file references, Oracle Home และ parameter file defaults
+3. credentials/passwords/keystores — ห้าม commit secrets หรือ local credential files ลง repository
+4. permissions/ownership ของ target directories และ free-space requirements
+5. post-create scripts, service registration, recovery setup และ completion evidence
+
+**Lab tabletop:** เปิด DBCA ใน isolated lab → review summary → เลือก generate scripts ตาม UI/version ที่รองรับ → ตรวจชุดไฟล์และทำ secret sanitization → ปิดโดยไม่ execute creation. ต้องแยกสถานะ **scripts generated** ออกจาก **database created**. Syntax ของ silent-mode generation ตรวจด้วย `dbca -help` บน Oracle Home ที่ติดตั้งจริง.
+
+Reference: [19c Database Configuration Assistant](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/creating-and-configuring-an-oracle-database.html).
