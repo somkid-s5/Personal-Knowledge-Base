@@ -16,7 +16,7 @@
 | Current Oracle 26ai authority identified | PASS |
 | Version separation policy defined | PASS |
 | 19c→26ai delta scaffold | PASS |
-| 31/31 lesson topics have Thai draft coverage | DRAFT — 01–31 standalone Thai draft files |
+| 31/31 lesson topics have Thai draft coverage | FILE-PRESENCE VERIFIED by 31 GitHub readbacks; semantic fidelity NOT VERIFIED |
 | Full semantic ingestion of 31 lessons | PENDING — page-by-page source fidelity not established |
 | Eight source lab groups have original practice workbook | DRAFT — not executed |
 | Full lab fidelity mapping | PENDING |
@@ -30,3 +30,9 @@
 Do not label this system Verified yet.
 
 The current deliverable establishes the architecture, provenance and first teaching layer while preventing version confusion from the start.
+
+## Readback verification — 2026-10-10
+
+- Individually fetched all 31 standalone Lesson Markdown files from GitHub main: **31/31 FOUND**.
+- [Full-Fidelity QA Tracker](./FULL-FIDELITY-QA-TRACKER.md) records the lesson-level status and eight lab-source groups.
+- This was not a full Markdown link linter, Oracle SQL execution test, Oracle University guide ingestion audit, security review or CI run.
