@@ -1,5 +1,8 @@
 # Module 9 — Containers
 
+> 🧠 **ภาพจำก่อนอ่าน:** 📦 Image → ☸️ Workload → 🌐 Service → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำอธิบายและคำสั่งจริง
+
 ## 🧭 Visual architecture
 
 ```mermaid
