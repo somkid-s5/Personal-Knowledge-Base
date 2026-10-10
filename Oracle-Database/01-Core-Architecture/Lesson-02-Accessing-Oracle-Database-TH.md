@@ -151,3 +151,40 @@ SELECT name, open_mode FROM v$pdbs ORDER BY name;
 - [SQL*Plus 26ai — CONNECT](https://docs.oracle.com/en/database/oracle/oracle-database/26/sqpug/CONNECT.html)
 - [Oracle Net 26ai — Overview of Listener](https://docs.oracle.com/en/database/oracle/oracle-database/26/netag/overview-oracle-net-listener.html)
 - [Oracle Net 26ai — Connecting to Database Service](https://docs.oracle.com/en/database/oracle/oracle-database/26/netag/connecting-database-service.html)
+
+## Source-page review (19c Lesson 02, slides 2-2 ถึง 2-21) — DBA Tools และ Connection/Sessions
+
+PDF ต้นฉบับไม่ได้ครอบคลุมแค่ SQL*Plus/SQLcl แต่ยังแนะนำ GUI tools, Oracle Enterprise Manager architecture และการเลือกว่าเครื่องมือใดเหมาะกับงานไหน. เนื้อหานี้เขียนใหม่เป็นแผนเลือกใช้:
+
+| Tool / interface | ทำงานแบบไหน | ข้อจำกัดหลัก |
+|---|---|---|
+| SQL*Plus | command line SQL, PL/SQL และ DBA connection | ระวัง shell/history passwords; OS authentication เฉพาะ trusted host |
+| SQLcl | command-line script automation/interactive SQL | feature/version ใช้ตาม SQLcl build; ตรวจ connection wallet |
+| SQL Developer | GUI แสดง tables, schemas, queries และ DBA navigator | DBA operations ต้องมีสิทธิ์จริง ไม่ใช่แค่เปิด DBA tab ได้ |
+| DBCA | wizard/silent database creation and templates | รันจาก host ที่มี Oracle software และ access rights; ไม่ใช่ generic remote SQL client |
+| EM Database Express (EM Express) | browser-based DB management ตาม 19c installation/config | single-target focus; security, HTTPS and support varies by edition/version |
+| Enterprise Manager Cloud Control | central monitoring/management หลาย targets | มี OMR (repository), OMS, management agents และ console; lifecycle/config features อาจมี pack licenses |
+| Other utilities | `lsnrctl`, `adrci`, Data Pump, RMAN | ใช้กับงานเฉพาะ; execution context และ privilege boundary ต่างกัน |
+
+**หมายเหตุเวอร์ชัน:** ชื่อผลิตภัณฑ์ `OMX`, `EM Express` และ UI บางรายการเป็นบริบทจากหลักสูตร Oracle 19c; ไม่ควรสรุปว่า Oracle AI Database 26ai มี GUI ชุดเดียวกันทั้งหมด ให้ตรวจ current documentation/target edition ก่อน.
+
+### Connection, session, privilege — ต้องไม่สับสน
+
+- **Connection** คือ communication path ของ client process ไป Oracle server; **session** คือ authenticated logical state. Application pool อาจสร้าง physical connections ที่ถือ session อยู่ โดยยังไม่มี SQL execution ณ วินาทีนั้น.
+- **Authentication** ยืนยันตัวตนว่าเป็นใคร; **authorization** ตัดสินว่า SQL/DBA operation ทำได้หรือไม่. การเชื่อมต่อผ่านไม่ได้อาจเกิดที่ network, listener, service, authentication หรือ resource capacity.
+- **Local OS SYSDBA authentication** (`sqlplus / as sysdba`) อาศัย OS groups/permissions และ Oracle Home บน server; ไม่ใช่ทางลัด remote login และไม่ควรใช้กับ application account.
+- **DBA navigator** แสดงเมนูไม่ได้หมายความว่า user มีสิทธิ์ ALTER/VIEW ทุกประเภท. วาง dedicated least-privilege monitoring identity สำหรับ read-only inspection.
+
+~~~text
+Client / tool
+  → connect descriptor (host:port/service)
+  → listener/service handler
+  → authenticated user session in specific PDB
+  → authorized SQL/DBA operation
+~~~
+
+### Lab thought experiment
+
+แอป connect ผ่าน SQL Developer GUI ได้แต่คำสั่ง ALTER SYSTEM ถูกปฏิเสธ: จะตรวจ service/container และ privilege อย่างไรโดยไม่เพิ่ม DBA? จากนั้นเปรียบเทียบว่าการตรวจฐานข้อมูล 50 targets ใช้ Cloud Control กับการเขียน SQL*Plus script มีต้นทุนการติดตั้ง ความปลอดภัย และ license ต่างกันอย่างไร.
+
+Source reference: [Oracle 19c Database Administrator's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/).
