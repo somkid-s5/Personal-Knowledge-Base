@@ -1,5 +1,8 @@
 # Lesson 04 — Creating an Oracle Database Using SQL Commands (ภาษาไทย)
 
+> 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
+> 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
+
 [Oracle Database](../README.md) · [Instance Administration](./README.md) · [Lab 04](../10-Labs/Lab-04-Manual-Database-Creation-Planning.md)
 
 > **Source mapping:** Oracle University *19c Administration Workshop*, Lesson 4. บทนี้เรียบเรียงเป็นภาษาไทยใหม่ตามหัวข้อหลักสูตรและเอกสารทางการ ไม่ใช่การถอด Student Guide แบบ page-by-page (source-fidelity ยัง PENDING)  
