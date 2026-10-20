@@ -1,8 +1,8 @@
-# Personal Learning Knowledge Base 🧠
+# 📚 Personal Knowledge Base — สมุดโน้ตเรียนรู้ของฉัน
 
-A long-lived personal knowledge base for structured technical learning. Cloud, infrastructure and certifications remain major areas, but the repository is no longer limited to the Cloud Engineer label.
+สมุดโน้ตส่วนตัวสำหรับเรียน Cloud, Infrastructure, Security และ Database เน้นอ่านเข้าใจง่าย มีภาพจำ ตัวอย่างงานจริง Lab และเส้นทางการเรียนต่อเนื่อง
 
-The repository is organized around **learning systems**, not provider folders. When you open the repo, the main decision should be **what you want to learn**, not whether a file originally came from a course, certification pack, or project repository.
+เปิดสมุดโน้ตแล้วเลือก **วิชาที่อยากเรียน** จากนั้นอ่านตามบท ฝึกทำและทบทวนได้เลย โดยไม่ต้องกังวลว่าเนื้อหาเก็บไว้ในไฟล์หรือโฟลเดอร์ไหน
 
 > **Repository architecture:** learning system → learning layers → modules/labs/practice/QA  
 > **Default explanation language:** Thai, while preserving official English technical terminology  
@@ -17,7 +17,7 @@ The repository is organized around **learning systems**, not provider folders. W
 **🧠 จำภาพก่อน → 📘 อ่าน Markdown → 🧪 ลง Lab → 🩺 Troubleshoot**  
 เปิด [Icon-First Visual Gallery](./VISUAL-GALLERY.md) เพื่อดูแผนภาพของทุกวิชา โดยคงเนื้อหา Note, Lab และ Source-of-Truth เดิมครบถ้วน
 
-## Start here — 5 active learning systems
+## 📚 เลือกวิชาที่จะเรียน
 
 | Learning system | Goal | Status |
 |---|---|---|
