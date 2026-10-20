@@ -6,6 +6,15 @@
 
 ก่อนเริ่ม V2 มี Markdown 241 ไฟล์ในห้าวิชา และไม่พบไฟล์ที่มี Git blob SHA เหมือนกันทั้งไฟล์ แต่อาจมีเนื้อหาซ้ำบางย่อหน้า/แนวคิด
 
+## Automated scan snapshot — October 20, 2026
+
+การสแกนหลังสร้าง Manifest V2 พบ **241 Markdown files** แบ่งเป็น **78 Main Lessons**, **60 curated supplements**, **38 internal/draft files**, และ **65 other learning/reference pages**
+
+- พบ 15 กลุ่มย่อหน้ายาวที่เหมือนกันตามการ Normalize ข้อความก่อนแก้ Lesson 17
+- พบ 1 คู่เนื้อหาที่คล้ายกันมากกว่าค่า Threshold: Oracle Lesson 15 กับ Lesson 17 (ประมาณ 29.6% ของตัวอย่างข้อความชุดสั้นกว่า)
+- สคริปต์ใช้ Candidate Score เพื่อการตรวจของคน ไม่ใช่คำตัดสินว่าไฟล์ใดควรถูกลบ
+- ได้ปรับ Lesson 17 ให้เน้น High Water Mark, Reuse / Reclaim, SHRINK / MOVE และการตัดสินใจ แทนการยกคำอธิบาย Capacity จาก Lesson 15 มาซ้ำ และลิงก์กลับ Lesson 15
+
 ## Auto-generated audit
 
 เข้า website แล้วรัน:
