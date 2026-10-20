@@ -1,11 +1,7 @@
 # AZ-104 — Microsoft Azure Administrator
 
-> **Status:** **Verified Current Objective Scope** — 15/15 objective groups and 82/82 current skill bullets evidenced in the decoded interactive payload  
-> **Build mode:** Hybrid — source-ingestion + current official verification  
-> **Imported source repo:** `somkid-s5/az-104-master-cram-book` @ `ad6c2913af351b2b30feb29f5594999891b4d994`  
-> **Current official scope:** Microsoft Learn skills measured as of **2026-04-17**  
-> **Last repository verification:** 2026-10-07  
-> **Canonical home:** this package in `Cloud-Engineer`
+> 📘 **สมุดโน้ตส่วนตัวสำหรับเตรียมสอบ AZ-104** — เน้นเข้าใจ Concept, ฝึก Lab, ทำ Flashcards และทบทวนตาม Objective
+> 🗓️ **ทบทวนขอบเขตการสอบล่าสุด:** 2026-10-07
 
 [← Repository root](../README.md)
 
@@ -17,21 +13,13 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
-## What this package is
+## 📖 โน้ต Azure AZ-104 ของฉัน
 
-This package consolidates the existing **AZ-104 2026 Master Cram Book** into the main personal learning knowledge base.
+พื้นที่เรียน Azure Administration ที่รวมเนื้อหาอ่านทบทวนและการฝึกฝนไว้ในวิชาเดียว เริ่มจากพื้นฐาน แล้วไล่ไปทำ Lab และโจทย์สถานการณ์
 
-The imported system already provides an interactive exam-prep experience with:
+ส่วน Interactive ที่มีอยู่ในสมุดโน้ตประกอบด้วย Learn/Cram, 10 Visual Labs, 103 Flashcards, 155 Scenario Questions, Checklist และการบันทึกความคืบหน้าใน Browser
 
-- Learn/Cram pages,
-- 10 visual labs,
-- 103 flashcards,
-- 155 original scenario questions,
-- blueprint/checklist views,
-- browser progress tracking,
-- Playwright regression tests from the original repository.
-
-The interactive source is preserved under [`interactive/`](./interactive/).
+เปิด [Interactive Study Tools](./interactive/) เมื่อต้องการฝึกแบบโต้ตอบ
 
 ## Current Microsoft exam structure
 
