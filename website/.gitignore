@@ -3,3 +3,4 @@ dist/
 .astro/
 src/content/docs/
 public/kb-assets/
+public/learning-paths.json
