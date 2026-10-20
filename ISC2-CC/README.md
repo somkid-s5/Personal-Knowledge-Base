@@ -1,9 +1,7 @@
 # ISC2-CC — Certified in Cybersecurity
 
-> **System status:** **Verified Current Objective Teaching Scope — 19/19 numbered objectives; verified 2026-10-07**  
-> **Primary scope authority:** ISC2 Certified in Cybersecurity Exam Outline effective **2026-09-01**  
-> **Build mode:** Hybrid — Source-ingestion + current official scope verification  
-> **Last scope verification:** 2026-10-07
+> 📘 **สมุดโน้ต ISC2 CC** — เรียนพื้นฐาน Cybersecurity จาก Concept, ตัวอย่างสถานการณ์ และแบบทบทวน
+> 🗓️ **อัปเดตหัวข้อสอบที่ใช้อ่าน:** 2026-10-07 (Exam Outline มีผล 2026-09-01)
 
 [← Repository root](../README.md)
 
@@ -15,13 +13,11 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
-## What this system is
+## 📖 วิธีอ่านสมุดโน้ตนี้
 
-This is the personal learning system for **ISC2 Certified in Cybersecurity (CC)**.
+ฉันจัดเนื้อหา ISC2 CC ตามหัวข้อสอบปัจจุบันเพื่อให้เปิดอ่านและเรียนต่อได้ตามลำดับ เริ่มจาก Security Principles แล้วค่อยขยายไป Governance, IAM, Networking และ Security Operations
 
-The current official exam outline is the authority for **what must be learned now**. The private study material already stored in Google Drive is treated as supporting source material, not as automatically current content.
-
-This distinction matters because the CC outline changed materially on 2026-09-01. Older study guides can still teach useful fundamentals, but their domain names, weighting and organization must be remapped before they are used as current exam notes.
+หัวข้อสอบมีการเปลี่ยนแปลงตั้งแต่ 1 กันยายน 2026 ดังนั้นเวลาอ่านโน้ตหรือทำโจทย์ ให้ยึดหัวข้อและน้ำหนักสอบที่แสดงด้านล่างเป็นหลัก
 
 ## Current exam domains
 
