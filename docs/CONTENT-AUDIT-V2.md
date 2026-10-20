@@ -36,7 +36,7 @@ npm run audit:content
 | P1 | Oracle 31 Lessons เทียบ Teaching Atlas Draft 10–31 | Lesson เป็นบทหลัก; Atlas เก็บใน Repo แต่ไม่แสดงเว็บ |
 | P2 | AWS 13 Architecture Modules เทียบ Current Scope Deep Dive | Current Scope มีเนื้อหาเฉพาะการสอบ; ตรวจซ้ำก่อนรวม |
 | P2 | AWS 7 Labs เทียบ 34 Projects | ไม่รวมเป็นบทเดียวโดยอัตโนมัติ เพราะระดับฝึกต่างกัน |
-| P2 | Azure Markdown Deep Dive เทียบ Interactive Learning | ทำ Crosswalk ต่อ 5 Objective Domains ก่อนแตกหรือรวมบท |
+| P2 | Azure 5 Domain Lessons เทียบ Interactive Learning | แยกบทหลักจากไฟล์เดิมแล้ว; Lab/Quiz เป็นแบบฝึกเสริม ไม่ใช่บทหลักซ้ำ |
 | P3 | ISC2 Lessons / Review / Scenario | เก็บหน้าที่ต่างกัน ปรับ Crosslinks ให้ชัด |
 
 ## Cleanup decision log
@@ -51,3 +51,10 @@ npm run audit:content
 ## Important
 
 ไม่ลบเนื้อหาโดยอัตโนมัติจาก Similarity Score, ไม่อ้างว่า Lab ที่ยังไม่เคย Execute ผ่านแล้ว และไม่อ้างว่า Certification ทั้งหลักสูตรมีความครบ 100% โดยไม่มี QA ตาม Scope จริง
+
+## AZ-104 learning track follow-up — October 20, 2026
+
+- AZ-104 เปลี่ยนจาก 2 steps เป็น 7 steps (Visual, Study Map, 5 Domain Notes) โดยคง Stable IDs เดิมของสองขั้นแรก
+- เนื้อหาแนวคิดจากไฟล์ Deep Dive เดิมถูกแยกตาม 5 Domains; ไฟล์เดิมเหลือแผนอ่านและ Decision Maps เพื่อไม่ให้ต้องอ่านซ้ำ
+- เชื่อม 10 Visual Labs เข้ากับ 5 Domains และ Mirror Static Practice App บน GitHub Pages เดียวกัน (Progress แยก)
+- ตรวจ Build และโครง Skill Headings ทั้ง 82 หัวข้อผ่าน CI; การตรวจความถูกต้องของเทคนิคและการรัน Labs บน Azure จริงยังเป็นงานคนละส่วน

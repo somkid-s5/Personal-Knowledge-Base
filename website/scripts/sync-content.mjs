@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, copyFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, copyFileSync, cpSync } from 'node:fs';
 import { courses, mainFiles, extraFiles, slug, lessonId } from '../learning-plan.mjs';
 import { isInternalDoc } from '../content-policy.mjs';
 
@@ -39,6 +39,27 @@ rmSync(assets, { recursive: true, force: true });
 mkdirSync(docs, { recursive: true });
 mkdirSync(assets, { recursive: true });
 for (const c of courses) walk(path.join(root, c.dir));
+
+// Publish the existing static Azure visual practice app alongside the Starlight notes.
+// Ignore repo metadata, tests and package manifests; only browser runtime assets are mirrored.
+const azAppRoot = path.join(root, 'Azure-AZ-104/interactive');
+const azAppTarget = path.join(web, 'public/az104-interactive');
+const requiredAzPages = ['index.html', 'labs.html', 'quiz.html', 'flashcards.html',
+  'rbac-lab.html', 'storage-lab.html', 'storage-access-lab.html', 'compute-lab.html',
+  'appservice-lab.html', 'containers-lab.html', 'networking-lab.html',
+  'loadbalancing-lab.html', 'monitor-lab.html', 'recovery-lab.html'];
+for (const page of requiredAzPages) {
+  if (!existsSync(path.join(azAppRoot, page))) throw new Error('Missing Azure interactive page: ' + page);
+}
+rmSync(azAppTarget, { recursive: true, force: true });
+cpSync(azAppRoot, azAppTarget, { recursive: true, filter: (source) => {
+  const relative = path.relative(azAppRoot, source).replaceAll('\\', '/');
+  if (!relative) return true;
+  const parts = relative.split('/');
+  return !parts.some(part => part.startsWith('.') || part === 'node_modules' || part === 'tests') &&
+    !/\.(?:md|json|py|lock)$/i.test(relative);
+}});
+
 
 function pageSlug(rel) { return slug(rel); }
 const all = new Set(markdown.map((f) => f.rel));

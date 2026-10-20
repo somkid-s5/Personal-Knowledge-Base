@@ -34,11 +34,17 @@ npm run dev
 - Astro + Starlight + Mermaid, Static เท่านั้น ไม่ใช้ Database
 - Search, Sidebar, Dark Mode, Diagram, Code Highlight
 - ปุ่มเรียนจบแต่ละหน้าเก็บสถานะใน localStorage เฉพาะ Browser
-- ยังไม่มี Login, Sync ข้ามอุปกรณ์, ระบบ Quiz แบบเก็บคะแนน หรือ AI Tutor
+- ยังไม่มี Login, Sync ข้ามอุปกรณ์ หรือ AI Tutor; Azure มี Interactive Quiz/Flashcards แยก Progress จาก Starlight
 - Course Manifest เป็น Curated Curriculum; ไม่ใช้ชื่อไฟล์เรียงอัตโนมัติ
 - Progress มี Lesson ID ถาวร และพยายามนำเข้าสถานะการเรียนเดิมจาก Browser v1
 - รัน npm run audit:content เพื่อสร้างรายงานตรวจความซ้ำเชิงข้อความสำหรับพิจารณาด้วยมนุษย์
 - อย่าคาดเดาว่า URL ปลายทางออนไลน์แล้ว จนกว่า Actions/Pages จะ Deploy ผ่านจริง
+
+## Azure Visual Labs (โฮสต์ร่วมเว็บ)
+
+เมื่อ Build สคริปต์จะคัดลอก static Azure Interactive จาก Azure-AZ-104/interactive ไปที่ website/public/az104-interactive/ (ไม่ commit ไฟล์ build ซ้ำลง Repo) และตรวจว่าหน้า Domain 1–5 พร้อม Lab ครบก่อน Deploy
+
+เปิดหน้า Labs ผ่าน /Personal-Knowledge-Base/az104-interactive/labs.html
 
 ## GitHub Pages
 

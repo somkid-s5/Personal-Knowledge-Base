@@ -36,6 +36,9 @@ jobs:
       - name: Build static website
         working-directory: website
         run: npm run build
+      - name: Verify AZ-104 domains and visual labs
+        working-directory: website
+        run: npm run check:az104
       - name: Audit content and potential duplicates
         working-directory: website
         run: npm run audit:content
