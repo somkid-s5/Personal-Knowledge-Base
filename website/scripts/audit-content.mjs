@@ -17,14 +17,15 @@ function walk(dir){
   else if(e.isFile()&&e.name.toLowerCase().endsWith('.md')){
    const rel=norm(path.relative(root,abs));
    const role=isInternalDoc(rel)?'Internal / Draft':main.has(rel)?'Main Lesson':extra.has(rel)?'Supplement':'Other Reference';
-   docs.push({path:rel,role,body:readFileSync(abs,'utf8')});
+   docs.push({path:rel,absolute:abs,role,body:readFileSync(abs,'utf8')});
   }
  }
 }
 for(const c of courses)walk(path.join(root,c.dir));
 const issues=[];
+const pathIndex=new Map(docs.map(d=>[d.path,d.absolute]));
 for(const rel of [...main,...extra]){
- if(!existsSync(path.join(root,rel)))issues.push('Missing curriculum document: '+rel);
+ if(!pathIndex.has(rel))issues.push('Missing curriculum document: '+rel);
  if(isInternalDoc(rel))issues.push('Internal document appears in learning path: '+rel);
 }
 const hashes=new Map(),paragraphs=new Map();
