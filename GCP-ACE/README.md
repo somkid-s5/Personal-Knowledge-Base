@@ -47,15 +47,11 @@ flowchart LR
 - ถ้าพังจะเริ่มดูจากตรงไหน
 - scaling/HA/backup/security/cost เปลี่ยนอย่างไรเมื่อเลือก architecture นี้
 
-## ขอบเขตและที่มา
+## 🎯 ขอบเขตที่ฉันใช้เรียน
 
-ชุดนี้เป็น **บทเรียนที่เขียนใหม่จากเอกสาร Google Cloud และขอบเขตสอบ ACE** เพื่อใช้อ่านประกอบ [Associate Cloud Engineer Certification Learning Path](https://www.skills.google/paths/11) inventory เรียงตาม 17 กิจกรรมที่หน้า path สาธารณะแสดง ณ วันที่ตรวจสอบ เนื้อหาเป็นโน้ตอธิบาย ไม่ใช่ transcript หรือคำแปลวิดีโอ
+โน้ต GCP ACE นี้จัดไว้ให้อ่านเป็นลำดับ ทั้งบทพื้นฐาน, 13 Modules, 17 กิจกรรมฝึกเรียน และ Lab ภาษาไทย พร้อมหัวข้อสมัยใหม่สำหรับการทำงานจริงและการเตรียมสอบ
 
-หน้า Learning Path เปิดดูได้โดยไม่ต้องล็อกอินและแสดงชื่อ/ลำดับครบ 17 activities รวมทั้งคำอธิบายของแต่ละรายการ ฉันตรวจหน้า course ที่เกี่ยวข้องและเพิ่ม inventory, syllabus หัวข้อใหญ่/ย่อย และ crosswalk ไปยังบทเรียนใน [GOOGLE-SKILLS-CURRICULUM.md](./GOOGLE-SKILLS-CURRICULUM.md); เนื้อหาใน repo เป็นโน้ตเรียบเรียงใหม่ ไม่ใช่ transcript
-
-ยึด **Standard Exam Guide ที่ลิงก์จากหน้ารับรองปัจจุบัน**: [official PDF](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ซึ่งแบ่ง 4 หมวดประมาณ **20% / 30% / 30% / 20%** หลีกเลี่ยงการใช้ HTML guide เก่าหรือ PDF `v4.0` แทนโดยไม่ตรวจเวอร์ชัน
-
-Exam Guide ปัจจุบันมีหัวข้อที่โน้ต ACE รุ่นเก่ามักไม่มี เช่น Cloud Asset Inventory + Gemini Cloud Assist, Workforce Identity Federation, Cloud NGFW + secure Tags, Fabric FAST, Config Connector, Helm, Gemini CLI/Google Antigravity/Application Design Center, Agent Runtime, Workbench/BigQuery notebooks, Cloud Workstations, Database Center, CMEK, Managed Prometheus, Personalized Service Health, Active Assist และ Cloud Hub จึงแยกอธิบายแบบลงรายละเอียดไว้ใน [Modern Objectives Deep Dive](./ACE-MODERN-OBJECTIVES-DEEP-DIVE-TH.md)
+อ่านตาม Learning Path ด้านบนก่อน แล้วใช้ Cheat Sheet และ Exam Scenarios สำหรับทบทวน ความรู้ที่เปลี่ยนตามเวอร์ชันหรือ Exam Guide จะตรวจสอบจากเอกสารทางการตามความจำเป็น โดยไม่ต้องเปิดหลายแหล่งเพื่อเริ่มเรียน
 
 ## สารบัญบทเรียน
 
