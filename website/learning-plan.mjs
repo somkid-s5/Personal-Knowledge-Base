@@ -1,11 +1,11 @@
 // Knowledge Base V2: each course.yaml is the canonical curriculum and progress identity.
 // File paths are relative to that course's directory. Never reuse or change an existing lesson ID.
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import YAML from 'yaml';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// Astro bundles this module into dist/.prerender; resolve from the build cwd, not import.meta.url.
+const root = existsSync(path.resolve(process.cwd(), 'website')) ? process.cwd() : path.resolve(process.cwd(), '..');
 const dirs = ['AWS-SAA-C03', 'Azure-AZ-104', 'GCP-ACE', 'ISC2-CC', 'Oracle-Database'];
 const normalize = (s) => s.replaceAll('\\', '/').toLowerCase();
 export const slug = (file) => normalize(file).replace(/\.md$/, '').replace(/\/(readme|index)$/, '').replace(/(\d)\.(\d)/g, '$1-$2');
