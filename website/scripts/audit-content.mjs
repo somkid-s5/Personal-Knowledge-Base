@@ -47,6 +47,14 @@ for(const d of docs){
  corpus.push({file:d.path,course:d.path.split('/')[0],grams});
 }
 const duplicates=[...paragraphs].filter(([,files])=>files.size>1).map(([p,files])=>({length:p.length,files:[...files]})).sort((a,b)=>b.length-a.length);
+const repetitionByCourse = new Map();
+for (const d of docs) repetitionByCourse.set(d.path.split('/')[0], 0);
+for (const item of duplicates) {
+  const coursesInMatch = new Set(item.files.map(file => file.split('/')[0]));
+  for (const name of coursesInMatch) {
+    repetitionByCourse.set(name, (repetitionByCourse.get(name) ?? 0) + 1);
+  }
+}
 const pairs=[];
 for(let i=0;i<corpus.length;i++)for(let j=i+1;j<corpus.length;j++){
  const a=corpus[i],b=corpus[j];if(a.course!==b.course)continue;
@@ -64,6 +72,9 @@ const headings=[
  ...courses.map(c=>{const x=docs.filter(d=>d.path.startsWith(norm(c.dir)+'/'));const n=role=>x.filter(d=>d.role===role).length;
   return '| '+c.name+' | '+n('Main Lesson')+' | '+n('Supplement')+' | '+n('Internal / Draft')+' | '+n('Other Reference')+' | '+x.length+' |';}),
  '','## Structural problems','',...(issues.length?issues.map(x=>'- '+x):['- No exact duplicate Markdown files or missing curriculum paths detected.']),
+ '','## Repeated long paragraphs by course','',
+ '| Course | Repeated paragraph groups |','|---|---:|',
+ ...courses.map(c=>'| '+c.name+' | '+(repetitionByCourse.get(norm(c.dir)) ?? 0)+' |'),
  '','## Exact long-paragraph matches (top 25)','',...(duplicates.length?duplicates.slice(0,25).map(x=>'- '+x.length+' characters: '+x.files.join(' ↔ ')):['- None found with current normalization.']),
  '','## Candidate overlapping documents (top 30)','',
  '| Overlap of smaller sample | Document A | Document B |','|---:|---|---|',
@@ -77,5 +88,6 @@ const headings=[
 const output=path.join(root,'website/reports/content-audit-v2.md');mkdirSync(path.dirname(output),{recursive:true});
 writeFileSync(output,headings.join('\n'));
 console.log(JSON.stringify({total:docs.length,primary:main.size,supplements:extra.size,internal:docs.filter(d=>d.role==='Internal / Draft').length,longParagraphMatches:duplicates.length,overlapCandidates:pairs.length,errors:issues.length}));
+console.log('Long-paragraph matches by course: '+JSON.stringify(Object.fromEntries(repetitionByCourse)));
 for(const p of pairs.slice(0,5))console.log('Review candidate '+p.score+'%: '+p.files.join(' <> '));
 if(issues.length){console.error(issues.join('\n'));process.exitCode=1;}

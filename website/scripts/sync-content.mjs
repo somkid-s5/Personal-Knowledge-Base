@@ -105,6 +105,62 @@ function orderFor(rel) {
     part.match(/^0*(\d+)[-_]/);
   return match ? Number(match[2] || match[1]) : 300;
 }
+
+// Contextual learning links derived from each course manifest (not duplicated in note bodies).
+const reverseLinks = new Map();
+for (const c of courses) {
+  for (const [key, links] of c.related) {
+    const main = mainFiles(c).find(file => slug(file) === key);
+    if (!main) throw new Error('No primary Activity for supplemental links: ' + key);
+    for (const target of [...links.modules, ...links.labs]) {
+      const id = normalize(target);
+      if (!reverseLinks.has(id)) reverseLinks.set(id, []);
+      reverseLinks.get(id).push(main);
+    }
+  }
+}
+const relatedTitleCache = new Map();
+function relatedTitle(file) {
+  const key = normalize(file);
+  if (!relatedTitleCache.has(key)) {
+    const source = path.join(root, file);
+    if (!existsSync(source)) throw new Error('Missing related reading: ' + file);
+    relatedTitleCache.set(key, getTitle(readFileSync(source, 'utf8'), path.basename(file)));
+  }
+  return relatedTitleCache.get(key);
+}
+function relatedSection(rel) {
+  const course = courses.find(c => c.related.has(slug(rel)));
+  const links = course?.related.get(slug(rel));
+  if (links && (links.modules.length || links.labs.length)) {
+    const lines = [
+      '', '---', '', '## 🔬 อ่านเจาะลึกและฝึกเพิ่ม (ไม่บังคับ)', '',
+      'บทนี้อยู่ในเส้นทางเรียนหลักแล้ว **ไม่จำเป็นต้องอ่าน Module ทั้ง 13 บทซ้ำ**',
+      'หากยังสงสัย ให้เลือกอ่านเฉพาะหัวข้อหรือลอง Companion Lab ที่เกี่ยวข้อง', ''
+    ];
+    if (links.modules.length) {
+      lines.push('**📚 Modules — เจาะลึกตามหัวข้อ**', '');
+      for (const file of links.modules) lines.push('- [' + relatedTitle(file) + '](' + publicUrl(slugFor(file)) + ')');
+      lines.push('');
+    }
+    if (links.labs.length) {
+      lines.push('**🧪 Companion Labs — ไม่ใช่ Official Google Skills Grader**', '');
+      for (const file of links.labs) lines.push('- [' + relatedTitle(file) + '](' + publicUrl(slugFor(file)) + ')');
+      lines.push('');
+    }
+    lines.push('[🗺️ ตารางจับคู่ Activities / Modules / Labs](' +
+      publicUrl(slugFor('GCP-ACE/ACTIVITY-TO-MODULE-MAP-TH.md')) + ')');
+    return lines.join('\n') + '\n';
+  }
+  const back = reverseLinks.get(normalize(rel)) || [];
+  if (back.length) {
+    return '\n\n---\n\n## ↩️ กลับไป Activity หลัก\n\n' +
+      'หน้านี้เป็นเนื้อหาเสริมหรือ Companion Lab ใช้ประกอบบทเหล่านี้ได้:\n\n' +
+      back.map(file => '- [' + relatedTitle(file) + '](' + publicUrl(slugFor(file)) + ')').join('\n') + '\n';
+  }
+  return '';
+}
+
 function frontmatter(title, rel, hidden) {
   const order = rel.endsWith('/readme.md') ? 0 : orderFor(rel);
   return '---\ntitle: ' + JSON.stringify(title) + '\nsidebar:\n  order: ' + order +
@@ -118,6 +174,7 @@ for (const { absolute, rel } of markdown) {
   const title = getTitle(body, path.basename(rel, '.md').replaceAll('-', ' '));
   body = body.replace(/^#\s+.+\r?\n/, '');
   body = rewrite(body, rel);
+  body += relatedSection(rel);
   const hidden = !courses.some(c => [...mainFiles(c), ...extraFiles(c)].map(normalize).includes(rel));
   const destName = rel.replace(/readme\.md$/i, 'index.md').replace(/(\d)\.(\d)(?=[^/]*\.md$)/g, '$1-$2');
   const dest = path.join(docs, destName);
@@ -182,6 +239,11 @@ for (const c of courses) {
     'ทำแต่ละขั้นตามลำดับด้านล่าง ระบบจะบันทึกเฉพาะบทในเส้นทางหลักเป็นความคืบหน้าของวิชานี้',
     '',
   ];
+  if (c.dir === 'GCP-ACE') {
+    overview.push('', '🔬 **อ่าน Activity เป็นหลัก → Module/Lab เลือกตามที่ยังไม่เข้าใจ**', '',
+      '[🧭 ตารางจับคู่ 17 Activities / 13 Modules / 6 Labs](' +
+      publicUrl(slugFor('GCP-ACE/ACTIVITY-TO-MODULE-MAP-TH.md')) + ')', '');
+  }
   for (const [stageIndex, stage] of c.stages.entries()) {
     overview.push('### ' + (stageIndex + 1) + '. ' + stage.title, '', stage.description, '',
       '<div class="stage-progress" data-learning-course="' + normalize(c.dir) +

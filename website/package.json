@@ -9,7 +9,8 @@
     "build": "npm run sync && astro build",
     "preview": "astro preview",
     "audit:content": "node scripts/audit-content.mjs",
-    "check:az104": "node scripts/verify-az104.mjs"
+    "check:az104": "node scripts/verify-az104.mjs",
+    "check:gcp": "node scripts/verify-gcp.mjs"
   },
   "dependencies": {
     "astro": "^7.2.10",

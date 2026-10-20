@@ -19,6 +19,7 @@ export const courses = dirs.map((dir) => {
   }
   const files = new Set();
   const ids = new Map();
+  const related = new Map();
   const prefixed = (localFile) => {
     if (typeof localFile !== 'string' || !localFile.endsWith('.md') ||
       localFile.startsWith('/') || localFile.includes('..') || localFile.includes('\\')) {
@@ -29,13 +30,23 @@ export const courses = dirs.map((dir) => {
   const stages = doc.stages.map((stage) => ({
     title: stage.title,
     description: stage.description,
-    files: stage.lessons.map(({ id, file: local }) => {
+    files: stage.lessons.map(({ id, file: local, related: support }) => {
       if (!/^[a-z0-9]+-\d{3}$/.test(id) || seenIds.has(id)) throw new Error('Duplicate or invalid lesson ID: ' + id);
       seenIds.add(id);
       const f = prefixed(local);
       if (files.has(normalize(f))) throw new Error('Duplicate primary lesson: ' + f);
       files.add(normalize(f));
       ids.set(slug(f), id);
+      if (support !== undefined) {
+        const modules = support.modules ?? [];
+        const labs = support.labs ?? [];
+        if (!Array.isArray(modules) || !Array.isArray(labs)) {
+          throw new Error('Invalid related content for ' + f);
+        }
+        const refs = [...modules, ...labs].map(prefixed);
+        if (new Set(refs.map(normalize)).size !== refs.length) throw new Error('Repeated related file on ' + f);
+        related.set(slug(f), { modules: modules.map(prefixed), labs: labs.map(prefixed) });
+      }
       return f;
     }),
   }));
@@ -49,9 +60,16 @@ export const courses = dirs.map((dir) => {
       return f;
     }),
   }));
+  for (const [lesson, links] of related) {
+    for (const target of [...links.modules, ...links.labs]) {
+      if (!files.has(normalize(target)) || ids.has(slug(target))) {
+        throw new Error('Related link must be a curated supplement: ' + lesson + ' → ' + target);
+      }
+    }
+  }
   return {
     dir, name: doc.name, icon: doc.icon, description: doc.description, summary: doc.summary,
-    stages, supplements, external: doc.external ?? [], progressIds: ids,
+    stages, supplements, external: doc.external ?? [], progressIds: ids, related,
   };
 });
 

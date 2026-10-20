@@ -10,6 +10,8 @@
 
 ## วิธีใช้
 
+> 🧭 **Activity 01–17 เป็นเส้นทางเรียนหลัก** หากต้องการ Module เชิงลึกและ Companion Lab ที่ตรงกับแต่ละ Activity ให้เปิด [ตาราง Activity → Module → Lab](./ACTIVITY-TO-MODULE-MAP-TH.md) ไม่จำเป็นต้องทำทุก Lab หรืออ่านทุก Module ก่อนเรียนต่อ
+
 1. เปิดกิจกรรมตามลำดับด้านล่างใน Google Skills แล้วอ่านหัวข้อไทยที่ผูกไว้ก่อนหรือระหว่างเรียน
 2. ใช้ [สารบัญหลักสูตร](./GOOGLE-SKILLS-CURRICULUM.md) ดูหัวข้อย่อยที่เปิดเผยของแต่ละ course และ [Exam Map](./LEARNING-PATH.md) เชื่อมกลับไปยังขอบเขตสอบ
 3. เมื่อกิจกรรมมี hands-on ให้เปิด [แผนที่ Lab ตาม Path](./Lab-Guide-TH/LEARNING-PATH-LAB-MAP.md) เพื่อดูว่าโน้ตมี lab คู่มือที่ตรงหรือเป็นเพียงแล็บเสริม
