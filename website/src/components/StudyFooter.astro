@@ -1,6 +1,6 @@
 ---
 import DefaultFooter from '@astrojs/starlight/components/Footer.astro';
-import { courses, mainFiles, slug } from '../../learning-plan.mjs';
+import { courses, mainFiles, slug, lessonId } from '../../learning-plan.mjs';
 
 const id = Astro.locals.starlightRoute.id;
 const match = courses.find(course => mainFiles(course).some(file => slug(file) === id));
@@ -17,7 +17,7 @@ const next = index >= 0 && index < lessons.length - 1 ? lessons[index + 1] : nul
       <strong>✅ บทที่ {index + 1}/{lessons.length} ในเส้นทางหลัก</strong>
       <p>เมื่ออ่านและฝึกทบทวนจบแล้ว ทำเครื่องหมายเพื่อบันทึกใน Browser นี้</p>
     </div>
-    <button type="button" data-study-id={id} aria-pressed="false">ทำเครื่องหมายว่าเรียนจบ</button>
+    <button type="button" data-study-id={lessonId(lessons[index])} data-study-legacy={id} aria-pressed="false">ทำเครื่องหมายว่าเรียนจบ</button>
     <nav class="study-next" aria-label="ไปบทถัดไป">
       {previous ? <a href={url(previous)}>← บทก่อนหน้า</a> : <a href={url(match.dir + '/README.md')}>← ภาพรวมวิชา</a>}
       {next ? <a href={url(next)}>บทถัดไป →</a> : <a href={url(match.dir + '/README.md')}>🏁 กลับหน้าแผนเรียน →</a>}
@@ -31,7 +31,9 @@ const next = index >= 0 && index < lessons.length - 1 ? lessons[index + 1] : nul
   for (const button of buttons) {
     const id = button.dataset.studyId;
     if (!id) continue;
-    const key = 'smart-learning:v1:completed:' + id;
+    const key = 'smart-learning:v2:completed:' + id;
+    const legacy = 'smart-learning:v1:completed:' + (button.dataset.studyLegacy || '');
+    try { if (localStorage.getItem(key) === null && localStorage.getItem(legacy) === '1') localStorage.setItem(key, '1'); localStorage.removeItem(legacy); } catch { /* unavailable */ }
     function draw() {
       let done = false;
       try { done = window.localStorage.getItem(key) === '1'; } catch { /* unavailable */ }

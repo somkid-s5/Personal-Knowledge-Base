@@ -7,8 +7,13 @@
     if (!response.ok) return;
     const paths = await response.json();
     const completed = (entry) => {
-      try { return localStorage.getItem('smart-learning:v1:completed:' + entry.id) === '1'; }
-      catch { return false; }
+      try {
+        const key = 'smart-learning:v2:completed:' + entry.id;
+        const prior = 'smart-learning:v1:completed:' + entry.legacyId;
+        if (localStorage.getItem(key) === null && localStorage.getItem(prior) === '1') localStorage.setItem(key, '1');
+        localStorage.removeItem(prior);
+        return localStorage.getItem(key) === '1';
+      } catch { return false; }
     };
     for (const container of containers) {
       const course = container.getAttribute('data-learning-course');
