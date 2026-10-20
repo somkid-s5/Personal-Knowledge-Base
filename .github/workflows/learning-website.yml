@@ -39,6 +39,9 @@ jobs:
       - name: Verify AZ-104 domains and visual labs
         working-directory: website
         run: npm run check:az104
+      - name: Verify GCP Activity to Module and Lab learning links
+        working-directory: website
+        run: npm run check:gcp
       - name: Audit content and potential duplicates
         working-directory: website
         run: npm run audit:content
