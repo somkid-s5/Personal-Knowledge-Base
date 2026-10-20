@@ -15,6 +15,7 @@ const courses = [
   { dir: 'Oracle-Database', name: 'Oracle Database', icon: '🗄️', desc: 'DBA, Listener, CDB/PDB และ Troubleshooting' },
 ];
 const markdown = [];
+const assetPaths = new Set();
 const assetExt = /\.(svg|png|jpe?g|gif|webp)$/i;
 const metadata = /(^|\/)(?:SOURCE[-_].*|.*[-_]QA(?:[-_].*)?|.*AUDIT.*|.*PROVENANCE.*|.*COVERAGE.*|.*GAP[-_](?:MAP|AUDIT).*|.*CURRENTNESS.*|.*TRACKER.*)\.md$/i;
 const normalize = (file) => file.replaceAll('\\', '/').toLowerCase();
@@ -30,6 +31,7 @@ function walk(directory) {
       const rel = normalize(path.relative(root, absolute));
       if (entry.name.toLowerCase().endsWith('.md')) markdown.push({ absolute, rel });
       else if (assetExt.test(entry.name)) {
+        assetPaths.add(rel);
         const target = path.join(assets, rel);
         mkdirSync(path.dirname(target), { recursive: true });
         copyFileSync(absolute, target);
@@ -65,16 +67,14 @@ function linkTo(current, url) {
   const resolved = path.resolve(path.dirname(path.join(root, current)), rel);
   const relative = normalize(path.relative(root, resolved));
   if (relative.startsWith('../') || relative === '..') return url;
-  if (assetExt.test(relative) && existsSync(resolved)) {
+  if (assetExt.test(relative) && assetPaths.has(relative)) {
     return base + '/kb-assets/' + relative.split('/').map(encodeURIComponent).join('/') + suffix;
   }
   let target = relative;
   if (target.endsWith('/')) target += 'readme.md';
   if (all.has(target)) return publicUrl(slugFor(target)) + suffix;
-  if (existsSync(resolved) && statSync(resolved).isDirectory()) {
-    if (all.has(target + '/readme.md')) return publicUrl(slugFor(target + '/readme.md')) + suffix;
-    if (all.has(target + '/index.md')) return publicUrl(slugFor(target + '/index.md')) + suffix;
-  }
+  if (all.has(target + '/readme.md')) return publicUrl(slugFor(target + '/readme.md')) + suffix;
+  if (all.has(target + '/index.md')) return publicUrl(slugFor(target + '/index.md')) + suffix;
   return url;
 }
 function rewrite(body, current) {
