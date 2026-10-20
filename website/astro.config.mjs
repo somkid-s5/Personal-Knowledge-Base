@@ -13,6 +13,7 @@ export default defineConfig({
       defaultLocale: 'root',
       locales: { root: { label: 'ภาษาไทย', lang: 'th' } },
       customCss: ['./src/styles/custom.css'],
+      head: [{ tag: 'script', attrs: { type: 'module', src: '/Personal-Knowledge-Base/study-progress.js' } }],
       components: { Footer: './src/components/StudyFooter.astro' },
       sidebar: [
         { label: '☁️ AWS SAA-C03', items: [{ autogenerate: { directory: 'aws-saa-c03' } }] },
