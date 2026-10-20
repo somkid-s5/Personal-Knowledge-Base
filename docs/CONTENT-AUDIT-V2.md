@@ -58,3 +58,10 @@ npm run audit:content
 - เนื้อหาแนวคิดจากไฟล์ Deep Dive เดิมถูกแยกตาม 5 Domains; ไฟล์เดิมเหลือแผนอ่านและ Decision Maps เพื่อไม่ให้ต้องอ่านซ้ำ
 - เชื่อม 10 Visual Labs เข้ากับ 5 Domains และ Mirror Static Practice App บน GitHub Pages เดียวกัน (Progress แยก)
 - ตรวจ Build และโครง Skill Headings ทั้ง 82 หัวข้อผ่าน CI; การตรวจความถูกต้องของเทคนิคและการรัน Labs บน Azure จริงยังเป็นงานคนละส่วน
+
+## GCP ACE V2 follow-up — October 20, 2026
+
+- เก็บ 17 Activities เป็น Canonical Learning Path; 13 Modules และ 6 Companion Labs ยังอยู่ใน Repository เดิมทั้งหมด
+- เพิ่มตาราง [Activity → Module → Lab](../GCP-ACE/ACTIVITY-TO-MODULE-MAP-TH.md) เชื่อมเส้นทางตามหัวข้อที่ต้องการเจาะลึก โดยไม่คัดลอกเนื้อหาบทเรียนเข้าไฟล์ใหม่
+- สร้าง Contextual Links จาก Course Manifest ให้บทหลักและบทเสริมเชื่อมกันอัตโนมัติ พร้อม Related Link Validation ใน CI
+- การทับซ้อนของ Concepts ระหว่าง Activity/Module ยังถือว่าเป็นบทบาทการสอนต่างกัน **ไม่ใช่ความซ้ำที่ลบได้อัตโนมัติ** หากจะรวมข้อความต้องตรวจ Examples, Commands, Troubleshooting และ Exam Scope ทีละหัวข้อก่อน
