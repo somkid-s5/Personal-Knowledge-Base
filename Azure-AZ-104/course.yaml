@@ -4,24 +4,47 @@
 version: 2
 name: "Azure AZ-104"
 icon: "🔷"
-description: "อ่านภาพรวม Azure → ลงลึก AZ-104 → ฝึกแบบ Interactive"
-summary: "วิชานี้ยังมีบท Markdown แบบรวม ไม่ได้แยกครบ 5 หมวดเป็นหน้าต่อเนื่อง ระบบ Learn, Lab, Flashcards และ Quiz หลักอยู่ในเว็บ Interactive อีกชุด"
+description: "AZ-104 5 Domain พร้อม 10 Interactive Visual Labs และ Practice"
+summary: "แยก Deep Dive เดิมเป็นบทเรียน 5 Domain ไม่สร้างเนื้อหาคู่ขนาน และเชื่อม Visual Labs, Flashcards และ Quiz ให้ทบทวนตามหัวข้อ"
 stages:
-  - title: "ทำความเข้าใจ Azure ก่อน"
-    description: "เริ่มจาก Visual Guide แล้วค่อยเข้าเนื้อหา AZ-104 แบบละเอียด"
+  - title: "🎨 Visual Introduction และแผนอ่าน"
+    description: "ดูภาพจำ แล้วอ่านแผน 5 Domain ก่อนลงรายละเอียด"
     lessons:
       - id: "az104-001"
         file: "VISUAL-MEMORY-GUIDE-TH.md"
-  - title: "อ่านเนื้อหา AZ-104"
-    description: "Deep Dive รวมเป้าหมายการสอบ ไม่ใช่ 5 บทแยกแล้ว"
-    lessons:
       - id: "az104-002"
         file: "AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md"
+  - title: "👤 Domain 1 — Identity & Governance"
+    description: "Identity, RBAC, Policy & Governance"
+    lessons:
+      - id: "az104-003"
+        file: "01-Lessons/Domain-01-Identity-and-Governance-TH.md"
+  - title: "🗂️ Domain 2 — Storage"
+    description: "Storage Accounts, SAS, Azure Files & Blob"
+    lessons:
+      - id: "az104-004"
+        file: "01-Lessons/Domain-02-Storage-TH.md"
+  - title: "🖥️ Domain 3 — Compute"
+    description: "Bicep, VMs, Containers & App Service"
+    lessons:
+      - id: "az104-005"
+        file: "01-Lessons/Domain-03-Compute-TH.md"
+  - title: "🌐 Domain 4 — Networking"
+    description: "VNet, NSG, Private Endpoint & Load Balancing"
+    lessons:
+      - id: "az104-006"
+        file: "01-Lessons/Domain-04-Networking-TH.md"
+  - title: "🩺 Domain 5 — Monitoring & Recovery"
+    description: "Monitor, Network Watcher, Backup & Recovery"
+    lessons:
+      - id: "az104-007"
+        file: "01-Lessons/Domain-05-Monitoring-and-Recovery-TH.md"
 supplements:
   - title: "🧪 เครื่องมือฝึก Azure"
     description: "Learning App แยก: 10 Visual Labs, Flashcards และ Scenario Questions"
-    files: []
+    files:
+      - "AZ-104-LABS-AND-PRACTICE-TH.md"
 external:
   - title: "เปิด Azure Interactive Study"
-    url: "https://somkid-s5.github.io/az-104-master-cram-book/"
-    description: "แบบฝึกและ Quiz ภายนอก — ความคืบหน้ายังไม่เชื่อมกับเว็บนี้"
+    url: "https://somkid-s5.github.io/Personal-Knowledge-Base/az104-interactive/index.html"
+    description: "10 Visual Labs, Flashcards, Quiz อยู่ร่วมเว็บนี้ แต่ Progress ยังแยกกัน"

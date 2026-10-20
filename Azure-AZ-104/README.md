@@ -1,80 +1,30 @@
-# AZ-104 — Microsoft Azure Administrator
+# 🔷 AZ-104 — Microsoft Azure Administrator
 
-> 📘 **สมุดโน้ตส่วนตัวสำหรับเตรียมสอบ AZ-104** — เน้นเข้าใจ Concept, ฝึก Lab, ทำ Flashcards และทบทวนตาม Objective
-> 🗓️ **ทบทวนขอบเขตการสอบล่าสุด:** 2026-10-07
+> 📘 สมุดโน้ตส่วนตัวสำหรับเรียน Azure Administration — เรียนตาม 5 Domain ทำ Visual Labs แล้วทบทวนโจทย์
 
-[← Repository root](../README.md)
+![Azure AZ-104 concept visual](./assets/visual-memory/01-concept-path.svg)
 
-## 🔷 Visual Memory — ดูภาพก่อนอ่านบทเต็ม
+## 🚀 เริ่มตรงไหน?
 
-![Azure AZ-104 concept icon path](./assets/visual-memory/01-concept-path.svg)
+เริ่มจาก [🎨 Visual Memory](./VISUAL-MEMORY-GUIDE-TH.md) และ [🗺️ AZ-104 Study Map](./AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md)
 
-**🧠 👤 Principal → 🔑 Role → 🗂️ Scope → ☁️ Resource** — 📌 Azure RBAC ต้องมอง Principal + Role Definition + Scope + Role Assignment พร้อมกัน; PIM, Deny Assignment และเงื่อนไขอื่นอาจมีผล
+1. [👤 Identity & Governance](./01-Lessons/Domain-01-Identity-and-Governance-TH.md) — Identity, RBAC, Policy & Governance
+2. [🗂️ Storage](./01-Lessons/Domain-02-Storage-TH.md) — Storage Accounts, SAS, Azure Files & Blob
+3. [🖥️ Compute](./01-Lessons/Domain-03-Compute-TH.md) — Bicep, VMs, Containers & App Service
+4. [🌐 Networking](./01-Lessons/Domain-04-Networking-TH.md) — VNet, NSG, Private Endpoint & Load Balancing
+5. [🩺 Monitoring & Recovery](./01-Lessons/Domain-05-Monitoring-and-Recovery-TH.md) — Monitor, Network Watcher, Backup & Recovery
 
-[📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
+## 🧪 ลงมือฝึกและทบทวน
 
-## 📖 โน้ต Azure AZ-104 ของฉัน
+[🔬 10 Visual Labs](https://somkid-s5.github.io/Personal-Knowledge-Base/az104-interactive/labs.html) · [📘 Lab Crosswalk](./AZ-104-LABS-AND-PRACTICE-TH.md) · [🧠 Flashcards](https://somkid-s5.github.io/Personal-Knowledge-Base/az104-interactive/flashcards.html) · [📝 Quiz](https://somkid-s5.github.io/Personal-Knowledge-Base/az104-interactive/quiz.html)
 
-พื้นที่เรียน Azure Administration ที่รวมเนื้อหาอ่านทบทวนและการฝึกฝนไว้ในวิชาเดียว เริ่มจากพื้นฐาน แล้วไล่ไปทำ Lab และโจทย์สถานการณ์
+โน้ตหลักจาก Deep Dive ถูกแยกออกเป็น Domain 1–5 แล้ว ไม่มีเนื้อหาคู่ขนานอีกชุดให้ต้องอ่านซ้ำ
 
-ส่วน Interactive ที่มีอยู่ในสมุดโน้ตประกอบด้วย Learn/Cram, 10 Visual Labs, 103 Flashcards, 155 Scenario Questions, Checklist และการบันทึกความคืบหน้าใน Browser
+## ⚠️ สถานะและขอบเขต
 
-เปิด [Interactive Study Tools](./interactive/) เมื่อต้องการฝึกแบบโต้ตอบ
+ขอบเขตสอบใช้ Skill Outline ที่เคยตรวจไว้ใน Repo; เมื่อ Microsoft เปลี่ยน Objective หรือบริการ Azure ต้องทบทวนอีกครั้ง
+Interactive Labs เป็น Simulation และความคืบหน้ายังแยกจากปุ่มเรียนจบบน Learning Hub
 
-## Current Microsoft exam structure
+## 🔎 ดูเอกสารตรวจความครบ
 
-The current Microsoft Learn study guide measures five skill areas:
-
-1. Manage Azure identities and governance — 20–25%
-2. Implement and manage storage — 15–20%
-3. Deploy and manage Azure compute resources — 20–25%
-4. Implement and manage virtual networking — 15–20%
-5. Monitor and maintain Azure resources — 10–15%
-
-The detailed mapping lives in [`SOURCE-COVERAGE.md`](./SOURCE-COVERAGE.md), with formal evidence in [`AZ104-QA-MATRIX.md`](./AZ104-QA-MATRIX.md). For a durable Thai teaching layer that follows every current objective, use [`AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md`](./AZ-104-CURRENT-OBJECTIVES-DEEP-DIVE-TH.md).
-
-## Recommended learning flow
-
-```mermaid
-flowchart LR
-    A[Official AZ-104 scope] --> B[Current Objectives Deep Dive]
-    B --> C[Interactive Learn pages]
-    C --> D[Visual Labs]
-    D --> E[Cram + Flashcards]
-    E --> F[Scenario Questions]
-    F --> G[Gap Review / Re-study]
-```
-
-## Source layers
-
-### 1. Original study source
-
-The original interactive repository states that its Learn/Cram/Flashcard/Question Bank content was generated from the user's Google Drive document **AZ-104 2026 Complete Exam Cheat Sheet (Pass-First)**.
-
-### 2. Imported interactive implementation
-
-The complete source snapshot from `az-104-master-cram-book` is preserved in [`interactive/`](./interactive/).
-
-### 3. Current official verification
-
-Use the current Microsoft Learn AZ-104 study guide as the scope authority for exam objectives and service-name freshness.
-
-Official guide: [Microsoft Learn — AZ-104 study guide](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104)
-
-## Migration policy
-
-The old standalone repository can continue to exist as a public/live deployment mirror. New structural work, QA metadata and future long-form learning integration should happen here first so `Cloud-Engineer` remains the canonical knowledge base.
-
-## Quality status
-
-This package now passes the main repository's declared **current-objective scope** gate:
-
-- 15/15 objective groups mapped,
-- 82/82 current Microsoft Learn skill bullets checked against the decoded interactive payload,
-- a current Thai objective teaching layer exists for all 82 bullets,
-- 10 interactive visual labs, 155 scenario questions and 103 flashcards are present,
-- current platform deltas are separated in [CURRENTNESS-2026.md](./CURRENTNESS-2026.md),
-- source traceability and machine-readable scope inventory are recorded,
-- CI guards payload coverage, repository structure and internal links.
-
-`Verified` remains scoped to the Microsoft Learn skills measured on **2026-04-17**. It is not a claim that Azure will never change or that every Azure feature is covered.
+[QA Matrix](./AZ104-QA-MATRIX.md) · [Currentness](./CURRENTNESS-2026.md) · [Objective Coverage](./SOURCE-COVERAGE.md)
