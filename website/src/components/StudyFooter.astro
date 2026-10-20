@@ -1,0 +1,38 @@
+---
+import DefaultFooter from '@astrojs/starlight/components/Footer.astro';
+const id = Astro.locals.starlightRoute.id;
+const isLesson = id.includes('/') && !id.endsWith('/index');
+---
+{isLesson && (
+  <section class="study-actions" aria-label="ความคืบหน้าบทเรียน">
+    <div>
+      <strong>✅ เรียนบทนี้เสร็จแล้วหรือยัง?</strong>
+      <p>บันทึกเฉพาะใน Browser นี้ • กดบทถัดไปด้านล่างเพื่อเรียนต่อ</p>
+    </div>
+    <button type="button" data-study-id={id} aria-pressed="false">ทำเครื่องหมายว่าเรียนจบ</button>
+  </section>
+)}
+<DefaultFooter><slot /></DefaultFooter>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('button[data-study-id]');
+  for (const button of buttons) {
+    const id = button.dataset.studyId;
+    if (!id) continue;
+    const key = 'smart-learning:v1:completed:' + id;
+    function draw() {
+      let done = false;
+      try { done = window.localStorage.getItem(key) === '1'; } catch { /* unavailable */ }
+      button.setAttribute('aria-pressed', String(done));
+      button.textContent = done ? '✓ เรียนจบแล้ว — กดเพื่อยกเลิก' : 'ทำเครื่องหมายว่าเรียนจบ';
+    }
+    draw();
+    button.addEventListener('click', () => {
+      try {
+        if (localStorage.getItem(key) === '1') localStorage.removeItem(key);
+        else localStorage.setItem(key, '1');
+      } catch { button.textContent = 'ไม่สามารถบันทึกใน Browser นี้ได้'; return; }
+      draw();
+    });
+  }
+</script>
