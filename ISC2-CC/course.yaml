@@ -1,0 +1,54 @@
+# Personal study course manifest — canonical learning order.
+# Lesson IDs must stay unchanged when a file is renamed or moved.
+# File paths are relative to this course directory.
+version: 2
+name: "ISC2 CC"
+icon: "🛡️"
+description: "พื้นฐาน Security → IAM/Network → Governance → Operations → Scenario"
+summary: "เรียงตามความต่อเนื่องของแนวคิดตาม Study Plan: Domain 1 → 3 → 4 → 2 → 5 ไม่ใช่เรียงตามเลข Domain อย่างเดียว"
+stages:
+  - title: "พื้นฐาน Security และการป้องกันระบบ"
+    description: "เริ่ม CIA, Risk แล้วต่อ IAM และ Network Security"
+    lessons:
+      - id: "cc-001"
+        file: "01-Security-Principles.md"
+      - id: "cc-002"
+        file: "03-Identity-Access-Management.md"
+      - id: "cc-003"
+        file: "04-Networking-Cloud-Security.md"
+  - title: "Governance, ความต่อเนื่องและการบริหารความเสี่ยง"
+    description: "4 บทใน Domain 2"
+    lessons:
+      - id: "cc-004"
+        file: "02-Security-Governance/2.1-GRC.md"
+      - id: "cc-005"
+        file: "02-Security-Governance/2.2-Redundancy-BC-DR.md"
+      - id: "cc-006"
+        file: "02-Security-Governance/2.3-Security-Awareness.md"
+      - id: "cc-007"
+        file: "02-Security-Governance/2.4-Metrics-KRI-Reporting.md"
+  - title: "Security Operations และ Incident Response"
+    description: "5 บทใน Domain 5"
+    lessons:
+      - id: "cc-008"
+        file: "05-Security-Operations-Incident-Response/5.1-Data-Security.md"
+      - id: "cc-009"
+        file: "05-Security-Operations-Incident-Response/5.2-Security-Operations.md"
+      - id: "cc-010"
+        file: "05-Security-Operations-Incident-Response/5.3-Incident-Response.md"
+      - id: "cc-011"
+        file: "05-Security-Operations-Incident-Response/5.4-Asset-Protection.md"
+      - id: "cc-012"
+        file: "05-Security-Operations-Incident-Response/5.5-Security-Testing.md"
+  - title: "Scenario และการทบทวน"
+    description: "ตรวจความเข้าใจ พร้อมย้อนกลับไปอ่านหัวข้อที่ผิด"
+    lessons:
+      - id: "cc-013"
+        file: "CURRENT-SCOPE-SCENARIOS.md"
+supplements:
+  - title: "🧠 โน้ตสรุป"
+    description: "แผนเรียน, ภาพช่วยจำ และ Cheat Sheet"
+    files:
+      - "STUDY-PLAN.md"
+      - "VISUAL-MEMORY-GUIDE-TH.md"
+      - "CHEAT-SHEET.md"

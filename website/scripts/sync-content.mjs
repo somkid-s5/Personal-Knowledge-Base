@@ -1,7 +1,8 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, copyFileSync } from 'node:fs';
-import { courses, mainFiles, extraFiles, slug } from '../learning-plan.mjs';
+import { courses, mainFiles, extraFiles, slug, lessonId } from '../learning-plan.mjs';
+import { isInternalDoc } from '../content-policy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const web = path.join(root, 'website');
@@ -11,7 +12,6 @@ const base = '/Personal-Knowledge-Base';
 const markdown = [];
 const assetPaths = new Set();
 const assetExt = /\.(svg|png|jpe?g|gif|webp)$/i;
-const metadata = /(^|\/)(?:SOURCE[-_].*|.*[-_]QA(?:[-_].*)?|.*AUDIT.*|.*PROVENANCE.*|.*COVERAGE.*|.*GAP[-_](?:MAP|AUDIT).*|.*CURRENTNESS.*|.*TRACKER.*)\.md$/i;
 const normalize = (file) => file.replaceAll('\\', '/').toLowerCase();
 const escapeHtml = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 
@@ -62,9 +62,11 @@ function linkTo(current, url) {
   }
   let target = relative;
   if (target.endsWith('/')) target += 'readme.md';
-  if (all.has(target)) return publicUrl(slugFor(target)) + suffix;
+  if (all.has(target)) return isInternalDoc(target) ? 'https://github.com/somkid-s5/Personal-Knowledge-Base/blob/main/' + target + suffix : publicUrl(slugFor(target)) + suffix;
   if (all.has(target + '/readme.md')) return publicUrl(slugFor(target + '/readme.md')) + suffix;
   if (all.has(target + '/index.md')) return publicUrl(slugFor(target + '/index.md')) + suffix;
+  if (relative === 'readme.md') return base + '/' + suffix;
+  if (relative.startsWith('docs/') || relative.startsWith('skills/') || relative.startsWith('templates/')) return 'https://github.com/somkid-s5/Personal-Knowledge-Base/blob/main/' + relative + suffix;
   return url;
 }
 function rewrite(body, current) {
@@ -89,13 +91,13 @@ function frontmatter(title, rel, hidden) {
 }
 
 for (const { absolute, rel } of markdown) {
-  if (courses.some(c => normalize(c.dir) + '/readme.md' === rel)) continue;
+  if (isInternalDoc(rel) || courses.some(c => normalize(c.dir) + '/readme.md' === rel)) continue;
   let body = readFileSync(absolute, 'utf8').replace(/^\uFEFF/, '');
   body = body.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
   const title = getTitle(body, path.basename(rel, '.md').replaceAll('-', ' '));
   body = body.replace(/^#\s+.+\r?\n/, '');
   body = rewrite(body, rel);
-  const hidden = metadata.test(rel);
+  const hidden = !courses.some(c => [...mainFiles(c), ...extraFiles(c)].map(normalize).includes(rel));
   const destName = rel.replace(/readme\.md$/i, 'index.md').replace(/(\d)\.(\d)(?=[^/]*\.md$)/g, '$1-$2');
   const dest = path.join(docs, destName);
   mkdirSync(path.dirname(dest), { recursive: true });
@@ -109,12 +111,14 @@ const labels = new Map();
 function infoFor(filePath) {
   const key = normalize(filePath);
   const entry = inputIndex.get(key);
+  if (isInternalDoc(key)) throw new Error('Internal-only file cannot be part of a learning path: ' + filePath);
   if (!entry) throw new Error('Learning plan points to a missing Markdown file: ' + filePath);
   if (!labels.has(key)) {
     labels.set(key, getTitle(readFileSync(entry.absolute, 'utf8'), path.basename(filePath, '.md').replaceAll('-', ' ')));
   }
   return {
-    id: slug(filePath),
+    id: lessonId(filePath) ?? slug(filePath),
+    legacyId: slug(filePath),
     url: publicUrl(slugFor(key)),
     title: labels.get(key),
   };
