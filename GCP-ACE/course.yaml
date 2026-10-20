@@ -12,48 +12,144 @@ stages:
     lessons:
       - id: "gcp-001"
         file: "Path-Activity-01-GSP282-TH.md"
+        related:
+          modules:
+            - "Module-01-Foundations-and-Resource-Hierarchy.md"
+            - "Module-03-Tools-Billing-and-Quotas.md"
+          labs:
+            - "Lab-Guide-TH/Lab-01-Cloud-Shell-Storage-and-IAM.md"
       - id: "gcp-002"
         file: "Path-Activity-02-ACE-Study-Guide-TH.md"
+        related:
+          modules: []
+          labs: []
       - id: "gcp-003"
         file: "Path-Activity-03-Foundation-TH.md"
+        related:
+          modules:
+            - "Module-01-Foundations-and-Resource-Hierarchy.md"
+            - "Module-04-VPC-Firewall-NAT-and-DNS.md"
+            - "Module-05-Compute-Engine-and-Instance-Groups.md"
+          labs:
+            - "Lab-Guide-TH/Lab-02-Private-VM-IAP-and-NAT.md"
       - id: "gcp-004"
         file: "Path-Activity-04-Core-Services-TH.md"
+        related:
+          modules:
+            - "Module-02-IAM-Service-Accounts-and-Security.md"
+            - "Module-06-Storage-and-Data-Protection.md"
+            - "Module-03-Tools-Billing-and-Quotas.md"
+            - "Module-11-Observability-and-Operations.md"
+          labs:
+            - "Lab-Guide-TH/Lab-01-Cloud-Shell-Storage-and-IAM.md"
       - id: "gcp-005"
         file: "Path-Activity-05-Scaling-Automation-TH.md"
+        related:
+          modules:
+            - "Module-05-Compute-Engine-and-Instance-Groups.md"
+            - "Module-10-Load-Balancing-and-Hybrid-Networking.md"
+            - "Module-12-Terraform-and-Infrastructure-as-Code.md"
+          labs:
+            - "Lab-Guide-TH/Lab-06-Compute-Engine-Load-Balancing.md"
+            - "Lab-Guide-TH/Lab-05-Terraform-VPC-and-State.md"
   - title: "Container และ Application"
     description: "กิจกรรม 06–09: GKE, Cloud Run, Functions และ Database"
     lessons:
       - id: "gcp-006"
         file: "Path-Activity-06-GKE-TH.md"
+        related:
+          modules:
+            - "Module-08-GKE-and-Kubernetes.md"
+          labs:
+            - "Lab-Guide-TH/Lab-04-GKE-Deployment-and-Debugging.md"
       - id: "gcp-007"
         file: "Path-Activity-07-Cloud-Run-TH.md"
+        related:
+          modules:
+            - "Module-09-Cloud-Run-and-Event-Driven-Services.md"
+          labs:
+            - "Lab-Guide-TH/Lab-03-Cloud-Run-Revisions-and-Logs.md"
       - id: "gcp-008"
         file: "Path-Activity-08-Cloud-Run-Functions-TH.md"
+        related:
+          modules:
+            - "Module-09-Cloud-Run-and-Event-Driven-Services.md"
+            - "Module-07-Databases-and-Data-Services.md"
+          labs:
+            - "Lab-Guide-TH/Lab-03-Cloud-Run-Revisions-and-Logs.md"
       - id: "gcp-009"
         file: "Path-Activity-09-Database-Selection-TH.md"
+        related:
+          modules:
+            - "Module-07-Databases-and-Data-Services.md"
+          labs: []
   - title: "Operations, AI และ IaC"
     description: "กิจกรรม 10–14: GPU/TPU, Deployment, Monitoring และ Terraform"
     lessons:
       - id: "gcp-010"
         file: "Path-Activity-10-AI-Cloud-GPUs-TH.md"
+        related:
+          modules:
+            - "Module-13-AI-Tooling-and-Modern-Services.md"
+            - "Module-05-Compute-Engine-and-Instance-Groups.md"
+          labs: []
       - id: "gcp-011"
         file: "Path-Activity-11-AI-Cloud-TPUs-TH.md"
+        related:
+          modules:
+            - "Module-13-AI-Tooling-and-Modern-Services.md"
+          labs: []
       - id: "gcp-012"
         file: "Path-Activity-12-AI-Deployment-Types-TH.md"
+        related:
+          modules:
+            - "Module-13-AI-Tooling-and-Modern-Services.md"
+            - "Module-08-GKE-and-Kubernetes.md"
+          labs: []
       - id: "gcp-013"
         file: "Path-Activity-13-Logging-Monitoring-TH.md"
+        related:
+          modules:
+            - "Module-11-Observability-and-Operations.md"
+          labs:
+            - "Lab-Guide-TH/Lab-03-Cloud-Run-Revisions-and-Logs.md"
       - id: "gcp-014"
         file: "Path-Activity-14-Terraform-Getting-Started-TH.md"
+        related:
+          modules:
+            - "Module-12-Terraform-and-Infrastructure-as-Code.md"
+          labs:
+            - "Lab-Guide-TH/Lab-05-Terraform-VPC-and-State.md"
   - title: "ฝึกทักษะแบบบูรณาการ"
     description: "กิจกรรม 15–17: Load Balancing, Kubernetes และ Terraform"
     lessons:
       - id: "gcp-015"
         file: "Path-Activity-15-Load-Balancing-Skill-Badge-TH.md"
+        related:
+          modules:
+            - "Module-10-Load-Balancing-and-Hybrid-Networking.md"
+            - "Module-05-Compute-Engine-and-Instance-Groups.md"
+          labs:
+            - "Lab-Guide-TH/Lab-06-Compute-Engine-Load-Balancing.md"
       - id: "gcp-016"
         file: "Path-Activity-16-Kubernetes-Applications-Skill-Badge-TH.md"
+        related:
+          modules:
+            - "Module-08-GKE-and-Kubernetes.md"
+          labs:
+            - "Lab-Guide-TH/Lab-04-GKE-Deployment-and-Debugging.md"
       - id: "gcp-017"
         file: "Path-Activity-17-Terraform-Build-Infrastructure-Skill-Badge-TH.md"
+        related:
+          modules:
+            - "Module-12-Terraform-and-Infrastructure-as-Code.md"
+          labs:
+            - "Lab-Guide-TH/Lab-05-Terraform-VPC-and-State.md"
 supplements:
+  - title: "🧭 Activity → Module / Lab"
+    description: "แผนที่อ่านเสริมตามบท ไม่ใช่เส้นทางที่ต้องอ่านซ้ำทั้งหมด"
+    files:
+      - "ACTIVITY-TO-MODULE-MAP-TH.md"
   - title: "🔬 Module เจาะลึก 13 บท"
     description: "เปิดประกบ Activity เมื่ออยากเข้าใจเหตุผลและ Troubleshooting"
     files:
