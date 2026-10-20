@@ -1,0 +1,53 @@
+name: Learning Website
+
+on:
+  pull_request:
+    paths:
+      - 'website/**'
+      - 'AWS-SAA-C03/**'
+      - 'Azure-AZ-104/**'
+      - 'GCP-ACE/**'
+      - 'ISC2-CC/**'
+      - 'Oracle-Database/**'
+      - '.github/workflows/learning-website.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout notes
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        working-directory: website
+        run: npm install --no-audit --no-fund
+      - name: Build static website
+        working-directory: website
+        run: npm run build
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
