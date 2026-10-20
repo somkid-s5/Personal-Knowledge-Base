@@ -1,6 +1,23 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import mermaid from 'astro-mermaid';
+import { courses, slug } from './learning-plan.mjs';
+
+const sidebar = courses.map((c) => ({
+  label: c.icon + ' ' + c.name,
+  collapsed: true,
+  items: [
+    { label: '🏠 เริ่มเรียนวิชานี้', slug: slug(c.dir + '/README.md') },
+    ...c.stages.map(stage => ({
+      label: '📖 ' + stage.title,
+      collapsed: true,
+      items: stage.files.map(file => ({ slug: slug(file) })),
+    })),
+    { label: '🧰 Lab / อ่านเพิ่ม (ไม่บังคับ)', collapsed: true,
+      items: c.supplements.flatMap(group => group.files.map(file => ({ slug: slug(file) }))),
+    },
+  ],
+}));
 
 export default defineConfig({
   site: 'https://somkid-s5.github.io',
@@ -15,13 +32,7 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       head: [{ tag: 'script', attrs: { type: 'module', src: '/Personal-Knowledge-Base/study-progress.js' } }],
       components: { Footer: './src/components/StudyFooter.astro' },
-      sidebar: [
-        { label: '☁️ AWS SAA-C03', items: [{ autogenerate: { directory: 'aws-saa-c03' } }] },
-        { label: '🔷 Azure AZ-104', items: [{ autogenerate: { directory: 'azure-az-104' } }] },
-        { label: '🌤️ GCP ACE', items: [{ autogenerate: { directory: 'gcp-ace' } }] },
-        { label: '🛡️ ISC2 CC', items: [{ autogenerate: { directory: 'isc2-cc' } }] },
-        { label: '🗄️ Oracle Database', items: [{ autogenerate: { directory: 'oracle-database' } }] },
-      ],
+      sidebar,
     }),
   ],
 });

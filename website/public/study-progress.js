@@ -1,4 +1,4 @@
-// Browser-only study progress. No account or server-side tracking.
+// Browser-only learning progress; the JSON is generated from one curated learning plan.
 (async () => {
   const containers = document.querySelectorAll('[data-learning-course]');
   if (!containers.length) return;
@@ -6,26 +6,33 @@
     const response = await fetch('/Personal-Knowledge-Base/learning-paths.json');
     if (!response.ok) return;
     const paths = await response.json();
+    const completed = (entry) => {
+      try { return localStorage.getItem('smart-learning:v1:completed:' + entry.id) === '1'; }
+      catch { return false; }
+    };
     for (const container of containers) {
-      const key = container.getAttribute('data-learning-course');
-      const entries = paths[key] || [];
+      const course = container.getAttribute('data-learning-course');
+      const entries = paths[course] || [];
       if (!entries.length) continue;
-      const completed = (entry) => {
-        try { return localStorage.getItem('smart-learning:v1:completed:' + entry.id) === '1'; }
-        catch { return false; }
-      };
+      const stage = container.getAttribute('data-stage-index');
+      if (stage !== null) {
+        const subset = entries.filter(entry => String(entry.stage) === stage);
+        container.textContent = '✅ เรียนแล้ว ' + subset.filter(completed).length + '/' + subset.length + ' บท';
+        continue;
+      }
       const count = entries.filter(completed).length;
       const next = entries.find(entry => !completed(entry));
       const status = container.querySelector('.course-resume span');
+      const label = container.classList.contains('course-resume') ? container.querySelector('span') : status;
       const link = container.querySelector('a[data-course-next]');
-      if (status) status.textContent = '✅ เรียนแล้ว ' + count + '/' + entries.length + ' บท';
+      if (label) label.textContent = '✅ เรียนแล้ว ' + count + '/' + entries.length + ' บท';
       if (link) {
-        link.href = next ? next.url : '/Personal-Knowledge-Base/' + key + '/';
+        link.href = next ? next.url : '/Personal-Knowledge-Base/' + course + '/';
         link.textContent = next ? (count ? 'เรียนต่อ →' : 'เริ่มบทแรก →') : 'ทบทวนอีกครั้ง →';
         if (next) link.title = next.title;
       }
     }
   } catch {
-    // The website remains fully navigable if storage or JSON is unavailable.
+    // Notes and navigation remain available if storage or the metadata file fails.
   }
 })();

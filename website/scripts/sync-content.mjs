@@ -1,19 +1,13 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, copyFileSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, copyFileSync } from 'node:fs';
+import { courses, mainFiles, extraFiles, slug } from '../learning-plan.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const web = path.join(root, 'website');
 const docs = path.join(web, 'src/content/docs');
 const assets = path.join(web, 'public/kb-assets');
 const base = '/Personal-Knowledge-Base';
-const courses = [
-  { dir: 'AWS-SAA-C03', name: 'AWS SAA-C03', icon: '☁️', desc: 'Architecture, HA, Security และ Hands-on Projects' },
-  { dir: 'Azure-AZ-104', name: 'Azure AZ-104', icon: '🔷', desc: 'Azure Administration และ Cloud Operations' },
-  { dir: 'GCP-ACE', name: 'GCP ACE', icon: '🌤️', desc: 'Google Cloud และ Infrastructure Labs' },
-  { dir: 'ISC2-CC', name: 'ISC2 CC', icon: '🛡️', desc: 'พื้นฐาน Cybersecurity และสถานการณ์สอบ' },
-  { dir: 'Oracle-Database', name: 'Oracle Database', icon: '🗄️', desc: 'DBA, Listener, CDB/PDB และ Troubleshooting' },
-];
 const markdown = [];
 const assetPaths = new Set();
 const assetExt = /\.(svg|png|jpe?g|gif|webp)$/i;
@@ -46,11 +40,7 @@ mkdirSync(docs, { recursive: true });
 mkdirSync(assets, { recursive: true });
 for (const c of courses) walk(path.join(root, c.dir));
 
-function pageSlug(rel) {
-  let value = normalize(rel).replace(/\.md$/i, '');
-  if (value.endsWith('/readme') || value.endsWith('/index')) value = value.slice(0, value.lastIndexOf('/'));
-  return value;
-}
+function pageSlug(rel) { return slug(rel); }
 const all = new Set(markdown.map((f) => f.rel));
 const slugFor = (file) => pageSlug(file).split('/').map(encodeURIComponent).join('/');
 const publicUrl = (slug) => base + '/' + slug + (slug ? '/' : '');
@@ -106,62 +96,102 @@ for (const { absolute, rel } of markdown) {
   body = body.replace(/^#\s+.+\r?\n/, '');
   body = rewrite(body, rel);
   const hidden = metadata.test(rel);
-  const dest = path.join(docs, rel.replace(/readme\.md$/i, 'index.md'));
+  const destName = rel.replace(/readme\.md$/i, 'index.md').replace(/(\d)\.(\d)(?=[^/]*\.md$)/g, '$1-$2');
+  const dest = path.join(docs, destName);
   mkdirSync(path.dirname(dest), { recursive: true });
   writeFileSync(dest, frontmatter(title, rel, hidden) + body, 'utf8');
 }
 
+// Fail at build time if any manually curated step was renamed or deleted.
+const inputIndex = new Map(markdown.map(file => [file.rel, file]));
 const learningPaths = {};
-function studyRank(file) {
-  const name = path.basename(file.rel);
-  if (/^(module|lesson)[-_]/i.test(name)) return 0;
-  if (/^path-activity[-_]/i.test(name)) return 1;
-  if (/lab/i.test(name)) return 2;
-  if (/project/i.test(name)) return 3;
-  return 4;
+const labels = new Map();
+function infoFor(filePath) {
+  const key = normalize(filePath);
+  const entry = inputIndex.get(key);
+  if (!entry) throw new Error('Learning plan points to a missing Markdown file: ' + filePath);
+  if (!labels.has(key)) {
+    labels.set(key, getTitle(readFileSync(entry.absolute, 'utf8'), path.basename(filePath, '.md').replaceAll('-', ' ')));
+  }
+  return {
+    id: slug(filePath),
+    url: publicUrl(slugFor(key)),
+    title: labels.get(key),
+  };
 }
 for (const c of courses) {
   const prefix = normalize(c.dir) + '/';
-  const notes = markdown.filter(f => f.rel.startsWith(prefix) && f.rel !== prefix + 'readme.md' && !metadata.test(f.rel));
-  const main = notes.filter(f => /(?:module|lesson|lab|project|path-activity|^0*\d+[-_])/i.test(path.basename(f.rel)))
-    .sort((a,b) => studyRank(a) - studyRank(b) || a.rel.localeCompare(b.rel, 'en', { numeric: true }));
-  const picked = (main.length ? main : notes).slice(0, 70);
-  learningPaths[normalize(c.dir)] = picked.map(f => ({
-    id: pageSlug(f.rel),
-    url: publicUrl(slugFor(f.rel)),
-    title: getTitle(readFileSync(f.absolute, 'utf8'), path.basename(f.rel, '.md').replaceAll('-', ' ')),
-  }));
-  const lines = [
-    c.icon + ' ' + c.name + ' — Personal Study Notes',
+  const main = mainFiles(c);
+  const supplement = extraFiles(c);
+  const unique = new Set();
+  for (const filePath of [...main, ...supplement]) {
+    const key = normalize(filePath);
+    if (unique.has(key)) throw new Error('Duplicate file inside course plan: ' + filePath);
+    unique.add(key);
+    infoFor(filePath);
+  }
+  const entryList = c.stages.flatMap((stage, stageIndex) => stage.files.map(f => ({
+    ...infoFor(f),
+    stage: stageIndex,
+  })));
+  learningPaths[normalize(c.dir)] = entryList;
+  const overview = [
+    '---',
+    'title: ' + JSON.stringify(c.icon + ' ' + c.name),
+    'sidebar:',
+    '  order: 0',
+    '---',
     '',
-    '> 📘 สมุดโน้ตสำหรับอ่านและฝึกทำด้วยตัวเอง',
+    '> 📚 **โน้ตสำหรับเรียนด้วยตัวเอง** — ' + c.summary,
     '',
-    '## 🗺️ เริ่มเรียนตามลำดับ',
+    '## 🎯 เรียนอะไรและเริ่มตรงไหน?',
     '',
-    'อ่านแนวคิด → ดูภาพจำ → ทดลองทำ Lab → ทบทวน และกด “เรียนจบแล้ว” ที่ท้ายบท',
+    c.description,
     '',
-    '<div class="course-resume" data-learning-course="' + normalize(c.dir) + '"><span>📍 พร้อมเริ่มเรียน</span> <a data-course-next href="' + publicUrl(normalize(c.dir)) + '">เริ่มบทแรก →</a></div>',
+    '<div class="course-resume course-start" data-learning-course="' + normalize(c.dir) +
+      '"><span>📍 ยังไม่ได้เริ่ม</span> <a data-course-next href="' + entryList[0].url +
+      '">เริ่มบทแรก →</a></div>',
     '',
-    ...picked.map((f, index) => (index + 1) + '. [' +
-      getTitle(readFileSync(f.absolute, 'utf8'), path.basename(f.rel, '.md').replaceAll('-', ' ')) +
-      '](' + publicUrl(slugFor(f.rel)) + ')'),
+    '## 🗺️ เส้นทางหลัก (เรียนตามลำดับนี้)',
     '',
-    '## 📖 เนื้อหาทั้งหมด',
+    'ทำแต่ละขั้นตามลำดับด้านล่าง ระบบจะบันทึกเฉพาะบทในเส้นทางหลักเป็นความคืบหน้าของวิชานี้',
     '',
-    'เลือกหัวข้อเพิ่มเติมจาก Sidebar ด้านซ้าย หรือใช้ช่อง Search ด้านบน',
-    '',
-    'ความคืบหน้าจะบันทึกไว้ใน Browser นี้เท่านั้น ยังไม่ Sync ข้ามอุปกรณ์',
   ];
+  for (const [stageIndex, stage] of c.stages.entries()) {
+    overview.push('### ' + (stageIndex + 1) + '. ' + stage.title, '', stage.description, '',
+      '<div class="stage-progress" data-learning-course="' + normalize(c.dir) +
+      '" data-stage-index="' + stageIndex + '">📖 ' + stage.files.length + ' บท</div>', '');
+    for (const [stepIndex, filePath] of stage.files.entries()) {
+      const note = infoFor(filePath);
+      overview.push((stepIndex + 1) + '. [' + note.title + '](' + note.url + ')');
+    }
+    overview.push('');
+  }
+  overview.push('## 🧰 เอกสารเสริมและ Lab (เลือกทำได้)', '',
+    'หัวข้อในส่วนนี้ช่วยเจาะลึกหรือฝึกเพิ่ม **ไม่บังคับให้ทำครบก่อนเรียนต่อ** และไม่รวมในเปอร์เซ็นต์เส้นทางหลัก', '');
+  for (const group of c.supplements) {
+    overview.push('### ' + group.title, '', group.description, '');
+    for (const filePath of group.files) {
+      const note = infoFor(filePath);
+      overview.push('- [' + note.title + '](' + note.url + ')');
+    }
+    overview.push('');
+  }
+  for (const link of c.external || []) {
+    overview.push('- [🔗 ' + link.title + '](' + link.url + ') — ' + link.description);
+  }
+  overview.push('', '---', '',
+    '📌 **สถานะการเรียน:** เก็บเฉพาะบน Browser นี้ ไม่ Sync ข้ามอุปกรณ์ และไม่ใช่การรับรองว่าทำ Lab ผ่านจริง');
   const target = path.join(docs, prefix, 'index.md');
   mkdirSync(path.dirname(target), { recursive: true });
-  writeFileSync(target, frontmatter(c.icon + ' ' + c.name, prefix + 'readme.md', false) + lines.join('\n'), 'utf8');
+  writeFileSync(target, overview.join('\n'), 'utf8');
 }
 
 const courseCards = courses.map((c) => {
   const href = publicUrl(normalize(c.dir));
   return '<article class="course-card" data-learning-course="' + normalize(c.dir) + '"><span class="emoji">' + c.icon +
-    '</span><a href="' + href + '"><strong>' + escapeHtml(c.name) + '</strong></a><small>' + escapeHtml(c.desc) + '</small>' +
-    '<div class="course-resume"><span>📍 พร้อมเริ่มเรียน</span> <a data-course-next href="' + href + '">เริ่มบทแรก →</a></div></article>';
+    '</span><a href="' + href + '"><strong>' + escapeHtml(c.name) + '</strong></a><small>' + escapeHtml(c.description) + '</small>' +
+    '<div class="course-resume"><span>📍 ยังไม่ได้เริ่ม</span> <a data-course-next href="' + href + '">เริ่มบทแรก →</a></div></article>';
 }).join('\n');
 const home = [
   '---',
@@ -192,4 +222,4 @@ const home = [
 ];
 writeFileSync(path.join(docs, 'index.md'), home.join('\n'), 'utf8');
 writeFileSync(path.join(web, 'public/learning-paths.json'), JSON.stringify(learningPaths), 'utf8');
-console.log('Learning website prepared:', markdown.length, 'Markdown files in 5 learning systems');
+console.log('Learning website prepared:', markdown.length, 'Markdown files; curated primary lessons:', Object.fromEntries(courses.map(c => [c.name, mainFiles(c).length])));
