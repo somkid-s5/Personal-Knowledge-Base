@@ -111,12 +111,26 @@ for (const { absolute, rel } of markdown) {
   writeFileSync(dest, frontmatter(title, rel, hidden) + body, 'utf8');
 }
 
+const learningPaths = {};
+function studyRank(file) {
+  const name = path.basename(file.rel);
+  if (/^(module|lesson)[-_]/i.test(name)) return 0;
+  if (/^path-activity[-_]/i.test(name)) return 1;
+  if (/lab/i.test(name)) return 2;
+  if (/project/i.test(name)) return 3;
+  return 4;
+}
 for (const c of courses) {
   const prefix = normalize(c.dir) + '/';
   const notes = markdown.filter(f => f.rel.startsWith(prefix) && f.rel !== prefix + 'readme.md' && !metadata.test(f.rel));
   const main = notes.filter(f => /(?:module|lesson|lab|project|path-activity|^0*\d+[-_])/i.test(path.basename(f.rel)))
-    .sort((a,b) => a.rel.localeCompare(b.rel, 'en', { numeric: true }));
+    .sort((a,b) => studyRank(a) - studyRank(b) || a.rel.localeCompare(b.rel, 'en', { numeric: true }));
   const picked = (main.length ? main : notes).slice(0, 70);
+  learningPaths[normalize(c.dir)] = picked.map(f => ({
+    id: pageSlug(f.rel),
+    url: publicUrl(slugFor(f.rel)),
+    title: getTitle(readFileSync(f.absolute, 'utf8'), path.basename(f.rel, '.md').replaceAll('-', ' ')),
+  }));
   const lines = [
     c.icon + ' ' + c.name + ' — Personal Study Notes',
     '',
@@ -125,6 +139,8 @@ for (const c of courses) {
     '## 🗺️ เริ่มเรียนตามลำดับ',
     '',
     'อ่านแนวคิด → ดูภาพจำ → ทดลองทำ Lab → ทบทวน และกด “เรียนจบแล้ว” ที่ท้ายบท',
+    '',
+    '<div class="course-resume" data-learning-course="' + normalize(c.dir) + '"><span>📍 พร้อมเริ่มเรียน</span> <a data-course-next href="' + publicUrl(normalize(c.dir)) + '">เริ่มบทแรก →</a></div>',
     '',
     ...picked.map((f, index) => (index + 1) + '. [' +
       getTitle(readFileSync(f.absolute, 'utf8'), path.basename(f.rel, '.md').replaceAll('-', ' ')) +
@@ -143,8 +159,9 @@ for (const c of courses) {
 
 const courseCards = courses.map((c) => {
   const href = publicUrl(normalize(c.dir));
-  return '<a class="course-card" href="' + href + '"><span class="emoji">' + c.icon +
-    '</span><strong>' + escapeHtml(c.name) + '</strong><small>' + escapeHtml(c.desc) + '</small></a>';
+  return '<article class="course-card" data-learning-course="' + normalize(c.dir) + '"><span class="emoji">' + c.icon +
+    '</span><a href="' + href + '"><strong>' + escapeHtml(c.name) + '</strong></a><small>' + escapeHtml(c.desc) + '</small>' +
+    '<div class="course-resume"><span>📍 พร้อมเริ่มเรียน</span> <a data-course-next href="' + href + '">เริ่มบทแรก →</a></div></article>';
 }).join('\n');
 const home = [
   '---',
@@ -174,4 +191,5 @@ const home = [
   '',
 ];
 writeFileSync(path.join(docs, 'index.md'), home.join('\n'), 'utf8');
+writeFileSync(path.join(web, 'public/learning-paths.json'), JSON.stringify(learningPaths), 'utf8');
 console.log('Learning website prepared:', markdown.length, 'Markdown files in 5 learning systems');
