@@ -15,11 +15,14 @@ for (const file of lessons) {
   const page = path.join(output, slug(file), 'index.html');
   if (!existsSync(page)) throw Error('Missing generated lesson page: ' + page);
 }
+let countedSkillBullets = 0;
 for (const file of lessons.slice(2)) {
   const note = readFileSync(path.join(root,file),'utf8');
+  countedSkillBullets += (note.match(/^#### /gm) || []).length;
   if (note.length < 1700 || !/## Domain [1-5]/.test(note) || !note.includes('## 🧪 Labs'))
     throw Error('AZ-104 domain content or lab section missing: '+file);
 }
+if (countedSkillBullets !== 82) throw Error('Expected 82 distinct AZ-104 skills paragraphs, got ' + countedSkillBullets);
 const pages = ['index.html','labs.html','quiz.html','flashcards.html',
   'rbac-lab.html','storage-lab.html','storage-access-lab.html','compute-lab.html',
   'appservice-lab.html','containers-lab.html','networking-lab.html',
@@ -31,4 +34,4 @@ for (const page of pages) {
 for (const lab of pages.slice(4)) {
   if (!crosswalk.includes('az104-interactive/'+lab)) throw Error('Lab not mapped to AZ-104 Domain: '+lab);
 }
-console.log('AZ-104 OK: five domain notes, seven stable lesson IDs, ten visual labs and fourteen app entry pages.');
+console.log('AZ-104 OK: five domain notes, 82 skill headings, seven stable lesson IDs, ten visual labs and fourteen app entry pages.');
