@@ -241,6 +241,6 @@ export const courses = [
     ],
   },
 ];
-export const slug = (file) => file.toLowerCase().replace(/\.md$/, '').replace(/\/(readme|index)$/, '');
+export const slug = (file) => file.toLowerCase().replace(/\.md$/, '').replace(/\/(readme|index)$/, '').replace(/(\d)\.(\d)/g, '$1-$2');
 export const mainFiles = (course) => course.stages.flatMap(stage => stage.files);
 export const extraFiles = (course) => course.supplements.flatMap(group => group.files);
