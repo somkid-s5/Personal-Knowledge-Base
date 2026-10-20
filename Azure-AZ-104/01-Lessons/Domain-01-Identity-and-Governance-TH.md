@@ -6,7 +6,7 @@
 
 **เป้าหมาย:** เข้าใจวิธีเลือกและดูแลบริการ Azure รวมถึงการตรวจสอบปัญหาใน Domain นี้
 
-## 1. Manage Azure identities and governance — 20–25%
+## Domain 1 — Manage Azure identities and governance — 20–25%
 
 ### 1.1 Manage Microsoft Entra users and groups
 

@@ -6,7 +6,7 @@
 
 **เป้าหมาย:** เข้าใจวิธีเลือกและดูแลบริการ Azure รวมถึงการตรวจสอบปัญหาใน Domain นี้
 
-## 5. Monitor and maintain Azure resources — 10–15%
+## Domain 5 — Monitor and maintain Azure resources — 10–15%
 
 ### 5.1 Monitor resources in Azure
 

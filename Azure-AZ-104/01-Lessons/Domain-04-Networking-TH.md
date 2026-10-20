@@ -6,7 +6,7 @@
 
 **เป้าหมาย:** เข้าใจวิธีเลือกและดูแลบริการ Azure รวมถึงการตรวจสอบปัญหาใน Domain นี้
 
-## 4. Implement and manage virtual networking — 15–20%
+## Domain 4 — Implement and manage virtual networking — 15–20%
 
 ### 4.1 Configure and manage virtual networks
 

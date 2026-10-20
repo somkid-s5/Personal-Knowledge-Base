@@ -6,7 +6,7 @@
 
 **เป้าหมาย:** เข้าใจวิธีเลือกและดูแลบริการ Azure รวมถึงการตรวจสอบปัญหาใน Domain นี้
 
-## 2. Implement and manage storage — 15–20%
+## Domain 2 — Implement and manage storage — 15–20%
 
 ### 2.1 Configure access to storage
 

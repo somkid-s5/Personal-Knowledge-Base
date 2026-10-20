@@ -6,7 +6,7 @@
 
 **เป้าหมาย:** เข้าใจวิธีเลือกและดูแลบริการ Azure รวมถึงการตรวจสอบปัญหาใน Domain นี้
 
-## 3. Deploy and manage Azure compute resources — 20–25%
+## Domain 3 — Deploy and manage Azure compute resources — 20–25%
 
 ### 3.1 Automate deployment with ARM templates or Bicep
 
