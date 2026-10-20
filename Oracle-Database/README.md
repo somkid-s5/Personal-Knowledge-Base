@@ -1,10 +1,8 @@
 # Oracle Database — Personal DBA Learning System
 
-> **System status:** **In Progress — foundation mapped, current 26ai layer established, full source-fidelity pass pending**  
-> **Primary source mode:** Hybrid — Source-ingestion + current official Oracle verification  
-> **Foundation source:** Oracle Database 19c: Administration Workshop (D106546GC10)  
-> **Current platform authority:** Oracle AI Database 26ai official documentation  
-> **Last targeted public docs/source-objective review:** 2026-10-10 (not full 26ai delta validation)
+> 📘 **สมุดโน้ต Oracle DBA ของฉัน** — เรียน Architecture, Instance, Listener, Storage, Security และ Labs
+> 🧭 **ขอบเขตเวอร์ชัน:** พื้นฐาน Oracle Database 19c พร้อมหัวข้อปัจจุบันของ Oracle AI Database 26ai
+> 🗓️ **อัปเดตหัวข้อที่ตรวจแล้ว:** 2026-10-10 (ยังมีหัวข้อที่ต้องตรวจสอบ/ทดสอบเพิ่มเติม)
 
 [← Repository root](../README.md)
 
@@ -16,21 +14,11 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
-## What this system is
+## 📖 โน้ต Oracle Database ที่ฉันใช้เรียน
 
-This is the long-lived Oracle Database learning system for DBA administration, troubleshooting and operations.
+เริ่มจากการทำความเข้าใจ Database Architecture และวงจรชีวิต Instance แล้วเรียน Listener, CDB/PDB, Tablespace, Users, Monitoring และวิธีแก้ปัญหา ต่อด้วย Labs เพื่อฝึกตามงาน DBA จริง
 
-The system deliberately separates:
-
-~~~text
-19c course material
-→ stable DBA foundation
-
-current Oracle 26ai documentation
-→ current behavior / new features / deprecations / modern platform delta
-~~~
-
-The goal is not to preserve an old 19c course as if it were current. The goal is to keep durable Oracle DBA knowledge while making current-version changes explicit.
+โน้ตแยกความรู้พื้นฐาน 19c ออกจากการเปลี่ยนแปลงของ 26ai อย่างชัดเจน เพื่อไม่เอาพฤติกรรมต่างเวอร์ชันมาปะปนกัน
 
 ## Current draft teaching resources
 
