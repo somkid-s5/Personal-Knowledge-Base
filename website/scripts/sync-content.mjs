@@ -40,11 +40,7 @@ mkdirSync(docs, { recursive: true });
 mkdirSync(assets, { recursive: true });
 for (const c of courses) walk(path.join(root, c.dir));
 
-function pageSlug(rel) {
-  let value = normalize(rel).replace(/\.md$/i, '');
-  if (value.endsWith('/readme') || value.endsWith('/index')) value = value.slice(0, value.lastIndexOf('/'));
-  return value;
-}
+function pageSlug(rel) { return slug(rel); }
 const all = new Set(markdown.map((f) => f.rel));
 const slugFor = (file) => pageSlug(file).split('/').map(encodeURIComponent).join('/');
 const publicUrl = (slug) => base + '/' + slug + (slug ? '/' : '');
@@ -100,7 +96,8 @@ for (const { absolute, rel } of markdown) {
   body = body.replace(/^#\s+.+\r?\n/, '');
   body = rewrite(body, rel);
   const hidden = metadata.test(rel);
-  const dest = path.join(docs, rel.replace(/readme\.md$/i, 'index.md'));
+  const destName = rel.replace(/readme\.md$/i, 'index.md').replace(/(\d)\.(\d)(?=[^/]*\.md$)/g, '$1-$2');
+  const dest = path.join(docs, destName);
   mkdirSync(path.dirname(dest), { recursive: true });
   writeFileSync(dest, frontmatter(title, rel, hidden) + body, 'utf8');
 }
