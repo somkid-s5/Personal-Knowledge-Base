@@ -1,15 +1,27 @@
 ---
 import DefaultFooter from '@astrojs/starlight/components/Footer.astro';
+import { courses, mainFiles, slug } from '../../learning-plan.mjs';
+
 const id = Astro.locals.starlightRoute.id;
-const isLesson = id.includes('/') && !id.endsWith('/index');
+const match = courses.find(course => mainFiles(course).some(file => slug(file) === id));
+const lessons = match ? mainFiles(match) : [];
+const index = lessons.findIndex(file => slug(file) === id);
+const isLesson = index >= 0;
+const url = (file) => '/Personal-Knowledge-Base/' + slug(file) + '/';
+const previous = index > 0 ? lessons[index - 1] : null;
+const next = index >= 0 && index < lessons.length - 1 ? lessons[index + 1] : null;
 ---
 {isLesson && (
   <section class="study-actions" aria-label="ความคืบหน้าบทเรียน">
     <div>
-      <strong>✅ เรียนบทนี้เสร็จแล้วหรือยัง?</strong>
-      <p>บันทึกเฉพาะใน Browser นี้ • กดบทถัดไปด้านล่างเพื่อเรียนต่อ</p>
+      <strong>✅ บทที่ {index + 1}/{lessons.length} ในเส้นทางหลัก</strong>
+      <p>เมื่ออ่านและฝึกทบทวนจบแล้ว ทำเครื่องหมายเพื่อบันทึกใน Browser นี้</p>
     </div>
     <button type="button" data-study-id={id} aria-pressed="false">ทำเครื่องหมายว่าเรียนจบ</button>
+    <nav class="study-next" aria-label="ไปบทถัดไป">
+      {previous ? <a href={url(previous)}>← บทก่อนหน้า</a> : <a href={url(match.dir + '/README.md')}>← ภาพรวมวิชา</a>}
+      {next ? <a href={url(next)}>บทถัดไป →</a> : <a href={url(match.dir + '/README.md')}>🏁 กลับหน้าแผนเรียน →</a>}
+    </nav>
   </section>
 )}
 <DefaultFooter><slot /></DefaultFooter>
