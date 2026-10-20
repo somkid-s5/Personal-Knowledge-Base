@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'website/**'
+      - 'docs/**'
       - 'AWS-SAA-C03/**'
       - 'Azure-AZ-104/**'
       - 'GCP-ACE/**'
@@ -35,6 +36,14 @@ jobs:
       - name: Build static website
         working-directory: website
         run: npm run build
+      - name: Audit content and potential duplicates
+        working-directory: website
+        run: npm run audit:content
+      - name: Save V2 audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-audit-v2
+          path: website/reports/content-audit-v2.md
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
