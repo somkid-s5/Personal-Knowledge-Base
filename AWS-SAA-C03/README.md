@@ -63,16 +63,11 @@ Projects      = วิธีพิสูจน์ว่าใช้จริง�
 
 ดังนั้นเวลาจะเพิ่มเนื้อหาใหม่ ให้ถามก่อนว่าเนื้อหานั้นช่วย **เป้าหมาย SAA-C03 / AWS architecture learning** อยู่หรือไม่ ถ้าใช่ ให้ใส่เป็น layer ภายในระบบนี้ ไม่ต้องสร้าง AWS package ใหม่ที่ root
 
-## Why this is one system
+## 🎯 เป้าหมายที่ฉันใช้เรียน
 
-The three layers have different source identities and maintenance cycles, but they serve one learner goal: **become competent at AWS architecture while preparing for SAA-C03**.
+เรียน AWS Architecture ให้เข้าใจและนำไปใช้ทำระบบจริง พร้อมเตรียมสอบ SAA-C03 โดยอ่าน Concept → ดู Diagram → ลง Hands-on Project → ฝึกตอบ Scenario → กลับไปทบทวนจุดอ่อน
 
-Keeping them as layers avoids two bad outcomes:
-
-- showing three separate AWS products at repository root,
-- duplicating the same theory into certification notes and project workbooks.
-
-The certification core remains the authority for **what the current exam measures**. The versioned course is the durable architecture foundation. The project track proves implementation skill.
+ฉันเก็บทั้งบทอ่านและ Lab ไว้ในวิชาเดียว เพื่อให้เลือกบทเรียนและฝึกต่อได้ง่าย
 
 ## Evidence
 
