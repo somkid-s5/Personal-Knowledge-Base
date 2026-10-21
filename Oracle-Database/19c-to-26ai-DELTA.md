@@ -47,6 +47,15 @@ These are current supplements, not content that the 19c course originally taught
 
 Always consult current Oracle 26ai behavior-change/deprecation documentation before operationalizing older course instructions.
 
+## 🔍 Known Documentation Difference — UNDO_RETENTION
+
+**ข้อควรระวัง:** อย่านำข้อสรุป Oracle 19c RU 19.7 ไปอ้างเป็นกฎของทุก 26ai Installation โดยอัตโนมัติ
+
+- [Oracle 19c Parameter Reference](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/UNDO_RETENTION.html) ระบุพฤติกรรม Fixed-size Undo ที่เปลี่ยนตั้งแต่ RU 19.7
+- [Oracle AI Database 26ai Administrator's Guide — Managing Undo](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html) ในเนื้อหาที่ตรวจวันที่ 21 ต.ค. 2026 ยังมีข้อความอธิบาย Fixed-size Undo ว่าไม่ใช้ `UNDO_RETENTION`
+- ดังนั้น **เอกสารข้ามเวอร์ชันแสดงความต่างที่ต้องตรวจสอบเพิ่มเติม** ไม่สรุปจาก Version Name อย่างเดียว ต้องระบุ Exact Build/RU, Parameter, Undo Tablespace Mode, Actual `TUNED_UNDORETENTION` และ Patch Notes ก่อนเขียน Runbook หรือวางแผน Change
+- **สถานะ Validation:** Documentation Difference / LIVE NOT TESTED — ไม่อ้างว่าได้พิสูจน์ 26ai Behavior บน VM แล้ว
+
 ## Upgrade/transition mental model
 
 ~~~text

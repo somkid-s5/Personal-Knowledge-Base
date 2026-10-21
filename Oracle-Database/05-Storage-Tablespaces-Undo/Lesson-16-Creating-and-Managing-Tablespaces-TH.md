@@ -78,6 +78,28 @@ SELECT tablespace_name,contents,status,bigfile FROM dba_tablespaces ORDER BY tab
 - [Oracle 26ai DBA Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
 - [Oracle 26ai Managing Undo](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html)
 
+## 🛡️ Official-document validation — Online Datafile Move Side Effects (2026-10-21)
+
+`ALTER DATABASE MOVE DATAFILE` เป็นการแก้ไข File Mapping/Physical Storage จริง **ไม่ใช่ Safe Read-only Example**; ห้ามนำไปรันใน Production หรือ Companion Lab ที่กำหนดว่า Read-only
+
+| หัวข้อ | พฤติกรรมที่ต้องระบุใน Change Plan |
+|---|---|
+| `KEEP` | เก็บไฟล์เดิมไว้แต่ Control File ชี้ Datafile ที่ Location ใหม่หลัง Move สำเร็จ |
+| `REUSE` | **มีความเสี่ยง overwrite** ไฟล์ปลายทางชื่อซ้ำ — ห้ามใช้โดยไม่ยืนยัน Owner/Backup/Approval |
+| `OFFLINE` Datafile | Oracle ยก Error ถ้าใช้ Online `MOVE DATAFILE` กับ Datafile ที่ Offline |
+| Data Guard Standby | Online Move บน Primary ไม่ได้ย้าย Standby File ให้อัตโนมัติ ต้องวางแผนแยก |
+| Flashback Database | Flashback ไม่ย้าย File กลับ Path เดิม แม้ Content จะย้อนตามเวลา |
+| Windows | ตาม Oracle 19c Guide ไฟล์เดิม **อาจยังค้างอยู่** หลัง Move แม้ไม่ได้ระบุ `KEEP`; อย่าลบไฟล์ด้วยมือจนกว่าจะตรวจ Active Path/Backup/Change Approval |
+
+```sql
+-- Authorized read-only inspection; no ALTER or DROP.
+SELECT tablespace_name,file_id,file_name,status,bytes,autoextensible,maxbytes
+FROM dba_data_files
+ORDER BY tablespace_name,file_id;
+```
+
+**Official 19c source:** [Managing Data Files — Moving Online Data Files](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/managing-data-files-and-temp-files.html). ข้อมูลนี้เป็น Version-linked Supplement ไม่ใช่การอ้างว่าได้ทำ File Move จริง.
+
 ## Source-objective deepening — Oracle Managed Files and Online Datafile Move
 
 Lesson 16 ครอบคลุม creation/alter/drop tablespace รวมถึง **Oracle Managed Files (OMF)** และ **moving/renaming online datafiles**. OMF ให้ Oracle จัดการ file naming/lifecycle ตาม destinations เช่น `DB_CREATE_FILE_DEST`; ช่วยลด manual naming errors แต่ยังต้องตรวจ volume ownership, ASM/OS capacity และ delete/restore safety.

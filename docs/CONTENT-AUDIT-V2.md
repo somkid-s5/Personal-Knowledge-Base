@@ -102,3 +102,10 @@ npm run audit:content
 - เพิ่ม `npm run qa:content` ตรวจ Body ของ Primary Lessons 83 ขั้น, H1, Code Fence, Internal Evidence References และ Project/Oracle Lab IDs พร้อมออกรายงานทุกไฟล์ใน CI
 - แก้ Release-specific Detail: Oracle 19c RU 19.7 เปลี่ยนพฤติกรรม `UNDO_RETENTION` กับ Fixed-size Undo; [Lesson 18](../Oracle-Database/05-Storage-Tablespaces-Undo/Lesson-18-Managing-Undo-Data-TH.md) และ Lab 09 ชี้ชัดว่า 19c ทุก RU ไม่เหมือนกัน
 - ยังไม่มีการรัน SQL/CLI กับ Cloud หรือ Oracle จริง และยังไม่สามารถรับรอง Semantic Accuracy ทุกบทได้
+
+## Oracle technical reference validation — 2026-10-21
+
+- [Oracle 5-case technical validation](../Oracle-Database/TECHNICAL-REFERENCE-QA-2026-10-21.md): Listener ORA-12519, PDB scope/visibility, Online Datafile Move side effects, Unified Auditing session activation, and 19c RU 19.7/26ai Undo documentation difference
+- [CI technical evidence gate](../website/scripts/verify-oracle-technical.mjs): 31 stable IDs, official-document source anchors, read-only SQL blocks in eight reviewed notes/labs. **No live Oracle execution**
+- DOC_REVIEWED = 5, LAB_EXECUTED = 0, LIVE_VALIDATED = 0; other Oracle subjects outside these cases remain for detailed fact checking
+- No lesson migrations, no destructive commands run, and no claim of runtime parity across Oracle 19c/26ai

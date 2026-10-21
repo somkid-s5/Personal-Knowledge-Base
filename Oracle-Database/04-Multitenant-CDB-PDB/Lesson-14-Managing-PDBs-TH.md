@@ -47,6 +47,24 @@ SELECT name,open_mode,cdb FROM v$database;
 4. ตรวจ common/local account scope และ auth เมื่อ connection ผ่าน listener แล้ว
 5. เสนอ approved PDB lifecycle fix แทน restart instance แบบเดาสาเหตุ
 
+## 🧭 Official-document validation — Container Scope & PDB Open Mode (2026-10-21)
+
+`SHOW CON_NAME` และ `SYS_CONTEXT('USERENV','CON_NAME')` ตรวจ Current Container ได้โดยไม่เปลี่ยน Scope. แต่ `V$PDBS` **มีความต่างด้านการมองเห็น**: เมื่อสืบค้นจาก CDB Root ที่มีสิทธิ์ View เหมาะสมจะตรวจ PDB ใน CDB ได้ ขณะที่ Session ที่อยู่ใน PDB จะเห็นเฉพาะ PDB ปัจจุบัน ดังนั้นแถวไม่ครบ **ไม่ใช่หลักฐานว่า PDB อื่นหาย**
+
+```sql
+SHOW USER
+SHOW CON_NAME
+SELECT sys_context('USERENV','CON_NAME') container_name FROM dual;
+-- In an authorized CDB$ROOT session: inspect PDB availability.
+SELECT con_id,name,open_mode,restricted FROM v$pdbs ORDER BY con_id;
+```
+
+**Read-only Decision:** `OPEN_MODE=READ WRITE` ก็ต้องอ่าน `RESTRICTED` ด้วยก่อนสรุปว่า App Login ได้; `MOUNTED` หมายถึงยังไม่ Open. Service Registration และ PDB Open State เป็นหลักฐานคนละด้าน
+
+**Privilege boundary:** `ALTER SESSION SET CONTAINER` เป็นคำสั่งเปลี่ยน Session Scope (ไม่ใช่ Read-only Observation). การสลับไป PDB อื่นโดยทั่วไปต้องเป็น Common User และมี `SET CONTAINER` Privilege ตาม Oracle Reference; ห้ามคัดลอกคำสั่งนี้ลง read-only Lab หรือสั่งกับ Session Production โดยไม่ตรวจสิทธิ์/ผลกระทบ
+
+เอกสารทางการ: [Oracle 19c — Monitoring CDB/PDBs](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/viewing-information-about-cdbs-and-pdbs-with-sql-plus.html) · [ALTER SESSION: CONTAINER](https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/ALTER-SESSION.html) · [Administer PDBs](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/administering-pdbs-with-sql-plus.html).
+
 ## Scenario & review
 1. ถ้า CDB OPEN แต่ target PDB MOUNTED จะเกิดอะไรกับ login?
 2. ทำไม listener UP ≠ PDB READY?

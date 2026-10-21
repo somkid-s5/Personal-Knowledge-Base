@@ -76,6 +76,18 @@ For each simulated failure, write first three tests:
 
 Try to identify the failing boundary: alias resolution, TCP listener, registered service/handler, instance/PDB state or credentials.
 
+## 🩺 Extended official-reference scenario — ORA-12519 (read-only)
+
+จาก `lsnrctl services` ตรวจ `READY`, `BLOCKED`, service name และ handler counters ก่อนวินิจฉัย. ORA-12519 = ไม่มี appropriate **available** service handler ไม่ใช่สัญญาณบังคับว่าต้องเพิ่ม `PROCESSES` หรือ Restart. หากมี approved View Access ให้เก็บ Trend เพิ่มแบบอ่านอย่างเดียว:
+
+```sql
+SELECT resource_name,current_utilization,max_utilization,limit_value
+FROM v$resource_limit
+WHERE resource_name IN ('processes','sessions');
+```
+
+**ขอบเขตการตีความ:** Query จาก session/database instance ณ เวลาที่ตรวจ ไม่แทน Handler State ใน Listener. [Oracle Error Definition](https://docs.oracle.com/en/error-help/db/ora-12519/) · [Lesson 09 — Listener](../03-Networking-Listener/Lesson-09-Configuring-and-Administering-the-Listener-TH.md).
+
 ## Evidence & cleanup
 
 - [ ] Record which client/Oracle home you used
