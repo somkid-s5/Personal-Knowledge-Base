@@ -14,7 +14,7 @@ jobs:
     name: Validate repository structure
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Validate canonical learning-system structure
         run: python .github/scripts/validate_repo_structure.py
 
@@ -22,7 +22,7 @@ jobs:
     name: Validate internal Markdown links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Validate local Markdown targets
         run: python .github/scripts/validate_internal_links.py
 
@@ -30,7 +30,7 @@ jobs:
     name: Lint governance Markdown
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: markdownlint
         uses: DavidAnson/markdownlint-cli2-action@v24
 
@@ -38,7 +38,7 @@ jobs:
     name: Validate AZ-104 packed study payload
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Decode and inventory AZ-104 learning payload
         run: python Azure-AZ-104/tools/audit_payload.py
 
@@ -46,7 +46,7 @@ jobs:
     name: Validate AWS project workbooks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Audit Cloud Engineer Lab project contract
         run: python AWS-SAA-C03/03-Hands-On-Projects/tools/audit_projects.py
 
@@ -54,7 +54,7 @@ jobs:
     name: Validate SAA-C03 practice provenance
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Guard canonical SAA practice layer
         run: python AWS-SAA-C03/01-Certification-Core/tools/audit_provenance.py
 
@@ -62,6 +62,6 @@ jobs:
     name: Validate icon-first visuals
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Validate SVG structure and system visual guide links
         run: python .github/scripts/validate_visual_learning.py
