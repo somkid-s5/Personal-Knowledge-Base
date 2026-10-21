@@ -43,6 +43,10 @@ Stable DBA mental model
 - maintenance windows,
 - performance diagnosis workflow.
 
+## Release Update behavior matters (19c example)
+
+`UNDO_RETENTION` มีข้อแตกต่างตาม RU: Oracle 19c Parameter Reference ระบุว่าตั้งแต่ **RU 19.7** พฤติกรรมการใช้ค่า Parameter กับ Fixed-size Undo เปลี่ยนจากรุ่นก่อนหน้า จึงต้องตรวจทั้ง `V$VERSION`, Tablespace Mode และ [Oracle UNDO_RETENTION Reference](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/UNDO_RETENTION.html) เมื่อใช้ [Lesson 18](./05-Storage-Tablespaces-Undo/Lesson-18-Managing-Undo-Data-TH.md). **19c ≠ ทุก 19c RU ทำงานเหมือนกัน**
+
 ## Topics that need explicit current verification
 
 - deprecated/desupported features,

@@ -44,6 +44,8 @@ FROM v$undostat ORDER BY begin_time DESC FETCH FIRST 12 ROWS ONLY;
 
 Explain ACTIVE/UNEXPIRED/EXPIRED and that undo retention guarantee can prioritize retention at expense of DML.
 
+**19c RU caution:** ก่อนอธิบายผลของ `UNDO_RETENTION` กับ Fixed-size Undo ให้ตรวจ Release Update: ตั้งแต่ 19c RU 19.7 มี behavior ตาม Parameter Reference ที่ต่างจากรุ่นก่อนหน้า; ใช้ [Oracle 19c UNDO_RETENTION](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/UNDO_RETENTION.html) และเทียบ `V$UNDOSTAT` กับ Undo Capacity จริง. บันทึกเป็น **read-only exercise**; อย่าเปลี่ยน Parameter ใน Production.
+
 ## Troubleshooting workshop
 - ORA-01653: identify segment, permanent tablespace, file limits, filesystem/ASM limits.
 - ORA-01652: investigate TEMP usage and sort/hash workload.

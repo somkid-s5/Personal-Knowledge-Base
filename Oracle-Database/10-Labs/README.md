@@ -51,7 +51,7 @@ This repository will create **original companion labs** that practice the same s
 
 - Future lab — Create a CDB/PDB safely
 - Planned — Listener/service troubleshooting
-- Lab 08 — ADR/alert log/session diagnostics
+- Future lab — ADR/alert log/session diagnostics (not Lab 08, which already covers PDB)
 - Future lab — 19c vs 26ai current-behavior review
 
 Each mutating lab must include prerequisites, permissions, risk, verification and cleanup/rollback.

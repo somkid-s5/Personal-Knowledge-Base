@@ -169,6 +169,10 @@ Diagrams are part of the explanation when relationships or flows matter.
 
 > Open the repo → choose one active learning goal → follow one coherent path. Google Drive remains the broader source library; GitHub contains the curated knowledge systems.
 
+## 🔎 หลักฐานความถูกต้องของบทเรียน (Full Content QA)
+
+Build ผ่านและมี Objective Mapping ครบ **ไม่เท่ากับ** ตรวจสอบความถูกต้องทุกข้อเท็จจริงหรือ Lab ผ่านการทดลองจริง อ่าน [Full Content QA — Evidence & Open Gaps](./docs/FULL-CONTENT-QA-2026-10-21.md) เพื่อดูสิ่งที่ยืนยันจากผู้ผลิตแล้ว, สิ่งที่ตรวจอัตโนมัติ และสิ่งที่ยังต้องทดสอบใน Sandbox
+
 ## 🗺️ โครงสร้างการเรียนรู้ V2
 
 เลือกวิชาใน [Smart Learning Hub](https://somkid-s5.github.io/Personal-Knowledge-Base/) แล้วอ่านตามเส้นทางที่กำหนดไว้ใน `course.yaml` ของแต่ละวิชา พร้อม Lab และเอกสารสรุปที่แยกออกจากบทหลัก
