@@ -12,7 +12,8 @@
     "check:az104": "node scripts/verify-az104.mjs",
     "check:gcp": "node scripts/verify-gcp.mjs",
     "check:aws": "node scripts/verify-aws.mjs",
-    "check:isc2": "node scripts/verify-isc2.mjs"
+    "check:isc2": "node scripts/verify-isc2.mjs",
+    "check:oracle-content": "node scripts/verify-oracle-content.mjs"
   },
   "dependencies": {
     "astro": "^7.2.10",

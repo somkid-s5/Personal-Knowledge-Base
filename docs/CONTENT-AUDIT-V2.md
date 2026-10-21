@@ -82,3 +82,16 @@ npm run audit:content
 - เพิ่ม [Domain → Scenario → Review](../ISC2-CC/ISC2-DOMAIN-PRACTICE-MAP-TH.md) พร้อมข้อ 01–25 ตาม Domain
 - เชื่อมจากบทหลักไปยัง Scenario เฉพาะหมวดและ Cheat Sheet จาก `related.practice`, `related.review`, `related.focus` ใน Course Manifest โดยไม่คัดลอกเนื้อหาสองไฟล์นั้นไปทุกบท
 - ตรวจทั้ง 19 Objectives / 25 Scenario รายการจากไฟล์ต้นฉบับ, สถานะ Build และ stable Lesson IDs ใน CI แยกจากการรับรองผลสอบ
+
+## Oracle topic-specific duplicate cleanup — October 21, 2026
+
+การตรวจตำแหน่งข้อความจริงพบ **14 กลุ่มย่อหน้าที่ยาวซ้ำใน Oracle** แบ่งเป็น Lesson 07–08 (Networking Naming), Lesson 15–16–18 (Storage/Tablespace/Undo) และ Lesson 19–22 (Identity/Privileges/Profile/Auditing). อีก 1 กลุ่มซ้ำข้ามวิชาอยู่ใน Visual Memory Guide ซึ่งเป็นข้อความมาตรฐานที่ตั้งใจใช้ร่วมกัน.
+
+- Lesson 08 เปลี่ยนการถามและการแก้ปัญหาให้เน้น ORA-12154, Easy Connect และ Local Naming โดยอ้างบทพื้นฐาน Lesson 07
+- Lesson 16 เน้น Tablespace/OMF/Datafile Operations และข้อจำกัดก่อน Change; กลับไปอ่าน Capacity Fundamentals ที่ Lesson 15
+- Lesson 18 เน้น Undo Retention, Consistent Reads และ ORA-01555 โดยอ้าง Storage Fundamentals ที่ Lesson 15
+- Lesson 20, 21, 22 เพิ่ม Objective, Incident Workflow และ Self-check เฉพาะ Privileges, Profiles และ Unified Auditing แทนข้อความชุดเดียวกับ Lesson 19
+- ไม่ลบไฟล์ต้นฉบับ ไม่เปลี่ยน SQL Read-only ที่มีอยู่, References, Lab Files หรือ Lesson IDs ที่ใช้กับ Progress
+- เพิ่ม CI ตรวจ No Long-Paragraph Copy ในสามกลุ่มและ Stable Oracle Lesson IDs ทั้ง 31 ขั้น
+
+**ขอบเขต:** การตรวจนี้วัดย่อหน้ายาวซ้ำตามข้อความ ไม่ได้ยืนยันว่าไม่มีความซ้ำในแนวคิดทุกบท หรือมีการ Execute Commands บน Oracle Database จริง.
