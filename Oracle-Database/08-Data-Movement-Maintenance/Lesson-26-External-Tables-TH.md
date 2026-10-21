@@ -82,3 +82,17 @@ FROM dba_external_locations ORDER BY owner,table_name;
 ## Official references
 - [Oracle 26ai External Tables Concepts](https://docs.oracle.com/en/database/oracle/oracle-database/26/sutil/oracle-external-tables-concepts.html)
 - [Oracle 19c External Tables Concepts](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-external-tables-concepts.html)
+
+## 🔎 Official-document validation — External Table Access Drivers (2026-10-21)
+
+- **`ORACLE_LOADER`:** External Text Data ผ่าน SQL Interface; ไม่ใช่ Driver สำหรับเขียน Data Pump Binary Dump
+- **`ORACLE_DATAPUMP`:** External Tables Driver ที่รองรับ Oracle-specific Binary Files และ Unload/Query ตาม Supported Operations; ไม่ใช่ `expdp` หรือ `impdp` Job เดียวกัน
+- **`ORACLE_BIGDATA`:** เป็นอีก Driver/Integration ที่ต้องตรวจ Feature/Platform และ Object-store Access ตาม Version จริง
+
+**ORA-29913:** เป็น Error ของ External Table Access Layer; ให้ตรวจ Detailed ORA Message ต่อท้าย, Database Server Directory Object Grants + OS File Permissions, Driver Syntax, Bad/Log Files และ Charset/Record Layout แทนแก้เป็น CREATE DIRECTORY ใหม่โดยไม่มีหลักฐาน
+
+**Security:** External Table Directory Path, File Names และ Source Data ต้อง Redact; Database Grants และ Linux/Windows Filesystem Privileges เป็นคนละ Layer
+
+Oracle Docs: [19c External Tables](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-external-tables.html) · [SQL*Loader Concepts](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-sql-loader-concepts.html).
+
+**Status:** DOC_REVIEWED / DRIVER NOT EXECUTED.

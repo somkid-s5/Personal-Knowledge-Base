@@ -122,3 +122,25 @@ FROM TABLE(DBMS_XPLAN.DISPLAY_CURSOR(
 **Tabletop:** SQL A เร็วขึ้น 40% หลังเพิ่ม index แต่ batch DML B ช้าลง 35%. สรุปผลรวม workload ไม่ใช่ยกเลิกการวัด B; ระบุ plan stability, storage/redo impacts และ backout plan.
 
 References: [Oracle SQL Tuning Guide 26ai](https://docs.oracle.com/en/database/oracle/oracle-database/26/tgsql/), [Oracle 26ai Licensing](https://docs.oracle.com/en/database/oracle/oracle-database/26/dblic/).
+
+## 🔎 Official-document validation — Cached Cursor Plan and Actual Rows (2026-10-21)
+
+`DBMS_XPLAN.DISPLAY_CURSOR` อ่าน Execution Plan ของ Cached Cursor ตาม `SQL_ID` และ `CHILD_NUMBER` — ไม่ใช่คำสั่ง Execute Business Query ซ้ำ. Oracle Package Reference ระบุสิทธิ์ `READ/SELECT` บน `V$SQL`, `V$SQL_PLAN`, `V$SESSION`, `V$SQL_PLAN_STATISTICS_ALL` (และสิทธิ์ Package ที่เกี่ยวข้อง) ไม่ควรยกระดับเป็น SYSDBA เพื่ออ่านแผน
+
+```sql
+-- Approved read-only session: replace placeholder with authorized SQL_ID.
+SELECT plan_table_output
+FROM TABLE(DBMS_XPLAN.DISPLAY_CURSOR(
+  sql_id => 'abcdef1234567',
+  cursor_child_no => 0,
+  format => 'TYPICAL'
+));
+```
+
+**Plan Semantics:** `E-Rows` คือ Estimate ส่วน `A-Rows` ใน `ALLSTATS LAST` ต้องมี Row-source Runtime Statistics ถูกเก็บจริง จึงไม่รับประกันว่ามีทุก Cursor. `EXPLAIN PLAN` อาจเขียน `PLAN_TABLE` และ Plan จาก Explain ไม่จำเป็นต้องตรงกับ Child Cursor ที่ใช้จริง
+
+**License:** `DISPLAY_CURSOR` (Cache) ต้องแยกจาก `DISPLAY_AWR` ที่อ่าน AWR; SQL Tuning Advisor/Real-Time SQL Monitoring มี Tuning Pack Requirement ตาม Edition/License. ห้ามเรียก Adviser/Monitoring เพื่อทดลองใน Lab ที่ไม่ยืนยันสิทธิ์ก่อน
+
+Official: [19c DBMS_XPLAN Security Model](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_XPLAN.html) · [Oracle 19c Licensing](https://docs.oracle.com/en/database/oracle/oracle-database/19/dblic/Licensing-Information.html).
+
+**Status:** DOC_REVIEWED / CURSOR PLAN NOT EXECUTED.

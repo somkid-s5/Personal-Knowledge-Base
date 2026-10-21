@@ -89,3 +89,23 @@ ORDER BY job_start_time DESC FETCH FIRST 20 ROWS ONLY;
 **Read-only operational practice:** ตรวจ `DBA_AUTOTASK_CLIENT`, `DBA_SCHEDULER_WINDOWS` และ `DBA_AUTOTASK_JOB_HISTORY` แล้วเขียน incident timeline ว่างานไหนเกิดก่อน/หลัง SQL slowdown. ไม่เรียก AWR/ADDM ใน lab ที่ยังไม่ตรวจ license.
 
 References: [Oracle 26ai Automated Maintenance Tasks](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html).
+
+## 🔎 Official-document validation — AutoTask and Optional Pack Entitlement (2026-10-21)
+
+Automatic Optimizer Statistics Collection ใช้ AutoTask ใน Oracle Scheduler Maintenance Windows. แต่ **Automatic SQL Tuning Advisor/SQL Profiles/Real-Time SQL Monitoring** ต้องตรวจ Tuning Pack License; **AWR/ASH/ADDM** ต้องตรวจ Diagnostics Pack License ตาม Edition และ Deployment.
+
+`CONTROL_MANAGEMENT_PACK_ACCESS` เป็น Configuration ที่กำหนด Feature Access **ไม่ใช่หลักฐานการซื้อ License**. DBA ต้องตรวจ License Agreement รวมถึง Cloud/Exadata Conditions ก่อนใช้ Pack-related Feature แม้ UI/SQL เข้าถึงได้
+
+```sql
+-- Read-only observation with approved dictionary privileges.
+SELECT name,value FROM v$parameter
+WHERE name='control_management_pack_access';
+SELECT client_name,status FROM dba_autotask_client
+ORDER BY client_name;
+```
+
+การเห็น Client ENABLED ไม่ได้แปลว่า Job ที่กำหนดไว้เกิดขึ้นหรือ Completed; ต้องดู Scheduled Window และ `DBA_AUTOTASK_JOB_HISTORY` พร้อม Timestamp/Job Result
+
+Official: [AutoTask](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/managing-automated-database-maintenance-tasks.html) · [Licensing Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dblic/Licensing-Information.html) · [Pack Parameter](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/CONTROL_MANAGEMENT_PACK_ACCESS.html).
+
+**Status:** DOC_REVIEWED / ADVISOR NOT RUN.

@@ -104,3 +104,21 @@ WHERE rownum <= 20;
 ```
 
 **Drill:** ตั้ง threshold สำหรับ sessions/processes อย่างไรให้ตรวจ intermittent saturation ได้? ออกแบบ sampling interval, false positives, incident timestamp, escalation path และ remediation owner โดยไม่รัน ALTER SYSTEM.
+
+## 🔎 Official-document validation — Metric Scope and Collection Window (2026-10-21)
+
+`V$SQL.ELAPSED_TIME` เป็น Cumulative Elapsed Time ของ Child Cursor จึงไม่ควรใช้ชี้ Incident ล่าสุดโดยไม่มี Delta/Executions. `V$SYSMETRIC` เป็น Windowed Metric ส่วน `V$SESSION` เป็น Current Session Snapshot
+
+```sql
+SHOW CON_NAME
+SELECT name,value FROM v$parameter
+WHERE name='control_management_pack_access';
+SELECT resource_name,current_utilization,max_utilization,limit_value
+FROM v$resource_limit WHERE resource_name IN ('processes','sessions');
+```
+
+**สำหรับ Monitoring Dashboard:** ทุกจุดต้องระบุ Timestamp, Collection Interval, Container/Instance, Unit, Database Permission และ Alert Threshold. `V$RESOURCE_LIMIT` ไม่มีข้อมูล Handler READY/BLOCKED แทน `lsnrctl services` และไม่ใช่หลักฐานว่า Client Connection Pool ทำงานถูกต้อง
+
+Official: [19c Pack Licensing](https://docs.oracle.com/en/database/oracle/oracle-database/19/dblic/Licensing-Information.html) · [Optimizer Stats](https://docs.oracle.com/en/database/oracle/oracle-database/19/tgsql/gathering-optimizer-statistics.html).
+
+**Status:** DOC_REVIEWED / NO LIVE METRIC SAMPLING.

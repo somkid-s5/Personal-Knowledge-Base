@@ -85,3 +85,19 @@ WHERE owner='LAB_OWNER' ORDER BY table_name;
 ## References
 - [Oracle 26ai SQL*Loader Command-Line Reference](https://docs.oracle.com/en/database/oracle/oracle-database/26/sutil/oracle-sql-loader-commands.html)
 - [Oracle 26ai Loading methods](https://docs.oracle.com/en/database/oracle/oracle-database/26/sutil/sql-loader-conventional-path-direct-path-external-table-loads.html)
+
+## 🔎 Official-document validation — SQL*Loader Loading Modes (2026-10-21)
+
+| Mode | จุดเด่น | ต้องตรวจก่อนเลือก |
+|---|---|---|
+| Conventional | SQL INSERT and bind arrays; เหมาะ concurrent OLTP / small batch | Redo/Constraints/Concurrency Overhead |
+| Direct | Write Oracle data blocks efficiently for bulk loads | Active Transactions, Locking, VPD/INSERT Policy, Clustered Table, Index/Constraint/Trigger Restrictions |
+| External Table | Query/transform source files via SQL then INSERT | File permissions, access driver, parsing/reject controls |
+
+**SQL*Loader ไม่สร้าง Table ให้อัตโนมัติ:** Target Table และ INSERT Privilege ต้องมีอยู่ก่อน. การใช้ `REPLACE` หรือ `TRUNCATE` ต้องตรวจ DELETE Privilege ตามข้อกำหนด SQL*Loader. Direct Path บางกรณีต้องมี Exclusive Access และไม่เหมาะกับ workload ที่มี Concurrent Writes
+
+**APPEND ไม่ Idempotent:** รัน File เดิมซ้ำอาจเกิด Row Duplication. ใช้ Staging/Business Key, Hash/Row Counts, Quoting, Timestamp/Decimal Masks และ Thai Text Round-trip เพื่อให้พิสูจน์ได้ว่าข้อมูลไม่เสียหลัง Migration
+
+Official: [Oracle 19c Conventional vs Direct Path](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-sql-loader-conventional-and-direct-loads.html) · [SQL*Loader Concepts](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-sql-loader-concepts.html).
+
+**Status:** DOC_REVIEWED / LOADER NOT RUN.

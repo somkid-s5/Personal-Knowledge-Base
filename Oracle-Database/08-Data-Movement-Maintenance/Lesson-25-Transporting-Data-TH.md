@@ -93,3 +93,15 @@ Lesson 25 ต้นฉบับมี **Data Pump Export/Import**, **transport t
 **Decision matrix:** ถ้าย้าย schema เล็กและ remap owners → logical Data Pump; ถ้าย้ายหลาย TB และ compatible platform → transportable approach; ถ้าย้ายทั้ง database และต้องรักษา physical state → RMAN/whole-database transport plan. ทั้งสามต้องทำ sandbox rehearsal, backup/restore test, validation และ rollback.
 
 Reference: [Oracle 19c Backup and Recovery User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/), [Oracle 26ai Utilities](https://docs.oracle.com/en/database/oracle/oracle-database/26/sutil/).
+
+## 🔎 Official-document validation — TTS, RMAN & Compatibility (2026-10-21)
+
+**Logical Export ≠ Transportable Tablespaces ≠ RMAN Recovery.** สำหรับ Transportable Tablespaces, Dump ที่สร้างด้วย Data Pump ถือเป็น Metadata แต่ Datafiles ต้องเคลื่อนย้ายแบบ Supported Method ด้วย — ใช้ Dump เพียงไฟล์เดียวไม่ได้
+
+**Self-containment Checklist:** Object Dependencies, Index/Table Placement, Partition Set, SYSTEM/SYSAUX Exclusions, Source Read-only Window, Target Compatibility, Platform Endian, TDE Wallet/Keys, Datafile Inventory, Backup/Restore และ Application Cutover. Tablespace Migration ไม่ได้ทำให้ Physical Recovery เสร็จสมบูรณ์
+
+**Scenario — ย้ายระบบ 2 TB ข้าม OS:** เปรียบเทียบ Endian/Conversion Path, Downtime Budget, Original vs Target Version/PDB/RU, Data Pump Schema vs TTS vs RMAN Whole-Database Strategy. ไม่อนุมานว่า Platform Compatibility มีเพียงพอเพราะ Dump Export ทำได้
+
+Oracle Docs: [Data Pump Overview](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-data-pump-overview.html) · [Backup & Recovery](https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/introduction-backup-recovery.html).
+
+**Status:** DOC_REVIEWED / TRANSPORT OR RESTORE NOT RUN.
