@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "sandbox": {
+    "approved": false,
+    "isolated": false,
+    "approval_ref": "",
+    "oracle_version_full": "",
+    "container_scope": "",
+    "operator": "",
+    "executed_at": "",
+    "reviewer": "",
+    "redaction_confirmed": false,
+    "no_state_changes_confirmed": false
+  },
+  "cases": [
+    {
+      "id": "00",
+      "status": "NOT_EXECUTED",
+      "expected": "บันทึก Oracle VERSION_FULL, DB Mode และ Container ของ Isolated Sandbox",
+      "actual_summary": "",
+      "evidence_ref": "",
+      "error_code": ""
+    },
+    {
+      "id": "01",
+      "status": "NOT_EXECUTED",
+      "expected": "สังเกต Service, PDB OPEN_MODE/RESTRICTED และ Sessions/Processes ตามสิทธิ์",
+      "actual_summary": "",
+      "evidence_ref": "",
+      "error_code": ""
+    },
+    {
+      "id": "02",
+      "status": "NOT_EXECUTED",
+      "expected": "สังเกต Tablespaces, Undo Extents และ V$UNDOSTAT ช่วงเวลาที่เลือก",
+      "actual_summary": "",
+      "evidence_ref": "",
+      "error_code": ""
+    },
+    {
+      "id": "03",
+      "status": "NOT_EXECUTED",
+      "expected": "อ่าน DIRECTORY Names และ Data Pump Job Metadata เท่านั้น ไม่ Export/Import",
+      "actual_summary": "",
+      "evidence_ref": "",
+      "error_code": ""
+    },
+    {
+      "id": "04",
+      "status": "NOT_EXECUTED",
+      "expected": "อ่าน Unified Audit Policy Activation Metadata ตามสิทธิ์และ Auditing Mode",
+      "actual_summary": "",
+      "evidence_ref": "",
+      "error_code": ""
+    },
+    {
+      "id": "05",
+      "status": "NOT_EXECUTED",
+      "expected": "เปรียบเทียบ AutoTask Client, Scheduler Window และ Job History",
+      "actual_summary": "",
+      "evidence_ref": "",
+      "error_code": ""
+    },
+    {
+      "id": "06",
+      "status": "NOT_EXECUTED",
+      "expected": "อ่าน V$RESOURCE_LIMIT และ Existing V$SQL_ID / CHILD / PLAN HASH เท่านั้น",
+      "actual_summary": "",
+      "evidence_ref": "",
+      "error_code": ""
+    },
+    {
+      "id": "07",
+      "status": "NOT_EXECUTED",
+      "expected": "OPTIONAL: ดู Cached Cursor Plan ที่อนุมัติพร้อมสิทธิ์ DBMS_XPLAN",
+      "actual_summary": "",
+      "evidence_ref": "",
+      "error_code": ""
+    }
+  ]
+}
