@@ -75,3 +75,10 @@ npm run audit:content
 - แยก Portfolio Workbooks ออกจากเส้นทางเตรียมสอบและ Progress, ตรวจลิงก์สลับ Module/Project ด้วย CI และ Build QA
 
 **หมายเหตุ:** โครงสร้างนี้จัดลำดับ/บทบาทเพื่อลดการอ่านวนซ้ำ ไม่ใช่ Semantic Deduplication ทุกย่อหน้าและไม่ใช่หลักฐานรัน Project จริง
+
+## ISC2 CC Domain/Scenario follow-up — October 21, 2026
+
+- แยกเส้นทางเป็น 5 Domain Stages ตามลำดับ Study Plan: **1 → 3 → 4 → 2 → 5** แล้วต่อด้วย Scenario; ยังคง IDs `cc-001` ถึง `cc-013` เดิม
+- เพิ่ม [Domain → Scenario → Review](../ISC2-CC/ISC2-DOMAIN-PRACTICE-MAP-TH.md) พร้อมข้อ 01–25 ตาม Domain
+- เชื่อมจากบทหลักไปยัง Scenario เฉพาะหมวดและ Cheat Sheet จาก `related.practice`, `related.review`, `related.focus` ใน Course Manifest โดยไม่คัดลอกเนื้อหาสองไฟล์นั้นไปทุกบท
+- ตรวจทั้ง 19 Objectives / 25 Scenario รายการจากไฟล์ต้นฉบับ, สถานะ Build และ stable Lesson IDs ใน CI แยกจากการรับรองผลสอบ

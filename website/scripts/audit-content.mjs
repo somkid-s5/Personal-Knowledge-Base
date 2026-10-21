@@ -89,5 +89,6 @@ const output=path.join(root,'website/reports/content-audit-v2.md');mkdirSync(pat
 writeFileSync(output,headings.join('\n'));
 console.log(JSON.stringify({total:docs.length,primary:main.size,supplements:extra.size,internal:docs.filter(d=>d.role==='Internal / Draft').length,longParagraphMatches:duplicates.length,overlapCandidates:pairs.length,errors:issues.length}));
 console.log('Long-paragraph matches by course: '+JSON.stringify(Object.fromEntries(repetitionByCourse)));
+for(const group of duplicates.slice(0,30)) console.log('Duplicate paragraph candidate '+group.length+' chars | '+group.files.join(' <> '));
 for(const p of pairs.slice(0,5))console.log('Review candidate '+p.score+'%: '+p.files.join(' <> '));
 if(issues.length){console.error(issues.join('\n'));process.exitCode=1;}
