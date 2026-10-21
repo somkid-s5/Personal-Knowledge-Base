@@ -20,6 +20,8 @@
 | Raw evidence location | `PRIVATE_ONLY_NOT_SHARED` |
 | Public sanitized evidence | `NONE` |
 
+**เครื่องมือช่วยตรวจรับ:** [JSON Evidence Input Template](./EVIDENCE-INPUT-TEMPLATE.json) · [Offline Evidence Validator](../../qa/assess_sandbox_evidence.py) — ใช้หลังการทดลองบน Isolated Sandbox ที่ได้รับอนุญาต. JSON Public Template ทั้ง 8 Case ต้องคง `NOT_EXECUTED` เสมอ. เก็บ Copy ที่กรอกข้อมูลจริงใน Private Storage ห้าม Commit.
+
 ## ✅ Script runbook — Expected vs Actual
 
 | Script ID | Expected observation | Actual observation (redacted) | Status | Evidence Ref / Error |

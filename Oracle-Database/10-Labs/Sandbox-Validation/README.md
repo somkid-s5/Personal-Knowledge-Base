@@ -79,6 +79,25 @@ SQL> EXIT ROLLBACK
 | AutoTask | Job History แยกจาก Client Enabled | Pack entitlement ต้องยืนยันก่อน Advisor |
 | Performance | เห็น Existing SQL_ID / Plan Hash (หากมี) | A-Rows ไม่รับประกัน, Cursor อาจ aged out |
 
+## 🧰 ตรวจรับ Expected vs Actual แบบ Offline (ไม่ต่อ Oracle)
+
+หลังอ่าน Script และรันเฉพาะกับ Sandbox ที่ได้รับอนุญาต สามารถใช้ [EVIDENCE-INPUT-TEMPLATE.json](./EVIDENCE-INPUT-TEMPLATE.json) เป็นตัวช่วยตรวจว่าไม่ได้กรอกสถานะ `PASSED` ลอย ๆ
+
+1. คัดลอก JSON Template ไปเก็บในโฟลเดอร์ `Oracle-Database/10-Labs/Sandbox-Validation/private/` ของ Working Copy ส่วนตัว หรือใน Private Storage **นอก Repository**; โฟลเดอร์ `private/` ถูกเพิ่มใน `.gitignore`
+2. ค่าเริ่มต้น `NOT_EXECUTED` ทั้ง 8 เคส และฟิลด์การอนุมัติยังเป็น `false`. อย่าแก้เป็น `approved: true` หากยังไม่ได้รับอนุญาตจริง
+3. หลังรันจริงจึงบันทึก `executed_at` แบบ ISO 8601 ที่มี Timezone, Oracle Full Version/RU, Container, Operator, Reviewer, แหล่ง Approval และคำอธิบายผลที่ Redact แล้ว
+4. เคส `PASSED`/`FAILED` ต้องมี `actual_summary` และเลขอ้างอิงหลักฐานใน Private Storage รูปแบบ `EVID-001`. **อย่าใส่ Raw SQL Output หรือ Path ที่มีข้อมูลภายในลง JSON**
+5. เรียกตัวตรวจจาก Repository Root:
+
+```bash
+python3 Oracle-Database/qa/assess_sandbox_evidence.py
+python3 Oracle-Database/qa/assess_sandbox_evidence.py --file Oracle-Database/10-Labs/Sandbox-Validation/private/my-sandbox-evidence.json
+```
+
+คำสั่งแรกตรวจ Public Template และชุด Negative Tests; คำสั่งที่สองตรวจความครบถ้วนของผลที่ผู้ใช้รายงาน **โดยไม่ติดต่อ Oracle และไม่แสดง Actual Summary**. หาก Case มี `NOT_EXECUTED` แต่มี Output, เคส `PASSED` แต่ไม่มี Approval/Reviewer/Evidence หรือมีข้อมูลคล้าย Secret/IP จะไม่ผ่าน
+
+**ขอบเขต:** เครื่องมือนี้ตรวจความสอดคล้องของการกรอกข้อมูลเท่านั้น; ใครก็กรอกข้อมูลปลอมให้ผ่าน Validation ได้ถ้ามีฟิลด์ครบ. ต้องมี Reviewer ตรวจ Private Evidence จริงก่อนเรียกว่า `LAB_VALIDATED`. CI ไม่อ่านหรืออัปโหลด Private Results
+
 ## 🧾 Evidence & Portfolio
 
 คัดลอก [VALIDATION-EVIDENCE-TEMPLATE.md](./VALIDATION-EVIDENCE-TEMPLATE.md) ไปเก็บใน Private Location และเริ่มด้วยสถานะ `NOT_EXECUTED`. บันทึก Approval, Oracle RU/Edition, SQL Script ID, Expected/Actual, ORA Error, Screenshot/Log ที่ Redact, Reviewer Verdict และ Cleanup (ใน Pack นี้ไม่มี Resource เปลี่ยนแปลง). เมื่อทำ Portfolio ให้เผยแพร่เฉพาะ Architecture + Anonymized Verification Summary + Lessons Learned. **CI PASS ≠ LAB PASS.**

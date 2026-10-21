@@ -125,3 +125,11 @@ npm run audit:content
 - เพิ่ม Python Static Validator + Negative Safety Fixtures; GitHub Actions ตรวจไม่ให้มี DDL/DML, Host/SPOOL/Spool Raw Logs, Anonymous PL/SQL หรือ Script Include ใน Pack; **CI ไม่ได้รัน Oracle SQL**
 - เชื่อม Lab 01/02/08/09/10/11/12/13 เข้าคู่มือ. 31 Oracle Lesson IDs, 13 Original Companion Labs และ 83 Site Lessons ยังคงเดิม
 - Evidence แนะนำให้เก็บ Raw Output ใน Private Storage และเผยแพร่เฉพาะ Sanitized Portfolio Results ภายหลัง; สถานะเริ่มต้นทุก Script = NOT_EXECUTED
+
+## Oracle sandbox evidence attestation follow-up — October 21, 2026
+
+- เพิ่ม [JSON Expected vs Actual Input](../Oracle-Database/10-Labs/Sandbox-Validation/EVIDENCE-INPUT-TEMPLATE.json) และ [Offline Attestation Checker](../Oracle-Database/qa/assess_sandbox_evidence.py) ซึ่งไม่เชื่อม DB/Internet และไม่เรียก SQL
+- Public Template เริ่มด้วย `NOT_EXECUTED` ทั้ง 8 SQL Cases; `PASSED` ต้องมี Approved Isolated Sandbox, Oracle Version, Timezone-aware Execution Time, Operator/Reviewer, Sanitized Actual และ Private Evidence Reference
+- Negative Fixtures ป้องกัน False PASS จากข้อมูลไม่ครบ, ข้อมูลที่เติม Actual ขณะ NOT_EXECUTED, ไม่มี ORA Error ตอน SKIPPED_PRIVILEGE, Data Sensitive/IP, Case ID ซ้ำ และ Timestamp ไม่มี Timezone
+- Ignore `Oracle-Database/10-Labs/Sandbox-Validation/private/` ป้องกันเผลอ Commit Private Evidence; ต้องยังตรวจ Git Status ก่อนทุก Push (gitignore ไม่ป้องกัน `git add -f`)
+- GitHub Actions ตรวจกติกา Input Template แบบ Static; ไม่มี Oracle Connection และไม่มีการยืนยันความจริงของหลักฐานที่ผู้ใช้กรอก

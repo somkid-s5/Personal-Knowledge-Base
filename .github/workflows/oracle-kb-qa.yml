@@ -27,3 +27,5 @@ jobs:
         run: python3 Oracle-Database/qa/validate_kb.py
       - name: Validate read-only sandbox scripts and evidence contract
         run: python3 Oracle-Database/qa/validate_sandbox.py
+      - name: Validate offline expected-vs-actual manifest safety
+        run: python3 Oracle-Database/qa/assess_sandbox_evidence.py
