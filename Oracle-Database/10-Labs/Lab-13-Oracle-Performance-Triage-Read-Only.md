@@ -92,3 +92,19 @@ References:
 - <https://docs.oracle.com/en/database/oracle/oracle-database/26/tgdba/measuring-database-performance.html>
 - <https://docs.oracle.com/en/database/oracle/oracle-database/26/tgsql/generating-and-displaying-execution-plans.html>
 - <https://docs.oracle.com/en/database/oracle/oracle-database/26/dblic/Licensing-Information.html>
+
+## 🧪 V2 SQL Plan Evidence & Access Drill (DOC_REVIEWED, NOT_EXECUTED)
+
+**Plan Inspection = ไม่ใช่ SQL Tuning Advisor**. `DBMS_XPLAN.DISPLAY_CURSOR` แสดง Cached Cursor Plan ที่เคยรัน โดย Oracle 19c Reference ต้องมีสิทธิ์ `SELECT/READ` บน `V$SQL`, `V$SQL_PLAN`, `V$SESSION` และ `V$SQL_PLAN_STATISTICS_ALL`; Package Privileges ตรวจเพิ่มตาม Environment
+
+**Checkpoints:**
+1. SQL_ID และ CHILD_NUMBER ที่เลือกตรงกับ Cursor ของ Incident จริงหรือไม่? `V$SQL.ELAPSED_TIME` เป็น Cumulative Metric
+2. `DISPLAY_CURSOR('...',0,'TYPICAL')` อ่าน Plan ที่อยู่ใน Cursor Cache; หาก Cursor Aged Out ต้องขอหลักฐานทางอื่นตาม License
+3. `E-Rows` vs `A-Rows`: Runtime Stats ไม่ได้ถูกเก็บทุก Query; `ALLSTATS LAST` จึงไม่รับประกันว่ามี A-Rows
+4. ห้ามใช้ `EXPLAIN PLAN` ใน Read-only Lab (อาจเขียน PLAN_TABLE); `DISPLAY_AWR`/AWR/ADDM ต้องตรวจ Diagnostics Pack; SQL Tuning Advisor/SQL Monitor ต้องตรวจ Tuning Pack ก่อน
+
+**Expected evidence:** SQL_ID, Child#, Plan Hash, Estimated Rows, Actual Rows (if available), Exec Count, Wait Class, PDB/Instance Scope, Time Window, and redacted SQL Text/Bind Values
+
+Official: [19c DBMS_XPLAN](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_XPLAN.html) · [19c Licensing](https://docs.oracle.com/en/database/oracle/oracle-database/19/dblic/Licensing-Information.html).
+
+**Status:** DOC_REVIEWED / LIVE_NOT_EXECUTED.
