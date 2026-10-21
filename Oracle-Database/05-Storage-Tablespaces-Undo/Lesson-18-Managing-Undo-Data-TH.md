@@ -3,36 +3,44 @@
 > 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
 > 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
 
-[Storage index](./README.md) · [Lab 09](../10-Labs/Lab-09-Storage-and-Undo-Inspection.md)
+[Storage index](./README.md) · [Lab 09](../10-Labs/Lab-09-Storage-and-Undo-Inspection.md) · [📘 Storage Fundamentals: Lesson 15](./Lesson-15-Database-Storage-Overview-TH.md)
 
 > **Oracle University 19c Administration Workshop Lesson 18** mapped by source inventory. Original Thai teaching reconstruction; not page-verified against proprietary Student Guide. **Static authored; no Oracle live run.** 19c foundation with 26ai documentation as current reference.
 
 ## เป้าหมาย
-เข้าใจ **Rollback, read consistency and retention** พร้อมวิเคราะห์ Oracle storage problems อย่างเป็นลำดับ ไม่แก้ด้วยการเพิ่ม datafile หรือเปลี่ยน initialization parameters โดยไม่มีหลักฐาน.
+- เข้าใจ Undo สำหรับ Rollback และ Consistent Reads โดยไม่สับสนกับ Redo/Backup
+- อ่าน Undo Retention, Extent Status และ `V$UNDOSTAT` เพื่อวิเคราะห์ ORA-01555
+- ประเมิน Trade-off ของ Retention Guarantee และ Capacity ก่อนเปลี่ยน Parameter
+
+> พื้นฐาน Tablespace/Datafile และ Capacity Metrics ใช้ [Lesson 15](./Lesson-15-Database-Storage-Overview-TH.md) เป็นจุดอ้างอิง
 
 ## Mental model
 
 ```mermaid
-flowchart TB
- DB[(Oracle Database)] --> TS[Tablespace: logical storage]
- TS --> SEG[Segment]
- SEG --> EXT[Extent]
- EXT --> BLOCK[Data blocks]
- TS --> DF[(Datafiles: physical storage)]
- DF --> OS[Filesystem / ASM Disk Group]
+flowchart LR
+    TX[Transaction changes rows] --> U[Undo versions]
+    U --> R[Rollback]
+    U --> C[Consistent reads]
+    C --> Q{Undo still available?}
+    Q -->|Yes| OK[Query succeeds]
+    Q -->|No| E[ORA-01555 risk]
 ```
 
 ## Core concepts
-Undo enables consistent reads and rollback. Automatic Undo Management, UNDO_RETENTION, tuned retention, expired/unexpired/active extents and retention guarantee must be distinguished.
 
-**Operational distinction:** Logical space, allocated bytes, recoverable/reclaimable segment space, autoextend maximum, and free filesystem/ASM capacity are separate measurements. A single percent-used number is insufficient to decide a resize.
+- Undo records ช่วย Rollback และสร้าง Read-consistent View ขณะมี Concurrent Transactions
+- `UNDO_RETENTION` เป็นเป้าหมาย retention; actual available undo ขึ้นกับ Workload, Capacity และ Mode
+- `DBA_UNDO_EXTENTS` แยก Active, Unexpired และ Expired Extents; ไม่ควรนับทุก Extent เป็นพื้นที่ reclaim ได้ทันที
+- `V$UNDOSTAT` ใช้ดู Trend ของ Tuned Retention, Snapshot-too-old และพื้นที่ขาดตลอดช่วงเวลา
+- **Retention Guarantee:** ลดความเสี่ยง overwrite บางกรณี แต่เมื่อ Undo Space ไม่พออาจกระทบ DML
 
-| ประเด็น | ต้องตรวจ | ตัดสินใจอย่างไร |
+| อาการ | สิ่งที่ควรเทียบ | การตัดสินใจ |
 |---|---|---|
-| Capacity | bytes, free, maxbytes, autoextend | หา bottleneck จริงก่อนขยาย |
-| Container scope | current CDB/PDB, datafile scope | ห้ามเปลี่ยน object ผิด tenant |
-| Performance | I/O pressure, segment growth, transactions | วิเคราะห์ช่วงเวลาและ workload |
-| Recovery | archive/backup and rollback | ตรวจ restore proof ก่อน DDL |
+| ORA-01555 | Long-query duration, data churn, `V$UNDOSTAT` | แยก Query/Capacity/Retention Cause |
+| Undo Space Pressure | Active/Unexpired Extents, File Limits | ดู Peak Workload ก่อนคิดเพิ่มพื้นที่ |
+| DML ล้มเหลวหลัง Retention Policy | Guarantee State, Undo Capacity | ประเมิน Trade-off กับ Long-running Query |
+
+> พื้นฐานด้าน Datafile Capacity และ Free Extents ดู [Lesson 15](./Lesson-15-Database-Storage-Overview-TH.md)
 
 ## Read-only SQL
 
@@ -44,29 +52,27 @@ SELECT status,SUM(bytes) bytes FROM dba_undo_extents GROUP BY status;
 ```
 
 ### How to interpret
-ตรวจว่าเป็น permanent, temporary, undo หรือ application tablespace; เก็บ timestamp และเทียบย้อนหลัง ถ้าดูแค่ DBA_FREE_SPACE จะพลาด autoextend headroom, temp และ underlying storage capacity. เมื่อ SQL เจอ ORA-00942/ORA-01031 ให้ขอ grant เฉพาะ view แทนการ grant DBA.
+ผล `DBA_UNDO_EXTENTS` เป็น Snapshot ของ Undo Extent State; ควรเทียบกับช่วงเวลาที่ Error เกิดและ `V$UNDOSTAT` ใน Source-objective deepening แทนการดูเปอร์เซ็นต์พื้นที่ว่างครั้งเดียว. ตรวจ PDB/Instance Scope และสิทธิ์ก่อนตีความ.
 
 ## Incident & troubleshooting
-ORA-01555 snapshot too old: correlate longest query, workload churn, undo sizing and tuned undo retention. RETENTION GUARANTEE can cause DML failures.
+**ORA-01555 — snapshot too old:** อย่าสรุปทันทีว่าเพิ่ม `UNDO_RETENTION` แล้วจะหาย
 
-1. เก็บ exact ORA error, time, SQL/workload, affected schema and PDB.
-2. ตรวจ class of tablespace, file allocations, free extents, maxbytes and actual filesystem/ASM free.
-3. ตรวจ application growth, long transactions, backup/archiving and alert log.
-4. แยก emergency mitigation จาก root-cause fix; เขียน impact/rollback แล้วขอ change approval.
-5. ทำ post-change verification และติดตาม trend ไม่ตัดสินจาก snapshot เดียว.
+1. เก็บ SQL/Query Elapsed Time, Error Timestamp และ Container/Instance ที่เกี่ยวข้อง
+2. เทียบ Query Duration กับ Undo Generation, Tuned Retention และ `SSOLDERRCNT` ช่วงเวลานั้น
+3. ตรวจ Undo Extent Status, File Autoextend/Capacity และ Long-running Transactions
+4. ตรวจ Retention Guarantee ก่อนปรับ เพราะอาจทำให้ DML ล้มเหลวเมื่อพื้นที่ไม่พอ
+5. สรุปทางเลือก: ลด Query Runtime, ปรับ Workload, เพิ่ม Capacity หรือเปลี่ยน Retention โดยผ่าน Change Approval และมี Rollback
 
 ## Practice exercise
-- อธิบายเหตุที่ `DBA_DATA_FILES.BYTES` ไม่เท่ากับ used space ของ table.
-- อธิบายข้อแตกต่าง free extents vs unused blocks below HWM.
-- ทำ capacity worksheet: allocated, max autoextend, storage free, projected growth, escalation threshold.
-- ระบุสิ่งที่จะต้อง rollback/restore หากมีการเปลี่ยนแปลง.
+- จำลองวิเคราะห์ Report SQL ที่ใช้เวลานานเทียบกับ Undo Generation Trend โดยใช้ข้อมูล Read-only
+- ทำ Decision Tree สำหรับ ORA-01555 แยก Query Problem ออกจาก Undo Capacity Issue
+- เปรียบเทียบผลดี/เสียของ Retention Guarantee ต่อ Read Consistency และ Write Availability
 
 ## Knowledge check
-1. ถ้าพื้นที่ database เต็ม แต่ filesystem ยังเหลือ จะตรวจอะไร?
-2. ถ้า autoextend ON แต่ MAXBYTES เท่าปัจจุบัน มี headroom จริงหรือไม่?
-3. ถ้า PDB ต้องใช้ quota จะตรวจ owner และสิทธิ์อะไร?
-4. ทำไม DELETE อาจไม่ทำให้ disk usage ลดทันที?
-5. ปัญหา space สามารถเกิดร่วมกับ undo/redo/backup ได้อย่างไร?
+1. Undo กับ Redo ทำหน้าที่ต่างกันอย่างไร?
+2. เหตุใด `UNDO_RETENTION` สูงขึ้นแต่ยังเกิด ORA-01555 ได้?
+3. `SSOLDERRCNT` กับ `NOSPACEERRCNT` ช่วยแยกอาการอย่างไร?
+4. เมื่อเปิด Retention Guarantee แล้ว Undo เต็ม จะมีผลต่อ DML อย่างไร?
 
 ## Sources
 - Oracle University Lesson 18: title-level mapping, full fidelity pending.

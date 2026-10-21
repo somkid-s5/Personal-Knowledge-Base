@@ -3,15 +3,16 @@
 > 🧠 **ภาพจำก่อนอ่าน:** 👤 Identity → 🔑 Access → 🛡️ Controls  
 > 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
 
-[Security index](./README.md) · [Lab 10](../10-Labs/Lab-10-Users-Roles-Security-Inspection.md)
+[Security index](./README.md) · [Lab 10](../10-Labs/Lab-10-Users-Roles-Security-Inspection.md) · [👤 Identity Fundamentals: Lesson 19](./Lesson-19-User-Accounts-TH.md)
 
 > **Provenance:** Oracle University 19c Administration Workshop Lesson 22 topic-level alignment. Original Thai learning material; not full page-by-page source fidelity. SQL is read-only; live test NOT RUN. Version-specific behavior of 26ai must be confirmed before change.
 
-## เป้าหมาย
-- แยก identity, authentication, authorization, resource limits และ auditing
-- ตรวจ scope ของ instance/CDB/PDB และสิทธิ์ก่อนแก้ปัญหาบัญชีผู้ใช้
-- ใช้ least privilege และเก็บ evidence ที่ไม่เผย credential
-- อธิบาย failure mode และ verification/rollback ได้
+## 🎯 เป้าหมายเฉพาะ Lesson นี้
+- แยกการ Define Policy, Enable Policy และการเกิด Records ใน Unified Audit Trail
+- ตรวจ Audit Policy Scope/Enabled State โดยไม่เผย PII หรือ Audit Evidence
+- วาง Audit Retention/Export/Purge และ Chain-of-custody ก่อน Change
+
+> พื้นฐานการแยก Identity/Authentication/Authorization และ Scope อยู่ใน [Lesson 19](./Lesson-19-User-Accounts-TH.md)
 
 ## เนื้อหาและแนวปฏิบัติ
 
@@ -30,19 +31,18 @@ ORDER BY event_timestamp DESC FETCH FIRST 20 ROWS ONLY;
 
 **Audit drill:** การไม่พบ event ไม่พิสูจน์ว่าไม่มีการกระทำ: ตรวจ enabled policies, scope, privileges, filters, write delay และระบบรวบรวม audit logs. ห้าม export unredacted audit trails ไป public repository.
 
-## Workflow เมื่อเกิด Incident
-1. เก็บ error code และเวลาจริง พร้อม user/service/container โดยตัด sensitive values
-2. ตรวจ `SHOW CON_NAME`, account metadata, policies/privileges ตามหัวข้อ โดยใช้ account ที่ได้รับสิทธิ์แล้ว
-3. เปรียบเทียบกับ security baseline และ audit trail; แยก application bug จาก database authorization
-4. เสนอ change request ระบุ owner, blast radius, rollback, credential rotation และ post-change smoke test
-5. ห้าม grant `DBA` หรือ `SELECT ANY DICTIONARY` เพื่อผ่านแบบฝึก
+## 🔎 Workflow เมื่อเกิด Incident — Unified Auditing & Evidence
+1. จด Event, Timestamp, Identity, Container และ Audit Requirement ที่ต้องพิสูจน์
+2. ตรวจว่า Relevant Audit Policy ถูก Enable สำหรับ Identity/Scope จริงหรือไม่
+3. อ่าน Audit Trail ตามสิทธิ์ขั้นต่ำ และตรวจ Filter, Log Delivery Lag, Missing Event Context
+4. เทียบ Audit Evidence กับ Application/Listener Logs โดยไม่เปิดเผย Credential/PII
+5. หากต้องเปลี่ยน Policy หรือ Purge ให้ทำ Retention/Export/Approval/Verification ก่อนเสมอ
 
-## Self-check
-1. ถ้าผู้ใช้เข้า SQL*Plus ได้แต่ SELECT อีก schema ไม่ได้ ต้องตรวจอะไร?
-2. การใช้ role กับ direct object grant ต่างกันอย่างไร?
-3. สิทธิ์ใน CDB root กับ PDB ต่างกันอย่างไร?
-4. จะรู้ได้อย่างไรว่าการเปลี่ยน profile กระทบ connection pool?
-5. หลักฐานใดพิสูจน์ได้ว่า audit policy capture เหตุการณ์ที่ต้องการ?
+## 🧠 Self-check — Unified Auditing & Evidence
+1. Policy ถูก CREATE แล้วแต่ไม่ได้ ENABLE จะคาดหวัง Audit Records ได้หรือไม่?
+2. ทำไมไม่พบ Record ใน Audit Trail จึงยังไม่ยืนยันว่าเหตุการณ์ไม่เกิด?
+3. `AUDIT_VIEWER` กับ `AUDIT_ADMIN` ต่างกันในหลักการแยกหน้าที่อย่างไร?
+4. เหตุใด Purge Audit Trail ต้องผูกกับ Retention และ Evidence Preservation?
 
 ## Official references
 - [Oracle 19c Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html)

@@ -3,15 +3,16 @@
 > 🧠 **ภาพจำก่อนอ่าน:** 👤 Identity → 🔑 Access → 🛡️ Controls  
 > 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
 
-[Security index](./README.md) · [Lab 10](../10-Labs/Lab-10-Users-Roles-Security-Inspection.md)
+[Security index](./README.md) · [Lab 10](../10-Labs/Lab-10-Users-Roles-Security-Inspection.md) · [👤 Identity Fundamentals: Lesson 19](./Lesson-19-User-Accounts-TH.md)
 
 > **Provenance:** Oracle University 19c Administration Workshop Lesson 21 topic-level alignment. Original Thai learning material; not full page-by-page source fidelity. SQL is read-only; live test NOT RUN. Version-specific behavior of 26ai must be confirmed before change.
 
-## เป้าหมาย
-- แยก identity, authentication, authorization, resource limits และ auditing
-- ตรวจ scope ของ instance/CDB/PDB และสิทธิ์ก่อนแก้ปัญหาบัญชีผู้ใช้
-- ใช้ least privilege และเก็บ evidence ที่ไม่เผย credential
-- อธิบาย failure mode และ verification/rollback ได้
+## 🎯 เป้าหมายเฉพาะ Lesson นี้
+- ตรวจ `DBA_PROFILES` และ `DBA_USERS` เพื่อเชื่อม User กับ Password/Resource Policy
+- แยก Password-Rule Enforcement จาก `RESOURCE_LIMIT` และ Session Limits
+- ประเมินผลกระทบต่อ Service Accounts, Secret Rotation และ Connection Pool ก่อนเปลี่ยน Profile
+
+> พื้นฐานการแยก Identity/Authentication/Authorization และ Scope อยู่ใน [Lesson 19](./Lesson-19-User-Accounts-TH.md)
 
 ## เนื้อหาและแนวปฏิบัติ
 
@@ -28,19 +29,18 @@ SELECT name,value FROM v$parameter WHERE name='resource_limit';
 
 **Scenario:** service account login ไม่ผ่านหลัง credential policy เปลี่ยน — ตรวจ expiry, lock, policy, app secret store, audit log; วาง remediation ที่ไม่ลดความปลอดภัย.
 
-## Workflow เมื่อเกิด Incident
-1. เก็บ error code และเวลาจริง พร้อม user/service/container โดยตัด sensitive values
-2. ตรวจ `SHOW CON_NAME`, account metadata, policies/privileges ตามหัวข้อ โดยใช้ account ที่ได้รับสิทธิ์แล้ว
-3. เปรียบเทียบกับ security baseline และ audit trail; แยก application bug จาก database authorization
-4. เสนอ change request ระบุ owner, blast radius, rollback, credential rotation และ post-change smoke test
-5. ห้าม grant `DBA` หรือ `SELECT ANY DICTIONARY` เพื่อผ่านแบบฝึก
+## 🔎 Workflow เมื่อเกิด Incident — Profile Lifecycle & Resource Limits
+1. เก็บ ORA Error, เวลา, User/Service Account และ Connection Pool Symptoms โดยปิดบัง Secret
+2. อ่าน Account Status, Assigned Profile และ Limits จริงใน Container ที่เกี่ยวข้อง
+3. แยก Password Expiry/Lockout จาก Resource Session Limit และ Application Secret Mismatch
+4. ประเมิน Policy/Compliance, Password Verification Function, Monitoring และ Rollback ก่อนขอ Change
+5. หลังแก้ใน Environment ที่อนุมัติ ตรวจ Reconnect, Pool Recovery และ Failed Login Trend
 
-## Self-check
-1. ถ้าผู้ใช้เข้า SQL*Plus ได้แต่ SELECT อีก schema ไม่ได้ ต้องตรวจอะไร?
-2. การใช้ role กับ direct object grant ต่างกันอย่างไร?
-3. สิทธิ์ใน CDB root กับ PDB ต่างกันอย่างไร?
-4. จะรู้ได้อย่างไรว่าการเปลี่ยน profile กระทบ connection pool?
-5. หลักฐานใดพิสูจน์ได้ว่า audit policy capture เหตุการณ์ที่ต้องการ?
+## 🧠 Self-check — Profile Lifecycle & Resource Limits
+1. Password Limits กับ Resource Limits ภายใต้ Profile ใช้เงื่อนไขบังคับเหมือนกันหรือไม่?
+2. การเปลี่ยน Profile ของ Service Account อาจทำให้ Connection Pool มีอาการอย่างไร?
+3. จะตรวจ `RESOURCE_LIMIT` กับ `DBA_PROFILES` อย่างไรโดยไม่แก้ Parameter?
+4. เหตุใดการปิด Password Policy เพื่อให้ App Login ได้จึงไม่ใช่ Root Cause Fix?
 
 ## Official references
 - [Oracle 19c Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html)
