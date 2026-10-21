@@ -35,7 +35,7 @@ npm run audit:content
 | P1 | GCP 17 Activities เทียบ 13 Modules | Activity เป็นเส้นทางหลัก; Deep Dive ต้องมีรายละเอียดเพิ่มหรือ Link กลับ |
 | P1 | Oracle 31 Lessons เทียบ Teaching Atlas Draft 10–31 | Lesson เป็นบทหลัก; Atlas เก็บใน Repo แต่ไม่แสดงเว็บ |
 | P2 | AWS 13 Architecture Modules เทียบ Current Scope Deep Dive | Current Scope มีเนื้อหาเฉพาะการสอบ; ตรวจซ้ำก่อนรวม |
-| P2 | AWS 7 Labs เทียบ 34 Projects | ไม่รวมเป็นบทเดียวโดยอัตโนมัติ เพราะระดับฝึกต่างกัน |
+| P2 | AWS 7 Labs เทียบ 35 Projects (00–34) | ไม่รวมเป็นบทเดียวโดยอัตโนมัติ เพราะระดับฝึกต่างกัน |
 | P2 | Azure 5 Domain Lessons เทียบ Interactive Learning | แยกบทหลักจากไฟล์เดิมแล้ว; Lab/Quiz เป็นแบบฝึกเสริม ไม่ใช่บทหลักซ้ำ |
 | P3 | ISC2 Lessons / Review / Scenario | เก็บหน้าที่ต่างกัน ปรับ Crosslinks ให้ชัด |
 
@@ -95,3 +95,10 @@ npm run audit:content
 - เพิ่ม CI ตรวจ No Long-Paragraph Copy ในสามกลุ่มและ Stable Oracle Lesson IDs ทั้ง 31 ขั้น
 
 **ขอบเขต:** การตรวจนี้วัดย่อหน้ายาวซ้ำตามข้อความ ไม่ได้ยืนยันว่าไม่มีความซ้ำในแนวคิดทุกบท หรือมีการ Execute Commands บน Oracle Database จริง.
+
+## Full content QA gate — October 21, 2026
+
+- [Full Content QA evidence matrix](./FULL-CONTENT-QA-2026-10-21.md) แยก Official Scope Snapshot / Static QA / Command Semantics / Live Lab Validation
+- เพิ่ม `npm run qa:content` ตรวจ Body ของ Primary Lessons 83 ขั้น, H1, Code Fence, Internal Evidence References และ Project/Oracle Lab IDs พร้อมออกรายงานทุกไฟล์ใน CI
+- แก้ Release-specific Detail: Oracle 19c RU 19.7 เปลี่ยนพฤติกรรม `UNDO_RETENTION` กับ Fixed-size Undo; [Lesson 18](../Oracle-Database/05-Storage-Tablespaces-Undo/Lesson-18-Managing-Undo-Data-TH.md) และ Lab 09 ชี้ชัดว่า 19c ทุก RU ไม่เหมือนกัน
+- ยังไม่มีการรัน SQL/CLI กับ Cloud หรือ Oracle จริง และยังไม่สามารถรับรอง Semantic Accuracy ทุกบทได้

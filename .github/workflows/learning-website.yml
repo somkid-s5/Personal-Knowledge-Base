@@ -51,6 +51,16 @@ jobs:
       - name: Verify Oracle topic-specific cleanup
         working-directory: website
         run: npm run check:oracle-content
+      - name: Evidence-grade content QA for five courses
+        working-directory: website
+        run: npm run qa:content
+      - name: Save Full Content QA evidence report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-content-qa
+          path: website/reports/full-content-qa.md
+          if-no-files-found: warn
       - name: Audit content and potential duplicates
         working-directory: website
         run: npm run audit:content
