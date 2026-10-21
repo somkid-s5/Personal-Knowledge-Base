@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "audit:content": "node scripts/audit-content.mjs",
     "check:az104": "node scripts/verify-az104.mjs",
-    "check:gcp": "node scripts/verify-gcp.mjs"
+    "check:gcp": "node scripts/verify-gcp.mjs",
+    "check:aws": "node scripts/verify-aws.mjs"
   },
   "dependencies": {
     "astro": "^7.2.10",
