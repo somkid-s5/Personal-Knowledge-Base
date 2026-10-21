@@ -65,3 +65,28 @@ Incident: users report slow queries 22:00–23:00. DBA observes a predefined mai
 Cleanup: none beyond disconnect.
 
 Official docs: <https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html>
+
+## 🧪 V2 Automated Maintenance & Pack Access Drill (DOC_REVIEWED, NOT_EXECUTED)
+
+แยก **Window Schedule, Enabled Client, Actual Job Outcome** — สามข้อมูลนี้ไม่เท่ากัน
+
+```sql
+SHOW CON_NAME
+SELECT name,value FROM v$parameter
+WHERE name='control_management_pack_access';
+SELECT client_name,status
+FROM dba_autotask_client ORDER BY client_name;
+SELECT client_name,job_start_time,job_status,job_duration
+FROM dba_autotask_job_history
+ORDER BY job_start_time DESC FETCH FIRST 10 ROWS ONLY;
+```
+
+**Worksheet:**
+1. Status ของ Client เป็น Enabled แต่ไม่มี Job History: ควรตรวจ Maintenance Group, Window Repeat, Privilege/Errors และ Timestamp อะไรก่อน?
+2. SQL ช้าหลัง Stats Collection: จะยืนยัน Plan/Stats Timeline โดยไม่สรุปจาก Correlation อย่างไร?
+3. `CONTROL_MANAGEMENT_PACK_ACCESS=DIAGNOSTIC+TUNING` เป็นหลักฐานว่าซื้อ License แล้วหรือไม่? **ไม่ใช่**
+4. มีสิทธิ์ใช้ Diagnostics/Tuning Packs จริงหรือไม่ ต้องตรวจ Contract/Edition/Deployment ก่อนใช้ AWR/ADDM/SQL Tuning Advisor — ห้ามทำใน Lab นี้
+
+Official: [19c Maintenance Tasks](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/managing-automated-database-maintenance-tasks.html) · [19c Licensing](https://docs.oracle.com/en/database/oracle/oracle-database/19/dblic/Licensing-Information.html).
+
+**Status:** DOC_REVIEWED / LIVE_NOT_EXECUTED.

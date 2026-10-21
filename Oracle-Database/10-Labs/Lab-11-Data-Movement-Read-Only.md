@@ -86,3 +86,24 @@ Write a self-containment, transport metadata+datafiles, target RU, endian, encry
 - [ ] Actual Oracle execution: NOT RUN
 
 **Cleanup:** SQL disconnect only, no resources were created.
+
+## 🧪 V2 Data Pump Import Collision & Recovery Drill (DOC_REVIEWED, NOT_EXECUTED)
+
+**สถานการณ์:** มี Dump สำหรับ Schema `LAB_OWNER` และ Target มี Table เดิมที่ User ใช้งานอยู่แล้ว. ห้ามรัน `impdp` ใน Read-only Lab นี้; ให้ทำ Risk Worksheet:
+
+| Mode | 19c Behavior | Risk |
+|---|---|---|
+| `TABLE_EXISTS_ACTION=SKIP` | Skip existing table (default generally) | Data may not refresh |
+| `TABLE_EXISTS_ACTION=APPEND` | Add source rows to existing table | Duplicate/constraint, non-idempotent |
+| `TABLE_EXISTS_ACTION=TRUNCATE` | Remove existing rows then load | Destructive data loss |
+| `TABLE_EXISTS_ACTION=REPLACE` | Drop/create existing table then load | Destructive metadata/data changes |
+
+**Exception:** `CONTENT=DATA_ONLY` มี Default `APPEND` ไม่ใช่ `SKIP`. Import with `SQLFILE` จะสร้าง SQL DDL สำหรับ Review โดย **ไม่รัน DDL ใน Target Database** แต่ยังเขียน SQLFILE ฝั่ง Server Directory และอาจ Overwrite ไฟล์ชื่อซ้ำ; ต้องใช้ Approved Sandbox/Directory หากจะทดลองจริง
+
+**Migration vs Backup Decision:** `expdp NETWORK_LINK` เขียน Dump ฝั่ง Connected DB Server, `impdp NETWORK_LINK` ทำ Target-side Import ผ่าน DB Link; Data Pump ไม่ทดแทน RMAN Physical Backup/Recovery
+
+**Expected evidence (tabletop):** Import Mode, Target Object/Row Impact, Undo/Space, Source/Target Charset, Grants, Invalid Objects, TDE/Directory Scope, Backup/Restore Evidence, Plan to Verify Thai Text and Backout. ไม่ออกคำสั่ง Load/Import/Transport จริง
+
+Oracle Docs: [Data Pump Import Options](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/datapump-import-utility.html) · [Backup and Recovery](https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/introduction-backup-recovery.html).
+
+**Status:** DOC_REVIEWED / LIVE_NOT_EXECUTED.

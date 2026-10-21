@@ -88,3 +88,27 @@ FROM dba_datapump_jobs ORDER BY owner_name,job_name;
 - [Oracle 26ai Data Pump overview](https://docs.oracle.com/en/database/oracle/oracle-database/26/sutil/oracle-data-pump.html)
 - [Oracle 26ai External Tables](https://docs.oracle.com/en/database/oracle/oracle-database/26/sutil/oracle-external-tables-concepts.html)
 - [Oracle 19c Database Utilities](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/)
+
+## 🔎 Official-document validation — Data Pump vs RMAN & NETWORK_LINK (2026-10-21)
+
+```mermaid
+flowchart LR
+ A{Goal} -->|Schema or rows| B[Data Pump]
+ A -->|Physical recovery| C[RMAN]
+ A -->|Flat files| D[SQL Loader]
+ A -->|Transportable datafiles| E[Transportable Tablespaces]
+ B --> F[Reconcile data and objects]
+ C --> G[Restore and recovery test]
+ D --> F
+ E --> F
+```
+
+**Data Pump ไม่ใช่ RMAN:** Logical Export/Import ไม่ทดแทน Physical Backup/Restore, Control Files และ Archived Redo. Export Success ไม่เท่ากับ Disaster Recovery Readiness.
+
+**NETWORK_LINK มีสองเส้นทางต่างกัน:** `expdp NETWORK_LINK` อ่าน Source ผ่าน DB Link แล้วสร้าง Dump บน Database Server ที่ Client เชื่อมต่อ; `impdp NETWORK_LINK` Import จาก Source ผ่าน DB Link ไป Database ที่ Client เชื่อมต่อโดยตรง ไม่ต้องมี Intermediate Dump File. ตรวจ Link Privileges, Credential Exposure, Network, RU/Version และ PDB Context
+
+**Server-side DIRECTORY:** `expdp` อยู่บน Laptop ได้ แต่ Dump/Log ถูกเปิดผ่าน Directory Object ของ Database Server (RAC/ASM/PDB มีข้อพิจารณาเพิ่มเติม). Validation ต้องรวม Grants, Objects, Counts, Business Totals, Thai Charset Round-trip, Recovery และ Backout.
+
+Oracle Docs: [Data Pump Overview](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-data-pump-overview.html) · [Export NETWORK_LINK](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-data-pump-export-utility.html) · [Import NETWORK_LINK](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/datapump-import-utility.html) · [Physical vs Logical Backup](https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/introduction-backup-recovery.html).
+
+**Status:** DOC_REVIEWED / NO LIVE EXPORT, IMPORT OR RESTORE.

@@ -56,6 +56,12 @@ npm run qa:content
 - ปรับ Listener Lesson 09 / Lab 02, PDB Lesson 14 / Lab 08, Tablespace Lesson 16, Unified Audit Lesson 22 / Lab 10 และ 19c→26ai Delta
 - เพิ่ม CI Evidence Contract สำหรับ Official URLs, Read-only SQL Examples และ Lesson IDs; ไม่รัน Oracle หรือ Claim ว่า 26ai Behavior ได้ Live-validated
 
+## 🗄️ Oracle Lessons 23–31 supplemental validation — 2026-10-21
+
+- [Data Movement / Maintenance / Performance Evidence Matrix](../Oracle-Database/DATA-MOVEMENT-PERFORMANCE-QA-2026-10-21.md) — 9 canonical Lessons และ 3 companion Labs ตรวจตาม Oracle 19c official docs
+- เพิ่ม Quality Gate ตรวจการอ้างอิงทางการและตัวอย่าง SQL แบบ Read-only; Preserve Stable Lesson IDs ทั้ง 31
+- **DOC_REVIEWED ไม่เท่ากับ LAB_EXECUTED:** ไม่ได้รัน SQL, Data Pump, RMAN, SQL*Loader หรือ Advisor บน Oracle Instance จริง
+
 ## 🎯 ลำดับ QA เชิงลึกที่ควรดำเนินต่อ
 
 | Priority | เนื้อหา | เหตุผล |

@@ -98,3 +98,22 @@ Lesson 28 ให้รู้จักขั้นตอน configuration ด้�
 **Change lab (tabletop):** ในระบบทดสอบมี workload peak 22:00–23:00 และ window เริ่ม 22:00 ให้เสนอ: (1) baseline (2) ข้อดีข้อเสียเลื่อน window vs disable one client (3) resource plan design (4) approved SQL change set ที่ยังไม่ execute (5) rollback/re-enable plan (6) post-change verification of task completion.
 
 Reference: [26ai Managing Automated Maintenance Tasks](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-automated-database-maintenance-tasks.html).
+
+## 🔎 Official-document validation — Maintenance Window != Completed Work (2026-10-21)
+
+**แยก 4 สถานะ:** Maintenance Window Scheduled → Window Open → AutoTask Client Enabled → Specific Job Completed. Window ที่เปิดอยู่ไม่ได้ยืนยันว่า Optimizer Stats Gathering เสร็จแล้ว และ Client Enabled ก็ไม่ได้รับรองว่าไม่มี Job Error
+
+```sql
+-- Read-only; no Scheduler/Admin procedure calls.
+SELECT window_name,enabled,repeat_interval,duration,resource_plan
+FROM dba_scheduler_windows ORDER BY window_name;
+SELECT client_name,job_start_time,job_status,job_duration
+FROM dba_autotask_job_history
+ORDER BY job_start_time DESC FETCH FIRST 20 ROWS ONLY;
+```
+
+**Regression Investigation:** หาก SQL ช้าหลัง Maintenance Window ให้เทียบ Scheduler Job Timeline, Stats Modified, Plan Hash/Child Cursor, Wait/Workload ก่อนกล่าวว่า Statistics เป็น Root Cause. `DBMS_AUTO_TASK_ADMIN`, `DBMS_SCHEDULER` เป็น Change Path ที่ต้อง Approval ไม่ใช่ Read-only Example
+
+Official: [19c Automated Tasks and Windows](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/managing-automated-database-maintenance-tasks.html) · [Optimizer Statistics Collection](https://docs.oracle.com/en/database/oracle/oracle-database/19/tgsql/gathering-optimizer-statistics.html).
+
+**Status:** DOC_REVIEWED / WINDOWS NOT MODIFIED.

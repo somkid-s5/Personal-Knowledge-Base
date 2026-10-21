@@ -78,3 +78,15 @@ App reports high p95 while database CPU is under 40%. DBAs inspect lock waits, I
 ## References
 - [26ai Measuring Database Performance](https://docs.oracle.com/en/database/oracle/oracle-database/26/tgdba/measuring-database-performance.html)
 - [26ai Database Licensing Information](https://docs.oracle.com/en/database/oracle/oracle-database/26/dblic/Licensing-Information.html)
+
+## 🔎 Official-document validation — Baseline and Pack Boundary (2026-10-21)
+
+Oracle Performance Analysis ต้องแยก **Response Time/DB Time/CPU/Wait Class/Logical and Physical Reads** และ Service/PDB Scope. ค่า Cumulative จาก `V$SQL` ไม่ใช่ Latency ของ Query ล่าสุด; ต้องดู Change Across Time/Executions และ Service/Business Impact
+
+**Licensing:** AWR, ADDM และ Feature ใน Diagnostics Pack ต้องตรวจ Entitlement; SQL Tuning Advisor, SQL Profiles และ Real-Time SQL Monitoring อยู่ใน Tuning Pack ตาม Licensing Guide. ไม่ตีความว่า `CONTROL_MANAGEMENT_PACK_ACCESS=DIAGNOSTIC+TUNING` เท่ากับ Licensed
+
+**First-pass (read-only):** Availability → Resource Limits → Session/Waits → Cached SQL_ID/Child Plan → Compare Baseline; หลีกเลี่ยง AWR/ASH/ADDM โดยไม่มีสิทธิ์ใช้ Pack
+
+Official: [19c Licensing](https://docs.oracle.com/en/database/oracle/oracle-database/19/dblic/Licensing-Information.html) · [Pack Control](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/CONTROL_MANAGEMENT_PACK_ACCESS.html).
+
+**Status:** DOC_REVIEWED / PERFORMANCE NOT BENCHMARKED.
