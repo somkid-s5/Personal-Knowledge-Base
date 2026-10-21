@@ -41,12 +41,15 @@ export const courses = dirs.map((dir) => {
         const modules = support.modules ?? [];
         const labs = support.labs ?? [];
         const projects = support.projects ?? [];
-        if (!Array.isArray(modules) || !Array.isArray(labs) || !Array.isArray(projects)) {
+        const practice = support.practice ?? [];
+        const review = support.review ?? [];
+        const focus = support.focus ?? null;
+        if (!Array.isArray(modules) || !Array.isArray(labs) || !Array.isArray(projects) || !Array.isArray(practice) || !Array.isArray(review) || (focus !== null && (typeof focus !== 'string' || focus.length > 180))) {
           throw new Error('Invalid related content for ' + f);
         }
-        const refs = [...modules, ...labs, ...projects].map(prefixed);
+        const refs = [...modules, ...labs, ...projects, ...practice, ...review].map(prefixed);
         if (new Set(refs.map(normalize)).size !== refs.length) throw new Error('Repeated related file on ' + f);
-        related.set(slug(f), { modules: modules.map(prefixed), labs: labs.map(prefixed), projects: projects.map(prefixed) });
+        related.set(slug(f), { modules: modules.map(prefixed), labs: labs.map(prefixed), projects: projects.map(prefixed), practice: practice.map(prefixed), review: review.map(prefixed), focus });
       }
       return f;
     }),
@@ -62,10 +65,15 @@ export const courses = dirs.map((dir) => {
     }),
   }));
   for (const [lesson, links] of related) {
-    for (const target of [...links.modules, ...links.labs, ...links.projects]) {
+    for (const target of [...links.modules, ...links.labs, ...links.projects, ...links.review]) {
       if (!files.has(normalize(target)) || ids.has(slug(target))) {
         throw new Error('Related link must be a curated supplement: ' + lesson + ' → ' + target);
       }
+    }
+  }
+  for (const [lesson, links] of related) {
+    for (const target of links.practice) {
+      if (!files.has(normalize(target))) throw new Error('Practice file is not curated in ' + dir + ': ' + lesson + ' → ' + target);
     }
   }
   return {
