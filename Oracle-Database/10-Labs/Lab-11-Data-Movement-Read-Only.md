@@ -107,3 +107,9 @@ Write a self-containment, transport metadata+datafiles, target RU, endian, encry
 Oracle Docs: [Data Pump Import Options](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/datapump-import-utility.html) · [Backup and Recovery](https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/introduction-backup-recovery.html).
 
 **Status:** DOC_REVIEWED / LIVE_NOT_EXECUTED.
+
+## 🧪 Sandbox Execution & Evidence (Optional)
+
+[▶️ Runbook + Approved Read-only SQL Scripts](./Sandbox-Validation/README.md) · [📝 Expected vs Actual Evidence Template](./Sandbox-Validation/VALIDATION-EVIDENCE-TEMPLATE.md)
+
+**Status: NOT_EXECUTED.** เมื่อมี Isolated Sandbox ที่ได้รับอนุญาต ให้เลือก Script ที่ตรงหัวข้อ, บันทึก Oracle Version/RU, Container/Privileges และ Expected vs Actual ลง Private Evidence. อย่าอ้างว่า GitHub Actions PASS เท่ากับรัน Lab จริง และห้าม Commit Raw Database Output ลง Public Repository.
