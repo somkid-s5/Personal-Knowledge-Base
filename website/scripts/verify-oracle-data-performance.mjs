@@ -14,7 +14,7 @@ for(let i=0;i<main.length;i++){
 }
 const topics=[
  ['Data-Movement-Overview','Data Pump vs RMAN','docs.oracle.com/en/database/oracle/oracle-database/19/bradv/introduction-backup-recovery.html'],
- ['Loading-Data','Direct vs Conventional','docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-sql-loader-conventional-and-direct-loads.html'],
+ ['Loading-Data','SQL*Loader Loading Modes','docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-sql-loader-conventional-and-direct-loads.html'],
  ['Transporting-Data','TTS, RMAN','docs.oracle.com/en/database/oracle/oracle-database/19/bradv/introduction-backup-recovery.html'],
  ['External-Tables','External Table Access Drivers','docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-external-tables.html'],
  ['Automated-Maintenance-Overview','AutoTask and Optional Pack','docs.oracle.com/en/database/oracle/oracle-database/19/dblic/Licensing-Information.html'],
