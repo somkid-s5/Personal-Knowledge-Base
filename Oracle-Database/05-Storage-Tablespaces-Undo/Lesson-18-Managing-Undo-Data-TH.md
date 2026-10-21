@@ -94,6 +94,7 @@ SELECT status,SUM(bytes) bytes FROM dba_undo_extents GROUP BY status;
 - `ORA-01555` ยังเกิดได้จาก Query Duration, Undo Generation, Undo Pressure, Read Consistency และข้อจำกัด Capacity; การเพิ่มตัวเลขอย่างเดียวไม่ใช่ Root-cause Fix
 
 **ยืนยัน Release Update แบบ Read-only ก่อนตีความ Behavior:**
+
 ```sql
 SELECT banner_full FROM v$version;
 SELECT begin_time, end_time, tuned_undoretention, ssolderrcnt, nospaceerrcnt
