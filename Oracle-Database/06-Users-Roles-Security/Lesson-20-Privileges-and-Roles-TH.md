@@ -3,15 +3,16 @@
 > 🧠 **ภาพจำก่อนอ่าน:** 👤 Identity → 🔑 Access → 🛡️ Controls  
 > 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
 
-[Security index](./README.md) · [Lab 10](../10-Labs/Lab-10-Users-Roles-Security-Inspection.md)
+[Security index](./README.md) · [Lab 10](../10-Labs/Lab-10-Users-Roles-Security-Inspection.md) · [👤 Identity Fundamentals: Lesson 19](./Lesson-19-User-Accounts-TH.md)
 
 > **Provenance:** Oracle University 19c Administration Workshop Lesson 20 topic-level alignment. Original Thai learning material; not full page-by-page source fidelity. SQL is read-only; live test NOT RUN. Version-specific behavior of 26ai must be confirmed before change.
 
-## เป้าหมาย
-- แยก identity, authentication, authorization, resource limits และ auditing
-- ตรวจ scope ของ instance/CDB/PDB และสิทธิ์ก่อนแก้ปัญหาบัญชีผู้ใช้
-- ใช้ least privilege และเก็บ evidence ที่ไม่เผย credential
-- อธิบาย failure mode และ verification/rollback ได้
+## 🎯 เป้าหมายเฉพาะ Lesson นี้
+- แยก System Privileges, Object Privileges และ Role-Based Grants จาก Execution Context
+- อ่าน Permission Graph เพื่อระบุสิทธิ์ที่ได้รับโดยตรง/ผ่าน Role/Common Grant
+- ประเมินผลของ REVOKE ต่อ Definer-rights Code และ Application Dependencies
+
+> พื้นฐานการแยก Identity/Authentication/Authorization และ Scope อยู่ใน [Lesson 19](./Lesson-19-User-Accounts-TH.md)
 
 ## เนื้อหาและแนวปฏิบัติ
 
@@ -29,19 +30,18 @@ FROM dba_tab_privs WHERE grantee='APP_USER';
 
 **Least privilege exercise:** หา schema owner, SELECT ที่ต้องการ, direct grant หรือ role ที่เข้ากับ execution context แล้วเสนอ change/rollback ก่อนใช้ GRANT จริง.
 
-## Workflow เมื่อเกิด Incident
-1. เก็บ error code และเวลาจริง พร้อม user/service/container โดยตัด sensitive values
-2. ตรวจ `SHOW CON_NAME`, account metadata, policies/privileges ตามหัวข้อ โดยใช้ account ที่ได้รับสิทธิ์แล้ว
-3. เปรียบเทียบกับ security baseline และ audit trail; แยก application bug จาก database authorization
-4. เสนอ change request ระบุ owner, blast radius, rollback, credential rotation และ post-change smoke test
-5. ห้าม grant `DBA` หรือ `SELECT ANY DICTIONARY` เพื่อผ่านแบบฝึก
+## 🔎 Workflow เมื่อเกิด Incident — Privilege & Role Authorization
+1. บันทึก ORA-00942/ORA-01031, User, Schema Owner, PDB และ SQL/PLSQL ที่ผิดพลาด
+2. ตรวจ Direct Grants, Enabled Roles, Nested Roles และ Common/Local Privileges แบบ Read-only
+3. ตรวจว่า Definer-rights Procedure ต้องใช้ Direct Object Grant หรือไม่
+4. ทำ Before/After Permission Matrix และ Change Approval สำหรับ GRANT/REVOKE ที่จำเป็นเท่านั้น
+5. ตรวจ Re-run Query/Procedure และ Audit Trail; ห้ามแก้ด้วย DBA หรือ broad ANY privilege
 
-## Self-check
-1. ถ้าผู้ใช้เข้า SQL*Plus ได้แต่ SELECT อีก schema ไม่ได้ ต้องตรวจอะไร?
-2. การใช้ role กับ direct object grant ต่างกันอย่างไร?
-3. สิทธิ์ใน CDB root กับ PDB ต่างกันอย่างไร?
-4. จะรู้ได้อย่างไรว่าการเปลี่ยน profile กระทบ connection pool?
-5. หลักฐานใดพิสูจน์ได้ว่า audit policy capture เหตุการณ์ที่ต้องการ?
+## 🧠 Self-check — Privilege & Role Authorization
+1. เหตุใด User Query ตรงได้ แต่ Definer-rights Procedure พบ ORA-00942?
+2. จะรู้ได้อย่างไรว่าสิทธิ์ SELECT มาจาก Direct Grant หรือ Nested Role?
+3. หาก REVOKE แล้ว User ยังทำงานได้ สิทธิ์อาจมาจากทางไหน?
+4. การ GRANT ใน CDB Root และ PDB Local แตกต่างกันใน Scope อย่างไร?
 
 ## Official references
 - [Oracle 19c Security Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/index.html)

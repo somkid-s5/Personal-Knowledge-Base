@@ -15,9 +15,11 @@
 
 ## 📖 วิธีอ่านสมุดโน้ตนี้
 
-ฉันจัดเนื้อหา ISC2 CC ตามหัวข้อสอบปัจจุบันเพื่อให้เปิดอ่านและเรียนต่อได้ตามลำดับ เริ่มจาก Security Principles แล้วค่อยขยายไป Governance, IAM, Networking และ Security Operations
+ฉันจัดเนื้อหา ISC2 CC ตามหัวข้อสอบปัจจุบันเพื่อให้เปิดอ่านและเรียนต่อได้ตามลำดับ เริ่มจาก Security Principles → IAM → Networking → Governance → Security Operations ตามแผนเรียน 1 → 3 → 4 → 2 → 5
 
 หัวข้อสอบมีการเปลี่ยนแปลงตั้งแต่ 1 กันยายน 2026 ดังนั้นเวลาอ่านโน้ตหรือทำโจทย์ ให้ยึดหัวข้อและน้ำหนักสอบที่แสดงด้านล่างเป็นหลัก
+
+**[🧭 ตารางจับคู่ Domain → Scenario → Review](./ISC2-DOMAIN-PRACTICE-MAP-TH.md)** — เรียนตามลำดับหลัก อ่าน Cheat Sheet เมื่อจำเป็น แล้วฝึก Scenario ตามกลุ่มข้อโดยไม่ต้องอ่านซ้ำทั้งคอร์ส
 
 ## Current exam domains
 

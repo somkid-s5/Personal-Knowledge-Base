@@ -7,48 +7,131 @@ icon: "🛡️"
 description: "พื้นฐาน Security → IAM/Network → Governance → Operations → Scenario"
 summary: "เรียงตามความต่อเนื่องของแนวคิดตาม Study Plan: Domain 1 → 3 → 4 → 2 → 5 ไม่ใช่เรียงตามเลข Domain อย่างเดียว"
 stages:
-  - title: "พื้นฐาน Security และการป้องกันระบบ"
-    description: "เริ่ม CIA, Risk แล้วต่อ IAM และ Network Security"
+  - title: "🔒 Domain 1 — Security Principles"
+    description: "CIA, Risk, Controls, Ethics"
     lessons:
       - id: "cc-001"
         file: "01-Security-Principles.md"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 1 · Scenario 01–05"
+  - title: "🔑 Domain 3 — Identity & Access Management"
+    description: "Identity Lifecycle, Authentication, Authorization"
+    lessons:
       - id: "cc-002"
         file: "03-Identity-Access-Management.md"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 3 · Scenario 11–15"
+  - title: "🌐 Domain 4 — Networking & Cloud Security"
+    description: "Network Controls, Segmentation, Shared Responsibility"
+    lessons:
       - id: "cc-003"
         file: "04-Networking-Cloud-Security.md"
-  - title: "Governance, ความต่อเนื่องและการบริหารความเสี่ยง"
-    description: "4 บทใน Domain 2"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 4 · Scenario 16–20"
+  - title: "📋 Domain 2 — Security Governance"
+    description: "GRC, BC/DR, Awareness, Metrics"
     lessons:
       - id: "cc-004"
         file: "02-Security-Governance/2.1-GRC.md"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 2 · Scenario 06–10"
       - id: "cc-005"
         file: "02-Security-Governance/2.2-Redundancy-BC-DR.md"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 2 · Scenario 06–10"
       - id: "cc-006"
         file: "02-Security-Governance/2.3-Security-Awareness.md"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 2 · Scenario 06–10"
       - id: "cc-007"
         file: "02-Security-Governance/2.4-Metrics-KRI-Reporting.md"
-  - title: "Security Operations และ Incident Response"
-    description: "5 บทใน Domain 5"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 2 · Scenario 06–10"
+  - title: "🛡️ Domain 5 — Security Operations"
+    description: "Data Security, Monitoring, Incident Response, Assets, Testing"
     lessons:
       - id: "cc-008"
         file: "05-Security-Operations-Incident-Response/5.1-Data-Security.md"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 5 · Scenario 21–25"
       - id: "cc-009"
         file: "05-Security-Operations-Incident-Response/5.2-Security-Operations.md"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 5 · Scenario 21–25"
       - id: "cc-010"
         file: "05-Security-Operations-Incident-Response/5.3-Incident-Response.md"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 5 · Scenario 21–25"
       - id: "cc-011"
         file: "05-Security-Operations-Incident-Response/5.4-Asset-Protection.md"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 5 · Scenario 21–25"
       - id: "cc-012"
         file: "05-Security-Operations-Incident-Response/5.5-Security-Testing.md"
-  - title: "Scenario และการทบทวน"
-    description: "ตรวจความเข้าใจ พร้อมย้อนกลับไปอ่านหัวข้อที่ผิด"
+        related:
+          practice:
+            - "CURRENT-SCOPE-SCENARIOS.md"
+          review:
+            - "CHEAT-SHEET.md"
+          focus: "Domain 5 · Scenario 21–25"
+  - title: "📝 Scenario & Final Self-Assessment"
+    description: "25 สถานการณ์ 5 Domain แล้วกลับไปแก้จุดอ่อนโดยไม่อ่านทุกบทซ้ำ"
     lessons:
       - id: "cc-013"
         file: "CURRENT-SCOPE-SCENARIOS.md"
 supplements:
-  - title: "🧠 โน้ตสรุป"
-    description: "แผนเรียน, ภาพช่วยจำ และ Cheat Sheet"
+  - title: "🧭 แผนอ่านและจับคู่ Scenario"
+    description: "Scope, Study Plan และตาราง Domain → Review ใช้เปิดก่อนสอบ"
     files:
+      - "ISC2-DOMAIN-PRACTICE-MAP-TH.md"
       - "STUDY-PLAN.md"
+      - "CURRENT-EXAM-MAP.md"
+  - title: "🧠 Visual & Cheat Sheet"
+    description: "ทบทวนเฉพาะเนื้อหาที่ตอบผิด ไม่ใช่บทเรียนหลักเพิ่ม"
+    files:
       - "VISUAL-MEMORY-GUIDE-TH.md"
       - "CHEAT-SHEET.md"

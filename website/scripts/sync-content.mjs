@@ -132,7 +132,7 @@ function relatedTitle(file) {
 function relatedSection(rel) {
   const course = courses.find(c => c.related.has(slug(rel)));
   const links = course?.related.get(slug(rel));
-  if (links && (links.modules.length || links.labs.length || links.projects.length)) {
+  if (links && (links.modules.length || links.labs.length || links.projects.length || links.practice.length || links.review.length)) {
     const lines = [
       '', '---', '', '## 🔬 อ่านเจาะลึกและฝึกเพิ่ม (ไม่บังคับ)', '',
       'เรียนบทหลักตามลำดับ ส่วนลิงก์ด้านล่างเป็นเนื้อหาเสริมหรือแบบฝึก ไม่จำเป็นต้องทำทั้งหมดก่อนบทถัดไป',
@@ -152,6 +152,21 @@ function relatedSection(rel) {
       lines.push('**🛠️ Optional Portfolio Projects — เลือกทำเพื่อประสบการณ์ ไม่ใช่ข้อบังคับก่อนสอบ**', '');
       for (const file of links.projects) lines.push('- [' + relatedTitle(file) + '](' + publicUrl(slugFor(file)) + ')');
       lines.push('');
+    }
+    if (links.practice.length) {
+      lines.push('**📝 Practice — โจทย์วิเคราะห์สถานการณ์**', '');
+      if (links.focus) lines.push('🎯 **คำถามที่ตรงกับบทนี้:** ' + links.focus, '');
+      for (const file of links.practice) lines.push('- [' + relatedTitle(file) + '](' + publicUrl(slugFor(file)) + ')');
+      lines.push('');
+    }
+    if (links.review.length) {
+      lines.push('**🧠 Review — ทบทวนเฉพาะหัวข้อที่ตอบผิด**', '');
+      for (const file of links.review) lines.push('- [' + relatedTitle(file) + '](' + publicUrl(slugFor(file)) + ')');
+      lines.push('');
+    }
+    if (course.dir === 'ISC2-CC') {
+      lines.push('[🧭 ตารางอ่าน Domain → Scenario → Review](' +
+        publicUrl(slugFor('ISC2-CC/ISC2-DOMAIN-PRACTICE-MAP-TH.md')) + ')');
     }
     if (course.dir === 'GCP-ACE') {
       lines.push('[🗺️ ตารางจับคู่ Activities / Modules / Labs](' +
@@ -250,6 +265,11 @@ for (const c of courses) {
     'ทำแต่ละขั้นตามลำดับด้านล่าง ระบบจะบันทึกเฉพาะบทในเส้นทางหลักเป็นความคืบหน้าของวิชานี้',
     '',
   ];
+  if (c.dir === 'ISC2-CC') {
+    overview.push('', '🛡️ **เรียน Domain 1 → 3 → 4 → 2 → 5 แล้วทำ Mixed Scenarios**', '',
+      '[🧭 ตาราง Domain / Scenarios / Review](' +
+      publicUrl(slugFor('ISC2-CC/ISC2-DOMAIN-PRACTICE-MAP-TH.md')) + ')', '');
+  }
   if (c.dir === 'AWS-SAA-C03') {
     overview.push('', '🛠️ **อ่าน Architecture 13 Modules → ฝึก Lab หรือ Project เฉพาะที่ต้องการ**', '',
       '[🧭 ตารางจับคู่ 13 Modules / 7 Labs / 35 Projects](' +

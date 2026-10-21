@@ -3,36 +3,42 @@
 > 🧠 **ภาพจำก่อนอ่าน:** 🗄️ Data → ⚙️ Process → 🩺 Health  
 > 🎨 [Visual Guide ของวิชานี้](../VISUAL-MEMORY-GUIDE-TH.md) — ภาพช่วยจำ ไม่แทนคำสั่งและเนื้อหาจริง
 
-[Storage index](./README.md) · [Lab 09](../10-Labs/Lab-09-Storage-and-Undo-Inspection.md)
+[Storage index](./README.md) · [Lab 09](../10-Labs/Lab-09-Storage-and-Undo-Inspection.md) · [📘 Storage Fundamentals: Lesson 15](./Lesson-15-Database-Storage-Overview-TH.md)
 
 > **Oracle University 19c Administration Workshop Lesson 16** mapped by source inventory. Original Thai teaching reconstruction; not page-verified against proprietary Student Guide. **Static authored; no Oracle live run.** 19c foundation with 26ai documentation as current reference.
 
 ## เป้าหมาย
-เข้าใจ **Permanent, Temporary and Undo Tablespaces** พร้อมวิเคราะห์ Oracle storage problems อย่างเป็นลำดับ ไม่แก้ด้วยการเพิ่ม datafile หรือเปลี่ยน initialization parameters โดยไม่มีหลักฐาน.
+- เข้าใจการสร้าง/แก้ไข Tablespace และผลต่อ Datafile โดยแยก Metadata กับ Physical Storage
+- อ่านค่า `BIGFILE`, Autoextend และ OMF เพื่อประเมินข้อจำกัดก่อนย้ายหรือขยายไฟล์
+- วางแผน Verification, Change Window และ Rollback โดยไม่รัน DDL บน Production
+
+> ความต่างระหว่าง logical vs physical space และแนวคิด capacity พื้นฐานอยู่ใน [Lesson 15](./Lesson-15-Database-Storage-Overview-TH.md)
 
 ## Mental model
 
 ```mermaid
-flowchart TB
- DB[(Oracle Database)] --> TS[Tablespace: logical storage]
- TS --> SEG[Segment]
- SEG --> EXT[Extent]
- EXT --> BLOCK[Data blocks]
- TS --> DF[(Datafiles: physical storage)]
- DF --> OS[Filesystem / ASM Disk Group]
+flowchart LR
+    D[Change request] --> T[Tablespace policy]
+    T --> F[Datafile / OMF location]
+    F --> H[Check ASM / filesystem headroom]
+    H --> V[Approve and verify change]
 ```
 
 ## Core concepts
-Permanent stores user segments; temporary supports workareas; undo stores before images. Smallfile/bigfile, autoextend NEXT/MAXSIZE, quotas, read-only/offline and underlying storage limits all matter.
 
-**Operational distinction:** Logical space, allocated bytes, recoverable/reclaimable segment space, autoextend maximum, and free filesystem/ASM capacity are separate measurements. A single percent-used number is insufficient to decide a resize.
+- **Permanent / Temporary / Undo:** แต่ละชนิดมีหน้าที่ต่างกัน; ก่อนแก้ต้องตรวจให้แน่ใจว่า Tablespace ไหนเป็นเป้าหมาย
+- **Smallfile vs Bigfile:** พิจารณาความเหมาะสมกับขนาดและการจัดการ Datafile ไม่เลือกจากชื่อเพียงอย่างเดียว
+- **Autoextend NEXT/MAXSIZE:** การเปิด Autoextend ไม่ได้แปลว่าพื้นที่ปลายทางเพียงพอ ต้องดูขีดจำกัดและ ASM/Filesystem
+- **Oracle Managed Files (OMF):** ช่วยจัดการชื่อและวงจรชีวิตไฟล์ แต่การย้าย/ลบต้องตรวจ backup, standby และ ownership ก่อน
 
-| ประเด็น | ต้องตรวจ | ตัดสินใจอย่างไร |
+| Operation ที่วางแผน | หลักฐาน Read-only ที่ควรมี | สิ่งต้องตรวจ |
 |---|---|---|
-| Capacity | bytes, free, maxbytes, autoextend | หา bottleneck จริงก่อนขยาย |
-| Container scope | current CDB/PDB, datafile scope | ห้ามเปลี่ยน object ผิด tenant |
-| Performance | I/O pressure, segment growth, transactions | วิเคราะห์ช่วงเวลาและ workload |
-| Recovery | archive/backup and rollback | ตรวจ restore proof ก่อน DDL |
+| เพิ่ม Capacity | Current/Max Bytes, ASM/FS free, trend | NEXT/MAXSIZE และ growth |
+| Move Datafile | File Name/ID, destination, dependencies | พื้นที่สำหรับไฟล์เดิมและไฟล์ใหม่ |
+| Alter Tablespace | Contents, status, tenant, quota | Impact ต่อ session, object และ application |
+| Drop / Cleanup | Owner, backup proof, restore path | การลบ metadata vs physical files |
+
+> สำหรับหลักการวัด Logical Space กับ Allocated Bytes ดู [Lesson 15](./Lesson-15-Database-Storage-Overview-TH.md)
 
 ## Read-only SQL
 
@@ -44,29 +50,27 @@ SELECT tablespace_name,contents,status,bigfile FROM dba_tablespaces ORDER BY tab
 ```
 
 ### How to interpret
-ตรวจว่าเป็น permanent, temporary, undo หรือ application tablespace; เก็บ timestamp และเทียบย้อนหลัง ถ้าดูแค่ DBA_FREE_SPACE จะพลาด autoextend headroom, temp และ underlying storage capacity. เมื่อ SQL เจอ ORA-00942/ORA-01031 ให้ขอ grant เฉพาะ view แทนการ grant DBA.
+`DBA_TABLESPACES` ใช้ยืนยันชนิดและสถานะ Tablespace ใน Container ที่ถูกต้อง; ถ้าจะพิจารณา Datafile Move/Resize ให้ตรวจ `DBA_DATA_FILES` และการกำหนด OMF ต่อในส่วน Source-objective deepening. ไม่มีสิทธิ์อ่าน View ให้ขอ Read-only Access ที่จำเป็นแทนการยกระดับเป็น DBA.
 
 ## Incident & troubleshooting
-ORA-01653 relates to segment allocation; ORA-01652 is commonly temp segment growth. Confirm datafile autoextend and host/ASM free capacity before change.
+**ORA-01653:** Segment ไม่สามารถ Allocate Extent; อย่าสรุปว่าเพิ่ม Datafile อย่างเดียวจะแก้ได้เสมอ
 
-1. เก็บ exact ORA error, time, SQL/workload, affected schema and PDB.
-2. ตรวจ class of tablespace, file allocations, free extents, maxbytes and actual filesystem/ASM free.
-3. ตรวจ application growth, long transactions, backup/archiving and alert log.
-4. แยก emergency mitigation จาก root-cause fix; เขียน impact/rollback แล้วขอ change approval.
-5. ทำ post-change verification และติดตาม trend ไม่ตัดสินจาก snapshot เดียว.
+1. บันทึก Object, Tablespace, Container/PDB, เวลาและ SQL ที่ล้มเหลว
+2. ตรวจ Datafile Capacity, Autoextend MAXSIZE, Tablespace Quota และ ASM/FS free space
+3. แยกปัญหาขนาดไฟล์ปลายทางออกจากกรณี Object/Quota/Allocation Constraint
+4. ประเมินแนวทาง Add/Resize/Move และ Backup/Standby Dependencies ก่อน Change
+5. หลัง Change ที่อนุมัติและทดสอบแล้ว ตรวจ file mapping, object access, alert log และ growth trend
 
 ## Practice exercise
-- อธิบายเหตุที่ `DBA_DATA_FILES.BYTES` ไม่เท่ากับ used space ของ table.
-- อธิบายข้อแตกต่าง free extents vs unused blocks below HWM.
-- ทำ capacity worksheet: allocated, max autoextend, storage free, projected growth, escalation threshold.
-- ระบุสิ่งที่จะต้อง rollback/restore หากมีการเปลี่ยนแปลง.
+- สร้าง Worksheet (ไม่รัน DDL) เปรียบเทียบ Smallfile/Bigfile สำหรับ workload ที่โตเร็ว
+- วาด Flow สำหรับการย้าย Datafile: source path → destination → sufficient space → verification → rollback
+- อธิบายความต่างของการเปลี่ยน `MAXSIZE` กับการเพิ่ม Capacity ของ ASM/Filesystem
 
 ## Knowledge check
-1. ถ้าพื้นที่ database เต็ม แต่ filesystem ยังเหลือ จะตรวจอะไร?
-2. ถ้า autoextend ON แต่ MAXBYTES เท่าปัจจุบัน มี headroom จริงหรือไม่?
-3. ถ้า PDB ต้องใช้ quota จะตรวจ owner และสิทธิ์อะไร?
-4. ทำไม DELETE อาจไม่ทำให้ disk usage ลดทันที?
-5. ปัญหา space สามารถเกิดร่วมกับ undo/redo/backup ได้อย่างไร?
+1. เหตุใด Autoextend ON จึงไม่รับประกันว่าเพิ่ม Extent สำเร็จ?
+2. `DB_CREATE_FILE_DEST` เกี่ยวข้องกับ OMF และการจัดการไฟล์อย่างไร?
+3. การย้าย Datafile ควรประเมินผลกระทบ Backup/Standby และพื้นที่ปลายทางอย่างไร?
+4. การ Drop Tablespace อาจกระทบ Metadata และ Files ต่างกันอย่างไร?
 
 ## Sources
 - Oracle University Lesson 16: title-level mapping, full fidelity pending.

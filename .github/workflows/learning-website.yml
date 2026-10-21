@@ -45,6 +45,12 @@ jobs:
       - name: Verify AWS Module to Lab and Project map
         working-directory: website
         run: npm run check:aws
+      - name: Verify ISC2 Domain and Scenario navigation
+        working-directory: website
+        run: npm run check:isc2
+      - name: Verify Oracle topic-specific cleanup
+        working-directory: website
+        run: npm run check:oracle-content
       - name: Audit content and potential duplicates
         working-directory: website
         run: npm run audit:content

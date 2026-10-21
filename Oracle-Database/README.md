@@ -109,3 +109,11 @@ Before verification:
 - [Oracle AI Database 26ai Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/26/)
 - [Database Administrator's Guide 26ai](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/)
 - [Administration Bookshelf 26ai](https://docs.oracle.com/en/database/oracle/oracle-database/26/administration.html)
+
+## 🧹 Content cleanup — Link to canonical primers
+
+- [Lesson 07](./03-Networking-Listener/Lesson-07-Oracle-Net-Services-Overview-TH.md) เป็นพื้นฐาน Oracle Net; [Lesson 08](./03-Networking-Listener/Lesson-08-Configuring-Naming-Methods-TH.md) เน้น Client-side Naming / ORA-12154
+- [Lesson 15](./05-Storage-Tablespaces-Undo/Lesson-15-Database-Storage-Overview-TH.md) เป็นพื้นฐาน Logical/Physical Space; [Lesson 16](./05-Storage-Tablespaces-Undo/Lesson-16-Creating-and-Managing-Tablespaces-TH.md) เน้น Tablespace/OMF; [Lesson 18](./05-Storage-Tablespaces-Undo/Lesson-18-Managing-Undo-Data-TH.md) เน้น Undo/ORA-01555
+- [Lesson 19](./06-Users-Roles-Security/Lesson-19-User-Accounts-TH.md) เป็นพื้นฐาน User Identity; [Lesson 20 Privileges](./06-Users-Roles-Security/Lesson-20-Privileges-and-Roles-TH.md), [Lesson 21 Profiles](./06-Users-Roles-Security/Lesson-21-Profiles-and-Resource-Limits-TH.md), และ [Lesson 22 Auditing](./06-Users-Roles-Security/Lesson-22-Unified-Auditing-TH.md) มี Incident Workflow และ Self-check เฉพาะหัวข้อ
+
+ยังคง 31 Lessons และ 13 Labs เดิม; การลดข้อความซ้ำไม่ได้รับรองว่า Labs ถูกทดสอบกับ Database จริงหรือครบเนื้อหาทุก release.
