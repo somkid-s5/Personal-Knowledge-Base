@@ -55,3 +55,28 @@ for(const file of [...coveredModules,...coveredLabs]){
 }
 if(!existsSync(path.join(dist,slug(mapFile),'index.html')))throw Error('Crosswalk page not published');
 console.log('GCP mapped successfully: 17 Activities → 13 optional Modules / 6 Companion Labs; reverse links and existing lesson IDs preserved.');
+
+const visual=readFileSync(path.join(generated,'gcp-ace/visual-study-guide-th.md'),'utf8');
+if(!visual.includes('/Personal-Knowledge-Base/kb-assets/gcp-ace/assets/brand/simple-icons-googlecloud.svg'))
+  throw Error('Raw HTML Google Cloud brand icon src was not rewritten for GitHub Pages');
+for(const file of main){
+  const lesson=readFileSync(path.join(root,file),'utf8');
+  const generatedLesson=readFileSync(path.join(generated,slug(file)+'.md'),'utf8');
+  if(!lesson.includes('## 📚 Deep Learning Notes') || !lesson.includes('Original Supplement'))
+    throw Error('GCP Activity lacks in-place deep explanation: '+file);
+  if(!/^\x60\x60\x60mermaid\s*$/m.test(lesson))
+    throw Error('GCP Activity must contain an in-place Mermaid explanation: '+file);
+  if(!generatedLesson.includes('mermaid'))
+    throw Error('Mermaid source did not reach published Markdown: '+file);
+}
+const gcpOverview=readFileSync(path.join(generated,'gcp-ace/index.md'),'utf8');
+if(!gcpOverview.includes('/gcp-ace/reference-library/') || gcpOverview.includes('## 🔬 Module เจาะลึก 13 บท'))
+  throw Error('GCP landing page should list primary 17 Activities and one optional Library link');
+const libraryFile='GCP-ACE/REFERENCE-LIBRARY.md';
+if(!allowed.has(libraryFile) || !existsSync(path.join(dist,slug(libraryFile),'index.html')))
+  throw Error('GCP reference library missing from build');
+for(const asset of ['01-concept-path.svg','02-diagnostic-path.svg']){
+ if(!existsSync(path.join(dist,'kb-assets/gcp-ace/assets/visual-memory',asset)))
+   throw Error('GCP published visual SVG asset missing: '+asset);
+}
+console.log('GCP deep notes verified: 17/17 Activities with inline Mermaid, live-published visuals, optional Library only.');

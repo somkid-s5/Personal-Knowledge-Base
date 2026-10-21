@@ -13,13 +13,15 @@ const sidebar = courses.map((c) => ({
       collapsed: true,
       items: stage.files.map(file => ({ slug: slug(file) })),
     })),
-    { label: '🧰 Lab / อ่านเพิ่ม (ไม่บังคับ)', collapsed: true,
-      items: c.supplements.filter(group => group.files.length).map(group => ({
-        label: group.title,
-        collapsed: true,
-        items: group.files.map(file => ({ slug: slug(file) })),
-      })),
-    },
+    ...(c.dir === 'GCP-ACE'
+      ? [{ label: '📚 คลังอ้างอิง (เลือกอ่าน)', slug: slug('GCP-ACE/REFERENCE-LIBRARY.md') }]
+      : [{ label: '🧰 Lab / อ่านเพิ่ม (ไม่บังคับ)', collapsed: true,
+        items: c.supplements.filter(group => group.files.length).map(group => ({
+          label: group.title,
+          collapsed: true,
+          items: group.files.map(file => ({ slug: slug(file) })),
+        })),
+      }]),
   ],
 }));
 

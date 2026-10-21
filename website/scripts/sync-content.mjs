@@ -92,8 +92,12 @@ function linkTo(current, url) {
 }
 function rewrite(body, current) {
   // Keep existing external references intact; only resolve local links for the website.
-  return body.replace(/(!?\[[^\]]*\])\((<?[^)\s]+>?)([^)]*)\)/g, (_all, label, url, trail) =>
+  const markdownLinks = body.replace(/(!?\[[^\]]*\])\((<?[^)\s]+>?)([^)]*)\)/g, (_all, label, url, trail) =>
     label + '(' + linkTo(current, url) + trail + ')');
+  // Raw HTML <img src="./assets/..."> bypasses Markdown link rewriting.
+  // Rewrite it to the published /kb-assets/ URL, respecting this site's base path.
+  return markdownLinks.replace(/(<img\b[^>]*\bsrc\s*=\s*)(["'])([^"']+)\2/gi,
+    (_all, prefix, quote, src) => prefix + quote + linkTo(current, src) + quote);
 }
 function getTitle(input, fallback) {
   return (input.match(/^#\s+(.+)\s*$/m)?.[1] || fallback)
@@ -292,13 +296,19 @@ for (const c of courses) {
   }
   overview.push('## 🧰 เอกสารเสริมและ Lab (เลือกทำได้)', '',
     'หัวข้อในส่วนนี้ช่วยเจาะลึกหรือฝึกเพิ่ม **ไม่บังคับให้ทำครบก่อนเรียนต่อ** และไม่รวมในเปอร์เซ็นต์เส้นทางหลัก', '');
-  for (const group of c.supplements) {
-    overview.push('### ' + group.title, '', group.description, '');
-    for (const filePath of group.files) {
-      const note = infoFor(filePath);
-      overview.push('- [' + note.title + '](' + note.url + ')');
+  if (c.dir === 'GCP-ACE') {
+    overview.push('**📚 GCP Reference Library:** 13 Modules, 6 Companion Labs, Visual Diagrams และ Cheat Sheets ถูกจัดแยกไว้ในหน้าคลังอ้างอิง — ไม่ใช่บทที่ต้องเรียนเพิ่มอีก 19 บท', '',
+      '[📚 เปิดคลังอ้างอิงและ Diagram (เลือกเปิดเมื่อจำเป็น)](' +
+      publicUrl(slugFor('GCP-ACE/REFERENCE-LIBRARY.md')) + ')', '');
+  } else {
+    for (const group of c.supplements) {
+      overview.push('### ' + group.title, '', group.description, '');
+      for (const filePath of group.files) {
+        const note = infoFor(filePath);
+        overview.push('- [' + note.title + '](' + note.url + ')');
+      }
+      overview.push('');
     }
-    overview.push('');
   }
   for (const link of c.external || []) {
     overview.push('- [🔗 ' + link.title + '](' + link.url + ') — ' + link.description);
