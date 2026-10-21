@@ -42,6 +42,12 @@ npm run qa:content
 
 ผลตรวจอัตโนมัติถูกแนบใน GitHub Actions ชื่อ Artifact `full-content-qa` เป็น `full-content-qa.md` แยกรายบท ไม่ถือว่า Command ได้ Execute แล้ว
 
+## 🧪 Oracle Sandbox Execution Readiness — 2026-10-21
+
+- [Read-only Oracle Sandbox SQL Pack](../Oracle-Database/10-Labs/Sandbox-Validation/README.md) เพิ่ม 8 SQL Files สำหรับผู้ใช้เลือก Execute ทีละไฟล์บน Isolated Sandbox
+- [Evidence Template](../Oracle-Database/10-Labs/Sandbox-Validation/VALIDATION-EVIDENCE-TEMPLATE.md) เก็บ Expected/Actual, Approval, Oracle RU, Permissions, Error และ Sanitized Proofs ใน Private Storage
+- [Static Safety Validator](../Oracle-Database/qa/validate_sandbox.py) ตรวจ SQL Pack ด้วย Allowlist และ Negative Test Fixtures ใน Oracle KB QA CI. **ไม่มี Live DB Connection/Execution**; จึงยังเป็น NOT_EXECUTED ทุก Test
+
 ## 🚦 QA Gate สำหรับยกระดับเป็น Tested/Verified
 
 1. เลือก Lesson/Objective แล้วระบุ Provider Doc Version, Date, Reviewer และ Commit SHA

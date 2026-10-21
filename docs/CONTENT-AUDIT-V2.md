@@ -117,3 +117,11 @@ npm run audit:content
 - เพิ่ม Regression Test `npm run check:oracle-data-performance`: ตรวจ Official-doc anchors, บท/ไฟล์ และ SQL Code Fences ที่ห้ามมี Write-changing Statements ใน Labs 11–13
 - จุด Technical Accuracy สำคัญ: expdp/impdp NETWORK_LINK ต่างกัน, TABLE_EXISTS_ACTION แบบ destructive/default APPEND เมื่อ DATA_ONLY, RMAN ไม่ใช่ Data Pump, SQL Loader direct path constraints, AutoTask status vs job outcomes, DBMS_XPLAN privileges, Diagnostics/Tuning Pack Licensing
 - ยังไม่ได้ตรวจความถูกต้องทุก Parameter ทุก Edition/Version หรือทำ Oracle Live Lab; ไม่ยกระดับสถานะเป็น 100% Verified
+
+## Oracle sandbox execution/evidence pack — October 21, 2026
+
+- เพิ่ม [8 SQL*Plus read-only inspection scripts และ Step-by-step Runbook](../Oracle-Database/10-Labs/Sandbox-Validation/README.md) (Sandbox only) และ [Expected vs Actual Evidence Template](../Oracle-Database/10-Labs/Sandbox-Validation/VALIDATION-EVIDENCE-TEMPLATE.md)
+- Source script ครอบคลุม Context, Services/PDB, Storage/Undo, Data Pump Metadata, Unified Audit Policies, AutoTask, Performance Metadata และ Optional Cached Plan (DBMS_XPLAN)
+- เพิ่ม Python Static Validator + Negative Safety Fixtures; GitHub Actions ตรวจไม่ให้มี DDL/DML, Host/SPOOL/Spool Raw Logs, Anonymous PL/SQL หรือ Script Include ใน Pack; **CI ไม่ได้รัน Oracle SQL**
+- เชื่อม Lab 01/02/08/09/10/11/12/13 เข้าคู่มือ. 31 Oracle Lesson IDs, 13 Original Companion Labs และ 83 Site Lessons ยังคงเดิม
+- Evidence แนะนำให้เก็บ Raw Output ใน Private Storage และเผยแพร่เฉพาะ Sanitized Portfolio Results ภายหลัง; สถานะเริ่มต้นทุก Script = NOT_EXECUTED

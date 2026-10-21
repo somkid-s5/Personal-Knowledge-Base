@@ -25,3 +25,5 @@ jobs:
         run: python3 --version
       - name: Check lesson inventory, lab names and internal links
         run: python3 Oracle-Database/qa/validate_kb.py
+      - name: Validate read-only sandbox scripts and evidence contract
+        run: python3 Oracle-Database/qa/validate_sandbox.py
