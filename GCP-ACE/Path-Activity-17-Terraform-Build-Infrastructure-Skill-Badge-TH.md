@@ -378,3 +378,38 @@ Plan: 1 to add, 0 to change, 3 to destroy
 - [Terraform on Google Cloud](https://cloud.google.com/docs/terraform)
 - [Terraform Import](https://developer.hashicorp.com/terraform/cli/import)
 - [Terraform State](https://developer.hashicorp.com/terraform/language/state)
+
+## 📚 Deep Learning Notes — Terraform State Ownership และ Import Existing GCP Resources (Original Supplement, 2026-10-21)
+
+### 1. State ไม่ใช่แค่ Cache
+
+~~~mermaid
+flowchart LR
+ R[Existing cloud resource] --> I[Terraform import]
+ I --> S[State address maps resource ID]
+ C[HCL configuration] --> P[Terraform plan]
+ S --> P
+ P --> V{Unexpected replacement?}
+ V -->|Yes| D[Inspect configuration and immutable fields]
+ V -->|No| A[Review approved sandbox change]
+~~~
+
+ถ้า Resource มีอยู่จริงแต่ Terraform State ไม่รู้จัก Terraform อาจพยายามสร้าง Duplicate; Import ทำให้ State ผูก ID แต่ไม่ได้เขียน Configuration ทั้งหมดให้ตรงเสมอ. `terraform import` เป็น **State-changing Operation** ต้องผ่าน Approval แม้อยู่ใน Sandbox
+
+### 2. Worked Example: VPC ถูกสร้างด้วย Console
+
+มี VPC เดิม `corp-vpc` อยู่ใน Project Sandbox แต่ทีมต้องการให้ Terraform จัดการ. ข้อมูลต้องบันทึก: Project/Network ID, Current Subnets/Routes, Existing Firewall Policies, IAM, Dependencies, Terraform Provider Version, Backend State, Access Rights และ Desired Lifecycle. แล้วเขียน HCL ที่ตรง Config และ Review Import Plan ใน Isolated Environment ก่อน Action
+
+**อย่า** ทดลอง Import Production Resource ไป State ใหม่มั่ว ๆ เพราะอาจมีสองทีมคิดว่าตัวเองเป็น Owner ของ Resource เดียวกัน ส่งผลให้ Apply ของทีมหนึ่ง Drift/Destroy ของอีกทีม
+
+### 3. IAM Authoritative vs Additive
+
+IAM Policy/Binding/Member Provider Resources มี Scope of Ownership ต่างกัน. เลือก Type ผิดอาจลบ IAM Members ของทีมอื่นใน Project. ก่อน Apply ต้องตอบว่า “Resource ไหนเป็น Source of Truth ของ Policy/Role สมาชิกชุดนี้?” และตรวจ `terraform plan` ให้แน่ใจว่าจะไม่ Remove Existing Authorized Principals
+
+### 4. Three-state Incident
+
+Resource ถูก Rename ใน HCL แต่ไม่ได้ใช้ `moved` Block; Plan แสดง Destroy + Create. ขั้นตอนที่ปลอดภัย: ตรวจ Resource Addresses ก่อน-หลัง, Provider IDs, Lifecycle, Move Strategy, Backend Lock และ State Backup. อย่าผ่าน Challenge Lab ด้วยการ Force Apply Plan ที่จะลบ Resource ไม่คาดคิด
+
+**Official:** [Terraform on Google Cloud](https://cloud.google.com/docs/terraform) · [Import](https://developer.hashicorp.com/terraform/cli/import) · [Refactoring Resources](https://developer.hashicorp.com/terraform/language/modules/develop/refactoring).
+
+**Status:** Worksheet only, not an executed official Skill Badge task

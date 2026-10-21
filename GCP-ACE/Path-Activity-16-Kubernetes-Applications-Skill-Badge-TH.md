@@ -375,3 +375,49 @@ Artifact Registry มี `web:1.0.0` แต่ manifest ใช้ `web:1.0`
 - [GKE documentation](https://cloud.google.com/kubernetes-engine/docs)
 - [Artifact Registry](https://cloud.google.com/artifact-registry/docs)
 - [Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+
+## 📚 Deep Learning Notes — ทำไม Pod READY แต่ User เข้า Service ไม่ได้ (Original Supplement, 2026-10-21)
+
+### 1. Kubernetes Failure Chain
+
+~~~mermaid
+flowchart TD
+ I[Artifact Registry image] --> D[Deployment]
+ D --> P[Pod Ready]
+ P --> S[Service selector]
+ S --> E[EndpointSlice]
+ E --> L[LoadBalancer or Ingress]
+ L --> U[User]
+ P -->|Bad labels| X[No matching endpoints]
+~~~
+
+**Pod READY** หมายถึง Kubelet/Probe บอกว่าพร้อมตาม Configuration แต่ไม่ได้ยืนยันว่า Service Selector, EndpointSlice, Service Port → TargetPort หรือ Ingress Routing ถูกต้อง. Debug ต้องอ่าน Graph ทั้งเส้น
+
+### 2. 3 Identities ที่ห้ามปน
+
+- **Human/CI Deployer** ต้องมี Permission Deploy และ Pull/Push Image ตาม Workflow
+- **Kubernetes Service Account** เป็น Pod-level Identity ใน Cluster
+- **Google Cloud Runtime Identity** ได้รับ IAM Permissions ตาม Workload Identity Federation หรือ Supported Binding
+
+ให้สิทธิ์ Artifact Registry Reader ที่ Node/Runtime Pull Identity ให้ถูก Scope ก่อนเสนอ “เปิด Artifact Registry เป็น Public”
+
+### 3. Triage แบบไม่ทำการเปลี่ยนแปลง
+
+~~~bash
+# Run in authorized GKE test cluster only.
+kubectl config current-context
+kubectl get deployment,replicaset,pod,service -n APP_NAMESPACE
+kubectl describe service SERVICE_NAME -n APP_NAMESPACE
+kubectl get endpointslice -n APP_NAMESPACE
+kubectl get events -n APP_NAMESPACE --sort-by=.lastTimestamp
+~~~
+
+ถ้า Pod `CrashLoopBackOff` ให้เช็ก Container Logs, Probes, Startup Dependencies; ถ้า `ImagePullBackOff` ให้ตรวจ Image Path/Digest และ Pull Permission; ถ้า `Pending` ให้ตรวจ Scheduling, Resource Requests/Quotas/Taints. อย่าใช้ Restart Deployment ทั้งหมดเป็น Debug ขั้นแรก
+
+### 4. Mini-case
+
+Service ตอบ Timeout หลัง Rollout ใหม่, แต่ `kubectl get pods` แสดง READY 3/3. วิเคราะห์อย่างน้อย 5 จุด: Service Selector, EndpointSlice IPs, ContainerPort/TargetPort, Readiness Target, Ingress/LB/Firewall, Application Request Log. คำตอบต้องอธิบายว่าแต่ละ Layer ส่งต่อ Request อย่างไร
+
+**Official:** [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/) · [GKE Troubleshooting](https://cloud.google.com/kubernetes-engine/docs/troubleshooting) · [Artifact Registry](https://cloud.google.com/artifact-registry/docs).
+
+**Status:** Original scenario and CLI only; no user cluster accessed

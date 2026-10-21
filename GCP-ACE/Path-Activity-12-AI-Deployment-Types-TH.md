@@ -360,3 +360,42 @@ service timeout → client retry 5 ครั้งพร้อมกัน → l
 - [GKE documentation](https://cloud.google.com/kubernetes-engine/docs)
 - [Compute Engine GPUs](https://cloud.google.com/compute/docs/gpus)
 - [GKE Inference Gateway](https://cloud.google.com/kubernetes-engine/docs/concepts/inference-gateway)
+
+## 📚 Deep Learning Notes — Production Inference: HTTP Success ไม่เท่ากับผล AI ถูกต้อง (Original Supplement, 2026-10-21)
+
+### 1. แยก Reliability และ Model Quality
+
+~~~mermaid
+flowchart LR
+ C[User request] --> LB[Ingress and authentication]
+ LB --> API[API container]
+ API --> M[Model runtime]
+ M --> DB[Feature / vector data]
+ M --> O[Response validation]
+ O --> C
+ P[Observability] --> API
+ P --> M
+~~~
+
+**SLA/SLO ของ API** อาจผ่านเมื่อ p95 Latency ดี แต่ Model Accuracy แย่ลงเพราะ Feature Drift; หรือ Quality ดีแต่ Service Timeout เพราะ Cold Start/Model Load. ดังนั้นวัดทั้ง Transport Success, Request Latency, GPU/CPU/Memory, Model Quality/Drift และ Data Lineage
+
+### 2. Choose Platform by Constraints
+
+| Constraint | Cloud Run | GKE | Compute Engine |
+|---|---|---|---|
+| Managed container runtime with simple autoscale | เหมาะหลาย HTTP workloads ตาม Resource/Accelerator Support | ต้องดู Cluster/Nodelifecycle | ต้องดูแล VM/Scaling เอง |
+| Node-level scheduling/control | จำกัด | ยืดหยุ่นสำหรับ Complex Cluster/Accelerator Scheduling | Full VM control |
+| Stable long-running special driver stack | ตรวจ supported workload/runtime | เหมาะเมื่อทีมรับ Cluster Operations ได้ | เหมาะหากต้อง control OS/GPU stack |
+| Retry/surge handling | ต้องประเมิน Concurrency/Max Instances | HPA + Queue/Backend Load | LB + MIG/Manual capacity |
+
+### 3. Retry Storm
+
+Request ตัวหนึ่ง Timeout ที่ 2 วินาที แต่ Backend ยังประมวลผลอยู่. Client Retry อีก 3 ครั้ง, Proxy Retry อีก 2 ครั้ง → Backend อาจได้รับหลาย Copies. วิธีแก้ไม่ได้มีแค่ Increase Timeout: ต้องมี **Idempotency Key**, Retry Budget, Exponential Backoff, Queue/Rate Limit และ Cancellation Semantics ที่เหมาะกับ API
+
+### 4. Change Rollout
+
+Deploy Model Version ใหม่ 10% Traffic แล้วเปรียบเทียบ Error Rate, p95 Latency, Memory OOM, Response Quality กับ Baseline; หาก Fail ต้อง Rollback **Model Artifact, Serving Image และ Feature Schema** อย่างสอดคล้อง ไม่ใช่ Rollback Container อย่างเดียว
+
+**Official:** [Cloud Run Overview](https://cloud.google.com/run/docs/overview/what-is-cloud-run) · [GKE Overview](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) · [Vertex AI Model Monitoring](https://cloud.google.com/vertex-ai/docs/model-monitoring/overview).
+
+**Checkpoint:** เมื่อ Inference 503 แต่ CPU ต่ำ จะตรวจ Cold Start, Memory/Model Loading, Dependency, Ingress/Auth, Quota หรือ Downstream Saturation อย่างไร?

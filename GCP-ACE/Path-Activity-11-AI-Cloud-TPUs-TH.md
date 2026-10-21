@@ -309,3 +309,40 @@ job สั้น 2 นาที แต่ compile 1 นาทีทุก run
 - [Google Skills — AI Infrastructure: Cloud TPUs](https://www.skills.google/paths/11/course_templates/1405)
 - [Cloud TPU documentation](https://cloud.google.com/tpu/docs)
 - [TPU system architecture](https://cloud.google.com/tpu/docs/system-architecture-tpu-vm)
+
+## 📚 Deep Learning Notes — TPU Compile Trap และ Distributed Training (Original Supplement, 2026-10-21)
+
+### 1. TPU Training บางงานช้าเพราะ Compile ไม่ใช่ Compute
+
+~~~mermaid
+flowchart TD
+ J[Training job starts] --> C[Compile graph / XLA]
+ C --> W[Warmup]
+ W --> S[Steady training steps]
+ S --> K[Checkpoint]
+ K --> E{Preemption or failure?}
+ E -->|Yes| R[Recover from checkpoint]
+ R --> W
+ E -->|No| F[Finish and validate]
+~~~
+
+หาก Benchmark ใช้เวลา 90 วินาที แต่ 70 วินาทีหมดกับ Compile, การ Scale TPU ให้ใหญ่ขึ้นอาจไม่เพิ่ม Job Throughput เลย. ต้องวัด Separately: Compile Time, Step Time, Input Wait, Device Utilization, Cross-host Synchronization และ Checkpoint Overhead
+
+### 2. Model Fit สำคัญกว่า Accelerator Marketing
+
+- TPU เหมาะกับ Workloads ที่ Framework/Operations รองรับและ Shape/Compute Pattern คุ้มกับการ Compile
+- GPU มักยืดหยุ่นในแง่ Framework Ecosystem, Custom Kernels และ Application Integration แต่ยังต้องตรวจ Driver/Runtime
+- TPU Slices/Pods ต้องวาง Topology, Network/Collective Communication และ Checkpoint; เพิ่ม Chips ไม่รับประกัน Linear Speedup
+- Dataset Pipeline, Host CPU และ Remote Object Reads เป็น Bottleneck ได้ทั้ง GPU และ TPU
+
+### 3. Example — Training Job 8 Workers มี Worker เดียวช้า
+
+ถ้า Workers ส่วนใหญ่ Compute จบภายใน 5 วินาที แต่ Worker หนึ่งใช้ 15 วินาที, Collective Synchronization จะรอ Slow Worker. เพิ่ม Device Count โดยไม่แก้ Straggler/Data Skew อาจทำให้ค่าใช้จ่ายสูงขึ้นพร้อม Performance แย่ลง. ต้องตรวจ Input Pipeline Per Worker, Data Shards, Network Interconnect และ Checkpoint Serialization
+
+### 4. Pre-flight Worksheet
+
+ระบุ Framework/Version, TPU Runtime/Supported Operations, Model Shape, Batch Size/Precision, Dataset Throughput, Topology/Region, Quotas/Availability, Failure/Recovery และ Estimated Training Cost. ถ้า Model ใช้ Operations ไม่รองรับให้เลือก Alternative Deployment แทนการ Force TPU
+
+**Official:** [Cloud TPU Overview](https://cloud.google.com/tpu/docs/intro-to-tpu) · [TPU Performance Guide](https://cloud.google.com/tpu/docs/performance-guide).
+
+**Status:** No paid TPU run; detailed decision example is original companion material

@@ -427,3 +427,48 @@ Policy-as-code ช่วยจับก่อน apply แต่ไม่แท�
 - [Terraform on Google Cloud](https://cloud.google.com/docs/terraform)
 - [Terraform language/state](https://developer.hashicorp.com/terraform/language/state)
 - [Terraform import](https://developer.hashicorp.com/terraform/cli/import)
+
+## 📚 Deep Learning Notes — Terraform Plan ที่อาจ Replace Production Resources (Original Supplement, 2026-10-21)
+
+### 1. อ่าน Terraform Plan เหมือน Change Request
+
+~~~mermaid
+flowchart TD
+ H[Desired HCL] --> P[Terraform plan]
+ S[State snapshot] --> P
+ C[Cloud resource metadata] --> P
+ P --> Q{Plan includes destroy or replace?}
+ Q -->|Yes| R[Stop, inspect drift and immutable fields]
+ Q -->|No| A[Review IAM, price, security]
+ R --> A
+ A --> O{Human approval?}
+ O -->|Yes| X[Apply isolated environment]
+ O -->|No| Z[No change]
+~~~
+
+Terraform State บันทึก Resource Address ↔ Provider Object IDs และ Metadata ของ Management. ถ้าลบ State หรือเปลี่ยน Name/Address ของ Resource, Plan อาจเสนอ Create/Destroy ใหม่ทั้งที่ Cloud Resource เดิมยังมีอยู่
+
+### 2. Example: IAM แบบ Authoritative vs Additive
+
+ใน Google Provider Resource ที่จัดการ IAM มี Semantics ต่างกัน: **IAM Policy** อาจแทนที่ Policy ของ Scope ทั้งชุด, **IAM Binding** บริหาร Members ของ Role, **IAM Member** เพิ่ม Member แบบ Incremental ตาม Type. หากทีมไม่เข้าใจและใช้ Authoritative Resource ผิด Scope อาจลบ Access ของ Service Accounts ที่ใช้งานอยู่
+
+### 3. ทำไม Terraform Import ไม่ได้แปลว่า Safe
+
+Import ทำให้ State รู้จัก Existing Resource แต่ **Configuration ต้องสะท้อน Real World**; ถ้า HCL ไม่ตรง Immutable Properties, Plan ถัดไปอาจเสนอ Replacement. ต้อง Review Identifiers, Resource Addresses, Moved Blocks และ Backups of State, ห้ามใช้ `terraform state rm` เพื่อซ่อน Drift ในระบบจริง
+
+~~~bash
+# Read-only or local inspection; do not terraform apply on production.
+terraform fmt -check
+terraform validate
+terraform plan -input=false
+~~~
+
+**Caution:** `terraform plan` ติดต่อ Provider และอาจ Refresh State Metadata หรือเขียน Local Artifacts/Lock State ในบาง Workflow. ไม่จัดเป็น “No-side-effect” แบบ Absolute — ใช้กับ Isolated Approved Sandbox เท่านั้น และตรวจ Backend ก่อนรัน
+
+### 4. Recovery Drill
+
+`plan` แสดงว่าแก้ Subnet Range จะ Replace Resource และ Destroy Instances อีก 8 ตัว; ให้ตอบว่า Root Resource, Immutable Field, Affected Dependencies, Migration Alternative, Planned Downtime/Approval และ Rollback Validation คืออะไร ก่อนกด Apply
+
+**Official:** [Terraform on Google Cloud](https://cloud.google.com/docs/terraform) · [Terraform Google Provider IAM](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/using_iam) · [Terraform Plan](https://developer.hashicorp.com/terraform/cli/commands/plan).
+
+**Status:** Design/Static learning only; no Terraform plan/apply run
