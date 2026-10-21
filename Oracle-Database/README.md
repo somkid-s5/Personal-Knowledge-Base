@@ -100,6 +100,12 @@ Before verification:
 
 [📋 Oracle Technical Reference Validation Matrix](./TECHNICAL-REFERENCE-QA-2026-10-21.md) จัดหมวด Listener Handler, CDB/PDB Visibility, Online Datafile Move, Unified Auditing Session Timing และ UNDO_RETENTION Version Delta โดยแยก **official document reviewed** ออกจาก **live lab not executed**.
 
+## 📦 Data Movement & Performance — Official-document Review (2026-10-21)
+
+[📋 Technical QA Matrix: Lessons 23–31 / Labs 11–13](./DATA-MOVEMENT-PERFORMANCE-QA-2026-10-21.md) แยกการ Export/Import กับ RMAN Recovery, SQL*Loader Loading Modes, Transportable Tablespaces, External Table Drivers, AutoTask Maintenance Windows และ DBMS_XPLAN/Cursor Plan รวมทั้ง Oracle Diagnostics/Tuning Pack License Conditions.
+
+**Status:** DOC_REVIEWED — ไม่มีการ Execute Data Pump, SQL*Loader, RMAN, SQL Tuning Advisor หรือ Real Oracle Lab ในงานนี้. CI ตรวจ Static Source Evidence, Code Examples และ Progress IDs เท่านั้น.
+
 ## Quick links
 
 - [Source Manifest](./SOURCE-MANIFEST.md)

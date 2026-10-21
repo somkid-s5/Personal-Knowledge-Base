@@ -15,7 +15,8 @@
     "check:isc2": "node scripts/verify-isc2.mjs",
     "check:oracle-content": "node scripts/verify-oracle-content.mjs",
     "qa:content": "node scripts/qa-learning-content.mjs",
-    "check:oracle-technical": "node scripts/verify-oracle-technical.mjs"
+    "check:oracle-technical": "node scripts/verify-oracle-technical.mjs",
+    "check:oracle-data-performance": "node scripts/verify-oracle-data-performance.mjs"
   },
   "dependencies": {
     "astro": "^7.2.10",

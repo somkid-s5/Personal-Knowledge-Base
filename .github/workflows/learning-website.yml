@@ -54,6 +54,9 @@ jobs:
       - name: Verify Oracle official-reference technical cases
         working-directory: website
         run: npm run check:oracle-technical
+      - name: Verify Oracle Data Movement, Maintenance and Performance reference QA
+        working-directory: website
+        run: npm run check:oracle-data-performance
       - name: Evidence-grade content QA for five courses
         working-directory: website
         run: npm run qa:content

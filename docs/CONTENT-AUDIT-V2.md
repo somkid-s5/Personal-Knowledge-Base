@@ -109,3 +109,11 @@ npm run audit:content
 - [CI technical evidence gate](../website/scripts/verify-oracle-technical.mjs): 31 stable IDs, official-document source anchors, read-only SQL blocks in eight reviewed notes/labs. **No live Oracle execution**
 - DOC_REVIEWED = 5, LAB_EXECUTED = 0, LIVE_VALIDATED = 0; other Oracle subjects outside these cases remain for detailed fact checking
 - No lesson migrations, no destructive commands run, and no claim of runtime parity across Oracle 19c/26ai
+
+## Oracle Data Movement and Performance technical pass — October 21, 2026
+
+- เพิ่ม [Official Reference Matrix Lessons 23–31](../Oracle-Database/DATA-MOVEMENT-PERFORMANCE-QA-2026-10-21.md) โดยตรวจ 9 บทและเสริม Labs 11–13 ตาม Oracle 19c Documentation
+- คง 31 Stable Lesson IDs และ 13 Labs; แยก DOC_REVIEWED จาก NOT_EXECUTED อย่างชัดเจน
+- เพิ่ม Regression Test `npm run check:oracle-data-performance`: ตรวจ Official-doc anchors, บท/ไฟล์ และ SQL Code Fences ที่ห้ามมี Write-changing Statements ใน Labs 11–13
+- จุด Technical Accuracy สำคัญ: expdp/impdp NETWORK_LINK ต่างกัน, TABLE_EXISTS_ACTION แบบ destructive/default APPEND เมื่อ DATA_ONLY, RMAN ไม่ใช่ Data Pump, SQL Loader direct path constraints, AutoTask status vs job outcomes, DBMS_XPLAN privileges, Diagnostics/Tuning Pack Licensing
+- ยังไม่ได้ตรวจความถูกต้องทุก Parameter ทุก Edition/Version หรือทำ Oracle Live Lab; ไม่ยกระดับสถานะเป็น 100% Verified
