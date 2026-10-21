@@ -207,3 +207,46 @@ Rotation ต้องคำนึงถึง function revisions/instances ท�
 - [Workflows overview](https://cloud.google.com/workflows/docs/overview)
 - [Firestore overview](https://cloud.google.com/firestore/docs/overview)
 - [BigQuery remote functions](https://cloud.google.com/bigquery/docs/remote-functions)
+
+## 📚 Deep Learning Notes — Functions/Eventarc/Firestore Transaction Flow (Original Supplement, 2026-10-21)
+
+### 1. Event-driven ไม่ได้หมายความว่าเรียกครั้งเดียวเสมอ
+
+~~~mermaid
+flowchart LR
+ E[Cloud Storage object event] --> EV[Eventarc trigger]
+ EV --> FN[Cloud Run function]
+ FN --> F[Firestore write]
+ FN --> L[Cloud Logging]
+ EV -->|retry on failure| FN
+~~~
+
+Cloud Run Functions รองรับ Event-driven กับ HTTP Patterns แต่ **Event Delivery/Retries** มี Semantics ที่ต้องอ่านตาม Event Source/Trigger. ออกแบบ Handler ให้ **Idempotent** เพราะ Delivery อาจเกิดซ้ำ และต้องแยก Event ID, Business Key และ Processing Status เพื่อกัน Duplicate Writes
+
+### 2. HTTP vs Event ทำให้ Security Model ต่างกัน
+
+| หัวข้อ | HTTP Function | Event-triggered Function |
+|---|---|---|
+| ผู้เริ่ม Request | Browser / Service / External Client | Eventarc / Supported Event Producer |
+| Auth | Invoker IAM หรือ External Gateway ตามการตั้งค่า | Trigger-to-Service Authentication และ Eventarc Identity |
+| Failure | HTTP Status ที่ Caller เห็น | Async Delivery/Retry/Dead-letter Plan ตาม Trigger |
+| Idempotency | Caller Retry / Network Timeout | Duplicate Event Delivery & Replay |
+| Audit | Request Logs/Invoker Identity | Trigger Delivery Logs + Runtime Identity |
+
+**Deployment Identity** ที่ Deploy Function ไม่ใช่ **Runtime Identity** ที่ Function ใช้อ่าน Firestore. ถ้า Function Deploy สำเร็จแต่ Event ไม่เข้า ให้ดู Eventarc Trigger Region, Event Filters, Service Account Permissions, Topic Routing และ Sink Logs ก่อนเปลี่ยน Function Code
+
+### 3. Case Study: Uploaded File → Save Metadata
+
+Image File เข้าสู่ Bucket แล้ว Trigger Function ให้ Save `object_generation` กับ `event_id` ใน Firestore. หาก Function Timeout หลังเขียน Firestore แต่ก่อนส่ง Success, Event อาจถูกส่งซ้ำ; Logic ต้อง Check Deduplication Key ก่อน Create ใหม่เสมอ (ใช้ Transaction/Conditional Create Pattern ตาม Requirement)
+
+**Bad implementation:** ทุก Event ทำ Blind Insert เป็น Document ID ใหม่ → Retry อาจสร้าง Duplicates; **Safer approach:** ใช้ Stable Key จาก Event / Object Generation และตรวจ Event Processing Status ให้มี Consistent State
+
+### 4. Local mental lab
+
+1. ออกแบบ Business Idempotency Key สำหรับ Object `images/profile01.png` Generation 1001 และ 1002: ทั้งสองควรถูก Process อย่างไร?
+2. ถ้า Function เขียน Firestore ได้แต่ BigQuery Remote Function Timeout ให้ตั้ง Retry Budget/Backoff อย่างไร?
+3. ทำไมการใช้ Private VPC Connectivity กับ Firestore/IAM ไม่เหมือน Public HTTP Trigger Security?
+
+**Official:** [Cloud Run Functions](https://cloud.google.com/functions/docs/concepts/overview) · [Eventarc Overview](https://cloud.google.com/eventarc/docs/overview) · [Firestore Transactions](https://cloud.google.com/firestore/docs/manage-data/transactions).
+
+**Status:** Original architecture/retry companion; ไม่มี Function Trigger ถูกสร้างหรือรันจริง

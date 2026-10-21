@@ -202,3 +202,55 @@ GKE มีค่าใช้จ่าย และการลบ namespace ไ�
 - [Artifact Registry overview](https://cloud.google.com/artifact-registry/docs/overview)
 - [Cloud Build overview](https://cloud.google.com/build/docs/overview)
 - [kubectl reference](https://kubernetes.io/docs/reference/kubectl/)
+
+## 📚 Deep Learning Notes — อ่าน Image → Deployment → Pod → Service แบบครบสาย (Original Supplement, 2026-10-21)
+
+### 1. VM กับ Container ไม่ได้มี Failure Model แบบเดียวกัน
+
+~~~mermaid
+flowchart LR
+ S[Source code] --> B[Cloud Build]
+ B --> AR[Artifact Registry image]
+ AR --> D[Kubernetes Deployment]
+ D --> RS[ReplicaSet]
+ RS --> P1[Pod]
+ RS --> P2[Pod]
+ SV[Service selector] --> P1
+ SV --> P2
+ I[Ingress or external LB] --> SV
+~~~
+
+**Image** คือไฟล์และ Layers ที่ Reproduce Runtime ได้, **Container** คือ Process ที่ใช้ Image, **Pod** เป็นหน่วย Scheduling/Networking ของ Kubernetes, **Deployment** ระบุ Desired Replicas และ Rollout Strategy, **Service** เป็น Stable Virtual Endpoint ที่เลือก Pod ตาม Labels. ถ้า `Service selector` ไม่ตรง Labels ของ Pod จะไม่มี Endpoint แม้ Pod RUNNING ทั้งหมด
+
+### 2. GKE Autopilot vs Standard เลือกจากภาระงานจริง
+
+| คำถาม | Autopilot | Standard |
+|---|---|---|
+| ใครดูแล Node Lifecycle เป็นหลัก | Google จัดการ Node Infrastructure โดยกำหนด Constraints | ทีมเลือกและจัดการ Node Pools มากกว่า |
+| ควบคุม Node-level Config | มี Guardrails และข้อจำกัด | ยืดหยุ่นกว่าแต่เพิ่ม Operations Burden |
+| Workload ต้องการ Privileged Host Access | ต้องเช็ก Compatibility/Policy | อาจต้องเลือก Standard |
+| Billing/Resource Efficiency | พิจารณา Pod resource requests และ mode | พิจารณา Node Capacity, Utilization, Cluster Fees |
+| Default เลือกอย่างไร | ดู Required Features และ Security ก่อน | เลือกเมื่อ Config Control จำเป็น |
+
+### 3. Triage: Pod ไม่พร้อมหลัง Deploy
+
+~~~bash
+# Read-only Kubernetes inspections; must use the approved test cluster context.
+kubectl config current-context
+kubectl get deployments,pods,services -n APP_NAMESPACE
+kubectl describe pod POD_NAME -n APP_NAMESPACE
+kubectl get endpoints -n APP_NAMESPACE
+kubectl get events -n APP_NAMESPACE --sort-by=.lastTimestamp
+~~~
+
+แทนชื่อที่เป็น Placeholder ใน Lab ของตัวเองเท่านั้น. **`CrashLoopBackOff`** คือ Container Restart ต่อเนื่องหลัง Start — ตรวจ Logs, Command/Args, Secrets, Startup Dependencies; **`ImagePullBackOff`** คือไม่ Pull Image — ตรวจ Artifact Registry Location/Permissions/Image Reference. **`Pending`** ต้องดู Node Fit (Requests, Taints, Quota) ไม่ใช่ดู Application Log ก่อน เพราะ Container อาจยังไม่เริ่ม
+
+### 4. Observability และ Security ที่ต้องมองทะลุให้ได้
+
+GKE Workload Identity Federation ผูก Kubernetes Service Account กับ Access ไป Google Cloud APIs ตาม Supported Model; แยก **KSA** และ **Google IAM Service Account** จาก User Account ของคน Deploy. การให้ Node SA มี Owner Role ทำให้ทุก Workload บน Node เสี่ยงเกินความจำเป็น
+
+**Practical decision exercise:** Deployment ตั้ง Desired Replicas 3 แต่ Service ไม่ส่ง Traffic; `kubectl get pods` พบ 3/3 Running. อธิบายว่าต้องตรวจ **Readiness**, **Pod Labels**, **Service Selector**, **EndpointSlice**, **Target Port**, **Ingress/LB** ตามลำดับอย่างไร
+
+**Official:** [GKE Concepts](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) · [GKE Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview) · [Workload Identity](https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity).
+
+**Scope:** Original lab-companion teaching, not official grader solution; no GKE resources deployed by this note
