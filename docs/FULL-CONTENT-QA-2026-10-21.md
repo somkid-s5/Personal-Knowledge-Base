@@ -56,7 +56,6 @@ npm run qa:content
 - ปรับ Listener Lesson 09 / Lab 02, PDB Lesson 14 / Lab 08, Tablespace Lesson 16, Unified Audit Lesson 22 / Lab 10 และ 19c→26ai Delta
 - เพิ่ม CI Evidence Contract สำหรับ Official URLs, Read-only SQL Examples และ Lesson IDs; ไม่รัน Oracle หรือ Claim ว่า 26ai Behavior ได้ Live-validated
 
-
 ## 🎯 ลำดับ QA เชิงลึกที่ควรดำเนินต่อ
 
 | Priority | เนื้อหา | เหตุผล |

@@ -49,7 +49,7 @@ Always consult current Oracle 26ai behavior-change/deprecation documentation bef
 
 ## 🔍 Known Documentation Difference — UNDO_RETENTION
 
-**อย่านำข้อสรุป Oracle 19c RU 19.7 ไปอ้างเป็นกฎของทุก 26ai Installation โดยอัตโนมัติ**
+**ข้อควรระวัง:** อย่านำข้อสรุป Oracle 19c RU 19.7 ไปอ้างเป็นกฎของทุก 26ai Installation โดยอัตโนมัติ
 
 - [Oracle 19c Parameter Reference](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/UNDO_RETENTION.html) ระบุพฤติกรรม Fixed-size Undo ที่เปลี่ยนตั้งแต่ RU 19.7
 - [Oracle AI Database 26ai Administrator's Guide — Managing Undo](https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-undo.html) ในเนื้อหาที่ตรวจวันที่ 21 ต.ค. 2026 ยังมีข้อความอธิบาย Fixed-size Undo ว่าไม่ใช้ `UNDO_RETENTION`

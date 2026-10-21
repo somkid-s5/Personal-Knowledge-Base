@@ -100,7 +100,6 @@ Before verification:
 
 [📋 Oracle Technical Reference Validation Matrix](./TECHNICAL-REFERENCE-QA-2026-10-21.md) จัดหมวด Listener Handler, CDB/PDB Visibility, Online Datafile Move, Unified Auditing Session Timing และ UNDO_RETENTION Version Delta โดยแยก **official document reviewed** ออกจาก **live lab not executed**.
 
-
 ## Quick links
 
 - [Source Manifest](./SOURCE-MANIFEST.md)
