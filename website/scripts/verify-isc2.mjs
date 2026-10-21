@@ -26,7 +26,7 @@ for(let j=0;j<5;j++){
     const generatedNote=path.join(generated,slug(lesson)+'.md');
     if(!existsSync(generatedNote))throw Error('Missing generated ISC2 note: '+lesson);
     const converted=readFileSync(generatedNote,'utf8');
-    for(const key of ['## 🔬 อ่านเจาะลึกและฝึกเพิ่ม','**📝 Practice','**🧠 Review','ISC2-DOMAIN-PRACTICE-MAP-TH']){
+    for(const key of ['## 🔬 อ่านเจาะลึกและฝึกเพิ่ม','**📝 Practice','**🧠 Review','isc2-domain-practice-map-th/']){
       if(!converted.includes(key))throw Error('Missing contextual links: '+key+' @ '+lesson);
     }
   }
