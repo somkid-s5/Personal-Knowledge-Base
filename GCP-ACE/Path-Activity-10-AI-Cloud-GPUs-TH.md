@@ -368,7 +368,7 @@ Client
 
 สมมติ Batch Inference ทำงานช้า แม้ GPU Memory Usage เพียง 30%. ต้องแยกว่าเวลาหมดไปกับ **Data Read**, **CPU Preprocessing**, **PCIe/Interconnect Transfer**, **Model Compute** หรือ **Output Writing**. GPU Utilization ไม่ใช่ End-to-end Throughput. อย่าเพิ่ม GPU หรือเปลี่ยน Accelerator รุ่นทันทีจนกว่าจะเจอ Bottleneck
 
-~~~mermaid
+```mermaid
 flowchart LR
  S[Cloud Storage dataset] --> D[Data loader]
  D --> C[CPU preprocess]
@@ -376,7 +376,7 @@ flowchart LR
  T --> G[GPU compute]
  G --> W[Output checkpoint]
  C -->|bottleneck| E[GPU idle despite high cost]
-~~~
+```
 
 ### 2. แยก Quota, Capacity, Software Compatibility
 

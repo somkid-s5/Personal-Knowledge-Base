@@ -380,7 +380,7 @@ Artifact Registry มี `web:1.0.0` แต่ manifest ใช้ `web:1.0`
 
 ### 1. Kubernetes Failure Chain
 
-~~~mermaid
+```mermaid
 flowchart TD
  I[Artifact Registry image] --> D[Deployment]
  D --> P[Pod Ready]
@@ -389,7 +389,7 @@ flowchart TD
  E --> L[LoadBalancer or Ingress]
  L --> U[User]
  P -->|Bad labels| X[No matching endpoints]
-~~~
+```
 
 **Pod READY** หมายถึง Kubelet/Probe บอกว่าพร้อมตาม Configuration แต่ไม่ได้ยืนยันว่า Service Selector, EndpointSlice, Service Port → TargetPort หรือ Ingress Routing ถูกต้อง. Debug ต้องอ่าน Graph ทั้งเส้น
 
@@ -403,14 +403,14 @@ flowchart TD
 
 ### 3. Triage แบบไม่ทำการเปลี่ยนแปลง
 
-~~~bash
+```bash
 # Run in authorized GKE test cluster only.
 kubectl config current-context
 kubectl get deployment,replicaset,pod,service -n APP_NAMESPACE
 kubectl describe service SERVICE_NAME -n APP_NAMESPACE
 kubectl get endpointslice -n APP_NAMESPACE
 kubectl get events -n APP_NAMESPACE --sort-by=.lastTimestamp
-~~~
+```
 
 ถ้า Pod `CrashLoopBackOff` ให้เช็ก Container Logs, Probes, Startup Dependencies; ถ้า `ImagePullBackOff` ให้ตรวจ Image Path/Digest และ Pull Permission; ถ้า `Pending` ให้ตรวจ Scheduling, Resource Requests/Quotas/Taints. อย่าใช้ Restart Deployment ทั้งหมดเป็น Debug ขั้นแรก
 

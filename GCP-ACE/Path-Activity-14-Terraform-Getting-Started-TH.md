@@ -432,7 +432,7 @@ Policy-as-code ช่วยจับก่อน apply แต่ไม่แท�
 
 ### 1. อ่าน Terraform Plan เหมือน Change Request
 
-~~~mermaid
+```mermaid
 flowchart TD
  H[Desired HCL] --> P[Terraform plan]
  S[State snapshot] --> P
@@ -444,7 +444,7 @@ flowchart TD
  A --> O{Human approval?}
  O -->|Yes| X[Apply isolated environment]
  O -->|No| Z[No change]
-~~~
+```
 
 Terraform State บันทึก Resource Address ↔ Provider Object IDs และ Metadata ของ Management. ถ้าลบ State หรือเปลี่ยน Name/Address ของ Resource, Plan อาจเสนอ Create/Destroy ใหม่ทั้งที่ Cloud Resource เดิมยังมีอยู่
 
@@ -456,12 +456,12 @@ Terraform State บันทึก Resource Address ↔ Provider Object IDs แ�
 
 Import ทำให้ State รู้จัก Existing Resource แต่ **Configuration ต้องสะท้อน Real World**; ถ้า HCL ไม่ตรง Immutable Properties, Plan ถัดไปอาจเสนอ Replacement. ต้อง Review Identifiers, Resource Addresses, Moved Blocks และ Backups of State, ห้ามใช้ `terraform state rm` เพื่อซ่อน Drift ในระบบจริง
 
-~~~bash
+```bash
 # Read-only or local inspection; do not terraform apply on production.
 terraform fmt -check
 terraform validate
 terraform plan -input=false
-~~~
+```
 
 **Caution:** `terraform plan` ติดต่อ Provider และอาจ Refresh State Metadata หรือเขียน Local Artifacts/Lock State ในบาง Workflow. ไม่จัดเป็น “No-side-effect” แบบ Absolute — ใช้กับ Isolated Approved Sandbox เท่านั้น และตรวจ Backend ก่อนรัน
 

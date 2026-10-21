@@ -383,7 +383,7 @@ Plan: 1 to add, 0 to change, 3 to destroy
 
 ### 1. State ไม่ใช่แค่ Cache
 
-~~~mermaid
+```mermaid
 flowchart LR
  R[Existing cloud resource] --> I[Terraform import]
  I --> S[State address maps resource ID]
@@ -392,7 +392,7 @@ flowchart LR
  P --> V{Unexpected replacement?}
  V -->|Yes| D[Inspect configuration and immutable fields]
  V -->|No| A[Review approved sandbox change]
-~~~
+```
 
 ถ้า Resource มีอยู่จริงแต่ Terraform State ไม่รู้จัก Terraform อาจพยายามสร้าง Duplicate; Import ทำให้ State ผูก ID แต่ไม่ได้เขียน Configuration ทั้งหมดให้ตรงเสมอ. `terraform import` เป็น **State-changing Operation** ต้องผ่าน Approval แม้อยู่ใน Sandbox
 

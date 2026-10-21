@@ -477,7 +477,7 @@ Client -> LB -> App -> DB
 
 ### 1. Dashboard เป็นจุดเริ่ม ไม่ใช่คำวินิจฉัย
 
-~~~mermaid
+```mermaid
 flowchart TD
  U[Users report slow requests] --> S[Set timeframe and service SLO]
  S --> M[Metrics: p95 errors throughput saturation]
@@ -490,7 +490,7 @@ flowchart TD
  N --> V[Mitigation plus verify]
  B --> V
  A --> V
-~~~
+```
 
 **Example timeline:** 10:05 Error Rate เพิ่ม, 10:07 p95 จาก 120ms → 3s, 10:08 Database Connections เต็ม, 10:10 CPU VM เพียง 30%. การ Restart App อาจลดอาการชั่วคราว แต่ยังต้องถามว่า DB Connection Pool Leak, Long Queries หรือ Deadline Misconfiguration ทำให้ Connection ไม่คืน Pool หรือไม่
 
@@ -509,11 +509,11 @@ Alert `CPU > 80%` ต่อเนื่อง 5 นาทีอาจแจ้�
 
 ### 4. Read-only investigation
 
-~~~bash
+```bash
 # Access controls required. Query only the assigned lab project.
 gcloud logging logs list --project=LAB_PROJECT_ID
 gcloud monitoring policies list --project=LAB_PROJECT_ID
-~~~
+```
 
 หาก Query ไม่ได้เพราะ IAM ให้บันทึก Permission Error ไม่ยกระดับสิทธิ์แบบสุ่ม. ถ้าทำ Log Sink ไป BigQuery/Storage ต้องตรวจ Writer Identity ของ Sink และ Destination IAM อีกชั้น
 

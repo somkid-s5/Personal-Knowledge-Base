@@ -365,7 +365,7 @@ service timeout → client retry 5 ครั้งพร้อมกัน → l
 
 ### 1. แยก Reliability และ Model Quality
 
-~~~mermaid
+```mermaid
 flowchart LR
  C[User request] --> LB[Ingress and authentication]
  LB --> API[API container]
@@ -375,7 +375,7 @@ flowchart LR
  O --> C
  P[Observability] --> API
  P --> M
-~~~
+```
 
 **SLA/SLO ของ API** อาจผ่านเมื่อ p95 Latency ดี แต่ Model Accuracy แย่ลงเพราะ Feature Drift; หรือ Quality ดีแต่ Service Timeout เพราะ Cold Start/Model Load. ดังนั้นวัดทั้ง Transport Success, Request Latency, GPU/CPU/Memory, Model Quality/Drift และ Data Lineage
 

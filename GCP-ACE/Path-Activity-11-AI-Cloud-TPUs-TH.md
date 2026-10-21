@@ -314,7 +314,7 @@ job สั้น 2 นาที แต่ compile 1 นาทีทุก run
 
 ### 1. TPU Training บางงานช้าเพราะ Compile ไม่ใช่ Compute
 
-~~~mermaid
+```mermaid
 flowchart TD
  J[Training job starts] --> C[Compile graph / XLA]
  C --> W[Warmup]
@@ -324,7 +324,7 @@ flowchart TD
  E -->|Yes| R[Recover from checkpoint]
  R --> W
  E -->|No| F[Finish and validate]
-~~~
+```
 
 หาก Benchmark ใช้เวลา 90 วินาที แต่ 70 วินาทีหมดกับ Compile, การ Scale TPU ให้ใหญ่ขึ้นอาจไม่เพิ่ม Job Throughput เลย. ต้องวัด Separately: Compile Time, Step Time, Input Wait, Device Utilization, Cross-host Synchronization และ Checkpoint Overhead
 

@@ -301,7 +301,7 @@ Client
 
 ### 1. อ่าน Component Chain แทนจำ Click ใน Console
 
-~~~mermaid
+```mermaid
 flowchart LR
  U[Client] --> F[Forwarding rule]
  F --> TP[Target proxy]
@@ -310,7 +310,7 @@ flowchart LR
  HC[Health check] --> BS
  BS --> IG[Instance group]
  IG --> VM[Healthy web service]
-~~~
+```
 
 ความผิดปกติต้องระบุเส้นที่ขาด: ถ้า DNS/Frontend ผิด Client อาจต่อไม่ได้เลย; ถ้า URL Map Rule ผิด Path เฉพาะบางเส้นทางอาจไป Backend ผิด; ถ้า Backend Health Unhealthy อาจเกิด 5xx แม้ VM Ping ได้
 
