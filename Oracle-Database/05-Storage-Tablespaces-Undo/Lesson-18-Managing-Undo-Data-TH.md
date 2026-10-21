@@ -29,7 +29,7 @@ flowchart LR
 ## Core concepts
 
 - Undo records ช่วย Rollback และสร้าง Read-consistent View ขณะมี Concurrent Transactions
-- `UNDO_RETENTION` เป็นเป้าหมาย retention; actual available undo ขึ้นกับ Workload, Capacity และ Mode
+- `UNDO_RETENTION` เป็นค่า Threshold ที่ต้องอ่านคู่กับ Release Update, Tablespace Size, Autoextend, Workload และ Retention Guarantee; อย่าอธิบายว่า fixed-size Undo ใน Oracle 19c ทุก RU ละเลย Parameter นี้เหมือนกัน
 - `DBA_UNDO_EXTENTS` แยก Active, Unexpired และ Expired Extents; ไม่ควรนับทุก Extent เป็นพื้นที่ reclaim ได้ทันที
 - `V$UNDOSTAT` ใช้ดู Trend ของ Tuned Retention, Snapshot-too-old และพื้นที่ขาดตลอดช่วงเวลา
 - **Retention Guarantee:** ลดความเสี่ยง overwrite บางกรณี แต่เมื่อ Undo Space ไม่พออาจกระทบ DML
@@ -86,7 +86,21 @@ SELECT status,SUM(bytes) bytes FROM dba_undo_extents GROUP BY status;
 
 **Temporary undo:** Oracle รองรับ temporary undo สำหรับ DML ที่เกิดกับ temporary tables ภายใต้ configuration ที่รองรับ ช่วยลดบางส่วนของ undo/redo overhead; `TEMP_UNDO_ENABLED` มี semantics ระดับ instance/session/PDB ที่ต้องตรวจ Oracle Reference ของ release นั้นและ environment ก่อนปรับ.
 
-**UNDO_RETENTION vs RETENTION GUARANTEE:** ค่า retention เป็นเป้าหมายเวลาที่ต้องเก็บ undo แต่ actual tuned retention ขึ้นกับพื้นที่และ workload. ถ้าเปิด retention guarantee, database อาจปฏิเสธ DML เมื่อพื้นที่ undo ไม่พอแทนการ overwrite unexpired extents. ต้องวาง capacity ตาม longest query และ transaction volume.
+**UNDO_RETENTION vs RETENTION GUARANTEE (19c RU-specific):** `UNDO_RETENTION` กำหนดค่าขั้นต่ำเป้าหมายเป็นวินาที และ Oracle Automatic Undo Management จะปรับค่าตามสภาพแวดล้อมด้วย ต้องตรวจค่า `TUNED_UNDORETENTION` และพื้นที่จริง ไม่ตีความ Parameter เพียงตัวเดียว
+
+- **ก่อน 19c RU 19.7:** สำหรับ Fixed-size Undo Tablespace ระบบ Auto-tune ให้เก็บได้นานที่สุดตามพื้นที่/Workload โดยปกติไม่ใช้ `UNDO_RETENTION` เว้นแต่กำหนด Retention Guarantee; Autoextend มีพฤติกรรมต่างกัน
+- **ตั้งแต่ 19c RU 19.7:** Oracle Reference ระบุการรักษาค่า `UNDO_RETENTION` สำหรับทั้ง Autoextend และ Fixed-size Tablespaces ร่วมกับ Automatic Tuning — ต้องตรวจ RU/Patch Level ก่อนอธิบายพฤติกรรม
+- **Retention Guarantee:** เป็นตัวเลือกแยกจาก `UNDO_RETENTION`; เมื่อพื้นที่ Undo ไม่พอ อาจทำให้ DML ล้มเหลวแทนการเขียนทับ Undo ที่ยังไม่หมดอายุ
+- `ORA-01555` ยังเกิดได้จาก Query Duration, Undo Generation, Undo Pressure, Read Consistency และข้อจำกัด Capacity; การเพิ่มตัวเลขอย่างเดียวไม่ใช่ Root-cause Fix
+
+**ยืนยัน Release Update แบบ Read-only ก่อนตีความ Behavior:**
+```sql
+SELECT banner_full FROM v$version;
+SELECT begin_time, end_time, tuned_undoretention, ssolderrcnt, nospaceerrcnt
+FROM v$undostat ORDER BY begin_time DESC FETCH FIRST 12 ROWS ONLY;
+```
+
+**เอกสารทางการ (ตรวจ 2026-10-21):** [Oracle 19c Parameter Reference — UNDO_RETENTION](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/UNDO_RETENTION.html) และ [Oracle 19c Administrator's Guide — Managing Undo](https://docs.oracle.com/en/database/oracle/oracle-database/19/admin/managing-undo.html). ตารางพฤติกรรมควรตรวจตาม RU จริง ไม่อ้างว่าเหมือนกันทุก 19c.
 
 ```sql
 SELECT begin_time,end_time,tuned_undoretention,ssolderrcnt,nospaceerrcnt
