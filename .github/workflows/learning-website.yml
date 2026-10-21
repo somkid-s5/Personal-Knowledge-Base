@@ -51,6 +51,9 @@ jobs:
       - name: Verify Oracle topic-specific cleanup
         working-directory: website
         run: npm run check:oracle-content
+      - name: Verify Oracle official-reference technical cases
+        working-directory: website
+        run: npm run check:oracle-technical
       - name: Evidence-grade content QA for five courses
         working-directory: website
         run: npm run qa:content
