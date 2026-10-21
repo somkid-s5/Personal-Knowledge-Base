@@ -94,6 +94,11 @@ stages:
       - id: "ora-031"
         file: "07-Monitoring-Troubleshooting/Lesson-31-Analyzing-SQL-and-Access-Paths-TH.md"
 supplements:
+  - title: "🧪 Oracle Sandbox Validation & Evidence"
+    description: "8 opt-in read-only SQL scripts, Expected vs Actual template, NOT_EXECUTED until tested"
+    files:
+      - "10-Labs/Sandbox-Validation/README.md"
+      - "10-Labs/Sandbox-Validation/VALIDATION-EVIDENCE-TEMPLATE.md"
   - title: "🧪 13 Companion Labs"
     description: "Read-only / planning exercises — ไม่ได้ยืนยันว่าผ่านการรันจริง"
     files:

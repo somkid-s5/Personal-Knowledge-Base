@@ -47,6 +47,12 @@ This repository will create **original companion labs** that practice the same s
 
 - [Lab 13 — Performance Triage and SQL Plan Inspection (read-only)](./Lab-13-Oracle-Performance-Triage-Read-Only.md) — original companion lab, NOT RUN
 
+## 🔍 Read-only Sandbox Evidence Pack
+
+[🧪 SQL*Plus/SQLcl Execution Guide + 8 SQL Files](./Sandbox-Validation/README.md) · [📝 Expected vs Actual Template](./Sandbox-Validation/VALIDATION-EVIDENCE-TEMPLATE.md)
+
+เลือก Script ให้ตรงกับ Lab 01/02/08/09/10/11/12/13 แล้วบันทึก Expected, Actual, Oracle Version/RU, Privilege/ORA Error และผลที่ Redact ใน Private Evidence. **ยังไม่ได้รันจริง**; ไม่มี Auto-runner และห้ามใช้บน Production. ถ้า View ใช้ไม่ได้ให้บันทึก SKIPPED_PRIVILEGE แทนการเพิ่ม DBA/SYSDBA.
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely

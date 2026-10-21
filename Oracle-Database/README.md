@@ -45,6 +45,14 @@
 
 - [31-Lesson Full-Fidelity QA Tracker](./FULL-FIDELITY-QA-TRACKER.md) — GitHub readback confirmed all lesson files; separate PENDING gates for source-page comparison, 26ai, live labs, CI and security/licensing
 
+## 🧪 Sandbox Validation & Portfolio Evidence (2026-10-21)
+
+[▶️ Oracle Read-only Sandbox Execution Pack](./10-Labs/Sandbox-Validation/README.md) · [📝 Expected vs Actual Evidence Template](./10-Labs/Sandbox-Validation/VALIDATION-EVIDENCE-TEMPLATE.md)
+
+มี SQL Script สำหรับสังเกต 8 จุด ได้แก่ Environment, Listener/PDB, Undo, Data Pump, Unified Audit, AutoTask, Performance และ Optional Cursor Plan. ใช้ SQL*Plus/SQLcl บน Sandbox ที่ได้รับอนุญาต **ทีละไฟล์**; โค้ดถูกตรวจด้านความปลอดภัยแบบ Static แต่ยังไม่รันกับ Oracle จริง. เก็บผลไว้ Private และนำเฉพาะ Sanitized Results ไปทำ Portfolio ได้เมื่อ Reviewer ยืนยัน.
+
+**สถานะ:** READY_FOR_AUTHORIZED_SANDBOX / NOT_EXECUTED; ไม่ใช่การยืนยันว่า Companions 13 Labs ผ่านแล้ว.
+
 ## Learning layers
 
 1. [01-Core-Architecture](./01-Core-Architecture/)
