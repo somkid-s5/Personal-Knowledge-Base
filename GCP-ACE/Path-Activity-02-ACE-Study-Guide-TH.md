@@ -236,3 +236,55 @@ ACE Exam Guide ที่ลิงก์จากหน้ารับรอง�
 - [Google Cloud Documentation](https://cloud.google.com/docs) — ตรวจรายละเอียดบริการและขั้นตอนที่เปลี่ยนแปลงได้
 - [ACE Learning Path](https://www.skills.google/paths/11) — ลำดับ course, lab และ skill badge
 
+## 📚 Deep Learning Notes — อ่านเพื่อเข้าใจ ไม่ใช่พึ่งสรุป AI อย่างเดียว (Original Supplement, 2026-10-21)
+
+### เป้าหมายของ Activity 02 คือ “ระบบเรียนรู้” ไม่ใช่ Course สำหรับ Setup Infrastructure
+
+กิจกรรมนี้ต้องแยกจาก Activity เชิงบริการอย่าง Compute Engine หรือ GKE เพราะเน้น **วิธีทำ Study Guide สำหรับ ACE**. ถ้าเติม Lab สร้าง Resource เข้าไปตรงนี้จะยิ่งทำให้ลำดับ Google Skills มั่วกว่าเดิม. จึงใช้ตัวอย่าง **จัดบทเรียนหนึ่งหัวข้อ (IAM)** ให้เข้าใจและจำได้จริงแทน
+
+```mermaid
+flowchart TD
+ A[Official Exam Guide objective] --> B[Current Google Cloud docs]
+ B --> C[Original Thai explanation]
+ C --> D[Operational scenario]
+ D --> E[Answer from memory]
+ E --> F{Explain why alternatives fail?}
+ F -->|No| B
+ F -->|Yes| G[Practice in official lab]
+ G --> H[Evidence and spaced review]
+```
+
+### ตัวอย่างโน้ตคุณภาพสำหรับ Objective: IAM
+
+**โจทย์จำลอง:** Operator ดูรายการ Cloud Storage Objects ได้ แต่ห้าม Delete Object หรือเปลี่ยน IAM Policy. ต้องเลือก Role และ Scope ที่เหมาะ ไม่ใช้ `roles/owner` เพราะให้สิทธิ์มากเกินไป
+
+| ชั้นของคำถาม | Notes ควรตอบได้ |
+|---|---|
+| Mental model | Principal ได้รับ Role บน Resource Scope; Role รวม Permissions |
+| Decision | ทำไม `roles/storage.objectViewer` จึงเหมาะกว่าบทบาท Admin สำหรับ Read-only Object Access ใน Bucket ที่กำหนด |
+| Alternative | ทำไม Project Viewer อย่างเดียวอาจไม่ได้สิทธิ์ Object ที่ต้องการตาม Policy |
+| Verify | ตรวจ IAM Binding ที่ Scope ที่ถูกต้องและ Bucket-specific Data Access |
+| Failure | 403 Permission Denied บอกไม่ได้โดยตัวมันเองว่า Role ไม่ครบหรือ Account/Project ผิด |
+| Security | อย่าเผยแพร่ Personal Email, Account ID, Token หรือ Project IDs ใน Repo Public |
+
+### Source of truth 3 ชั้น
+
+1. **Exam Guide** ระบุว่าข้อสอบวัด Skill ไหน — ใช้เป็น Curriculum Coverage Gate ไม่ใช่คำตอบ API ทุกตัว
+2. **Service Documentation** อธิบาย Behavior และ Constraints ปัจจุบัน — ใช้ตรวจ technical correctness
+3. **Google Skills Activity** คือที่ฝึกและวัดประสบการณ์จริง — โน้ตภาษาไทยเรา *ประกบ* ไม่ใช่แทนที่ Official Grader หรือ Paid Transcript
+
+ถ้าสร้าง AI-generated Flashcards ให้ถาม `ข้อใดควรใช้และเพราะอะไร` เช่น “ทำไม NAT ไม่เปิด Inbound” ไม่ใช่แค่ “Cloud NAT ย่อมาจากอะไร”. เก็บ Source URL และ Date ของทุกคำตอบที่ขึ้นอยู่กับ Feature/Version
+
+### Retrieval Practice: ทดสอบว่าเข้าใจหรือยัง
+
+ปิดโน้ตแล้วเขียนคำตอบสั้น ๆ สำหรับ 3 ข้อนี้:
+
+- Service Account ของ VM ต้องเรียก Cloud Storage: Identity ที่รัน Code กับ Identity ของคน Deploy แตกต่างกันอย่างไร?
+- VPC Routing ให้เส้นทางแล้ว ทำไม Firewall ยังบล็อก Traffic ได้?
+- ค่า Service Quota เต็ม แต่ Billing มีเงินเพียงพอ: เพราะเหตุใด 2 เรื่องนี้ไม่เท่ากัน?
+
+ถ้ายังตอบแบบ “เปิด Role Admin แล้วลองใหม่” แปลว่ายังไม่ได้เรียน Root Cause และ Trade-off. กลับไปอ่าน Objective/Docs จากนั้นทำ Lab อีกครั้งแล้วจด Evidence ที่ Redact แล้ว
+
+**Reference:** [Associate Cloud Engineer Exam Guide](https://cloud.google.com/learn/certification/guides/cloud-engineer) · [Google Cloud IAM Introduction](https://cloud.google.com/iam/docs/overview) · [Google Skills Path 11](https://www.skills.google/paths/11).
+
+**Expected output ของบทนี้:** Learning Notebook Structure, Three Source Links, One Scenario Explained, Four Recall Questions — ไม่ใช่การสร้าง Google Cloud Resource หรืออ้างว่าจบคอร์สใน Notebook โดยไม่ฝึกจริง

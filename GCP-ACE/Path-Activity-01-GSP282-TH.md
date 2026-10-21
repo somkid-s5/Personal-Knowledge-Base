@@ -305,3 +305,59 @@ Troubleshooting ให้ไล่ตามลำดับ **บัญชี →
 - [Service Usage — Enable and disable services](https://cloud.google.com/service-usage/docs/enable-disable) — ภาพรวมเปิด/ปิด service ต่อ project
 - [Resource Manager — Create and manage projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects) — การจัดการ project และ identifiers
 
+## 📚 Deep Learning Notes — ค้นหาสาเหตุที่เข้า Lab ไม่ได้ (Original Supplement, 2026-10-21)
+
+### ภาพจำ: บัญชีที่ Login ≠ Project ที่เลือก ≠ สิทธิ์ที่มี
+
+```mermaid
+flowchart LR
+ A[Google Skills lab starts] --> B[Temporary credentials]
+ B --> C[Browser Console session]
+ C --> D[Select assigned lab project]
+ D --> E{Identity / IAM / API / Quota valid?}
+ E -->|Yes| F[Run approved lab task]
+ E -->|No| G[Inspect one boundary at a time]
+ G --> C
+```
+
+Google Skills Lab สร้าง **Context ชั่วคราว** ที่ไม่ควรปนกับ Personal Project: เธออาจเปิด Chrome ไว้สอง Profiles แล้ว Console แสดงหน้าถูกต้องแต่ล็อกอินด้วย User ส่วนตัว. ถ้าเกิด Error 403, สาเหตุอาจเป็น (1) Browser ใช้ Account ผิด (2) Project Selector เลือก Project ผิด (3) IAM ไม่อนุญาต Action หรือ (4) Organization Policy ที่ห้าม Resource Creation. **ห้ามแก้ด้วยการให้ Owner Role ทุกคน** เพราะเป็นการกลบ Root Cause และไม่ใช่ Least Privilege.
+
+### แยก 4 Identifiers ที่มักสับสน
+
+| ชื่อ | ตอบคำถาม | ตัวอย่างจำลอง |
+|---|---|---|
+| Project **name** | Display สำหรับคนอ่าน | Cloud Engineer Training |
+| Project **ID** | Identifier สำหรับ CLI/API ที่เป็น Unique | training-sbx-123 |
+| Project **number** | Numeric Identifier ของ Resource | 123456789012 |
+| IAM **principal** | Identity ใครกำลังเรียก API | lab-user@example.test |
+
+Project name สามารถเปลี่ยนได้ แต่ Project ID/Number มีความหมายต่างกัน. IAM Bindings ถูกผูกตาม Scope; อาจเป็น Organization, Folder หรือ Project และสิทธิ์ที่ได้รับจาก Parent สามารถสืบทอดลงมาตามเงื่อนไข
+
+### Read-only triage: ทำไม CLI กับ Console ไม่ตรงกัน
+
+```bash
+# Read-only inspection — Run only inside the assigned lab Cloud Shell.
+gcloud auth list
+gcloud config configurations list
+gcloud config list
+gcloud projects describe "$(gcloud config get-value project)" --format="yaml(projectId,projectNumber,name)"
+gcloud services list --enabled --format="table(config.name)"
+```
+
+ผลลัพธ์แต่ละคำสั่งเป็น **Snapshot**; ถ้า API List ถูกปฏิเสธด้วย Permission Error ให้บันทึก Error และถามว่า Identity หรือ Project ไหนกำลังใช้ แทนการ Activate Service Account แบบสุ่ม. Command `gcloud config set project` เป็นการ **เปลี่ยน Client Context** จึงไม่อยู่ในชุด Read-only นี้
+
+### Worked example: API Enabled แต่ยัง Create VM ไม่ได้
+
+ทีมมอบบท Lab ให้ Student เปิด Compute Engine VM. เธอพบว่า **Compute Engine API = Enabled** แต่ `PERMISSION_DENIED` ตอนสร้าง VM. ให้ไล่:
+
+1. Project ID จาก Lab Instruction ตรงกับ Active Project ใน `gcloud config list` หรือไม่?
+2. Principal เป็น Temporary Lab Account หรือ Personal Account?
+3. Role มี Permission ที่เกี่ยวข้องกับ `compute.instances.create` หรือไม่? **API Enabled ไม่ได้แปลว่ามี Permission**
+4. Organization Policy, Zone Quota, Allowed Location หรือ Billing Project เป็นตัวบล็อกอีกชั้นหรือไม่?
+5. เธอมีหลักฐานอะไรบ้างก่อนจะเสนอการแก้ไข? (Redacted Account + Project, Permission Name, Error Time)
+
+**Checkpoint:** เขียนความแตกต่างของ `authentication`, `authorization`, `project context` และ `API enablement` โดยใช้ตัวอย่าง 403 นี้; ถ้าตอบได้คือเข้าใจวัตถุประสงค์แท้ของ Activity 01
+
+**อ่านเพิ่มเติม:** [Resource Hierarchy](https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy) · [gcloud config list](https://cloud.google.com/sdk/gcloud/reference/config/list) · [gcloud auth list](https://cloud.google.com/sdk/gcloud/reference/auth/list).
+
+> 🎓 ส่วนนี้คือ **โน้ตเสริมที่เขียนใหม่** เพื่อช่วยเข้าใจ Lab, ไม่ใช่การคัดลอกหรืออ้างว่าครบทุก Step ของ Google Skills GSP282; ไม่มีคำสั่งใดถูก Execute บน Project จริง

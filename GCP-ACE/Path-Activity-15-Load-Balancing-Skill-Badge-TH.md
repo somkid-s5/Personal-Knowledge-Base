@@ -296,3 +296,41 @@ Client
 - [Google Skills — Implementing Cloud Load Balancing for Compute Engine](https://www.skills.google/paths/11/course_templates/648)
 - [Cloud Load Balancing overview](https://cloud.google.com/load-balancing/docs/load-balancing-overview)
 - [Choose a load balancer](https://cloud.google.com/load-balancing/docs/choosing-load-balancer)
+
+## 📚 Deep Learning Notes — Load Balancer 502/503 จาก Health-Check Failure (Original Supplement, 2026-10-21)
+
+### 1. อ่าน Component Chain แทนจำ Click ใน Console
+
+```mermaid
+flowchart LR
+ U[Client] --> F[Forwarding rule]
+ F --> TP[Target proxy]
+ TP --> UM[URL map]
+ UM --> BS[Backend service]
+ HC[Health check] --> BS
+ BS --> IG[Instance group]
+ IG --> VM[Healthy web service]
+```
+
+ความผิดปกติต้องระบุเส้นที่ขาด: ถ้า DNS/Frontend ผิด Client อาจต่อไม่ได้เลย; ถ้า URL Map Rule ผิด Path เฉพาะบางเส้นทางอาจไป Backend ผิด; ถ้า Backend Health Unhealthy อาจเกิด 5xx แม้ VM Ping ได้
+
+### 2. ลำดับ Troubleshooting ที่ใช้จริง
+
+1. ตรวจ Type/Scope ของ Load Balancer (External/Internal, Global/Regional, Application/Network) ก่อนอ่าน Docs ไม่ใช้ Firewall Rule ชุดเดียวกับ LB ทุก Type
+2. ตรวจ Forwarding Rule + Frontend Protocol/Port; Target Proxy/URL Map เหมาะกับ HTTP(S) LB
+3. ตรวจ Backend Service, Health Check Port/Path และ Associated MIG/NEGs
+4. ตรวจ Firewall Allow ที่จำเป็นสำหรับ Health Probe/Data Path ตาม LB Type
+5. ตรวจ App Startup, Listening Port, Host Firewall และ Logs. Backend ที่รับ Request ได้ใน VM เองอาจยัง Fail Health Check
+6. แยก `Autoscaling` จาก `Autohealing` และอย่า Force Health Check ให้กลับเขียวโดยปิด Security Controls
+
+### 3. Example: /healthz ตอบ 200 แต่ /api สร้าง 502
+
+ถ้า Health Path `/healthz` ผ่าน แต่ User API 502 ต้องตรวจ Timeout/Protocol Mismatch, App Handler, Downstream Database, TLS/Backend Configuration และ Header/Host Routing. Health Check ไม่ตรวจทุก Behavior ของ Application
+
+### 4. Exam-style architecture decision
+
+Traffic เป็น HTTPS Public ปริมาณสูง กระจายหลาย Regions — ต้องตอบว่า Global External Application Load Balancer เหมาะหรือไม่ จาก Global Routing, TLS, Backend Regions, CDN/Cloud Armor Needs; แทนการเลือกจากคำว่า “มี VM สองตัว”. สำหรับ Internal TCP Service อย่าเลือก HTTP URL Map โดยอัตโนมัติ
+
+**Official:** [Load Balancing Overview](https://cloud.google.com/load-balancing/docs/load-balancing-overview) · [Health Checks](https://cloud.google.com/load-balancing/docs/health-check-concepts).
+
+**Lab scope:** Original diagnostics and decision support; not challenge-lab grader or live LB result

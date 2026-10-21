@@ -185,3 +185,49 @@ Deploy revision ใหม่แบบไม่รับ trafficก่อน แ�
 - [Cloud Run revisions and traffic](https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration)
 - [Configure secrets](https://cloud.google.com/run/docs/configuring/secrets)
 - [Pub/Sub overview](https://cloud.google.com/pubsub/docs/overview)
+
+## 📚 Deep Learning Notes — Cloud Run Revision, Concurrency, IAM และ Ingress (Original Supplement, 2026-10-21)
+
+### 1. Container Serverless ก็ยังมี Runtime Contract
+
+```mermaid
+flowchart LR
+ C[HTTP client] --> I[Ingress policy]
+ I --> A{Caller authorized?}
+ A -->|Yes| S[Cloud Run service]
+ A -->|No| X[403 or 401]
+ S --> R1[Revision A 90 percent]
+ S --> R2[Revision B 10 percent]
+ R1 --> DB[Downstream database]
+ R2 --> DB
+```
+
+Cloud Run **Service** เป็น Stable Endpoint ที่ Route Traffic ไปยัง **Revisions** ซึ่งเป็น Immutable Deployment Config Snapshot. การ Roll Back Traffic ไม่ได้ย้อน Database Schema Change หรือ State ภายนอกโดยอัตโนมัติ. App ต้อง Listen ตาม Runtime `PORT` ที่ Platform กำหนดและ Bind `0.0.0.0` ตาม Container Contract; ถ้า Listen `127.0.0.1` อย่างเดียว Health Startup อาจล้มเหลว
+
+### 2. Identity 3 ชั้นที่ต้องแยก
+
+1. **Deployer:** User หรือ CI Pipeline ที่สร้าง/เปลี่ยน Service และส่ง Image
+2. **Invoker:** Caller ที่มี `run.routes.invoke` หรือสิทธิ์การเรียก Service ตาม Auth Model
+3. **Runtime Service Account:** Identity ที่ Code ใช้เข้าถึง Cloud SQL, Pub/Sub หรือ Cloud Storage
+
+**IAM Invoker และ Ingress เป็นคนละ Control:** Ingress กรองเส้นทาง Network ที่อนุญาต; Authentication/Authorization ตัดสิน Identity ของ Caller. แค่ตั้ง Ingress Internal ไม่ได้ทำให้ทุก Internal Client มีสิทธิ์ Invoker โดยอัตโนมัติ
+
+### 3. Cost/Performance: Max instances และ Concurrency ไม่ใช่ปุ่มช่วยได้ทุกกรณี
+
+การเพิ่ม `concurrency` ช่วยรวม Requests ต่อ Instance ได้ แต่ App ที่ทำ CPU-bound หรือต่อ Database แบบ One Connection per Request อาจเพิ่ม Tail Latency/Database Saturation แทน. หากมี 1000 Concurrent HTTP Requests และ Database Connection Limit 80, การเพิ่ม Max Instances แบบไม่ควบคุมอาจทำให้ทุก Revision แย่ง Connection กัน
+
+**Sample design (illustrative):** Service รับ 600 Requests/Second, p95 Latency เป้าหมาย 400 ms. เลือก Concurrency จาก Load Test + Memory/CPU Per Request, ไม่ใช้เพียงตัวเลข Default. เตรียม Downstream Rate Limit และ Retry with Backoff
+
+### 4. Incident Drill: Revision ใหม่คืน 503
+
+ตรวจ Traffic Split → Revision Ready Condition → Container Startup Logs → PORT/Listen Address → Secret Binding → IAM Runtime Identity → Cloud SQL Connector/Network → Max Instances/Quota. ห้าม Rollout ไป 100% หรือบังคับ Public Invoker เพื่อ “ดูว่าหายไหม” โดยไม่รู้ Root Cause
+
+```bash
+# Read-only, approved project only:
+gcloud run services describe SERVICE_NAME --region=REGION --project=LAB_PROJECT_ID
+gcloud run revisions list --service=SERVICE_NAME --region=REGION --project=LAB_PROJECT_ID
+```
+
+**Official:** [Cloud Run Container Runtime](https://cloud.google.com/run/docs/container-contract) · [Traffic Management](https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration) · [Securing Services](https://cloud.google.com/run/docs/securing/authenticating).
+
+**Checkpoint:** อธิบายความต่างระหว่าง Ingress, Invoker, Runtime SA และ Revision Traffic Split ได้โดยไม่ต้องเปิด Module อื่น

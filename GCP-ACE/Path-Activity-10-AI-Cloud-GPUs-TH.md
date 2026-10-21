@@ -361,3 +361,41 @@ Client
 - [Compute Engine GPUs](https://cloud.google.com/compute/docs/gpus)
 - [Compute Engine metrics](https://cloud.google.com/monitoring/api/metrics_gcp#gcp-compute)
 - [GKE GPU workloads](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus)
+
+## 📚 Deep Learning Notes — GPU Capacity Incident จากมุม Cloud Engineer (Original Supplement, 2026-10-21)
+
+### 1. GPU Utilization ต่ำ ไม่ได้แปลว่า Accelerator ไม่แรงพอ
+
+สมมติ Batch Inference ทำงานช้า แม้ GPU Memory Usage เพียง 30%. ต้องแยกว่าเวลาหมดไปกับ **Data Read**, **CPU Preprocessing**, **PCIe/Interconnect Transfer**, **Model Compute** หรือ **Output Writing**. GPU Utilization ไม่ใช่ End-to-end Throughput. อย่าเพิ่ม GPU หรือเปลี่ยน Accelerator รุ่นทันทีจนกว่าจะเจอ Bottleneck
+
+```mermaid
+flowchart LR
+ S[Cloud Storage dataset] --> D[Data loader]
+ D --> C[CPU preprocess]
+ C --> T[Memory transfer]
+ T --> G[GPU compute]
+ G --> W[Output checkpoint]
+ C -->|bottleneck| E[GPU idle despite high cost]
+```
+
+### 2. แยก Quota, Capacity, Software Compatibility
+
+| อาการ | ชั้นที่ต้องตรวจ | วิธีคิด |
+|---|---|---|
+| VM Create แล้ว Quota Error | Quota Region/Zone/Family และ Account Limit | Request Quota หรือเปลี่ยน Design แบบอนุมัติ |
+| GPU Quota ยังเหลือ แต่ Provision ไม่ได้ | Physical Availability/Capacity | ห้ามสรุปว่า Quota คือ Stock |
+| CUDA Import Error | Driver/Runtime CUDA/cuDNN/Framework Compatibility | Pin tested versions in Image |
+| CUDA Out of Memory | GPU Device Memory กับ Batch Size/Model Footprint | ลด Batch หรือใช้ Sharding ตาม Model |
+| GPU Utilization ต่ำ | Data Pipeline/CPU/Network | Profile Pipeline ก่อน Scale |
+
+### 3. Trade-off ที่ต้องคำนวณก่อน Run
+
+ค่าใช้จ่ายการฝึกไม่ได้มีแค่ GPU Per Hour: รวม CPU/RAM, Persistent Storage, Network Egress, Artifact Registry, Checkpoint Transfer, Idle Time และ Reserved/Spot Availability. ถ้าใช้ Spot GPU, Training Loop ต้องออกแบบ Checkpoint/Retry เพราะ Instance อาจถูก Preempt. การวัด Cost/Goodput ต่อ Completed Job ดีกว่าดู Hourly Price เพียงอย่างเดียว
+
+### 4. Decision Exercise
+
+Model A ใช้ GPU 80% แต่ Training Loss ไม่ลดลง; Model B ใช้ GPU 25% แต่ผ่าน Accuracy Objective ก่อน. จะเลือกอะไร? ควรเปรียบเทียบ End-to-end Completion, Model Quality, Deadline, Reproducibility และ Total Cost; Utilization อย่างเดียวตัดสินไม่ได้
+
+**Reference:** [Google Cloud GPUs](https://cloud.google.com/compute/docs/gpus) · [Compute Quotas](https://cloud.google.com/compute/resource-usage) · [Spot VMs](https://cloud.google.com/compute/docs/instances/spot).
+
+**Status:** Architecture analysis only; no GPU provisioned or billed

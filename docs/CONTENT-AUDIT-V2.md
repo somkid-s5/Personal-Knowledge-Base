@@ -133,3 +133,10 @@ npm run audit:content
 - Negative Fixtures ป้องกัน False PASS จากข้อมูลไม่ครบ, ข้อมูลที่เติม Actual ขณะ NOT_EXECUTED, ไม่มี ORA Error ตอน SKIPPED_PRIVILEGE, Data Sensitive/IP, Case ID ซ้ำ และ Timestamp ไม่มี Timezone
 - Ignore `Oracle-Database/10-Labs/Sandbox-Validation/private/` ป้องกันเผลอ Commit Private Evidence; ต้องยังตรวจ Git Status ก่อนทุก Push (gitignore ไม่ป้องกัน `git add -f`)
 - GitHub Actions ตรวจกติกา Input Template แบบ Static; ไม่มี Oracle Connection และไม่มีการยืนยันความจริงของหลักฐานที่ผู้ใช้กรอก
+
+## GCP Activities 01–17 — Deep note and visual reorganization (2026-10-21)
+
+- เสริม 17 Activity pages ด้วย Original Deep Learning Notes เฉพาะบริบท, Worked Cases, Decision/Failure Patterns และ Mermaid Diagrams ในแต่ละหน้าโดยไม่ย้าย/เปลี่ยน Stable Progress IDs
+- แก้ปัญหา Raw HTML `img src` ใช้ Relative URL หลัง Deploy; Rewrite เป็น `/Personal-Knowledge-Base/kb-assets/...` และตรวจ SVG Assets ใน `dist`
+- จัดเมนู GCP ให้แสดง **17 Activities + Reference Library 1 Link**; Modules 13, Labs 6 และ Review ยังคงอ่านได้จาก Library และ Contextual Links ไม่ถูกลบ
+- `website/scripts/verify-gcp.mjs` ตรวจว่าทั้ง 17 มีแผนภาพ/เนื้อหาใหม่ และ Website Build มี Icon SVG; QA นี้ไม่ได้ยืนยันว่า Official Google Skills Unit ทุกหน้าถูกถอดแบบหรือทุก Lab ถูก Execute จริง

@@ -194,3 +194,52 @@ DMS เป็นเครื่องมือ migration workflow ไม่ใ�
 - [Bigtable overview](https://cloud.google.com/bigtable/docs/overview)
 - [Memorystore overview](https://cloud.google.com/memorystore/docs/overview)
 - [BigQuery overview](https://cloud.google.com/bigquery/docs/introduction)
+
+## 📚 Deep Learning Notes — เลือก Database จาก Access Pattern ไม่ใช่ชื่อ Service (Original Supplement, 2026-10-21)
+
+### 1. Decision Tree สำหรับ DBA ย้ายจาก On-prem ไป Cloud
+
+```mermaid
+flowchart TD
+ W{Workload characteristic} -->|SQL OLTP with existing app| SQL[Cloud SQL / AlloyDB]
+ W -->|Global SQL transactional scale| SP[Spanner]
+ W -->|Analytics warehouse and SQL aggregates| BQ[BigQuery]
+ W -->|Document and mobile app data| FS[Firestore]
+ W -->|Wide column/time-series access pattern| BT[Bigtable]
+ SQL --> H[Choose HA, replica, backup and schema migration]
+ SP --> C[Schema and consistency design]
+ BQ --> P[Partitioning, clustering and spend planning]
+ FS --> I[Document indexes and transaction limits]
+ BT --> K[Row-key hotspot design]
+```
+
+**Cloud SQL/AlloyDB** เป็น Relational Database สำหรับ Transactional Workloads แต่แต่ละตัวรองรับ Engine/Features/Management Model แตกต่างกัน; **Spanner** เน้น Distributed Relational Consistency/Scale; **BigQuery** เป็น Analytical Warehouse ไม่ควรใช้แทน High-frequency Row-by-row OLTP; **Firestore** เหมาะ Document Data Models; **Bigtable** ต้องออกแบบ Row-key เพื่อหลีกเลี่ยง Hotspots
+
+### 2. Business Case — ย้าย Database สินค้าคงคลัง
+
+Application มี 600 TPS, SQL Transactions พร้อม Foreign Keys และต้อง Join รายการสินค้า. ถ้า Source เป็น PostgreSQL บน VM ให้เริ่มจาก **Cloud SQL for PostgreSQL vs AlloyDB**, Compatibility, Extensions, HA/Replica, Connection Limits, Storage Growth, Backup/PITR/RTO. ยังไม่ควรเลือก Firestore เพียงเพราะ “Serverless”
+
+ถ้า Dashboard วิเคราะห์ยอดขาย 5 ปี Queries แบบ Scan/Aggregate หลายพันล้านแถวทุกวัน ควรแยก **Operational Database** กับ **Analytical Warehouse** และออกแบบ Data Pipeline/ETL/ELT ไป BigQuery ตาม Data Freshness Requirements
+
+### 3. HA ไม่เท่ากับ Backup และ Replica ไม่เท่ากับ PITR
+
+| Requirement | Design component | เหตุที่แทนกันไม่ได้ |
+|---|---|---|
+| Instance/Zone failure | HA failover configuration | HA ไม่ย้อนไปก่อนการลบข้อมูลผิด |
+| Reporting reads | Read replica (ตาม Engine) | Replica อาจ Copy Bad Writes/Deletes ต่อ |
+| Logical corruption / accidental delete | Backups + Point-in-time recovery | ต้องทดสอบ Restore และ Retention จริง |
+| Workload latency | Index/query/connection pool tuning | เพิ่ม Replica ไม่แก้ Inefficient Query ทุกกรณี |
+| Data migration | Database Migration Service/Export/Import | ต้องตรวจ Change Data Capture, Schema/Charset Compatibility |
+
+### 4. Migration Worksheet (no paid resource creation)
+
+1. บันทึก Source Engine/Version, Charset, Extension, Table Size/Row Growth, Peak TPS, Long-running Transactions และ PII Classification
+2. Mapping Target Features และ Downtime/RPO/RTO; Plan for Schema Validation, Identity/Network, CDC Lag and Cutover
+3. สร้าง Test Matrix: Row Counts, Financial Sum/Checksums, Foreign Keys, Unicode/Thai Sample, Sequence Values และ Application Smoke Test
+4. กำหนด Rollback Boundary, Backup Restore Drill และ Read-only Validation Privileges
+
+**Exam exercise:** ระบบ Ticketing ต้องการ Strong Transactional Consistency และ Complex Joins, อีกส่วนมี Analytical Dashboard รายปี: อธิบายว่าทำไมไม่ใช่ Database เดียวตอบโจทย์ทุกอย่างโดยอัตโนมัติ
+
+**Official:** [Cloud SQL Overview](https://cloud.google.com/sql/docs/introduction) · [Spanner Overview](https://cloud.google.com/spanner/docs/overview) · [BigQuery Introduction](https://cloud.google.com/bigquery/docs/introduction) · [Database Migration Service](https://cloud.google.com/database-migration/docs/overview).
+
+**Status:** Original deep-dive mapping to Activity 09; ไม่ใช่ผลจริงของ DMS/Database Lab

@@ -472,3 +472,51 @@ Client -> LB -> App -> DB
 - [Cloud Logging](https://cloud.google.com/logging/docs)
 - [Cloud Audit Logs](https://cloud.google.com/logging/docs/audit)
 - [Ops Agent](https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent)
+
+## 📚 Deep Learning Notes — Incident Timeline สำหรับ App ช้า (Original Supplement, 2026-10-21)
+
+### 1. Dashboard เป็นจุดเริ่ม ไม่ใช่คำวินิจฉัย
+
+```mermaid
+flowchart TD
+ U[Users report slow requests] --> S[Set timeframe and service SLO]
+ S --> M[Metrics: p95 errors throughput saturation]
+ M --> L[Logs: request correlation and error]
+ L --> T[Traces: where time is spent]
+ T --> D{Dominant delay?}
+ D -->|Network| N[Network path / LB health]
+ D -->|DB| B[Database locks / pool]
+ D -->|App| A[CPU / GC / cold start]
+ N --> V[Mitigation plus verify]
+ B --> V
+ A --> V
+```
+
+**Example timeline:** 10:05 Error Rate เพิ่ม, 10:07 p95 จาก 120ms → 3s, 10:08 Database Connections เต็ม, 10:10 CPU VM เพียง 30%. การ Restart App อาจลดอาการชั่วคราว แต่ยังต้องถามว่า DB Connection Pool Leak, Long Queries หรือ Deadline Misconfiguration ทำให้ Connection ไม่คืน Pool หรือไม่
+
+### 2. Logs vs Metrics vs Traces vs Audit
+
+| Data | ตอบอะไรได้ | ข้อจำกัด |
+|---|---|---|
+| Metrics | เวลาไหนแย่ ปริมาณเท่าไร | ไม่บอกสาเหตุ Root Cause ทั้งหมด |
+| Logs | Event/Error Context และ Request ID | ไม่เห็น Latency ทุก Hop หากไม่มี Correlation |
+| Traces | Request ใช้เวลาใน Service/Dependency ไหน | Sampling / Instrumentation สำคัญ |
+| Audit Logs | ใครทำ Control/Data Access ตาม Logs ที่ Enable | ไม่ใช่ Application Runtime Log |
+
+### 3. Alert Design
+
+Alert `CPU > 80%` ต่อเนื่อง 5 นาทีอาจแจ้งทั้งตอน Batch ที่ปกติ. Alert `p95 latency > SLO threshold` ร่วมกับ Error Budget Consumption ช่วยผูก Monitoring กับ User Impact มากกว่า แต่ต้องกำหนด Traffic Volume/Minimum Samples ไม่ให้ False Positive
+
+### 4. Read-only investigation
+
+```bash
+# Access controls required. Query only the assigned lab project.
+gcloud logging logs list --project=LAB_PROJECT_ID
+gcloud monitoring policies list --project=LAB_PROJECT_ID
+```
+
+หาก Query ไม่ได้เพราะ IAM ให้บันทึก Permission Error ไม่ยกระดับสิทธิ์แบบสุ่ม. ถ้าทำ Log Sink ไป BigQuery/Storage ต้องตรวจ Writer Identity ของ Sink และ Destination IAM อีกชั้น
+
+**Official:** [Cloud Monitoring](https://cloud.google.com/monitoring/docs/monitoring-overview) · [Cloud Logging](https://cloud.google.com/logging/docs/overview) · [Troubleshooting Monitoring](https://cloud.google.com/monitoring/support/troubleshooting).
+
+**Scope:** Fictional incident, not a live monitoring finding

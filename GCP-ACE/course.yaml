@@ -146,6 +146,10 @@ stages:
           labs:
             - "Lab-Guide-TH/Lab-05-Terraform-VPC-and-State.md"
 supplements:
+  - title: "📚 Optional Reference Library"
+    description: "All Modules, Labs, Visual Diagrams and Reviews live here, not in the primary learning menu"
+    files:
+      - "REFERENCE-LIBRARY.md"
   - title: "🧭 Activity → Module / Lab"
     description: "แผนที่อ่านเสริมตามบท ไม่ใช่เส้นทางที่ต้องอ่านซ้ำทั้งหมด"
     files:

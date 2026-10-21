@@ -276,3 +276,62 @@ Course edition ปัจจุบันแสดง lab ที่เกี่ย
 - [Compute Engine networking overview](https://docs.cloud.google.com/compute/docs/networking/network-overview)
 - [Private Google Access](https://docs.cloud.google.com/vpc/docs/private-google-access)
 - [Cloud NAT overview](https://docs.cloud.google.com/nat/docs/overview)
+
+## 📚 Deep Learning Notes — เดิน Packet หนึ่งเที่ยวจาก Internet ถึง VM (Original Supplement, 2026-10-21)
+
+### 1. VPC, Subnet, IP, Route, Firewall ทำงานคนละส่วน
+
+```mermaid
+flowchart LR
+ U[Browser] --> D[Public DNS]
+ D --> IP[Public address]
+ IP --> NIC[VM NIC in regional subnet]
+ NIC --> FW{VPC firewall permits ingress?}
+ FW -->|Yes| OS[OS firewall / listener port]
+ FW -->|No| X[Traffic blocked]
+ OS --> APP[Web process]
+```
+
+**VPC** เป็น Virtual Network ที่มีขอบเขต Global; **Subnet** อยู่ใน Region โดยกำหนด IP Range; **VM NIC** ต้องอยู่ใน Subnet; **Routes** ใช้เลือก Next Hop สำหรับ Packet และ **Firewall Rules/Policies** ตรวจว่าทราฟฟิกผ่านหรือไม่. สร้าง Route สำเร็จไม่ได้หมายความว่า TCP 443 ผ่าน; เปิด Firewall TCP 443 ไม่ได้หมายความว่า Web Server Listening 443
+
+### 2. ลองวิเคราะห์ระบบจริงที่มี VM แต่เข้าเว็บไม่ได้
+
+สมมติ VM อยู่ `asia-southeast1-b`, Web App Listening TCP 8080 และมี External IP. Client เข้า `https://site.example.test` แล้ว Timeout:
+
+| ชั้น | สิ่งที่ตรวจ | ถ้าผิดจะเห็นอะไร |
+|---|---|---|
+| DNS | A/AAAA Record ชี้ที่ Endpoint ไหน | Resolve ผิด Address หรือ Public DNS ไม่มี |
+| IP/Route | VM มี External IP หรือ LB Frontend หรือไม่ | Traffic ไปไม่ถึง Destination |
+| VPC Firewall | Allow TCP Port/Target Tag หรือ Service Account ตรงไหม | Rule อาจไม่ Apply แม้มี Allow Rule อยู่ |
+| OS Firewall | Host เปิด Listener Inbound หรือไม่ | TCP Block หรือ Connection Refused |
+| Process | App รันและ Bind Address/Port ถูกไหม | Connection Refused/HTTP 5xx |
+| Health | ถ้าใช้ Load Balancer — Probe Path/Port และ Backend Status | Backend UNHEALTHY |
+
+**ข้อควรจำ:** Cloud NAT ใช้ให้ VM ที่ไม่มี External IP ออกไปยัง Internet Destination ตาม Routes ได้; ไม่ใช่ Service ที่เปิด Inbound เข้าหา VM โดยตรง. Private Google Access สำหรับ Google APIs มีเงื่อนไขต่างจาก Outbound Internet ผ่าน Cloud NAT
+
+### 3. Read-only CLI Diagnostics ก่อนแก้ VPC
+
+```bash
+# Only against your assigned lab project. Commands inspect, do not create resources.
+gcloud config list
+gcloud compute networks list --project=LAB_PROJECT_ID
+gcloud compute networks subnets list --project=LAB_PROJECT_ID
+gcloud compute firewall-rules list --project=LAB_PROJECT_ID
+gcloud compute instances list --project=LAB_PROJECT_ID
+```
+
+`LAB_PROJECT_ID` เป็น Placeholder. ตีความ Routes/NAT/Firewall จาก Network ที่ VM ใช้จริง ไม่ใช่แค่จำนวน Rules ใน Project. สำหรับองค์กรที่ใช้ Hierarchical Firewall Policies ต้องตรวจระดับ Org/Folder ด้วย — Project Rule เพียงอย่างเดียวอาจไม่อธิบาย Decision ทั้งหมด
+
+### 4. จำ Cost / Security Trade-off ก่อนเลือก Architecture
+
+- Public VM มี External Attack Surface มากกว่า Private VM + IAP/Approved Access Pattern; ถ้า Web App ต้อง Public อาจใช้ Managed Load Balancer และ Backend Private พร้อม Health Check
+- Auto-mode Subnets อาจไม่เหมาะเมื่อวาง Addressing Plan กับ On-prem VPN หรือ CIDR ของระบบอื่น; Custom-mode ช่วยกำหนด Range ด้วยตัวเอง
+- Marketplace ทำให้ Provisioning ง่าย แต่ต้อง Review IAM, VM Size, Persistent Disks, Licensing และ Billing ก่อนกด Deploy
+
+### 🎯 Mini-case ปิดหนังสือ
+
+Private VM ต้อง `apt update` ออก Internet แต่ไม่มี External IP. หลัง Setup Cloud NAT แล้วยังไม่ได้: เขียน Decision Tree ตรวจ Default Route, Cloud Router/NAT Attachment, Region, Firewall Egress, Guest DNS และ Proxy ก่อนเสนอ “เปิด External IP ชั่วคราว”
+
+**Official references:** [VPC Overview](https://cloud.google.com/vpc/docs/vpc) · [VPC Firewall](https://cloud.google.com/firewall/docs/firewalls) · [Cloud NAT](https://cloud.google.com/nat/docs/overview) · [Private Google Access](https://cloud.google.com/vpc/docs/private-google-access).
+
+**Lab note:** Diagram และ Diagnostics เป็น Original Companion Explanation; ไม่ได้ Execute VM/NAT และไม่ใช่คำสั่ง Grader ทางการ

@@ -16,6 +16,14 @@
 > **QA evidence:** [ACE-100-PERCENT-QA-MATRIX.md](./ACE-100-PERCENT-QA-MATRIX.md)  
 > โน้ตสำหรับคนที่ชอบอ่าน: อธิบายเหตุผล วิธีทำงาน ตัวอย่างงาน System Admin และวิธีเลือกบริการ ไม่ใช่รายการคำศัพท์ให้ท่องอย่างเดียว
 
+## 📖 ฉบับอ่านเต็มในหน้า Activity (21 ตุลาคม 2026)
+
+ปรับปรุง **17 Activities ทุกบท** ด้วย `Deep Learning Notes` แยกตามหัวข้อจริงของกิจกรรมนั้น โดยมี Original Mermaid Diagram ในแต่ละ Activity, กรณีตัวอย่างที่ใช้แก้ปัญหาได้, Decision / Trade-off และคำถามทบทวน. **ไม่จำเป็นต้องเปิด Module เพิ่มจึงจะเข้าใจ Concept หลัก**.
+
+[📚 คลังอ้างอิงและภาพรวมทุก Module/Lab (Optional)](./REFERENCE-LIBRARY.md) เป็นที่รวม Modules 13 ชุด, Companion Labs 6 ชุด และ Visual Guide เดิมโดยยังไม่ลบเนื้อหา. Website sidebar แสดง 17 Activities เป็นเส้นทางหลัก และมีทางเข้า Reference Library เพียงจุดเดียว
+
+**ข้อจำกัด:** เป็นการขยาย Original Thai Teaching Notes ไม่ใช่การอ้างว่าถอดความคอร์สหรือ Lab ทางการทุกหน้าครบ 100%; Activity Source ล่าสุดควรตรวจอีกครั้งเมื่อ Google Skills ปรับหลักสูตร
+
 ## 🧭 เรียนแบบไม่วนซ้ำ
 
 **17 Activities = บทเรียนหลักที่ต้องอ่านตามลำดับ** ส่วน 13 Modules เป็นเนื้อหาเจาะลึก และ 6 Companion Labs เป็นแบบฝึกเสริม ไม่ต้องอ่าน/ทำทั้งหมดหลังแต่ละ Activity หากเข้าใจอยู่แล้ว

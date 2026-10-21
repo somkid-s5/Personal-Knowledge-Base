@@ -270,3 +270,60 @@ Alert ควรมี action ผู้รับผิดชอบและ runbo
 - [Cloud Billing export to BigQuery](https://cloud.google.com/billing/docs/how-to/export-data-bigquery)
 - [Cloud Monitoring overview](https://cloud.google.com/monitoring/docs/monitoring-overview)
 - [Cloud Logging overview](https://cloud.google.com/logging/docs/overview)
+
+## 📚 Deep Learning Notes — สร้าง Environment ที่มีสิทธิ์และข้อมูลปลอดภัย (Original Supplement, 2026-10-21)
+
+### 1. Access ใช้งานได้ ไม่ได้แปลว่า Identity ถูกออกแบบปลอดภัย
+
+```mermaid
+flowchart TD
+ A[Principal: user or service account] --> B[IAM binding on resource scope]
+ B --> C[Role: collection of permissions]
+ C --> D{Request authorized?}
+ D -->|Yes| E[Service API]
+ D -->|No| F[Permission denied]
+ E --> G[Resource policy and configuration]
+```
+
+กรณี Web App บน Cloud Run ต้องอ่านไฟล์จาก Cloud Storage: แยก **Developer ที่ Deploy**, **Runtime Service Account** ที่ Code ใช้, **Caller** ที่ Invoke Service และ **Service Agent** ที่ Platform ใช้ทำงานอัตโนมัติ. Identity เหล่านี้ไม่ได้ใช้ Role ชุดเดียวกัน. Grant `roles/editor` ให้ Runtime Service Account เพื่อให้ Error หายเป็น Shortcut ที่เพิ่ม Blast Radius หาก App ถูก Exploit
+
+### 2. IAM vs Cloud Storage Access: สถานการณ์ที่คนจำผิด
+
+Bucket `finance-archive` เปิด Uniform Bucket-Level Access แล้ว: ควรคิดจาก IAM/Resource Policy แทนการหวัง Object ACL เฉพาะ Object. หาก Application ต้องอ่าน Object เท่านั้น ให้พิจารณา `roles/storage.objectViewer` บน Scope ที่เหมาะสมและ Conditions เมื่อจำเป็น; อย่าให้ Project Owner เพียงเพื่อทดสอบ Download
+
+**Storage Class ไม่เท่ากับ Encryption:** Standard/Nearline/Coldline/Archive เลือกจาก Access Frequency/Retention/Cost Policy ส่วน Encryption-at-rest ถูกจัดการตาม Service Configuration และ CMEK เพิ่มงานดูแล Key/Service Agent Permissions. Data Encryption กับ IAM Authorization เป็นคนละ Layer
+
+### 3. Cloud SQL: Managed Database ยังต้องมี DBA Decisions
+
+| สิ่งที่ Google ดูแล | สิ่งที่ DBA/App Owner ยังต้องวางแผน |
+|---|---|
+| Infrastructure of managed instance | Database Users, Roles, Schema และ Application Queries |
+| Maintenance automation options | Maintenance Window, Connection Pool และ Compatibility Testing |
+| Backup/PITR features (ตามการตั้งค่าและ Edition) | Restore Drill, RPO/RTO, Retention, HA/Replica Design |
+| Monitoring integrations | Slow Queries, Query Insights, Capacity และ Alert Runbook |
+
+ตัวอย่าง: App ช้าแต่ CPU VM ต่ำ. ปัญหาอาจเป็น Connection Pool Saturation, Long Transactions, Database Lock หรือ Storage Latency — การเพิ่ม VM Count ไม่แก้ Database Bottleneck
+
+### 4. Monitoring ≠ Logging ≠ Audit
+
+**Metrics** บอกการเปลี่ยนแปลงเชิงตัวเลข, **Logs** บอกเหตุการณ์/Context, **Audit Logs** ช่วยตอบว่าใครพยายามทำอะไรภายใน Scope/Policy ที่กำหนด. Alert ว่า CPU เกิน 80% อย่างเดียวไม่สามารถบอก User Impact; จับคู่ p95 Request Latency, Error Rate, Saturation, Database Connections และ Incident Timeline
+
+### 5. Read-only Inspection (อย่าสั่งแก้ใน Production)
+
+```bash
+gcloud auth list
+gcloud config list
+gcloud storage buckets list --project=LAB_PROJECT_ID
+gcloud sql instances list --project=LAB_PROJECT_ID
+gcloud logging logs list --project=LAB_PROJECT_ID
+```
+
+Resource List อาจได้ Permission Denied ซึ่งเป็นหลักฐานให้วิเคราะห์ IAM ต่อ ไม่ใช่เหตุผลที่ต้อง Grant `Owner` ให้ทุกคน. Cloud Storage Bucket Location, Database Version และ Retention Policy เป็นข้อมูลใน Inventory ที่ต้อง Review ก่อนเปลี่ยนใด ๆ
+
+### 6. Incident walkthrough
+
+ผู้ใช้เปิด Object ไม่ได้หลังย้าย Project: ตรวจ Active Account → Bucket Name/Project → IAM Scope → Uniform Bucket-level Access → Org Policy/Retention/Key Permissions → Audit Log Outcome. ต้องแยก `403 Permission Denied` จาก `404 Not Found` และเหตุที่ Service Account ถูกใช้แทน End User
+
+**Official references:** [IAM Overview](https://cloud.google.com/iam/docs/overview) · [Cloud Storage IAM](https://cloud.google.com/storage/docs/access-control/iam) · [Cloud SQL Overview](https://cloud.google.com/sql/docs/introduction) · [Cloud Monitoring](https://cloud.google.com/monitoring/docs/monitoring-overview).
+
+**Checkpoint:** อธิบายให้ได้ว่าทำไม Grant Role, Enable API, เปิด Network และ Configure Database เป็น 4 ขั้นที่ไม่แทนกัน

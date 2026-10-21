@@ -186,3 +186,63 @@ Terraform configuration เป็น desired resource graph ที่อ่า�
 - [Autoscaling groups of instances](https://cloud.google.com/compute/docs/autoscaler)
 - [Cloud Load Balancing overview](https://cloud.google.com/load-balancing/docs/load-balancing-overview)
 - [Terraform on Google Cloud](https://cloud.google.com/docs/terraform)
+
+## 📚 Deep Learning Notes — ออกแบบ Scale แบบ End-to-End (Original Supplement, 2026-10-21)
+
+### 1. Request Flow: Load Balancer กับ MIG ต้องสื่อสารผ่าน Health
+
+```mermaid
+flowchart LR
+ C[Client] --> FE[Load Balancer forwarding rule]
+ FE --> UM[URL map / target proxy]
+ UM --> BS[Backend service]
+ HC[Health check] --> BS
+ BS --> MIG[Managed instance group]
+ MIG --> V1[VM replica 1]
+ MIG --> V2[VM replica 2]
+ A[Autoscaler] --> MIG
+```
+
+**MIG** รับหน้าที่ดูแลสมาชิกจาก Instance Template และรักษาจำนวน Replica ตาม Policy; **Load Balancer** ตัดสินใจกระจาย Request ไปยัง Backend ที่ผ่าน Health Checks. `autoscaling` เพิ่ม/ลด Capacity จาก Metric ส่วน `autohealing` เปลี่ยน VM ที่ Health Check ไม่ผ่าน — อย่าเข้าใจว่าสองอย่างนี้เหมือนกัน
+
+**Instance Template** ไม่ได้แก้ไข Instance เดิมให้เปลี่ยน Machine Type/Startup Script เองเมื่อมี Template ใหม่ ต้องวางแผน Rolling/Canary Update ตาม Deployment Strategy
+
+### 2. Why Health Check is More Than a Green Icon
+
+ถ้าหน้าเว็บยังเปิดได้แต่ `/healthz` ตอบ HTTP 500 เพราะ Database Down: การให้ LB นำ VM ออกจาก Backend ทันทีอาจช่วยป้องกัน Request ล้มเหลว แต่ถ้าทุก VM ใช้ DB เดียวกันที่ล่ม ทุก Backend อาจถูก Mark Unhealthy พร้อมกัน. Health Check จึงต้องออกแบบ **Failure Domain และ Dependency** ไม่ใช่เช็กเพียง Process ยังอยู่
+
+### 3. VPN/Peering/Interconnect — เลือกจากความสัมพันธ์ Network
+
+| Requirement | ตัวเลือกให้พิจารณา | ความเสี่ยงที่ต้องอธิบาย |
+|---|---|---|
+| On-prem ↔ GCP over encrypted Internet tunnels | HA VPN + Cloud Router/BGP | Dynamic Route, Peer Compatibility, Shared CIDR, Failover |
+| เชื่อมสอง VPC ไม่ให้ Traffic วิ่งผ่าน Public Internet | VPC Network Peering | Route Exchange Limits / Non-Transitive, Overlapping IP |
+| Private connectivity with dedicated bandwidth | Cloud Interconnect / Partner Interconnect | Dedicated Circuit, Availability SLA และ Cost |
+| Multi-project service sharing | Shared VPC | Host/Service Project IAM/Org Scope |
+
+### 4. Terraform ไม่ใช่ Script สั่ง API เฉย ๆ
+
+Terraform Configuration ระบุ Desired State; `terraform plan` เปรียบเทียบ State/Current Resources กับ Config และแสดงสิ่งที่จะเปลี่ยน. ถ้า Terraform State สูญหาย อาจมี Resource อยู่บน Cloud แต่ Tool มองว่าไม่มี; ห้ามรัน `terraform apply` เพื่อเดาแก้ เพราะอาจสร้างซ้ำหรือ Replace Resource ที่ใช้งานจริง
+
+```mermaid
+flowchart LR
+ C[HCL configuration] --> P[terraform plan]
+ S[State and provider reads] --> P
+ P --> R{Proposed change safe?}
+ R -->|Yes after approval| A[Apply on sandbox]
+ R -->|No or uncertain| H[Review state and drift]
+```
+
+### 5. Incident: Load Balancer คืน 502 หลัง Scale Out
+
+1. ตรวจ `Backend Service` และ MIG Members ตาม Region/Zone พร้อม Health Check Port/Path
+2. ดูว่า New VM Boot Image/Startup Script พร้อมเปิด Service จริงหรือยัง
+3. ตรวจ Firewall Allow สำหรับ Load Balancer Health Check Ranges/Target Rules (ให้ตรง LB Product Type)
+4. เช็ก Instance Group Named Ports/Backend Service Settings ถ้า Applicable
+5. เทียบ App Logs และ Timeout กับ Dependency เช่น Database/Pub/Sub ไม่สรุปว่า MIG พังเพียงเพราะเจอ 502
+
+**Mini design:** มี Web Workload ที่ peak สูง 15 นาทีต่อวัน จงอธิบาย Scale-in Cooldown, Minimum Replicas, Stateful Session Risk, Database Connection Pressure และ Budget Guardrail ก่อนเสนอ Autoscaling Policy
+
+**Official references:** [Managed Instance Groups](https://cloud.google.com/compute/docs/instance-groups) · [Cloud Load Balancing](https://cloud.google.com/load-balancing/docs/load-balancing-overview) · [VPC Peering](https://cloud.google.com/vpc/docs/vpc-peering) · [Terraform on Google Cloud](https://cloud.google.com/docs/terraform).
+
+**Status:** Architecture/Tabletop notes only; ไม่ใช่ผล Lab หรือการสร้างทรัพยากรจริง
