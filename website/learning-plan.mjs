@@ -40,12 +40,13 @@ export const courses = dirs.map((dir) => {
       if (support !== undefined) {
         const modules = support.modules ?? [];
         const labs = support.labs ?? [];
-        if (!Array.isArray(modules) || !Array.isArray(labs)) {
+        const projects = support.projects ?? [];
+        if (!Array.isArray(modules) || !Array.isArray(labs) || !Array.isArray(projects)) {
           throw new Error('Invalid related content for ' + f);
         }
-        const refs = [...modules, ...labs].map(prefixed);
+        const refs = [...modules, ...labs, ...projects].map(prefixed);
         if (new Set(refs.map(normalize)).size !== refs.length) throw new Error('Repeated related file on ' + f);
-        related.set(slug(f), { modules: modules.map(prefixed), labs: labs.map(prefixed) });
+        related.set(slug(f), { modules: modules.map(prefixed), labs: labs.map(prefixed), projects: projects.map(prefixed) });
       }
       return f;
     }),
@@ -61,7 +62,7 @@ export const courses = dirs.map((dir) => {
     }),
   }));
   for (const [lesson, links] of related) {
-    for (const target of [...links.modules, ...links.labs]) {
+    for (const target of [...links.modules, ...links.labs, ...links.projects]) {
       if (!files.has(normalize(target)) || ids.has(slug(target))) {
         throw new Error('Related link must be a curated supplement: ' + lesson + ' → ' + target);
       }

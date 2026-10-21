@@ -14,17 +14,23 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-MEMORY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
+## 🧭 เรียน AWS แบบไม่อ่านซ้ำ
+
+**เส้นทางหลัก:** 13 Architecture Modules → Current SAA Scope Deep Dive → Scenarios (15 ขั้น) ส่วน **7 Labs** และ **35 Project Workbooks (00–34)** เป็นแบบฝึกเสริม ไม่ใช่เงื่อนไขก่อนสอบหรือก่อนกดจบบทเรียน
+
+[🧪 ตารางเลือก Module → Lab → Project](./AWS-MODULE-LAB-PROJECT-MAP-TH.md) · [🛠️ Project Catalog 00–34](./AWS-PORTFOLIO-PROJECT-CATALOG-TH.md) — จัดกลุ่ม Starter และ Advanced Portfolio ไว้ชัดเจน
+
 ## Start here
 
 This folder is the single AWS learning system in this repository. Do not treat the course, certification notes and project track as separate top-level AWS products.
 
 Use this order:
 
-1. **Know the current target:** open [01-Certification-Core](./01-Certification-Core/) and read the exam guide map / current-scope deep dive.
-2. **Build durable architecture understanding:** study [02-Architecture-Foundation](./02-Architecture-Foundation/) for the full Architecting on AWS 7.12.4 theory layer.
-3. **Return to current gaps:** use the certification core to cover services/objectives that changed beyond the historical course.
-4. **Build it:** use [03-Hands-On-Projects](./03-Hands-On-Projects/) for implementation, troubleshooting, cost and cleanup practice.
-5. **Review:** finish with current-scope scenarios, QA evidence and targeted re-study.
+1. **Orientation:** สำรวจ [SAA Exam Guide Map](./01-Certification-Core/EXAM-GUIDE-MAP.md) เพื่อรู้ว่าโจทย์สอบต้องตัดสินใจเรื่องใด (อ่านภาพรวม ไม่ใช่บทหลักเพิ่ม)
+2. **Foundation:** อ่าน [13 Architecture Modules](./02-Architecture-Foundation/) ตามลำดับใน Learning Hub
+3. **Targeted Practice:** เปิด [Lab/Project Crosswalk](./AWS-MODULE-LAB-PROJECT-MAP-TH.md) เลือกทำเฉพาะหัวข้อที่ต้องการ ไม่ต้องทำ 35 Projects เพื่อจบคอร์ส
+4. **Current SAA Gap:** ใช้ [Current Scope Deep Dive](./01-Certification-Core/CURRENT-SCOPE-DEEP-DIVE.md) ทบทวนเนื้อหาที่เน้นการตัดสินใจสอบและอัปเดตจากคอร์สพื้นฐาน
+5. **Scenarios & Review:** ทำ [Current Scope Scenarios](./01-Certification-Core/CURRENT-SCOPE-SCENARIOS.md) และทบทวนบทที่ยังตอบผิด
 
 ```mermaid
 flowchart LR

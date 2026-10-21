@@ -12,36 +12,115 @@ stages:
     lessons:
       - id: "aws-001"
         file: "02-Architecture-Foundation/Module-01-Architecting-Fundamentals.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-01-Console-and-CLI-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-00-preparation-setup/README.md"
+            - "03-Hands-On-Projects/project-06-3tier-architecture/README.md"
       - id: "aws-002"
         file: "02-Architecture-Foundation/Module-02-Account-Security.md"
+        related:
+          labs: []
+          projects:
+            - "03-Hands-On-Projects/project-02-linux-hardening/README.md"
+            - "03-Hands-On-Projects/project-17-secrets-mgmt/README.md"
       - id: "aws-003"
         file: "02-Architecture-Foundation/Module-03-Networking-1.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-02-Building-VPC-Infrastructure-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-06-3tier-architecture/README.md"
+            - "03-Hands-On-Projects/project-16-advanced-network/README.md"
       - id: "aws-004"
         file: "02-Architecture-Foundation/Module-04-Compute.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-04-High-Availability-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-06-3tier-architecture/README.md"
+            - "03-Hands-On-Projects/project-20-multi-region/README.md"
       - id: "aws-005"
         file: "02-Architecture-Foundation/Module-05-Storage.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-06-CloudFront-S3-Origin-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-01-s3-cloudfront/README.md"
+            - "03-Hands-On-Projects/project-10-cost-optimizer/README.md"
   - title: "ออกแบบระบบให้ดูแลได้จริง"
     description: "บท 06–10: Database, Scaling, Automation, Containers และ Advanced Networking"
     lessons:
       - id: "aws-006"
         file: "02-Architecture-Foundation/Module-06-Database-Services.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-03-Database-Layer-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-06-3tier-architecture/README.md"
+            - "03-Hands-On-Projects/project-15-dr-system/README.md"
       - id: "aws-007"
         file: "02-Architecture-Foundation/Module-07-Monitoring-and-Scaling.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-04-High-Availability-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-05-monitoring/README.md"
+            - "03-Hands-On-Projects/project-14-logging/README.md"
       - id: "aws-008"
         file: "02-Architecture-Foundation/Module-08-Automation.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-07-Capstone-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-04-bash-toolkit/README.md"
+            - "03-Hands-On-Projects/project-07-cicd-pipeline/README.md"
+            - "03-Hands-On-Projects/project-11-multi-env-terraform/README.md"
       - id: "aws-009"
         file: "02-Architecture-Foundation/Module-09-Containers.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-07-Capstone-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-03-flask-docker/README.md"
+            - "03-Hands-On-Projects/project-09-container-security/README.md"
+            - "03-Hands-On-Projects/project-12-eks-prod/README.md"
       - id: "aws-010"
         file: "02-Architecture-Foundation/Module-10-Networking-2.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-02-Building-VPC-Infrastructure-TH.md"
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-04-High-Availability-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-16-advanced-network/README.md"
+            - "03-Hands-On-Projects/project-31-hybrid-networking/README.md"
   - title: "บริการสมัยใหม่และความทนทาน"
     description: "บท 11–13: Serverless, Edge และ Backup/Recovery"
     lessons:
       - id: "aws-011"
         file: "02-Architecture-Foundation/Module-11-Serverless.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-05-Serverless-Architecture-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-08-serverless-app/README.md"
+            - "03-Hands-On-Projects/project-24-event-driven/README.md"
       - id: "aws-012"
         file: "02-Architecture-Foundation/Module-12-Edge-Services.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-06-CloudFront-S3-Origin-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-01-s3-cloudfront/README.md"
       - id: "aws-013"
         file: "02-Architecture-Foundation/Module-13-Backup-and-Recovery.md"
+        related:
+          labs:
+            - "02-Architecture-Foundation/Lab-Guide-TH/Lab-07-Capstone-TH.md"
+          projects:
+            - "03-Hands-On-Projects/project-15-dr-system/README.md"
+            - "03-Hands-On-Projects/project-20-multi-region/README.md"
   - title: "อัปเดตขอบเขต SAA-C03"
     description: "กลับมาทบทวน Service Decision และหัวข้อเพิ่มเติมของการสอบ"
     lessons:
@@ -53,8 +132,13 @@ stages:
       - id: "aws-015"
         file: "01-Certification-Core/CURRENT-SCOPE-SCENARIOS.md"
 supplements:
-  - title: "🧪 Labs ประกบความเข้าใจ"
-    description: "ฝึก 7 Labs ตามความพร้อมและค่าใช้จ่ายที่ยอมรับได้"
+  - title: "🧭 Module → Lab / Project Map"
+    description: "อ่าน 13 Modules ตามลำดับ แล้วเลือก Lab/Project เฉพาะหัวข้อที่ต้องการฝึก"
+    files:
+      - "AWS-MODULE-LAB-PROJECT-MAP-TH.md"
+      - "AWS-PORTFOLIO-PROJECT-CATALOG-TH.md"
+  - title: "🧪 Labs 01–07"
+    description: "Lab Guide 7 ชุด ฝึกประกอบ Modules ตามความพร้อมและค่าใช้จ่าย"
     files:
       - "02-Architecture-Foundation/Lab-Guide-TH/Lab-01-Console-and-CLI-TH.md"
       - "02-Architecture-Foundation/Lab-Guide-TH/Lab-02-Building-VPC-Infrastructure-TH.md"
@@ -63,18 +147,49 @@ supplements:
       - "02-Architecture-Foundation/Lab-Guide-TH/Lab-05-Serverless-Architecture-TH.md"
       - "02-Architecture-Foundation/Lab-Guide-TH/Lab-06-CloudFront-S3-Origin-TH.md"
       - "02-Architecture-Foundation/Lab-Guide-TH/Lab-07-Capstone-TH.md"
-  - title: "🛠️ Portfolio Projects (เลือกทำ)"
-    description: "งานฝึกจริงบางโครงการจากชุด 00–34 ไม่ใช่เงื่อนไขจบ SAA"
+  - title: "🛠️ Starter Projects 00–11"
+    description: "Project แบบฝึกต่อยอด เลือกทำได้ ไม่ใช่ส่วนบังคับในการสอบ SAA"
     files:
       - "03-Hands-On-Projects/project-00-preparation-setup/README.md"
       - "03-Hands-On-Projects/project-01-s3-cloudfront/README.md"
+      - "03-Hands-On-Projects/project-02-linux-hardening/README.md"
+      - "03-Hands-On-Projects/project-03-flask-docker/README.md"
+      - "03-Hands-On-Projects/project-04-bash-toolkit/README.md"
+      - "03-Hands-On-Projects/project-05-monitoring/README.md"
       - "03-Hands-On-Projects/project-06-3tier-architecture/README.md"
+      - "03-Hands-On-Projects/project-07-cicd-pipeline/README.md"
       - "03-Hands-On-Projects/project-08-serverless-app/README.md"
+      - "03-Hands-On-Projects/project-09-container-security/README.md"
       - "03-Hands-On-Projects/project-10-cost-optimizer/README.md"
+      - "03-Hands-On-Projects/project-11-multi-env-terraform/README.md"
+  - title: "🚀 Advanced Portfolio 12–34"
+    description: "งาน Portfolio ระดับ Kubernetes, Platform, Security, FinOps และ Enterprise นอกเหนือจาก SAA core"
+    files:
+      - "03-Hands-On-Projects/project-12-eks-prod/README.md"
+      - "03-Hands-On-Projects/project-13-istio-mesh/README.md"
+      - "03-Hands-On-Projects/project-14-logging/README.md"
       - "03-Hands-On-Projects/project-15-dr-system/README.md"
+      - "03-Hands-On-Projects/project-16-advanced-network/README.md"
+      - "03-Hands-On-Projects/project-17-secrets-mgmt/README.md"
+      - "03-Hands-On-Projects/project-18-finops-dashboard/README.md"
+      - "03-Hands-On-Projects/project-19-backstage-idp/README.md"
+      - "03-Hands-On-Projects/project-20-multi-region/README.md"
+      - "03-Hands-On-Projects/project-21-security-compliance/README.md"
+      - "03-Hands-On-Projects/project-22-chaos-engineering/README.md"
+      - "03-Hands-On-Projects/project-23-ml-infra/README.md"
+      - "03-Hands-On-Projects/project-24-event-driven/README.md"
+      - "03-Hands-On-Projects/project-25-zero-trust/README.md"
+      - "03-Hands-On-Projects/project-26-migration-framework/README.md"
+      - "03-Hands-On-Projects/project-27-gitops-enterprise/README.md"
+      - "03-Hands-On-Projects/project-28-observability-platform/README.md"
+      - "03-Hands-On-Projects/project-29-finops-maturity/README.md"
+      - "03-Hands-On-Projects/project-30-cloud-native-secops/README.md"
+      - "03-Hands-On-Projects/project-31-hybrid-networking/README.md"
+      - "03-Hands-On-Projects/project-32-cost-optimization-sp/README.md"
+      - "03-Hands-On-Projects/project-33-advanced-observability/README.md"
       - "03-Hands-On-Projects/project-34-full-architecture/README.md"
-  - title: "🧠 ทบทวนเพิ่มเติม"
-    description: "Visual, Cheat Sheet และ Mock Exam"
+  - title: "🧠 Review & Practice"
+    description: "Visual, Cheat Sheet และ Mock Exam ไว้ทบทวนหลังเรียน"
     files:
       - "VISUAL-MEMORY-GUIDE-TH.md"
       - "02-Architecture-Foundation/Architecting-on-AWS_Cheat-Sheet.md"

@@ -112,7 +112,7 @@ for (const c of courses) {
   for (const [key, links] of c.related) {
     const main = mainFiles(c).find(file => slug(file) === key);
     if (!main) throw new Error('No primary Activity for supplemental links: ' + key);
-    for (const target of [...links.modules, ...links.labs]) {
+    for (const target of [...links.modules, ...links.labs, ...links.projects]) {
       const id = normalize(target);
       if (!reverseLinks.has(id)) reverseLinks.set(id, []);
       reverseLinks.get(id).push(main);
@@ -132,11 +132,11 @@ function relatedTitle(file) {
 function relatedSection(rel) {
   const course = courses.find(c => c.related.has(slug(rel)));
   const links = course?.related.get(slug(rel));
-  if (links && (links.modules.length || links.labs.length)) {
+  if (links && (links.modules.length || links.labs.length || links.projects.length)) {
     const lines = [
       '', '---', '', '## 🔬 อ่านเจาะลึกและฝึกเพิ่ม (ไม่บังคับ)', '',
-      'บทนี้อยู่ในเส้นทางเรียนหลักแล้ว **ไม่จำเป็นต้องอ่าน Module ทั้ง 13 บทซ้ำ**',
-      'หากยังสงสัย ให้เลือกอ่านเฉพาะหัวข้อหรือลอง Companion Lab ที่เกี่ยวข้อง', ''
+      'เรียนบทหลักตามลำดับ ส่วนลิงก์ด้านล่างเป็นเนื้อหาเสริมหรือแบบฝึก ไม่จำเป็นต้องทำทั้งหมดก่อนบทถัดไป',
+      'หากต้องการเจาะลึกหรือลงมือทำ ให้เลือกเปิดเฉพาะสิ่งที่เกี่ยวข้องกับเป้าหมาย', ''
     ];
     if (links.modules.length) {
       lines.push('**📚 Modules — เจาะลึกตามหัวข้อ**', '');
@@ -148,8 +148,19 @@ function relatedSection(rel) {
       for (const file of links.labs) lines.push('- [' + relatedTitle(file) + '](' + publicUrl(slugFor(file)) + ')');
       lines.push('');
     }
-    lines.push('[🗺️ ตารางจับคู่ Activities / Modules / Labs](' +
-      publicUrl(slugFor('GCP-ACE/ACTIVITY-TO-MODULE-MAP-TH.md')) + ')');
+    if (links.projects.length) {
+      lines.push('**🛠️ Optional Portfolio Projects — เลือกทำเพื่อประสบการณ์ ไม่ใช่ข้อบังคับก่อนสอบ**', '');
+      for (const file of links.projects) lines.push('- [' + relatedTitle(file) + '](' + publicUrl(slugFor(file)) + ')');
+      lines.push('');
+    }
+    if (course.dir === 'GCP-ACE') {
+      lines.push('[🗺️ ตารางจับคู่ Activities / Modules / Labs](' +
+        publicUrl(slugFor('GCP-ACE/ACTIVITY-TO-MODULE-MAP-TH.md')) + ')');
+    }
+    if (course.dir === 'AWS-SAA-C03') {
+      lines.push('[🗺️ ตารางจับคู่ Modules / Labs / Projects](' +
+        publicUrl(slugFor('AWS-SAA-C03/AWS-MODULE-LAB-PROJECT-MAP-TH.md')) + ')');
+    }
     return lines.join('\n') + '\n';
   }
   const back = reverseLinks.get(normalize(rel)) || [];
@@ -239,6 +250,11 @@ for (const c of courses) {
     'ทำแต่ละขั้นตามลำดับด้านล่าง ระบบจะบันทึกเฉพาะบทในเส้นทางหลักเป็นความคืบหน้าของวิชานี้',
     '',
   ];
+  if (c.dir === 'AWS-SAA-C03') {
+    overview.push('', '🛠️ **อ่าน Architecture 13 Modules → ฝึก Lab หรือ Project เฉพาะที่ต้องการ**', '',
+      '[🧭 ตารางจับคู่ 13 Modules / 7 Labs / 35 Projects](' +
+      publicUrl(slugFor('AWS-SAA-C03/AWS-MODULE-LAB-PROJECT-MAP-TH.md')) + ')', '');
+  }
   if (c.dir === 'GCP-ACE') {
     overview.push('', '🔬 **อ่าน Activity เป็นหลัก → Module/Lab เลือกตามที่ยังไม่เข้าใจ**', '',
       '[🧭 ตารางจับคู่ 17 Activities / 13 Modules / 6 Labs](' +

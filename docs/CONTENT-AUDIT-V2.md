@@ -65,3 +65,13 @@ npm run audit:content
 - เพิ่มตาราง [Activity → Module → Lab](../GCP-ACE/ACTIVITY-TO-MODULE-MAP-TH.md) เชื่อมเส้นทางตามหัวข้อที่ต้องการเจาะลึก โดยไม่คัดลอกเนื้อหาบทเรียนเข้าไฟล์ใหม่
 - สร้าง Contextual Links จาก Course Manifest ให้บทหลักและบทเสริมเชื่อมกันอัตโนมัติ พร้อม Related Link Validation ใน CI
 - การทับซ้อนของ Concepts ระหว่าง Activity/Module ยังถือว่าเป็นบทบาทการสอนต่างกัน **ไม่ใช่ความซ้ำที่ลบได้อัตโนมัติ** หากจะรวมข้อความต้องตรวจ Examples, Commands, Troubleshooting และ Exam Scope ทีละหัวข้อก่อน
+
+## AWS SAA V2 learning-map follow-up — October 21, 2026
+
+- เส้นทางหลักยังเป็น 15 ขั้น: Architecture Modules 01–13 + SAA Current Scope Deep Dive + Scenarios
+- เพิ่ม [13 Modules → 7 Labs → Project Catalog 00–34](../AWS-SAA-C03/AWS-MODULE-LAB-PROJECT-MAP-TH.md) โดยลิงก์แต่ละ Module ไปยัง Lab และ Selected Optional Projects จาก Course Manifest
+- เพิ่ม [Portfolio Catalog](../AWS-SAA-C03/AWS-PORTFOLIO-PROJECT-CATALOG-TH.md) ให้ค้นพบ Project 00–34 รวม 35 Workbook โดยแยก Starter และ Advanced; Advanced projects ไม่ใช่ข้อสอบ SAA core
+- ข้อมูลทั้งหมดเก็บอยู่ไฟล์เดิม ไม่ย้ายหรือลบ Lab/Project และไม่เปลี่ยน Stable Lesson IDs
+- แยก Portfolio Workbooks ออกจากเส้นทางเตรียมสอบและ Progress, ตรวจลิงก์สลับ Module/Project ด้วย CI และ Build QA
+
+**หมายเหตุ:** โครงสร้างนี้จัดลำดับ/บทบาทเพื่อลดการอ่านวนซ้ำ ไม่ใช่ Semantic Deduplication ทุกย่อหน้าและไม่ใช่หลักฐานรัน Project จริง
