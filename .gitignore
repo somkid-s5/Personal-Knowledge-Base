@@ -30,3 +30,6 @@ service-account*.json
 *.tfstate.*
 crash.log
 crash.*.log
+
+# Oracle sandbox actual results / private evidence (must not enter public GitHub)
+Oracle-Database/10-Labs/Sandbox-Validation/private/

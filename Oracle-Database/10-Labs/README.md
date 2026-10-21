@@ -53,6 +53,12 @@ This repository will create **original companion labs** that practice the same s
 
 เลือก Script ให้ตรงกับ Lab 01/02/08/09/10/11/12/13 แล้วบันทึก Expected, Actual, Oracle Version/RU, Privilege/ORA Error และผลที่ Redact ใน Private Evidence. **ยังไม่ได้รันจริง**; ไม่มี Auto-runner และห้ามใช้บน Production. ถ้า View ใช้ไม่ได้ให้บันทึก SKIPPED_PRIVILEGE แทนการเพิ่ม DBA/SYSDBA.
 
+### ✅ Offline Evidence Review
+
+[📋 Machine-readable Evidence Template](./Sandbox-Validation/EVIDENCE-INPUT-TEMPLATE.json) · [🧾 Portfolio Evidence Worksheet](./Sandbox-Validation/VALIDATION-EVIDENCE-TEMPLATE.md)
+
+`python3 Oracle-Database/qa/assess_sandbox_evidence.py` ตรวจว่า Case `PASSED` มี Approval/Time/Reviewer/Evidence Reference ครบ แต่ไม่ตรวจข้อมูลจริงบน Oracle. ยังต้องให้ Reviewer อิสระอ่าน Sanitized Evidence ก่อนยกระดับจาก `NOT_EXECUTED`.
+
 ## Planned companion labs
 
 - Future lab — Create a CDB/PDB safely
