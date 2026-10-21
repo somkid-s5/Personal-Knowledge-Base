@@ -242,7 +242,7 @@ ACE Exam Guide ที่ลิงก์จากหน้ารับรอง�
 
 กิจกรรมนี้ต้องแยกจาก Activity เชิงบริการอย่าง Compute Engine หรือ GKE เพราะเน้น **วิธีทำ Study Guide สำหรับ ACE**. ถ้าเติม Lab สร้าง Resource เข้าไปตรงนี้จะยิ่งทำให้ลำดับ Google Skills มั่วกว่าเดิม. จึงใช้ตัวอย่าง **จัดบทเรียนหนึ่งหัวข้อ (IAM)** ให้เข้าใจและจำได้จริงแทน
 
-~~~mermaid
+```mermaid
 flowchart TD
  A[Official Exam Guide objective] --> B[Current Google Cloud docs]
  B --> C[Original Thai explanation]
@@ -252,7 +252,7 @@ flowchart TD
  F -->|No| B
  F -->|Yes| G[Practice in official lab]
  G --> H[Evidence and spaced review]
-~~~
+```
 
 ### ตัวอย่างโน้ตคุณภาพสำหรับ Objective: IAM
 

@@ -199,7 +199,7 @@ DMS เป็นเครื่องมือ migration workflow ไม่ใ�
 
 ### 1. Decision Tree สำหรับ DBA ย้ายจาก On-prem ไป Cloud
 
-~~~mermaid
+```mermaid
 flowchart TD
  W{Workload characteristic} -->|SQL OLTP with existing app| SQL[Cloud SQL / AlloyDB]
  W -->|Global SQL transactional scale| SP[Spanner]
@@ -211,7 +211,7 @@ flowchart TD
  BQ --> P[Partitioning, clustering and spend planning]
  FS --> I[Document indexes and transaction limits]
  BT --> K[Row-key hotspot design]
-~~~
+```
 
 **Cloud SQL/AlloyDB** เป็น Relational Database สำหรับ Transactional Workloads แต่แต่ละตัวรองรับ Engine/Features/Management Model แตกต่างกัน; **Spanner** เน้น Distributed Relational Consistency/Scale; **BigQuery** เป็น Analytical Warehouse ไม่ควรใช้แทน High-frequency Row-by-row OLTP; **Firestore** เหมาะ Document Data Models; **Bigtable** ต้องออกแบบ Row-key เพื่อหลีกเลี่ยง Hotspots
 

@@ -275,7 +275,7 @@ Alert ควรมี action ผู้รับผิดชอบและ runbo
 
 ### 1. Access ใช้งานได้ ไม่ได้แปลว่า Identity ถูกออกแบบปลอดภัย
 
-~~~mermaid
+```mermaid
 flowchart TD
  A[Principal: user or service account] --> B[IAM binding on resource scope]
  B --> C[Role: collection of permissions]
@@ -283,7 +283,7 @@ flowchart TD
  D -->|Yes| E[Service API]
  D -->|No| F[Permission denied]
  E --> G[Resource policy and configuration]
-~~~
+```
 
 กรณี Web App บน Cloud Run ต้องอ่านไฟล์จาก Cloud Storage: แยก **Developer ที่ Deploy**, **Runtime Service Account** ที่ Code ใช้, **Caller** ที่ Invoke Service และ **Service Agent** ที่ Platform ใช้ทำงานอัตโนมัติ. Identity เหล่านี้ไม่ได้ใช้ Role ชุดเดียวกัน. Grant `roles/editor` ให้ Runtime Service Account เพื่อให้ Error หายเป็น Shortcut ที่เพิ่ม Blast Radius หาก App ถูก Exploit
 
@@ -310,13 +310,13 @@ Bucket `finance-archive` เปิด Uniform Bucket-Level Access แล้ว: 
 
 ### 5. Read-only Inspection (อย่าสั่งแก้ใน Production)
 
-~~~bash
+```bash
 gcloud auth list
 gcloud config list
 gcloud storage buckets list --project=LAB_PROJECT_ID
 gcloud sql instances list --project=LAB_PROJECT_ID
 gcloud logging logs list --project=LAB_PROJECT_ID
-~~~
+```
 
 Resource List อาจได้ Permission Denied ซึ่งเป็นหลักฐานให้วิเคราะห์ IAM ต่อ ไม่ใช่เหตุผลที่ต้อง Grant `Owner` ให้ทุกคน. Cloud Storage Bucket Location, Database Version และ Retention Policy เป็นข้อมูลใน Inventory ที่ต้อง Review ก่อนเปลี่ยนใด ๆ
 

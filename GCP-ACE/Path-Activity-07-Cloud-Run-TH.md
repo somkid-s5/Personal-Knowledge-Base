@@ -190,7 +190,7 @@ Deploy revision ใหม่แบบไม่รับ trafficก่อน แ�
 
 ### 1. Container Serverless ก็ยังมี Runtime Contract
 
-~~~mermaid
+```mermaid
 flowchart LR
  C[HTTP client] --> I[Ingress policy]
  I --> A{Caller authorized?}
@@ -200,7 +200,7 @@ flowchart LR
  S --> R2[Revision B 10 percent]
  R1 --> DB[Downstream database]
  R2 --> DB
-~~~
+```
 
 Cloud Run **Service** เป็น Stable Endpoint ที่ Route Traffic ไปยัง **Revisions** ซึ่งเป็น Immutable Deployment Config Snapshot. การ Roll Back Traffic ไม่ได้ย้อน Database Schema Change หรือ State ภายนอกโดยอัตโนมัติ. App ต้อง Listen ตาม Runtime `PORT` ที่ Platform กำหนดและ Bind `0.0.0.0` ตาม Container Contract; ถ้า Listen `127.0.0.1` อย่างเดียว Health Startup อาจล้มเหลว
 
@@ -222,11 +222,11 @@ Cloud Run **Service** เป็น Stable Endpoint ที่ Route Traffic ไ�
 
 ตรวจ Traffic Split → Revision Ready Condition → Container Startup Logs → PORT/Listen Address → Secret Binding → IAM Runtime Identity → Cloud SQL Connector/Network → Max Instances/Quota. ห้าม Rollout ไป 100% หรือบังคับ Public Invoker เพื่อ “ดูว่าหายไหม” โดยไม่รู้ Root Cause
 
-~~~bash
+```bash
 # Read-only, approved project only:
 gcloud run services describe SERVICE_NAME --region=REGION --project=LAB_PROJECT_ID
 gcloud run revisions list --service=SERVICE_NAME --region=REGION --project=LAB_PROJECT_ID
-~~~
+```
 
 **Official:** [Cloud Run Container Runtime](https://cloud.google.com/run/docs/container-contract) · [Traffic Management](https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration) · [Securing Services](https://cloud.google.com/run/docs/securing/authenticating).
 

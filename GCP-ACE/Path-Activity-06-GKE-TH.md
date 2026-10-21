@@ -207,7 +207,7 @@ GKE มีค่าใช้จ่าย และการลบ namespace ไ�
 
 ### 1. VM กับ Container ไม่ได้มี Failure Model แบบเดียวกัน
 
-~~~mermaid
+```mermaid
 flowchart LR
  S[Source code] --> B[Cloud Build]
  B --> AR[Artifact Registry image]
@@ -218,7 +218,7 @@ flowchart LR
  SV[Service selector] --> P1
  SV --> P2
  I[Ingress or external LB] --> SV
-~~~
+```
 
 **Image** คือไฟล์และ Layers ที่ Reproduce Runtime ได้, **Container** คือ Process ที่ใช้ Image, **Pod** เป็นหน่วย Scheduling/Networking ของ Kubernetes, **Deployment** ระบุ Desired Replicas และ Rollout Strategy, **Service** เป็น Stable Virtual Endpoint ที่เลือก Pod ตาม Labels. ถ้า `Service selector` ไม่ตรง Labels ของ Pod จะไม่มี Endpoint แม้ Pod RUNNING ทั้งหมด
 
@@ -234,14 +234,14 @@ flowchart LR
 
 ### 3. Triage: Pod ไม่พร้อมหลัง Deploy
 
-~~~bash
+```bash
 # Read-only Kubernetes inspections; must use the approved test cluster context.
 kubectl config current-context
 kubectl get deployments,pods,services -n APP_NAMESPACE
 kubectl describe pod POD_NAME -n APP_NAMESPACE
 kubectl get endpoints -n APP_NAMESPACE
 kubectl get events -n APP_NAMESPACE --sort-by=.lastTimestamp
-~~~
+```
 
 แทนชื่อที่เป็น Placeholder ใน Lab ของตัวเองเท่านั้น. **`CrashLoopBackOff`** คือ Container Restart ต่อเนื่องหลัง Start — ตรวจ Logs, Command/Args, Secrets, Startup Dependencies; **`ImagePullBackOff`** คือไม่ Pull Image — ตรวจ Artifact Registry Location/Permissions/Image Reference. **`Pending`** ต้องดู Node Fit (Requests, Taints, Quota) ไม่ใช่ดู Application Log ก่อน เพราะ Container อาจยังไม่เริ่ม
 

@@ -281,7 +281,7 @@ Course edition ปัจจุบันแสดง lab ที่เกี่ย
 
 ### 1. VPC, Subnet, IP, Route, Firewall ทำงานคนละส่วน
 
-~~~mermaid
+```mermaid
 flowchart LR
  U[Browser] --> D[Public DNS]
  D --> IP[Public address]
@@ -290,7 +290,7 @@ flowchart LR
  FW -->|Yes| OS[OS firewall / listener port]
  FW -->|No| X[Traffic blocked]
  OS --> APP[Web process]
-~~~
+```
 
 **VPC** เป็น Virtual Network ที่มีขอบเขต Global; **Subnet** อยู่ใน Region โดยกำหนด IP Range; **VM NIC** ต้องอยู่ใน Subnet; **Routes** ใช้เลือก Next Hop สำหรับ Packet และ **Firewall Rules/Policies** ตรวจว่าทราฟฟิกผ่านหรือไม่. สร้าง Route สำเร็จไม่ได้หมายความว่า TCP 443 ผ่าน; เปิด Firewall TCP 443 ไม่ได้หมายความว่า Web Server Listening 443
 
@@ -311,14 +311,14 @@ flowchart LR
 
 ### 3. Read-only CLI Diagnostics ก่อนแก้ VPC
 
-~~~bash
+```bash
 # Only against your assigned lab project. Commands inspect, do not create resources.
 gcloud config list
 gcloud compute networks list --project=LAB_PROJECT_ID
 gcloud compute networks subnets list --project=LAB_PROJECT_ID
 gcloud compute firewall-rules list --project=LAB_PROJECT_ID
 gcloud compute instances list --project=LAB_PROJECT_ID
-~~~
+```
 
 `LAB_PROJECT_ID` เป็น Placeholder. ตีความ Routes/NAT/Firewall จาก Network ที่ VM ใช้จริง ไม่ใช่แค่จำนวน Rules ใน Project. สำหรับองค์กรที่ใช้ Hierarchical Firewall Policies ต้องตรวจระดับ Org/Folder ด้วย — Project Rule เพียงอย่างเดียวอาจไม่อธิบาย Decision ทั้งหมด
 

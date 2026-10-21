@@ -191,7 +191,7 @@ Terraform configuration เป็น desired resource graph ที่อ่า�
 
 ### 1. Request Flow: Load Balancer กับ MIG ต้องสื่อสารผ่าน Health
 
-~~~mermaid
+```mermaid
 flowchart LR
  C[Client] --> FE[Load Balancer forwarding rule]
  FE --> UM[URL map / target proxy]
@@ -201,7 +201,7 @@ flowchart LR
  MIG --> V1[VM replica 1]
  MIG --> V2[VM replica 2]
  A[Autoscaler] --> MIG
-~~~
+```
 
 **MIG** รับหน้าที่ดูแลสมาชิกจาก Instance Template และรักษาจำนวน Replica ตาม Policy; **Load Balancer** ตัดสินใจกระจาย Request ไปยัง Backend ที่ผ่าน Health Checks. `autoscaling` เพิ่ม/ลด Capacity จาก Metric ส่วน `autohealing` เปลี่ยน VM ที่ Health Check ไม่ผ่าน — อย่าเข้าใจว่าสองอย่างนี้เหมือนกัน
 
@@ -224,14 +224,14 @@ flowchart LR
 
 Terraform Configuration ระบุ Desired State; `terraform plan` เปรียบเทียบ State/Current Resources กับ Config และแสดงสิ่งที่จะเปลี่ยน. ถ้า Terraform State สูญหาย อาจมี Resource อยู่บน Cloud แต่ Tool มองว่าไม่มี; ห้ามรัน `terraform apply` เพื่อเดาแก้ เพราะอาจสร้างซ้ำหรือ Replace Resource ที่ใช้งานจริง
 
-~~~mermaid
+```mermaid
 flowchart LR
  C[HCL configuration] --> P[terraform plan]
  S[State and provider reads] --> P
  P --> R{Proposed change safe?}
  R -->|Yes after approval| A[Apply on sandbox]
  R -->|No or uncertain| H[Review state and drift]
-~~~
+```
 
 ### 5. Incident: Load Balancer คืน 502 หลัง Scale Out
 

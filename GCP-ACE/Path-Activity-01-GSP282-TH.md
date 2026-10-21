@@ -309,7 +309,7 @@ Troubleshooting ให้ไล่ตามลำดับ **บัญชี →
 
 ### ภาพจำ: บัญชีที่ Login ≠ Project ที่เลือก ≠ สิทธิ์ที่มี
 
-~~~mermaid
+```mermaid
 flowchart LR
  A[Google Skills lab starts] --> B[Temporary credentials]
  B --> C[Browser Console session]
@@ -318,7 +318,7 @@ flowchart LR
  E -->|Yes| F[Run approved lab task]
  E -->|No| G[Inspect one boundary at a time]
  G --> C
-~~~
+```
 
 Google Skills Lab สร้าง **Context ชั่วคราว** ที่ไม่ควรปนกับ Personal Project: เธออาจเปิด Chrome ไว้สอง Profiles แล้ว Console แสดงหน้าถูกต้องแต่ล็อกอินด้วย User ส่วนตัว. ถ้าเกิด Error 403, สาเหตุอาจเป็น (1) Browser ใช้ Account ผิด (2) Project Selector เลือก Project ผิด (3) IAM ไม่อนุญาต Action หรือ (4) Organization Policy ที่ห้าม Resource Creation. **ห้ามแก้ด้วยการให้ Owner Role ทุกคน** เพราะเป็นการกลบ Root Cause และไม่ใช่ Least Privilege.
 
@@ -335,14 +335,14 @@ Project name สามารถเปลี่ยนได้ แต่ Project 
 
 ### Read-only triage: ทำไม CLI กับ Console ไม่ตรงกัน
 
-~~~bash
+```bash
 # Read-only inspection — Run only inside the assigned lab Cloud Shell.
 gcloud auth list
 gcloud config configurations list
 gcloud config list
 gcloud projects describe "$(gcloud config get-value project)" --format="yaml(projectId,projectNumber,name)"
 gcloud services list --enabled --format="table(config.name)"
-~~~
+```
 
 ผลลัพธ์แต่ละคำสั่งเป็น **Snapshot**; ถ้า API List ถูกปฏิเสธด้วย Permission Error ให้บันทึก Error และถามว่า Identity หรือ Project ไหนกำลังใช้ แทนการ Activate Service Account แบบสุ่ม. Command `gcloud config set project` เป็นการ **เปลี่ยน Client Context** จึงไม่อยู่ในชุด Read-only นี้
 

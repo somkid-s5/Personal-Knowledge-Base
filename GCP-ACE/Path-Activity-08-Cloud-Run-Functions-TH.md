@@ -212,14 +212,14 @@ Rotation ต้องคำนึงถึง function revisions/instances ท�
 
 ### 1. Event-driven ไม่ได้หมายความว่าเรียกครั้งเดียวเสมอ
 
-~~~mermaid
+```mermaid
 flowchart LR
  E[Cloud Storage object event] --> EV[Eventarc trigger]
  EV --> FN[Cloud Run function]
  FN --> F[Firestore write]
  FN --> L[Cloud Logging]
  EV -->|retry on failure| FN
-~~~
+```
 
 Cloud Run Functions รองรับ Event-driven กับ HTTP Patterns แต่ **Event Delivery/Retries** มี Semantics ที่ต้องอ่านตาม Event Source/Trigger. ออกแบบ Handler ให้ **Idempotent** เพราะ Delivery อาจเกิดซ้ำ และต้องแยก Event ID, Business Key และ Processing Status เพื่อกัน Duplicate Writes
 
