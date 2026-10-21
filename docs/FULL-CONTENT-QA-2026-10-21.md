@@ -50,6 +50,13 @@ npm run qa:content
 4. เก็บ Evidence ที่ปิดบัง Secrets, Internal IP, PII และ Tokens แล้ว พร้อม Cleanup/Restore Proof
 5. ลงสถานะ `DOC_REVIEWED`, `STATIC_QA`, `LAB_EXECUTED` และ `LAB_VALIDATED` แยกกัน; ถ้าไม่มีหลักฐานจริงให้คงเป็น `NOT_EXECUTED`
 
+## 🗄️ Oracle technical validation follow-up — 2026-10-21
+
+- เพิ่ม [Oracle Technical Reference QA Matrix](../Oracle-Database/TECHNICAL-REFERENCE-QA-2026-10-21.md) แยก 5 Case จาก Oracle Official Docs แบบ Cross-version พร้อม Known Documentation Difference ใน 26ai Undo
+- ปรับ Listener Lesson 09 / Lab 02, PDB Lesson 14 / Lab 08, Tablespace Lesson 16, Unified Audit Lesson 22 / Lab 10 และ 19c→26ai Delta
+- เพิ่ม CI Evidence Contract สำหรับ Official URLs, Read-only SQL Examples และ Lesson IDs; ไม่รัน Oracle หรือ Claim ว่า 26ai Behavior ได้ Live-validated
+
+
 ## 🎯 ลำดับ QA เชิงลึกที่ควรดำเนินต่อ
 
 | Priority | เนื้อหา | เหตุผล |

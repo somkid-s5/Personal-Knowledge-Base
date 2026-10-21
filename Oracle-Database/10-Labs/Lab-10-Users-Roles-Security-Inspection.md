@@ -64,6 +64,19 @@ FROM unified_audit_trail ORDER BY event_timestamp DESC FETCH FIRST 10 ROWS ONLY;
 
 No rows ≠ proof of no security events. An audit account may only see authorized records; redact usernames/client details.
 
+## 🔐 Unified Audit Policy Session-Lifecycle Check
+
+ใน Oracle 19c `AUDIT POLICY` ที่เพิ่ง Enable จะครอบคลุมการ Audit กับ Session ใหม่หลังการ Login ตาม Documented Semantics. ก่อนตีความ `UNIFIED_AUDIT_TRAIL` ให้ตรวจ Policy, User/Role Scope และ Login Timeline ด้วยหลักฐานที่ได้รับอนุญาต
+
+```sql
+SELECT policy_name,enabled_option,entity_name,success,failure
+FROM audit_unified_enabled_policies ORDER BY policy_name;
+```
+
+**Scenario:** Policy Enable เวลา 09:00 แต่ Connection Pool ยังใช้ Session จาก 08:30 การไม่มี Audit Rows สำหรับ Action ใน Session เก่า **ยังไม่พอจะสรุปว่า Policy Broken**. ห้ามบังคับ Logout, Restart Pool หรือ Enable/Disable Policy ใน Production เพื่อให้ผ่านแบบฝึก
+
+[Oracle 19c — Policy Activation and Sessions](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/enabling-and-applying-unified-audit-policies-users-and-roles.html).
+
 ## Tabletop incidents
 - ORA-01017: inspect username/container/auth method and secret rotation.
 - ORA-28000: locked account — collect cause and approval before remediation.

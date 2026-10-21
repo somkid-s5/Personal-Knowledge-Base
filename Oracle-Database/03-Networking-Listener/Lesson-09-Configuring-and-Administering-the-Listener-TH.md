@@ -49,6 +49,37 @@ SELECT name,value FROM v$parameter WHERE name IN ('local_listener','remote_liste
 
 `SERVICE_NAMES` ถูก deprecate สำหรับการจัดการ service ด้วยมือมาตั้งแต่ Oracle 19c: ใช้ DBMS_SERVICE/SRVCTL/GDSCTL ตาม topology. Listener control commands ที่เปลี่ยน state ต้องใช้ change approval.
 
+## 🩺 Official-document validation — ORA-12519 & Handler State (2026-10-21)
+
+**Oracle error definition:** ORA-12519 หมายถึง Listener ไม่พบ **service handler ที่พร้อมและเหมาะกับ connection request** ไม่ใช่หลักฐานว่า Listener Down และ **ไม่ยืนยัน** ว่า `PROCESSES` หรือ `SESSIONS` เต็มโดยอัตโนมัติ
+
+```mermaid
+flowchart TD
+  E[ORA-12519] --> L[lsnrctl services]
+  L --> H{Requested service & handler?}
+  H -->|Not registered| S[Inspect service/PDB registration]
+  H -->|BLOCKED or no available handler| C[Check instance capacity and pool trend]
+  H -->|READY but still fails| P[Compare protocol and listener/client logs]
+  S --> V[Collect evidence then propose change]
+  C --> V
+  P --> V
+```
+
+1. จาก host ที่ได้รับอนุญาต ใช้ `lsnrctl services` **แบบอ่านสถานะ** ดูชื่อ service, `DEDICATED` หรือ dispatcher, `READY` / `BLOCKED` และตัวนับ `established`, `refused`, `current`, `max`. `UNKNOWN` อาจเป็น static registration ไม่ได้แปลว่า Instance Down เสมอ
+2. เทียบเวลา Error กับ `V$SERVICES`, `V$INSTANCE`, `V$PDBS` และ `V$RESOURCE_LIMIT` โดยใช้ View Privileges ที่ได้รับอนุญาต; ประเมิน Connection Pool Leak/Churn ร่วมด้วย
+3. ตรวจ Network/Listener Log และ Error ฝั่ง JDBC ก่อนเสนอการเพิ่ม `PROCESSES`, Restart หรือแก้ Service Configuration
+4. หาก handler ยัง `READY` แต่ client ถูกปฏิเสธ ให้ตรวจ Protocol, Service Requested และ Handler Eligibility แทนการเดาว่าไม่มี capacity
+
+```sql
+-- Read-only: must have privileges to query V$RESOURCE_LIMIT.
+SELECT resource_name,current_utilization,max_utilization,initial_allocation,limit_value
+FROM v$resource_limit
+WHERE resource_name IN ('processes','sessions')
+ORDER BY resource_name;
+```
+
+**ที่มา:** [Oracle 19c Net Listener — Monitoring Service Handlers](https://docs.oracle.com/en/database/oracle/oracle-database/19/netag/configuring-and-administering-oracle-net-listener.html) · [Oracle Error ORA-12519](https://docs.oracle.com/en/error-help/db/ora-12519/). นี่คือ Static Read-only Diagnostic ไม่ใช่ผลทดสอบ Production.
+
 ## Review questions
 - Listener UP แต่ service ไม่ขึ้น เกิดจากอะไรได้บ้าง?
 - Dynamic registration แตกต่างจาก static registration อย่างไร?

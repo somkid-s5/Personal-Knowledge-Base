@@ -96,6 +96,11 @@ Before verification:
 - current 26ai deltas must be validated against official docs,
 - the teaching layer must pass repository QA and CI.
 
+## 🩺 Oracle Technical Validation V2 — 2026-10-21
+
+[📋 Oracle Technical Reference Validation Matrix](./TECHNICAL-REFERENCE-QA-2026-10-21.md) จัดหมวด Listener Handler, CDB/PDB Visibility, Online Datafile Move, Unified Auditing Session Timing และ UNDO_RETENTION Version Delta โดยแยก **official document reviewed** ออกจาก **live lab not executed**.
+
+
 ## Quick links
 
 - [Source Manifest](./SOURCE-MANIFEST.md)

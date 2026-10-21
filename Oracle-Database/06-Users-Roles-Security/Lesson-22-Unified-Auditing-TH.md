@@ -31,6 +31,32 @@ ORDER BY event_timestamp DESC FETCH FIRST 20 ROWS ONLY;
 
 **Audit drill:** การไม่พบ event ไม่พิสูจน์ว่าไม่มีการกระทำ: ตรวจ enabled policies, scope, privileges, filters, write delay และระบบรวบรวม audit logs. ห้าม export unredacted audit trails ไป public repository.
 
+## 🔐 Official-document validation — Policy Enabled ≠ Existing Session Audited (2026-10-21)
+
+Oracle 19c Security Guide ระบุว่า **การ Enable Unified Audit Policy มีผลกับ Session ใหม่หลัง User Login อีกครั้ง**. ถ้า User มี Session ค้างอยู่ตั้งแต่ก่อน Enable Policy การไม่พบ Audit Event จาก Session นั้นยังไม่พิสูจน์ว่า Policy ไม่ทำงาน
+
+```mermaid
+flowchart LR
+  A[CREATE audit policy] --> B[ENABLE policy]
+  B --> C[New login / session]
+  C --> D[Audited action]
+  D --> E[Unified audit record]
+```
+
+```sql
+-- Read-only verification; authorized auditing account only.
+SELECT policy_name,enabled_option,entity_name,success,failure
+FROM audit_unified_enabled_policies
+ORDER BY policy_name;
+SELECT event_timestamp,dbusername,action_name,return_code
+FROM unified_audit_trail
+ORDER BY event_timestamp DESC FETCH FIRST 10 ROWS ONLY;
+```
+
+**ก่อนสรุปผล:** ตรวจ `POLICY_NAME`, `ENABLED_OPTION`, `ENTITY_NAME`, Success/Failure Filter, Container, Login Timeline และสิทธิ์เห็น Trail. แยก **policy created**, **policy enabled**, **session eligible**, **event generated/visible** เป็นคนละสถานะ. Lab นี้ไม่สร้างหรือ Enable Policy
+
+แหล่งทางการ: [Oracle 19c — Enabling Unified Audit Policies](https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/enabling-and-applying-unified-audit-policies-users-and-roles.html) · [AUDIT_UNIFIED_ENABLED_POLICIES Columns](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/AUDIT_UNIFIED_ENABLED_POLICIES.html).
+
 ## 🔎 Workflow เมื่อเกิด Incident — Unified Auditing & Evidence
 1. จด Event, Timestamp, Identity, Container และ Audit Requirement ที่ต้องพิสูจน์
 2. ตรวจว่า Relevant Audit Policy ถูก Enable สำหรับ Identity/Scope จริงหรือไม่

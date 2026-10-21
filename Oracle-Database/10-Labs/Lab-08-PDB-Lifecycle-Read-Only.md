@@ -46,6 +46,18 @@ App stopped connecting after instance restart. Listener is reachable, target PDB
 4. Propose change approval and post-open service/login checks.
 5. Avoid instance restart or blind privileges.
 
+## 🧭 PDB Visibility & Administrative Privileges — review
+
+ก่อนประเมิน PDB Open Mode ให้บันทึก Current Container จาก `SHOW CON_NAME`. Oracle 19c ระบุว่า `V$PDBS` เมื่อ query ใน PDB มีขอบเขตต่างจากการ query จาก CDB Root — จึงห้ามสรุปว่า PDB อื่นหายเพราะ View จาก PDB ปัจจุบันไม่แสดง
+
+```sql
+SHOW CON_NAME
+SELECT sys_context('USERENV','CON_NAME') con_name FROM dual;
+SELECT con_id,name,open_mode,restricted FROM v$pdbs ORDER BY con_id;
+```
+
+**No state change:** ห้าม `ALTER SESSION SET CONTAINER` หรือ `ALTER PLUGGABLE DATABASE OPEN` เพื่อทำ Lab นี้; การสลับ Container ต้องมี Authorization ตาม Oracle Docs. [PDB Visibility Reference](https://docs.oracle.com/en/database/oracle/oracle-database/19/multi/viewing-information-about-cdbs-and-pdbs-with-sql-plus.html).
+
 ## Pass/cleanup
 - [ ] Explain CDB vs PDB vs Seed vs service
 - [ ] Produce creation and migration checklist
