@@ -5,6 +5,71 @@
 > ตรวจเนื้อหา official lab: 5 ตุลาคม 2026  
 > เอกสารนี้สรุปหลักการและช่วยเตรียมอ่าน ไม่ใช่สำเนาคำสั่งหรือเฉลย grader ของ Google Skills
 
+## 📖 บทเรียนเต็ม: เข้าใจ Google Skills Lab ก่อนเริ่มใช้ Cloud จริง
+
+> **ฉบับอ่านด้วยตัวเอง** — GSP282 เป็น Activity ฝึกใช้งาน Lab Platform ไม่ใช่หลักสูตร Network/IAM ฉบับเต็ม. บทนี้จึงสอนวิธีแยก Lab Session, Project, Identity, Role, API และการเก็บ Evidence ให้ถูกต้อง โดยไม่อ้างว่าได้ผ่าน Grader
+
+### 1. ทำไม Lab Account ไม่ใช่ Google Account ส่วนตัว
+
+Google Skills แบบ Hands-on จะกำหนด Resources/Credentials/Time Window ให้ผู้เรียนตามรูปแบบ Lab นั้น ๆ. ในโลกจริงเราอาจเป็น Owner ของ Personal Project แต่ใน Lab เราคือผู้ใช้ชั่วคราวที่ต้องทำตาม Objective และ Permissions ที่เตรียมไว้. **การเปลี่ยนไปใช้บัญชีส่วนตัวเพื่อให้คำสั่งผ่าน อาจสร้าง Resource มีค่าใช้จ่ายและทำให้ Grader ไม่รู้จักผลลัพธ์**.
+
+โครงสร้างที่ต้องเข้าใจคือ Browser Session → Authenticated Principal → Selected Project → Enabled API → IAM Permission → Resource Creation. ความจริงว่าหน้า Console เปิดได้แค่ยืนยัน Authentication ส่วน Create VM ได้หรือไม่ยังขึ้นกับ Authorization/Quota/Policy. อีกประเด็นคือ Project Name, Project ID และ Project Number เป็นคนละอย่าง; CLI มักใช้ Project ID ส่วน Service Agent บางชนิดอ้าง Project Number
+
+### 2. ตีความ Error โดยไม่เดาสุ่ม
+
+| อาการจาก Lab | สิ่งที่น่าสงสัยเป็นลำดับแรก | สิ่งที่ไม่ควรทำ |
+|---|---|---|
+| Console เข้าได้แต่ไม่เห็น Project ที่มอบหมาย | Login ใช้ Account/Browser Profile ผิด | สร้าง Project ส่วนตัวแทน |
+| `PERMISSION_DENIED` | Project, Active Account, Role/Policy/Permission | Grant Owner ให้ตนเอง |
+| `API_NOT_ENABLED` หรือ Service Unavailable | Enabled API ใน Project ที่ใช้งาน | เปลี่ยน Account ให้สิทธิ์กว้าง |
+| `RESOURCE_EXHAUSTED` | Quota, Limits หรือ Capacity | Retry สร้างหลาย VM ต่อเนื่อง |
+| Grader ไม่ผ่านแต่ Resource มีอยู่ | Resource Name, Region, Scope, Exact Task Criteria | คิดว่า Resource ใด ๆ ถือว่าผ่าน |
+| Session หมดเวลา | Credential/Lab Lifecycle | ใช้ Temporary Credentials ต่อบน Project จริง |
+
+**Worked case:** คำสั่งเปิด Compute Engine API ผ่าน แต่สร้าง VM ได้ 403. อย่าสรุปว่า "API ไม่ทำงาน" เพราะ API Enabled ไม่ได้ Grant `compute.instances.create` ให้ Principal. ตรวจ User/Project จาก Lab, Permission/Policy และ Quota ก่อนตามลำดับ. ถ้า Lab ไม่ให้แก้ Role ห้ามออกนอก Objective ไป Grant เอง
+
+### 3. Guided Practice: ตรวจ Session แบบไม่มีผลต่อ Resources
+
+```bash
+# Run in the allocated Google Skills Cloud Shell only.
+gcloud auth list
+gcloud config list
+gcloud config get-value project
+gcloud projects describe LAB_PROJECT_ID --format="yaml(projectId,projectNumber,name)"
+gcloud services list --enabled --project=LAB_PROJECT_ID
+```
+
+อธิบายผลทีละบรรทัด: `gcloud auth list` บอก Active CLI Identity, `config list` บอก Default Configuration, `describe` บอก Project Metadata (อาจต้องใช้ Permission), `services list` บอก APIs ที่เปิด ไม่ได้บอกทุก Permission. **Expected:** Identity/Project ตรง Lab Instructions. **Actual:** ต้องบันทึกจาก Session ที่รันจริง; ถ้าอ่าน View ไม่ได้ให้จด Error แทนการให้ Role เพิ่มเอง
+
+สำหรับ Console ให้ฝึกเปิด Project Selector, IAM Screen, API Library และ Activity Progress Area โดยสังเกตว่าข้อมูลแต่ละหน้าตอบคนละคำถาม. ห้าม Capture Temporary Password, Token, Full Project Identifiers ที่องค์กรกำหนดเป็น Secret ลง Portfolio สาธารณะ
+
+### 4. ทำ Lab ตามขั้นตอนอย่างมีหลักฐาน
+
+ก่อน Start: อ่าน Objectives, Resource Quota, Region/Zone/Names และ Time Limit; เปิด Browser Profile ที่ไม่ปะปน Account. ระหว่าง Lab: จด **Expected State** ก่อนทำ Step, ลงมือกับ Temporary Project ตาม Task, ตรวจ **Actual State** หลังทำ Step. หลัง Lab: รัน Grader ตาม Task, เก็บข้อผิดพลาดที่ Redact แล้ว, End Lab และยืนยันไม่ได้เหลือ Resource ใน Personal Project ของเรา
+
+**Lab Outcome** แบ่งสี่แบบ: Concept Understood, Step Executed, Grader Passed, Cleanup Verified. อย่าเหมารวมว่าอ่าน Note จบ = Grader Passed; และอย่าสร้าง Resource เพื่อให้ Report ดูเต็มถ้าไม่ได้รันจริง
+
+### 5. Mini Incident แบบผู้ดูแลระบบ
+
+Trainer รายงานว่า "เข้า Lab ได้แต่ Project Selector ว่าง". สมมติฐาน A: Browser ใช้ Personal Account; B: Lab ยังไม่ Provision; C: Resource Manager Permission ไม่ให้ List; D: Session Expired. ขอหลักฐานเป็น Active Account ที่ปิดบัง, Lab Timer, Exact Error และ Project ID จาก Instructions (ไม่เผย Public). ถ้า Lab ไม่พร้อมจริงให้ Restart/Contact Lab Support ตาม Instructions ไม่ลองสร้าง Organization/Project เอง
+
+### 6. ฝึกตอบจนเข้าใจ (มีเฉลยเหตุผล)
+
+1. Console เปิดได้แปลว่ามีสิทธิ์ Create VM ไหม? — **ไม่**, Login กับ Permission คนละขั้น
+2. เปิด API แล้วทำไมยัง 403? — **IAM/Policy** ยังจำกัด Action
+3. Project Name กับ ID ต่างอย่างไร? — **Name เปลี่ยนได้**, ID เป็น Identifier สำหรับ API/CLI
+4. ทำไมไม่ใส่รหัส Lab ใน GitHub? — Credentials ชั่วคราวยังเป็น Secret ระหว่าง Session
+5. Grader ไม่ผ่านแม้ VM Created ได้ ควรทำอะไร? — ตรวจ Region/Name/Config/Exact Task Criteria แทนการสร้างสุ่ม
+6. ต้องฝึกกับ Personal Project เสมอไหม? — ไม่; ใช้ **Allocated Lab Project** ช่วยจำกัด Cost/Scope
+7. จะบอกว่า Lab PASS ต้องมีอะไร? — Grader/Actual Output/Evidence ไม่ใช่เพียง Build CI
+8. ถ้า Project Selector กับ CLI ให้ผลต่างกัน? — ตรวจ Browser Account และ CLI Active Configuration แยกกัน
+
+**Practice Output:** Session Context Worksheet + One 403 Investigation + Redaction Checklist. [Google Skills GSP282](https://www.skills.google/focuses/2794?parent=catalog&path=11) · [Google Cloud IAM](https://cloud.google.com/iam/docs/overview) · [gcloud configurations](https://cloud.google.com/sdk/gcloud/reference/config/list).
+
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายของบท
 
 เมื่อจบบทนี้ เธอควรเริ่ม Google Skills lab ได้โดยไม่สับสนกับบัญชีหรือ project ส่วนตัว, บอกได้ว่า IAM role ใช้ควบคุมอะไร, ตรวจได้ว่า API เปิดอยู่ใน project หรือยัง และจบ session อย่างปลอดภัย

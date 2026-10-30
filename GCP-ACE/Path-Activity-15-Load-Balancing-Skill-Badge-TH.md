@@ -4,6 +4,59 @@
 
 > Skill Badge นี้ควรทำให้เรา “ต่อ chain ของ load balancer ได้เอง” และ debug ได้ว่าพังที่ frontend, forwarding, proxy/URL map, backend service, health check, firewall หรือ application ไม่ใช่จำชื่อ LB อย่างเดียว
 
+## 📖 บทเรียนเต็ม: Load Balancer เป็นระบบหลายชั้น ไม่ใช่ปุ่มสร้าง IP
+
+### 1. เริ่มที่ Traffic Contract ก่อนเลือก Product
+
+Client ต้องเรียก HTTP(S) Public ทั่วโลก? ต้องใช้ TCP Internal เฉพาะ VPC? Backend อยู่หลาย Regions? ต้องการ TLS Termination, URL Routing, Web Application Firewall, CDN, Static IP หรือ Session Affinity? คำตอบกำหนดว่าใช้ **Application Load Balancer** (L7 HTTP(S) Semantics) หรือ **Network Load Balancer** (L4 TCP/UDP) และ Global/Regional/Internal/External Product Type ใด
+
+สถาปัตยกรรม Application LB ที่พบบ่อย: Forwarding Rule/Frontend → Target Proxy → URL Map → Backend Service → MIG/NEG Backend; Health Checks ให้ Signal ว่า Backend พร้อมรับ Traffic. *ไม่ใช่ทุก Load Balancer Product ใช้ Component Chain เดียวกัน* จึงต้องตรวจ Type ก่อนใช้ Runbook หรือ Firewall Rule
+
+### 2. ทำไม Health Check ทำให้ VM RUNNING แต่ลูกค้าได้ 5xx
+
+VM RUNNING คือ Compute State; Health Check อาจ Fail เพราะ App ไม่ Listen, Incorrect Path/Port, Host Firewall, VPC Firewall, Bad Response Code, Startup ยังไม่เสร็จ หรือ Dependency เสีย. Managed Instance Group มี Replicas ครบก็ยังไม่ได้ช่วยถ้า LB ไม่มี Healthy Endpoints
+
+**Worked case:** Web App Listen Port 8080 แต่ Health Check ยิง 80, Backend Service Named Port ชี้ 80 และ Firewall Health Probe ไม่ผ่าน. User พบ 502/503. แยกตรวจ Backend/Health Check/Port/Firewall ก่อนเพิ่ม CPU. ถ้าทุก Backend ใน MIG 10 ตัว Unhealthy พร้อมกัน ให้ดู Shared Startup Script/Database/Firewall Change ไม่เริ่มแก้ด้วยการสร้าง 20 VM
+
+### 3. Autoscaling vs Autohealing
+
+Autoscaling เพิ่ม/ลด Replicas ตาม Metric; Autohealing ซ่อมสมาชิกที่ไม่ Healthy ตาม Config; LB เลือก Healthy Backend. ถ้า Database เป็น Single Point of Failure แล้ว App Check เชื่อม DB ทุกครั้ง Health Check ของทุก VM อาจ Fail พร้อมกันเมื่อ DB Down. ต้องออกแบบ Readiness/Liveness และ Dependency Boundaries ให้สอดคล้องกับ User Service Contract
+
+**Global vs Regional:** เลือกจาก Where Clients/Backends Live, Product Mode, Failover Requirements, Data Residency, Pricing และ Health Model. ไม่เลือก Global เสมอเพราะ "ดีกว่า" หรือ Internal เสมอเพราะ "ปลอดภัย"; Networking/IAM/Firewall ยังสำคัญ
+
+### 4. Guided Read-only Diagnostics
+
+```bash
+# Only with approved Google Skills project.
+gcloud compute forwarding-rules list --project=LAB_PROJECT_ID
+gcloud compute backend-services list --project=LAB_PROJECT_ID
+gcloud compute health-checks list --project=LAB_PROJECT_ID
+gcloud compute instance-groups managed list --project=LAB_PROJECT_ID
+```
+
+**Expected:** จับคู่ Frontend, Backend Service, Health Check และ MIG/Region/Zone ให้ตรงใน Lab; **Actual:** Query บางอย่างมี Global/Regional Variants ต้องดู Product Type และ Permissions; Resource ไม่แสดงไม่ได้แปลว่า LB Broken หากไม่เคยสร้าง. อย่าสร้าง Public LB หรือทำ Full Challenge Lab บน Personal Billing Project โดยไม่ Approval เพราะ Cost/Traffic Charges
+
+### 5. Decision Worksheet ก่อนทำ Skill Badge
+
+ก่อน Start ให้ระบุ Required LB Type, Frontend IP/Port, Backend Template, Health Check Path/Port, Network/Firewall Rules, Backend Instance Group/NEG, Autoscaling/Availability, Cost/Quota. เมื่อได้ Official Skills Lab Temporary Project ให้ทำ Steps ตามโจทย์/Grader และตรวจ Actual Config. หลังจบให้ End Lab/Cleanup ตาม Instructions. **การอ่านโน้ตนี้ไม่ใช่การทำ Challenge Lab ผ่าน**
+
+### 6. Troubleshooting and answer key
+
+1. VM RUNNING แต่ Backend UNHEALTHY? — ดู Health Path, Port, Firewall, App Startup
+2. Forwarding Rule มี IP แต่ User 404? — URL Map/Host/Path Rules อาจผิด
+3. Health Check 200 แต่ `/api` 502? — Health Path ไม่แทนทุก Endpoint/Dependency
+4. MIG 3 Replicas แต่ Traffic ไม่มี? — ไม่มี Healthy Backends/Backend Service Registration/Config
+5. Autoscaler เพิ่ม VM เพื่อแก้ DB Connection Exhaustion ดีไหม? — ไม่เสมอ; เพิ่ม Pressure
+6. HTTPS Public ใช้ TCP Network LB ได้ทุก Feature L7 ไหม? — ไม่, URL Routing/TLS Policies ต่างกัน
+7. เปิด `0.0.0.0/0` ทุก Port เพื่อให้ Health Check ผ่านดีไหม? — ไม่, Target/Source Ranges ต้องแคบ
+8. Challenge Lab PASS ต้องมีอะไร? — Result จาก Google Skills Grader ไม่ใช่ CI/Diagram
+
+[Load Balancing](https://cloud.google.com/load-balancing/docs/load-balancing-overview) · [Health Checks](https://cloud.google.com/load-balancing/docs/health-check-concepts).
+
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

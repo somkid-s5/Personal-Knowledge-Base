@@ -4,6 +4,72 @@
 
 > กิจกรรมนี้มุ่งพื้นฐาน Google Cloud, containers/Cloud Build, Kubernetes/GKE architecture และการใช้ kubectl โดย course syllabus มี labs สำรวจ Console/Cloud Shell, Cloud Build, สร้าง GKE Autopilot cluster ผ่าน Console และ Cloud Shell คู่มือนี้เสริมคำอธิบายและแบบฝึก; ไม่ใช่ official grader ของ course
 
+## 📖 บทเรียนเต็ม: จาก Source Code ไปเป็น Kubernetes Service ที่รับ Traffic ได้
+
+### 1. ทำไม VM Container และ Kubernetes เป็นคนละระดับ
+
+Container Image คือ Artifact ที่เก็บ Runtime/Dependencies; Running Container คือ Process ที่ทำงานจาก Image; Kubernetes **Pod** เป็นหน่วยที่ Scheduler จัดวาง, **Deployment** ระบุ Desired State ของ Replicas/Updates, **Service** เป็น Logical Stable Endpoint ที่เลือก Pods จาก Labels, และ **Ingress/Gateway** จัด Traffic จากภายนอกตาม Implementation ที่รองรับ. GKE จัดการ Control Plane ตาม Mode, ไม่ได้แปลว่า Deployment/Network/Application Security ถูกต้องเอง
+
+เทียบ VMware: Instance Group อาจขยาย VM Replicas ขณะที่ Kubernetes Scheduler จัด Pods ไป Nodes. Node ที่ RUNNING ไม่รับประกันว่า Pod `Ready`; Pod `Running` ไม่ได้แปลว่า Service Selector มี Matching Endpoints. **Failure Domain** ย้ายจาก VM → Node → Pod → Service → Application Dependencies
+
+### 2. Autopilot vs Standard — ไม่ใช้คำว่า "ง่ายกว่า" อย่างเดียว
+
+| คำถาม | Autopilot | Standard |
+|---|---|---|
+| Node Lifecycle/Provisioning | Google จัดการในขอบเขต Mode และ Guardrails | ทีมรับผิดชอบ Node Pool และ Config มากกว่า |
+| Workload Privileges | มี Restrictions/Security Defaults | ปรับได้มากกว่า แต่ Blast Radius สูง |
+| Capacity/Cost Model | พิจารณา Workload Requests/Cluster Settings | พิจารณา Nodes, Packing, Idle Capacity |
+| ถ้า Workload ใช้ Host-level Privilege | ตรวจ Compatibility ก่อน | อาจเลือก Standard พร้อม Security Review |
+
+**เลือกจาก Requirements:** App Statless ที่ใช้ HTTP และไม่มี Node-level Requirements อาจไม่จำเป็นต้องใช้ GKE เลย; Cloud Run อาจลดภาระ. แต่ถ้าต้องใช้ Kubernetes Operators/StatefulSets/Complex Cluster Scheduling ให้ประเมิน GKE + Platform Team Operations
+
+### 3. Image Build/Push/Run ต่างกันสามสิทธิ์
+
+CI/CD Builder อาจ Push Image ไป Artifact Registry ได้, GKE Cluster ต้อง Pull Image ได้ตาม Node/Runtime Identity Configuration, และ App Runtime Service Account ต้องอ่าน Secret/Cloud API ตามสิทธิ์ของมันเอง. ให้ IAM อย่างกว้างกับ Developer ไม่แก้ ImagePullBackOff ของ Node โดยอัตโนมัติ
+
+**Artifact Tag vs Digest:** Tag เช่น `:latest` เปลี่ยนได้ จึงอาจ Deploy Artifact คนละตัวกับที่ Test; Image Digest ระบุ Content ที่แน่นอนมากกว่า. Production Rollout ต้องตรวจ Registry, Image Provenance, Vulnerability, Versioning และ Rollback
+
+### 4. Deployment → ReplicaSet → Pod → Service: เชื่อม Labels ให้ถูก
+
+Deployment `replicas: 3` ไม่ได้บอกว่าทุก Pod Available. Scheduler อาจติด Taints/Quota/Resources. แม้ Pod `Running`, Readiness Probe อาจ Fail. แม้ Pod `Ready`, Service `selector` ต้อง Match Labels และ `targetPort` ต้องชี้ Container Listener ที่ถูกต้อง. Ingress หรือ LB ต้อง Route ให้ถูก Service/Port. คุณควรไล่เส้นนี้ย้อนจาก Error ที่ Client เห็น
+
+**Worked scenario:** Client Timeout แต่ Deployment Available 3/3, Pod Ready. ตรวจ `kubectl describe service`, Service Selector, EndpointSlice, Container Port, Ingress/LoadBalancer Health/Firewall. ถ้า Service ไม่มี Endpoints ทั้งที่ Pods Ready ให้ดู Labels ก่อนเพิ่ม Node จำนวนมาก
+
+### 5. Read-only guided lab / expected result
+
+```bash
+# Only on the approved GKE training cluster; do not alter current context.
+kubectl config current-context
+kubectl get nodes
+kubectl get deployments,pods,services -n APP_NAMESPACE
+kubectl get endpointslices -n APP_NAMESPACE
+kubectl describe deployment APP_DEPLOYMENT -n APP_NAMESPACE
+kubectl get events -n APP_NAMESPACE --sort-by=.lastTimestamp
+```
+
+**Expected:** อธิบายได้ว่า Deployment อยากได้ Replicas กี่ตัว, Available กี่ตัว, Pods มี Labels อะไร, Service Endpoints เป็นใคร และ Events ให้เหตุ Error อะไร. **Actual:** ถ้าข้อมูลไม่มีหรือ RBAC ปฏิเสธ ให้จด Context/Namespace/Error อย่าติดตั้ง Cluster หรือ Grant Admin เอง
+
+### 6. Troubleshooting ladder
+
+`Pending` → Scheduling/Quota/Taints/Requests; `ImagePullBackOff` → Registry/Tag/Digest/Identity; `CrashLoopBackOff` → Command, Config, Secrets, Application Exit; `Running but not Ready` → Probe/Dependencies; `Ready but no traffic` → Selector/Ports/Ingress; `5xx after rollout` → Logs/Revision/Image/Downstream. **Rollback Deployment** ไม่ย้อน Database Schema หรือ Data ที่แอปเปลี่ยนไปแล้ว
+
+### 7. คำถามเฉลยเหตุผล
+
+1. ทำไม Service ไม่มี Endpoints ทั้งที่ Pod Ready? — Selector ไม่ Match Labels/Namespace หรือ EndpointSlice ไม่ตรง
+2. ทำไม Node Ready แต่ Pod Pending? — Resources/Constraints/Quota เป็นคนละชั้น
+3. Image Pull Permission ของ CI เท่ากับ Cluster หรือไม่? — ไม่; identities ต่างกัน
+4. Readiness vs Liveness? — Readiness ใช้คุม Traffic, Liveness ใช้พิจารณา Restart
+5. Autopilot เหมาะทุก Host-agent ไหม? — ไม่; ต้องดู Node-level Restrictions
+6. ทำไม Digest ช่วย Rollout? — ช่วยชี้ Artifact Content ที่ไม่เปลี่ยนตาม Tag
+7. ทำไม Pod Running ไม่เท่ากับ App Healthy? — Process ยังอาจ Fail Readiness/Requests
+8. ถ้าต้องการ Simple HTTP App ควรใช้ GKE ทุกครั้งไหม? — ไม่; ชั่ง Operations Burden เทียบ Cloud Run
+
+[Official GKE Overview](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) · [Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview) · [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/).
+
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## ผลการเรียนที่ต้องการ
 
 - แยก container image, container, Pod, node และ cluster ได้

@@ -4,6 +4,63 @@
 
 > โน้ตภาษาไทยสำหรับเรียนให้เข้าใจ **เหตุผลในการเลือก GPU, data path, deployment, monitoring และ failure modes** ไม่ใช่แค่จำชื่อรุ่น accelerator และไม่ใช่ transcript/เฉลย grader ของ Google Skills
 
+## 📖 บทเรียนเต็ม: GPU Compute ใน Cloud — ทำไม Workload ช้าแม้ GPU ว่าง
+
+### 1. GPU คือ Accelerator ไม่ใช่ VM อีกแบบที่เร็วทุกงาน
+
+CPU เหมาะงาน Control Flow/Branching และ Workloads หลากหลาย; GPU เหมาะ Data-parallel Computations เช่น Matrix Operations ที่ Library/Model ใช้ Accelerator ได้; TPU ถูกออกแบบสำหรับ ML Workloads ใน Ecosystem/Operations ที่รองรับ. **แอปใช้ GPU ไม่ได้เร็วขึ้นอัตโนมัติ** ถ้า Code ยังรัน CPU, Driver ไม่ตรง หรือข้อมูลโหลดไม่ทัน. GPU VM มี CPU/RAM, Disk, Network และ GPU Device Memory — เป็นคนละ Resource Pools
+
+**Cloud Engineer Decision:** ถ้า Inference Model ใช้ GPU Memory 20GB และ Device ที่เลือกมี 16GB ไม่สามารถเพิ่ม Host RAM ให้กลายเป็น GPU VRAM ได้โดยตรง. ต้องเลือก Device/Model Quantization/Sharding หรือ Batch Size ที่เหมาะตาม Framework; เพิ่ม VM จำนวนมากไม่ได้แก้ Single Model Fit เสมอไป
+
+### 2. Compute Pipeline และ Data Starvation
+
+Input Data จาก Cloud Storage → Local Cache/Network → CPU Decode/Transform → Host→Device Transfer → GPU Compute → Output/Checkpoint. ถ้าข้อมูลผ่าน Network ได้ 50MB/s แต่ GPU ประมวลผลได้เร็วกว่ามาก GPU จะ Idle รอ Input. ย้ายไป GPU รุ่นแรงกว่าอาจทำให้ค่าบริการสูงแต่ Throughput ไม่ดีขึ้น. **Utilization สูงไม่ได้รับรอง Model Quality** และ Utilization ต่ำไม่ได้แปลว่า GPU ผิดรุ่นเสมอ
+
+| อาการ | Hypothesis | หลักฐานที่ต้องขอ |
+|---|---|---|
+| GPU 0% แต่ Job Running | Code/Framework ไม่ใช้ GPU, CPU Bottleneck | Device Visibility, Runtime Logs, CPU Utilization |
+| GPU OOM | Model/Batch/Activation Memory เกิน | Peak VRAM, Batch Shape, Framework Report |
+| Driver/Runtime Error | CUDA/Framework/Driver Mismatch | Driver Version, Container Image, Framework Build |
+| Create GPU VM ไม่ผ่าน | Quota/Capacity/Zone/Family Constraints | Zone, Quota, Machine/Accelerator Availability |
+| Training Job ช้ามากช่วงเริ่ม | Initialization/Compile/Warmup | Timeline of Steps, Data Load and GPU Metrics |
+
+### 3. Worked Scenario: Cost สูงแต่ GPU Usage 25%
+
+สมมติ Training ใช้ 2 GPUs ราคาแพงอยู่ 3 ชั่วโมงแต่ Steps/sec ต่ำ. ตรวจ Data Loader Workers, CPU Saturation, Network Throughput, Storage Read Latency, Batch Size, Synchronization และ Checkpoint Frequency. ลอง Benchmark With/Without Data Pipeline Bottleneck บน Sandbox ที่ได้รับ Cost Approval ก่อนเพิ่ม GPU
+
+**TCO:** Compute GPU + CPU/RAM + Disk + Egress + Artifact Storage + Idle Time + Retries/Preemptions. Spot VMs ช่วยลดราคาตามเงื่อนไข แต่ Job อาจถูก Preempt; ต้องทำ Checkpoint/Resume ไม่ใช่สมมติว่ารัน 10 ชั่วโมงไม่มี interruption
+
+### 4. Mini-lab แบบไม่สร้าง Accelerator (No charges)
+
+ใช้ Workload Card สมมติ: Model 12GB, Dataset 800GB, Latency Goal p95 250ms, Peaks 30 requests/s. ให้ตอบว่า VRAM Headroom เท่าไร, Input Pipeline เป็น Bottleneck ไหม, ควรเลือก Online Inference หรือ Batch, Quota/Capacity/Region ตรวจอะไร, Security/Secrets/Cost Guardrails มีอะไร. **Expected:** เหตุผลจาก Requirements ไม่ใช่ชื่อ GPU ยอดนิยม; **Actual:** เป็น Worksheet ไม่ใช่ Benchmark
+
+### 5. Guided Read-only Inspection (only authorized project)
+
+```bash
+gcloud compute accelerator-types list --project=LAB_PROJECT_ID
+gcloud compute instances list --project=LAB_PROJECT_ID
+gcloud compute regions describe REGION --project=LAB_PROJECT_ID
+```
+
+Visibility ของ Accelerator Types ไม่รับประกัน Physical Capacity; ถ้าไม่มีสิทธิ์หรือ Zone ไม่รองรับให้บันทึกเป็น Limitation ไม่ลอง Provision GPU ราคาแพงทันที
+
+### 6. QA/Exam Questions พร้อมเหตุผล
+
+1. GPU Util 20% ควรเพิ่ม GPU ไหม? — ไม่, ตรวจ Pipeline ก่อน
+2. VRAM 16GB กับ Host RAM 64GB ช่วย Model 20GB อย่างไร? — ต้องเปลี่ยน Strategy; Host RAM ไม่เท่ากับ VRAM
+3. Quota เหลือแต่ Create ไม่ได้? — Capacity/Zone Support ต่างจาก Quota
+4. Framework Import Failed เป็น Network Fault เสมอ? — ไม่, Driver/Library Mismatch เป็น Candidate
+5. Spot VM เหมาะ Training ไหม? — ถ้ามี Checkpoint/Recovery และยอมรับ Preemption ได้
+6. GPU Rate ถูกที่สุดหมายถึง Total Job ถูกสุดไหม? — ไม่, Throughput/Idle/Data Transfer สำคัญ
+7. Training Loss ไม่ลดแต่ GPU 95% แปลว่า Success? — ไม่, Quality Objective ต่างจาก Hardware Utilization
+8. GPU ต้องมี Network Security ไหม? — ต้อง, Compute Resource ทุกประเภทต้องมี IAM/Encryption/Access Control
+
+[Google Cloud GPUs](https://cloud.google.com/compute/docs/gpus) · [GPU quotas](https://cloud.google.com/compute/resource-usage) · [Spot VMs](https://cloud.google.com/compute/docs/instances/spot).
+
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

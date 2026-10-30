@@ -42,6 +42,9 @@ jobs:
       - name: Verify GCP Activity to Module and Lab learning links
         working-directory: website
         run: npm run check:gcp
+      - name: Verify GCP textbook chapter coverage, diagrams and teaching evidence
+        working-directory: website
+        run: npm run check:gcp-textbook
       - name: Verify AWS Module to Lab and Project map
         working-directory: website
         run: npm run check:aws

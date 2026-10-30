@@ -4,6 +4,69 @@
 
 > Activity นี้ต่อจาก Cloud Run fundamentals ไปยัง single-purpose functions สำหรับ HTTP request และ cloud events โดยเน้น build/deploy, triggers, Workflows, VPC, security, Firestore และ BigQuery Remote Functions ชื่อผลิตภัณฑ์/หน้าจออาจเปลี่ยนตาม generation; ดู current Google Cloud docs ประกอบเสมอ
 
+## 📖 บทเรียนเต็ม: Function ไม่ใช่แค่โค้ด 10 บรรทัด — ต้องเข้าใจ Event และ Reliability
+
+### 1. Function, Trigger และ Runtime เป็นคนละสิ่ง
+
+Cloud Run Functions คือวิธี Deploy Function ที่ให้ Platform จัดการ Build/Runtime Infrastructure ตามความสามารถของบริการ; Code ของคุณเขียน Business Logic แต่ **Trigger** กำหนดว่า Event/HTTP Request มาถึงเมื่อใด และ **Runtime Service Account** กำหนดสิทธิ์ตอน Function ทำงาน. HTTP Function รับ Request ใน Contract ของ HTTP; Event-driven Function รับ Event ตาม CloudEvents/Trigger Source ที่รองรับ, อาจผ่าน Eventarc และ Pub/Sub ตาม Configuration. สิ่งสำคัญไม่ใช่แค่ "Function ต้องเรียกอย่างไร" แต่คือ **การส่ง Event ซ้ำ/ล้มเหลวแล้วข้อมูลจะเป็นอย่างไร**
+
+**Deploy สำเร็จ** เพียงยืนยันว่าระบบรับโค้ด/สร้าง Service ได้; ไม่ได้ยืนยันว่า Trigger เริ่มส่ง Event, IAM Invoker ถูกต้อง, Firestore Write สำเร็จ หรือ Function สามารถเข้าถึง Private Resources ได้
+
+### 2. HTTP กับ Event-driven: Lifecycle ต่างกัน
+
+| ส่วน | HTTP Function | Event-triggered Function |
+|---|---|---|
+| Event Source | Browser/Service/API Gateway | Pub/Sub/Cloud Storage/Eventarc |
+| Caller Authentication | HTTP Invoker Auth/Ingress ตาม Design | Trigger Identity + Transport Permissions |
+| Retry | Client/Proxy อาจ Retry | Trigger Delivery Retry ตาม Policy/Source |
+| Successful Response | HTTP Response Code/Body | Event Processing Ack/Result ตาม Mechanism |
+| Deduplication | Request ID/Idempotency Key | Event ID, Object Generation, Business Key |
+
+**Core Rule:** Event-driven Integration ต้อง **รองรับ Duplicate/Redelivery ได้** ตาม Semantics ของ Source. อย่าถือว่า Event ส่งมาเพียงครั้งเดียวโดยธรรมชาติ
+
+### 3. Worked Example: Upload รูปภาพแล้วบันทึก Metadata
+
+โจทย์: เมื่อมี File ใหม่ใน Cloud Storage Bucket ให้ Cloud Run Function ตรวจ Metadata แล้วบันทึกลง Firestore. ต้องออกแบบว่าถ้าไฟล์ชื่อเดิมถูกอัปโหลดใหม่ด้วย Generation ใหม่ ถือเป็นคนละ Event หรือการแก้ไฟล์เดียวกัน. Key สำหรับ Idempotency เช่น `bucket/object_name/generation` ช่วยแยก Object Version. บันทึก Event ID/Status เพื่อให้ Handler ตรวจว่าทำงานสำเร็จแล้วหรือยัง
+
+**Failure Walkthrough:** Function เขียน Firestore สำเร็จแต่ Timeout ก่อน Return Success. Event Source อาจ Retry ทำให้ Handler รันซ้ำ. ถ้า Code ใช้ Auto-generated Document ID ทุกครั้งจะสร้าง Duplicates; ถ้าออกแบบ Stable Key/Transaction หรือ Conditional Create จะลด Risk ตาม Consistency Semantics ของ Firestore. ต้องพิจารณา Race Conditions เพราะ "อ่านก่อนเขียน" สอง Requests พร้อมกันยังชนกันได้
+
+### 4. IAM Identity Matrix
+
+- **Deployer/Build Identity**: Upload/Build/Deploy Source และ Artifact
+- **Trigger Delivery Identity**: มี Permission ส่ง Event เข้า Function ที่ Target
+- **Runtime Identity**: อ่าน Cloud Storage และเขียน Firestore ด้วย Least Privilege
+- **Service Agent**: Google-managed Identity ที่บริการใช้ภายใน
+
+ถ้า Trigger ไม่ทำงาน ตรวจ Trigger Region/Filters/Permissions/Service Logs ก่อนเพิ่ม Runtime SA Role; ถ้า Function รับ Event ได้แต่เขียน Firestore 403 ให้ตรวจ Runtime SA/Firestore Permissions. สอง Error นี้อยู่คนละ Layer; การให้ Owner ทุก Account ไม่ใช่วิธีที่ปลอดภัย
+
+### 5. Guided Practice: อ่าน Eventarc/Function Configuration
+
+```bash
+# Authorized lab project; read-only inventory commands.
+gcloud functions list --regions=REGION --project=LAB_PROJECT_ID
+gcloud eventarc triggers list --location=REGION --project=LAB_PROJECT_ID
+gcloud run services list --region=REGION --project=LAB_PROJECT_ID
+```
+
+**Expected:** Function/Trigger Region, Runtime Configuration และ Target/Filter ที่เกี่ยวข้อง. **Actual:** บันทึกจาก Lab Session จริง; บาง Mode อาจไม่แสดงทุก Resource ผ่านคำสั่งเดียวกัน ต้องตรวจ Product/Generation. ห้ามสร้าง Trigger/Topic/Firestore เพียงเพื่อให้มีผลลัพธ์ ถ้า Official Lab ไม่กำหนด. ค่าทำงานอาจมาจาก Event Delivery, Storage, Logs, Database Requests ไม่ใช่เฉพาะ Invocations
+
+### 6. สถานการณ์ฝึกพร้อมเฉลยเหตุผล
+
+1. ทำไม Duplicate Firestore Documents หลัง Timeout? — Event Redelivery + ไม่ทำ Idempotent Write
+2. Deploy ผ่านแต่ไม่มี Event? — Trigger Region/Filters/Delivery IAM/Event Producer
+3. Function รับ Event ได้แต่ Firestore 403? — Runtime SA/Data Access Policy
+4. HTTP Function 401 ต่างจาก Firestore 403 อย่างไร? — Inbound Auth กับ Downstream Auth คนละ Layer
+5. ทำไมควรใช้ Generation ใน Key? — Object Name ซ้ำแต่ Version ต่างกัน
+6. Eventarc กับ Cloud Run Function เป็นสิ่งเดียวกันไหม? — Trigger/Delivery vs Compute/Handler
+7. Retry ทุก Error แบบไม่จำกัดดีไหม? — ไม่, อาจสร้าง Storm/Cost/Duplicates
+8. Function ต้องเข้าระบบ Internal Database ควรเปิด Database Public ไหม? — ไม่, พิจารณา Private Networking/Identity ตาม Service
+
+**Exit Evidence:** Event Path Diagram ที่มีอยู่ในบท + Written Retry Plan + Identity Matrix + Error Triage. [Functions](https://cloud.google.com/run/docs/functions/overview) · [Eventarc](https://cloud.google.com/eventarc/docs/overview) · [Firestore Transactions](https://cloud.google.com/firestore/docs/manage-data/transactions).
+
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมาย
 
 - เลือก function สำหรับงาน HTTP/event ที่ logic มีขอบเขตชัด

@@ -4,6 +4,72 @@
 
 > กิจกรรมนี้สอนเลือก Google Cloud database ตาม application pattern และทำความรู้จัก relational/NoSQL, Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore, Memorystore รวมถึง Vector Search และ Database Migration Service (DMS). แบบฝึกนี้อธิบายแนวคิดและช่วยเตรียม lab ไม่ใช่คำตอบของ grader
 
+## 📖 บทเรียนเต็ม: เลือกฐานข้อมูลจาก Workload — มุมคิดแบบ DBA ที่ย้ายขึ้น Cloud
+
+### 1. เริ่มจาก Query Pattern และ Consistency ก่อนชื่อ Product
+
+ฐานข้อมูลไม่ใช่สินค้าที่ใช้แทนกันได้เพียงเพราะ "เก็บข้อมูลได้". ต้องถามว่า App เขียนกี่ Transaction ต่อวินาที, ต้อง Join ตารางไหม, ต้องการ ACID Transaction/Foreign Keys หรือเปล่า, User อยู่ Region ไหน, Query เน้น Single Row หรือ Scan พันล้านแถว, RPO/RTO เท่าไร, ทีมยอมดูแล Operations แค่ไหน และมีข้อจำกัด License/Engine Compatibility อย่างไร
+
+**OLTP** เน้น Transaction สั้น ๆ ที่ต้องสอดคล้องกัน เช่น ตัด Stock/จ่ายเงิน; **OLAP** เน้น Aggregations จากข้อมูลจำนวนมาก. ย้าย Daily Sales Report จาก SQL Server ไป Cloud SQL อาจทำได้ แต่ถ้า Scan 5 Years ทุก 10 นาทีอาจกระทบ OLTP; อาจต้องใช้ BigQuery/Data Pipeline แยก
+
+### 2. Database Family Decision Map
+
+| Workload | ตัวเลือกหลัก | เพราะอะไร/ต้องระวัง |
+|---|---|---|
+| Existing MySQL/PostgreSQL/SQL Server OLTP | Cloud SQL | Managed relational; ตรวจ Versions, HA/Connections, Features/Extensions |
+| PostgreSQL-intensive OLTP | AlloyDB | PostgreSQL-compatible managed DB ที่ต้องเทียบ Feature/Price/Performance จริง |
+| Global-scale strongly consistent relational | Spanner | Distributed SQL/Consistency; App Schema/Cost Complexity |
+| Large analytical SQL scans | BigQuery | Columnar Analytics; ไม่ใช่ Row-by-row Transaction DB |
+| Mobile/web document model | Firestore | Document Data; Index/Query Patterns ต่างจาก RDBMS |
+| Massive key-range/time-series | Bigtable | Row-key Design/Hotspots สำคัญ |
+| Object/files/backups | Cloud Storage | Object Service ไม่ใช่ RDBMS |
+
+**Avoid false equivalence:** Cloud SQL High Availability ไม่เท่ากับมี Cross-region Disaster Recovery โดยอัตโนมัติ; Read Replica ไม่เท่ากับ Backup เพราะ Bad Writes/Delete อาจถูก Replicate; BigQuery ใช้ SQL แต่ไม่ได้แปลว่าต้องแทน Cloud SQL ทุกที่
+
+### 3. Worked Case: ระบบสินค้าคงคลัง + Dashboard 5 ปี
+
+Requirements: 700 Transactions/s, Relational Joins, Foreign Keys, PostgreSQL Extensions บางตัว, Dashboard ยอดขาย 5 ปีทุกวัน. ให้เลือก Cloud SQL for PostgreSQL หรือ AlloyDB เป็น Candidate ของ Operational DB โดยวัด Feature/Compatibility/Costs; แยก Analytical Queries ผ่าน ETL/Streaming Pipeline ไป BigQuery ถ้าปริมาณ/ราคา/Latency เหมาะ. **ไม่เลือก Spanner เพียงเพราะคำว่า Global** หากไม่มี Global Transaction Scalability Requirement และยอมรับ Migration Complexity ไม่ได้
+
+**Migration Path:** Source Discovery → Schema/Extensions/Data Types → Network/IAM → Initial Load → CDC (หาก Product/Source รองรับ) → Data Validation → Cutover/Backout. DMS ไม่ได้แก้ Stored Procedures/Extension Compatibility อัตโนมัติ; ต้องมี Application Tests
+
+### 4. Backup, HA, PITR — เหตุที่ต้องออกแบบต่างกัน
+
+- **HA** ให้ Service ทน Instance/Zone Failure ตาม Configuration, ไม่คืนข้อมูลก่อน accidental DELETE
+- **Read Replica** ช่วย Read Workload/DR ตาม Capability แต่ไม่แทน Rollback ของ Bad Write
+- **Backup** เป็น Restore Point; **PITR** อาศัย Engine Logs/Configuration/Retention ที่ต้องเตรียมตั้งแต่ก่อน Incident
+- **RPO** คือยอมเสียข้อมูลย้อนหลังได้เท่าไร; **RTO** คือยอมให้บริการหยุดได้นานแค่ไหน
+- **Restore Drill** สำคัญกว่าข้อความ "Automatic Backup Enabled" ที่ไม่มีหลักฐานว่ากู้กลับมาใช้งานได้
+
+### 5. Read-only Practice: Database Inventory and Safety
+
+```bash
+# Authorized training project. Listing services does not create resources.
+gcloud sql instances list --project=LAB_PROJECT_ID
+gcloud sql backups list --instance=INSTANCE_NAME --project=LAB_PROJECT_ID
+gcloud sql instances describe INSTANCE_NAME --project=LAB_PROJECT_ID
+```
+
+**Expected:** บันทึก Engine/Version, Region, HA, Backup/PITR Settings, Network Exposure, Maintenance/Connections; **Actual:** ถ้า Lab ไม่มี SQL Instance ให้ทำ Design Worksheet ไม่ต้อง Create ที่คิดค่าใช้จ่ายเพื่อให้ได้ Screenshot. SQL Query Data จริงอาจมี PII ห้ามเผย Public. อย่าให้ Service Account Admin Roles เพียงเพื่ออ่าน Database
+
+### 6. Troubleshooting และตอบคำถาม
+
+**Incident:** หลัง Migration Web App ช้า ทั้งที่ DB CPU ไม่สูง. ตรวจ Connection Pool, Long Transactions, Locks, Slow Queries, App/DB Region, Private IP/Proxy, Failover, Index/Stats ก่อนเพิ่ม Machine Type. ถ้า DMS Lag สูง ตรวจ Source WAL/Binlog Retention, Network/Replication Slot/Permissions ตาม Engine ไม่เดาจาก Snapshot Size เพียงอย่างเดียว
+
+1. ทำไม BigQuery ไม่เหมาะเป็น OLTP Default? — Latency/Transaction Pattern ต่างกัน
+2. ทำไม Replica ไม่ทดแทน PITR? — Bad Writes อาจ Replicate ตามมา
+3. Cloud SQL Managed แปลว่า DBA ไม่ต้องทำอะไรไหม? — ไม่, Query/Schema/Users/Restore ยังต้องดู
+4. เลือก Firestore จากคำว่า "Serverless" พอไหม? — ไม่, Query/Transaction Model ต้องตรง
+5. DMS ทำให้ Schema Compatible อัตโนมัติไหม? — ไม่รับประกัน
+6. Latency สูงแต่ CPU ต่ำแปลว่าไม่มีปัญหา DB ไหม? — ไม่, Connection/Locks/Network อาจตัน
+7. Global Users ทุกคนต้องใช้ Spanner ไหม? — ไม่, ดู Consistency/Write Pattern/Cost
+8. ทำไม Restore Test ต้องมี Actual Result? — Backup Existing ไม่ยืนยัน Recovery
+
+[Cloud SQL](https://cloud.google.com/sql/docs/introduction) · [Spanner](https://cloud.google.com/spanner/docs/overview) · [BigQuery](https://cloud.google.com/bigquery/docs/introduction) · [DMS](https://cloud.google.com/database-migration/docs/overview).
+
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมาย
 
 - แยก OLTP/transaction workloads จาก analytics workloads

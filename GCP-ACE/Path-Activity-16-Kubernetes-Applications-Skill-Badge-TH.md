@@ -4,6 +4,87 @@
 
 > Skill Badge นี้ไม่ควรจบที่ “kubectl apply ผ่าน” แต่ต้องเข้าใจเส้นทาง Source → Image → Registry → Deployment → Pod → Service → User และ debug ได้ว่าพังที่ stage ไหน
 
+## 📖 บทเรียนเต็ม: Deploy Kubernetes App ที่ใช้งานได้ ไม่ใช่แค่ YAML Apply ผ่าน
+
+### 1. Workflow ของ Artifact และ Runtime
+
+Source → Build → Container Image → Artifact Registry → Kubernetes Deployment → ReplicaSet → Pods → Service → Ingress/LB → User. แต่ละขั้นมี Exit Criteria ต่างกัน: Image Build Success ไม่เท่ากับ Pull Permission Success, Pod Running ไม่เท่ากับ Readiness Passed, Service Created ไม่เท่ากับมี Endpoints, Ingress IP มีอยู่ไม่เท่ากับ External Traffic Routing
+
+**Image Tag** เช่น `latest` เปลี่ยนไปตาม Push, **Digest** ชี้ Immutable Content มากกว่า. ถ้า Test Image A แล้ว Deploy Tag เดิมแต่ Registry เปลี่ยนเป็น Image B, Results อาจไม่ตรง; Review Pipeline/Attestation/Digest ก่อน Production Rollout
+
+### 2. อ่าน YAML ให้รู้ว่ามันส่งผลอะไร
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-web
+  template:
+    metadata:
+      labels:
+        app: demo-web
+    spec:
+      containers:
+        - name: web
+          image: us-docker.pkg.dev/example/project/demo@sha256:REPLACE_WITH_REAL_DIGEST
+          ports:
+            - containerPort: 8080
+```
+
+นี่คือ **Teaching Skeleton** ไม่ใช่ Manifest พร้อม Deploy: Digest เป็น Placeholder, Registry/Project แตกต่างตาม Lab, ยังไม่ใส่ Resource Requests/Limits/Probes/IAM/Service/Network. `spec.selector.matchLabels` ต้อง Match `template.metadata.labels` ไม่เช่นนั้น Deployment Invalid/Pods ไม่ได้รับ Traffic; Deployment Replicas เป็น Desired, ไม่รับประกัน Actual Available
+
+### 3. Probes และ Resource Management
+
+**Readiness Probe** บอก Traffic Routing Readiness, **Liveness** บอกว่า Container ควรถูก Restart หรือไม่, **Startup Probe** ให้ App ที่ Boot ช้าเสร็จก่อน Liveness ตัดสิน. ถ้า Request CPU 100m แต่ใช้เกินและ Node มี Pressure, Performance อาจแย่; Memory Limit ต่ำกว่าที่ Process ต้องใช้จะเกิด OOMKilled. การเพิ่ม Replicas ไม่แก้ Pod Crash เพราะ Missing Secret
+
+**Service Selector:** Service เลือก Pods ตาม Labels และส่งผ่าน TargetPort. ถ้า Service `targetPort: 80` แต่ App Listen 8080, ทราฟฟิกผิด Port แม้ Pod Ready. ต้องตรวจ EndpointSlice/Port Mapping; ไม่เปิด Network Policies แบบ All Allow เพื่อแก้โดยไม่ทราบ Root Cause
+
+### 4. Identity สามชั้น
+
+Developer/CI Push Image Permission, Cluster Node/Workload Pull Image Permission และ Application Runtime Cloud API IAM ต่างกัน. GKE Workload Identity Federation ช่วย Bind Kubernetes Workload Identity ให้เรียก Google APIs แบบไม่พึ่ง Long-lived Service Account Keys ในรูปแบบที่รองรับ; ต้องตรวจ KSA, Namespace, IAM Binding/Principal, Runtime SA และ Kubernetes RBAC ตาม Architecture
+
+### 5. Read-only Lab on approved cluster
+
+```bash
+kubectl config current-context
+kubectl get deployments,pods,services -n APP_NAMESPACE
+kubectl get endpointslices -n APP_NAMESPACE
+kubectl describe deployment demo-web -n APP_NAMESPACE
+kubectl get events -n APP_NAMESPACE --sort-by=.lastTimestamp
+```
+
+**Expected:** ระบุ Deployment Desired/Available, Image/Digest, Pod Status, Service Selector/Port, EndpointSlice, Warnings/Events ได้. **Actual:** จาก Skills Lab เท่านั้น; อย่า Apply Skeleton YAML ด้านบน หรือแก้ Namespace/Cluster ของ Production เพราะเป็นตัวอย่างประกอบ. เมื่อทำ Graded Task ให้ใช้ Lab-provided Images/Names/Quotas และลบ Resource ตาม Instructions
+
+### 6. วิเคราะห์ Incident
+
+`ImagePullBackOff`: Registry Path/Digest/Node Pull Identity. `CrashLoopBackOff`: Command, Env, Secret, Exit Code. `Pending`: Scheduling/Quota/Requests/Taints/Node Capacity. `Pod Ready But No Traffic`: Service Selector, Endpoints, Ports, Ingress/LB. `Rollout Failed`: Deployment Revision/Probes, Image/Config, Dependency. ทำแผนลำดับตรวจทุกครั้งก่อน Restart/Scale
+
+### 7. Question set พร้อมเฉลย
+
+1. Build PASS แต่ Pull Fail? — CI Push Identity ต่างจาก Cluster Pull Identity
+2. Pod Running แต่ Not Ready? — Readiness Probe/Dependency/Port
+3. Service ไม่มี Endpoints? — Labels/Selector/Namespace/EndpointSlice
+4. Pod OOMKilled แก้ด้วย CPU เพิ่มไหม? — ต้องดู Memory Limit/Usage
+5. ทำไม Image Digest สำคัญ? — Reproducibility
+6. Rollback Deployment ย้อน Database Data ไหม? — ไม่
+7. Ingress Created แล้ว HTTPS ใช้ได้แน่ไหม? — ไม่, Certificate/Backend/Health/Port/IAM
+8. Skill Badge จากการอ่าน Note ถือว่าผ่านไหม? — ไม่, ต้องทำ Grader จริง
+
+[Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) · [Services](https://kubernetes.io/docs/concepts/services-networking/service/) · [GKE](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview).
+
+
+### 8. Sources to verify Identity, Image and Cluster Context
+
+หาก Image Pull ไม่ผ่าน ให้เทียบ [GKE Cluster Documentation](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) กับ [Artifact Registry Documentation](https://cloud.google.com/artifact-registry/docs) โดยแยก Cluster/Workload Pull Identity จาก CI Push Identity. Error `ImagePullBackOff` ไม่ได้พิสูจน์ว่า Node Capacity ไม่พอ; ต้องดู Image URI, Digest, Registry Location, Credentials, IAM Role และ Network Reachability. **Expected:** ระบุว่าต้องแก้สิทธิ์ที่ Identity ไหน ไม่ใช่ Grant Project Owner ให้ Developer. **Actual:** ต้องยืนยันจาก Events ที่ Redact ของ Authorized Sandbox; ตัวอย่างนี้ไม่ใช่ผล Lab Grader จริง
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

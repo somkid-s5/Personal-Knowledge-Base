@@ -10,7 +10,7 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-STUDY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
-> **Status:** **17-Activity historical snapshot, textbook conversion IN_PROGRESS; official current Path count requires rechecking**  
+> **Status:** **17-Activity historical snapshot, TEXTBOOK_AUTHORED 17/17; current official Path count requires reconciliation**  
 > **Path recheck:** 2026-10-30 — public canonical URL displayed 13 Activities, while prior archived/parameterized views displayed 17; see below  
 > **Source manifest:** [SOURCE-MANIFEST.md](./SOURCE-MANIFEST.md)  
 > **QA evidence:** [ACE-100-PERCENT-QA-MATRIX.md](./ACE-100-PERCENT-QA-MATRIX.md)  
@@ -22,7 +22,7 @@
 
 [📖 มาตรฐานบทเรียนเต็ม](./TEXTBOOK-QUALITY-STANDARD.md) · [📋 Editorial Progress 17 Snapshot Activities](./TEXTBOOK-PROGRESS.md)
 
-**งานที่ลงมือขยายจริงในรอบนี้:** [Activity 03 — Foundation](./Path-Activity-03-Foundation-TH.md) และ [Activity 04 — Core Services](./Path-Activity-04-Core-Services-TH.md) เพิ่ม Textbook Chapters พร้อม Worked Scenarios และเฉลยเหตุผล. ทั้งสองอยู่ระดับ `TEXTBOOK_DRAFT`; **ไม่อ้างว่า 17/17 ผ่าน Editorial Review แล้ว** และ Lab ยังไม่ได้ Run
+**งานเขียนครบแล้ว:** บทเรียนหลัก **17/17** ของ Historical Google Skills Snapshot ได้รับส่วน `TEXTBOOK_AUTHORED` อยู่ตอนต้นหน้าทุก Activity และเก็บโน้ตเดิมใต้ภาคขยาย แทนการโยนไป Module อื่นเพื่อเข้าใจ Concepts. มี Worked Cases, การตรวจสอบ, Failure Scenarios และเฉลยเชิงเหตุผล. **สถานะไม่ใช่ EDITORIAL_REVIEWED หรือ LAB_EXECUTED** เพราะยังไม่มีการทดสอบความเข้าใจกับผู้อ่านอิสระหรือทำ Official Grader จริง
 
 **ข้อควรระวังจาก Google Skills:** หน้า Canonical [Path #11](https://www.skills.google/paths/11) ที่เปิดแบบ Public วันที่ 30 ต.ค. 2026 ระบุ 13 Activities แต่ Cached/Parameterized Versions บางชุดระบุ 17. เรารักษา 17 Study Notes เดิมและ Progress IDs ไว้ก่อน โดยยังไม่ประกาศว่า Order/Count นี้ตรงกับ Current Official Path 100%.
 

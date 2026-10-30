@@ -4,6 +4,64 @@
 
 > เป้าหมายคือเข้าใจว่า TPU เหมาะกับ workload แบบใด, software/runtime ต้องเข้ากันอย่างไร, topology มีผลอย่างไร และจะวัดว่า “คุ้มกว่า GPU จริงไหม” อย่างไร ไม่ใช่จำว่า TPU = AI เร็วกว่าเสมอ
 
+## 📖 บทเรียนเต็ม: TPU และ Distributed ML — ตัดสินใจจาก Compile และ Data Pipeline
+
+### 1. TPU ไม่ได้แทน GPU ได้ทุก Model
+
+Cloud TPU เป็น Hardware Accelerator ที่ออกแบบมาเพื่อ Workloads ML ตาม Supported Framework/Operations/Shapes. เครื่องมือ Compiler (เช่น XLA ใน Ecosystem ที่รองรับ) สามารถแปลง Computation ให้เหมาะกับ Accelerator. ต่างจากการรัน Python ธรรมดาบน CPU ซึ่งมักเห็น Output ได้ทันทีบางขั้น, TPU Workloads อาจมี **Compile/Warm-up** ก่อนเริ่ม Steady-state Compute. ถ้า Job สั้น การ Compile อาจกินเวลาสัดส่วนใหญ่จน Scaling Chips เพิ่มไม่ได้คุ้มกว่าเดิม
+
+### 2. เวลาทั้งงาน = Setup + Compile + Input + Compute + Checkpoint
+
+สมมติ Job ใช้เวลา 12 นาที: Compile 5 นาที, Dataset Input 3 นาที, Training Compute 3 นาที, Checkpoint 1 นาที. ถ้าเพิ่ม Chips สองเท่าและ Compute เร็วขึ้น 2× แบบอุดมคติ จะประหยัดเพียง ~1.5 นาทีจาก 12 นาที; Total Time ยัง ~10.5 นาที และ Price อาจสูงขึ้น. นี่คือเหตุผลที่ต้อง Profile **End-to-end Cost per Completed Training Job** ไม่ดู Chips/TFLOPS เพียงอย่างเดียว
+
+**Amdahl intuition:** ส่วนที่ Scale ไม่ได้ (Compile/Input/Sync) จะจำกัด Speedup; ยิ่งเพิ่ม Chips ยิ่งเห็น Interconnect, Synchronization, Stragglers และ Data Skew. TPU Topology/Slices/Regions มีข้อจำกัดของ Supported Setup ต้องเช็ก Compatibility ของ Model/Framework ก่อน
+
+### 3. GPU vs TPU Decision Matrix
+
+| ความต้องการ | GPU | TPU |
+|---|---|---|
+| Custom Kernel / Heterogeneous Software | มักมี Tooling/Library Choices มาก | ต้องตรวจ Ops/Compiler Support |
+| Large Supported Tensor Workloads | เหมาะได้ | เหมาะได้มากใน Supported Shape/Workflow |
+| Distributed Scale | Multi-GPU/Multi-node communication | TPU Topology/Collective Requirements |
+| Short Iterative Experiment | Tooling/Startup อาจยืดหยุ่น | Compile Overhead อาจมีนัย |
+| Team Familiarity | CUDA/Framework Tooling | JAX/PyTorch/XLA Ecosystem ตาม Support |
+| Availability/Cost | Quota, Zone, GPU Family | Quota, TPU Type, Slice Capacity |
+
+ไม่ตัดสินจาก Marketing ว่า "TPU เร็วกว่า GPU" แบบสากล. Benchmark ต้องใช้ Model, Input, Precision, Batch, Framework Version และ Quality Target เดียวกันก่อนเปรียบเทียบ
+
+### 4. Case: Distributed Training 8 Workers แต่ Performance ไม่ Scale
+
+Workers 7 ตัวจบ Step ภายใน 5 วินาที, Worker สุดท้ายใช้ 13 วินาทีเพราะ Data Shard ช้า. Collective Sync ต้องรอ Worker ที่ช้า → Throughput ทั้ง Cluster ตก. เพิ่ม TPU อีก 8 ตัวอาจทำให้ Cost เพิ่มแต่ไม่ได้แก้ Root Cause. ตรวจ Worker Input Wait, Data Sharding/Local Cache, Host CPU, Network Interconnect, Synchronization, Compile Cache, Checkpoint I/O
+
+**Failure Handling:** Spot/Preemptible Capacity/Planned Maintenance ทำให้ Job ถูกขัดจังหวะได้ตาม Product. Checkpoints ต้องบันทึก Model/Optimizer State และ Training Step เพื่อ Resume ให้สอดคล้องกับ Run. Snapshot File ที่ไม่มี Consistent State ไม่รับประกันว่ากู้กลับมา Train ต่อถูกต้อง
+
+### 5. Practical design workshop
+
+คุณได้ Model Training ที่ต้องเสร็จภายใน 2 ชั่วโมง, Dataset 2TB อยู่ Cloud Storage, Framework Version ยังไม่พิสูจน์ Support TPU. ขั้น 1 ตรวจ Supported Ops/Version, ขั้น 2 ทำ Small Representative Benchmark ใน Approved Sandbox, ขั้น 3 วัด Compile/Input/Step/Checkpoint, ขั้น 4 ประเมิน Cost/Capacity, ขั้น 5 สร้าง Retry and Checkpoint Plan. **Expected:** มี Decision Record ว่าจะใช้ GPU, TPU หรือ CPU พร้อม Evidence; ไม่ใช่รัน TPU จริงโดยไม่มี Budget
+
+### 6. Review พร้อมเฉลย
+
+1. TPU หลาย Chips เร็วขึ้น 2× แน่นอน? — ไม่, Compile/Input/Sync จำกัด
+2. Compile นานคือ GPU/TPU Hardware เสียไหม? — ไม่; อาจเป็น Model Graph/Shape
+3. Quota มีแล้ว Capacity พร้อมไหม? — ไม่แน่
+4. ทำไมต้อง Benchmark Dataset Pipeline? — Device Idle ระหว่างรอข้อมูล
+5. Model ใช้ Unsupported Ops ควรทำอะไร? — ตรวจ Alternative Framework/Accelerator
+6. Checkpoint ช่วยอะไร? — Recovery จาก Failure/Preemption
+7. ใช้ TPU ทำ REST API ง่าย ๆ ทุกครั้งคุ้มไหม? — ไม่, Requirement/Cost/Workload Fit ต้องชัด
+8. Training Loss ดีแต่ Job 10× Cost เหมาะไหม? — ดู Deadline/Quality/Economics รวม
+
+[TPU Overview](https://cloud.google.com/tpu/docs/intro-to-tpu) · [Performance Guide](https://cloud.google.com/tpu/docs/performance-guide).
+
+
+### 7. Troubleshooting และ Actual Evidence — TPU Job ไม่เดิน
+
+**Symptom:** TPU Job รันไปแล้ว 15 นาทีแต่ Training Step ยังไม่เพิ่ม. Hypotheses: (A) Compile/Graph Tracing ใช้เวลามาก (B) Dataset Loader รอ Cloud Storage (C) Host CPU/Memory Bottleneck (D) Distributed Worker Straggler หรือ (E) Process Crashed/Restarted. ตรวจ Job Logs/Compiler Phase, Step Timeline, Dataset Throughput, Worker Status และ Checkpoint State ตามสิทธิ์ที่ได้รับ **ก่อน** เพิ่ม TPU Chips
+
+**Expected:** คนอ่านสามารถแยก 5 Hypotheses จากหลักฐานคนละชนิดและระบุ Test ที่หักล้างสมมติฐานได้. **Actual:** เนื้อหานี้เป็นการวิเคราะห์ตัวอย่างบนกระดาษ, **ยังไม่ได้รัน TPU** บน Google Cloud และไม่มี Performance Benchmark Evidence. หากต้องทดลองจริงต้องมี Approved Project, Quota, Accelerator Availability, Cost Cap และ Cleanup ตาม Lab
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

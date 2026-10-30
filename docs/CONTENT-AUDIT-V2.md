@@ -140,3 +140,11 @@ npm run audit:content
 - แก้ปัญหา Raw HTML `img src` ใช้ Relative URL หลัง Deploy; Rewrite เป็น `/Personal-Knowledge-Base/kb-assets/...` และตรวจ SVG Assets ใน `dist`
 - จัดเมนู GCP ให้แสดง **17 Activities + Reference Library 1 Link**; Modules 13, Labs 6 และ Review ยังคงอ่านได้จาก Library และ Contextual Links ไม่ถูกลบ
 - `website/scripts/verify-gcp.mjs` ตรวจว่าทั้ง 17 มีแผนภาพ/เนื้อหาใหม่ และ Website Build มี Icon SVG; QA นี้ไม่ได้ยืนยันว่า Official Google Skills Unit ทุกหน้าถูกถอดแบบหรือทุก Lab ถูก Execute จริง
+
+## GCP ACE 17 historical Activities — Textbook authored completion (2026-10-30)
+
+- ทุก Activity มีบทเรียนภาษาไทยแบบ Textbook-first ที่เริ่มต้นในหน้าเดียว, เฉลยเหตุผล, Worked Cases, Error Diagnosis, Guided Read-only/Safe Practice และ Official Product Doc URLs ครบ 17/17
+- เก็บเนื้อหาบทก่อนหน้าไว้ในภาคขยายไม่บังคับ และรักษา 13 Modules, 6 Companion Labs, 17 Stable Progress IDs และลิงก์เดิม
+- `website/scripts/check-gcp-textbook.mjs` ตรวจ Primary Teaching Sections, Answer Reasoning, Official Reference URLs, Markdown Fences, Website HTML/Visual Assets และ Duplicate Long Teaching Paragraphs พร้อมรันใน Website CI
+- สถานะ `TEXTBOOK_AUTHORED` = เขียนครบ / Static QA ผ่าน, `EDITORIAL_REVIEWED` = ยังไม่ได้ให้ผู้อ่านอิสระตรวจ, `LAB_EXECUTED` = ยังไม่มี Actual Lab/Grader Evidence
+- Canonical Public Google Skills Path #11 แสดง 13 activities เมื่อ 30 ต.ค. 2026 ขณะที่ Cached/Parameterized Views บางชุดแสดง 17: คง Historical Snapshot ไว้และต้อง Reconcile ราย Activity ก่อนเปลี่ยน Learning Order

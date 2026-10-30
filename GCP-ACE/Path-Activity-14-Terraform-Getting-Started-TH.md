@@ -4,6 +4,84 @@
 
 > จุดประสงค์คือให้มอง Terraform เป็นระบบ **Configuration + State + Provider + Real Resources** ไม่ใช่จำคำสั่ง `init/plan/apply` อย่างเดียว
 
+## 📖 บทเรียนเต็ม: Terraform เป็น State-based Change Management ไม่ใช่ Shell Script
+
+### 1. Declarative Infrastructure ต่างจาก Imperative Commands อย่างไร
+
+Imperative Script บอก "เรียก API A แล้ว B" ตามลำดับที่เขียน; Terraform HCL ระบุ Desired Resource Configuration แล้ว Provider/Dependency Graph จัด Plan ของ Change. **State** เก็บ Mapping ระหว่าง Resource Address ใน Code กับ Object ID จริงใน Cloud; ถ้าขาด State แต่ Resource ยังอยู่ Terraform อาจพยายาม Create ใหม่, เปลี่ยน Owner หรือ Plan Replacement ไม่คาดคิด. คำว่า `terraform plan` จึงมีค่าต่อ Change Review มากกว่าการพิมพ์ `apply` ให้เร็ว
+
+**Provider** เป็น Plugin ติดต่อ Google Cloud APIs. Authentication ใน Terraform อาจใช้ Application Default Credentials/Workload Identity/Service Account ตาม Environment; ไม่ควร Commit Service Account JSON Keys ลง Git. CI Runner กับ Developer Local ต้องใช้ Identity ที่กำหนด Scope เหมาะสม
+
+### 2. HCL Model: Resource, Variable, Output, Module
+
+ตัวอย่างที่ประกอบภาพการคิด (Syntax สั้น ใช้ใน Approved Sandbox เท่านั้น):
+
+```hcl
+variable "project_id" { type = string }
+variable "region" { type = string }
+provider "google" {
+  project = var.project_id
+  region  = var.region
+}
+resource "google_compute_network" "lab" {
+  name                    = "example-vpc"
+  auto_create_subnetworks = false
+}
+output "vpc_name" {
+  value = google_compute_network.lab.name
+}
+```
+
+**Resource Address** ใน State คือ `google_compute_network.lab`; `name = "example-vpc"` เป็น Provider-side Name. การ Rename HCL Label `lab` → `main` โดยไม่ใช้ Refactor/Moved Strategy อาจทำให้ Terraform Plan มองเป็น Old Resource ที่ต้อง Destroy กับ New Resource ที่ต้อง Create แม้ Remote Name ไม่เปลี่ยน. **Module** ช่วย Reuse Config แต่แต่ละ Module Instantiation มี Resource Addresses ของตัวเองและต้องจัด Version/Inputs/Outputs
+
+### 3. State/Backend/Lock และ Secrets
+
+State ไม่ใช่ File ที่ควรแนบไป Public Portfolio. อาจมี Resource Metadata และ Sensitive Values (แม้ Output ถูก Mark Sensitive ก็ไม่ควรถือว่า State ปลอด Secret เสมอ). **Remote Backend** เช่น Cloud Storage Backend ช่วย Share State/Locking/Versioning ตาม Configuration, แต่ต้องตั้ง IAM, Encryption, Access Audit, Retention และ Recovery. หลายทีมเขียน State เดียวกันพร้อมกันโดยไม่มี Lock หรือแยก Ownership ไม่ชัดเสี่ยง Plan/Apply ทับกัน
+
+**Drift:** คนแก้ Resource ใน Console แล้ว Terraform Config/State ไม่ตรง Actual. บางครั้ง Drift สมควรย้อนให้ตรง IaC; บางครั้งต้อง Update Config ให้รับ Incident Mitigation — ต้องตัดสินจาก Change Record ไม่ใช่ Force Apply ให้ Drift หาย
+
+### 4. IAM Resource Ownership Trap
+
+Google Provider มี IAM Policy, Binding, Member Resources ที่มี Authoritative/Additive Semantics ต่างกัน. ถ้าเอา `google_project_iam_policy` ที่ Authoritative ไปใช้ผิด Scope อาจแทนที่ Policy เดิมและลบ Access ของ Service Agents/Production Users. ถ้า `google_project_iam_binding` คุม Role เดียวกับทีมอื่นอาจเกิด Collision; `..._iam_member` เพิ่ม Member แบบ Incremental แต่ยังต้องจัด Role Scope/Ownership
+
+### 5. Worked Change Review: Terraform Plan บอก Replace VM 8 ตัว
+
+สมมติ Requirement เปลี่ยน Label ของ Subnet แต่ Plan แสดง `-/+` (Destroy/Create) VM ที่เป็น Dependencies จำนวนมาก. **Stop** ก่อน: เปิด Plan Detail ดู Force Replacement Attribute, Compare Provider State/Remote Configuration, ตรวจ Resource Address/Moved Blocks, State Backend, Immutable Fields, Snapshot/Backup/Rollback และ Downtime. อย่าพยายาม `terraform state rm` เพื่อซ่อน Plan ที่ดูน่ากลัว
+
+**Approvals:** Plan Artifact, Impact Summary, Human Reviewer, Maintenance Window/Backup/Restore, Rollback Strategy, Post-apply Verification. GitHub Actions CI Green ไม่อนุมัติ Production Change ให้โดยอัตโนมัติ
+
+### 6. Safe Practice (state/plan caveat)
+
+```bash
+# Run in a disposable approved Terraform sandbox directory.
+terraform fmt -check
+terraform validate
+terraform plan -input=false
+```
+
+**ข้อจำกัด:** `terraform validate` ต้อง Init Provider/Modules ตาม Setup, `plan` อาจ Refresh Provider, Lock/Update State Metadata หรือ Write Artifacts — ไม่ใช่ Pure Read-only Guarantee. ห้ามรันกับ Production Backend โดยไม่ Approval; ไม่คัดลอก State ไป Public Repo. **Expected:** เห็น Proposed Resource Changes and Dependencies; **Actual:** ต้องจด Output เฉพาะที่ปลอดข้อมูลลับ
+
+### 7. คำถามพร้อมเฉลยเหตุผล
+
+1. Terraform Import สร้าง Configuration อัตโนมัติครบไหม? — ไม่เสมอ; Config ต้อง Match Real Resource
+2. State ลบแล้ว Cloud Resource หายไหม? — ไม่ทันที แต่ Tool อาจ Track ไม่ได้
+3. Plan มี Replace Unexpected ควร Apply ให้จบไหม? — ไม่, Review Immutable/State/Address
+4. Module Version Upgrade ปลอดภัยเสมอไหม? — ไม่, Interface/Resources เปลี่ยนได้
+5. IAM Binding กับ Member แทนกันได้ทุกกรณี? — ไม่, Ownership Semantics ต่างกัน
+6. Sensitive Output แปลว่า State ไม่มี Secret? — ไม่, State ยัง Sensitive
+7. Plan เป็น Read-only 100% ไหม? — ไม่รับประกัน Backend/Provider Side Effects
+8. จะบอกว่า IaC Change สำเร็จต้องมีอะไร? — Approved Plan, Actual, Validation, Rollback Plan
+
+[Google Cloud Terraform](https://cloud.google.com/docs/terraform) · [Terraform State](https://developer.hashicorp.com/terraform/language/state) · [Plan](https://developer.hashicorp.com/terraform/cli/commands/plan) · [Google Provider IAM](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/using_iam).
+
+
+### 8. Google Cloud IAM + Terraform Ownership ต้องตรวจสองแหล่ง
+
+Provider Configuration ของ Terraform ใช้ Credential เพื่อเรียก Google APIs และ Resource บางตัวจัดการ **IAM Permissions** บน Project/Service Account/Bucket. ต้องตรวจทั้ง [Google Cloud Terraform Documentation](https://cloud.google.com/docs/terraform) เพื่อเข้าใจ Integration และ [Google Cloud IAM Overview](https://cloud.google.com/iam/docs/overview) เพื่อเข้าใจ Principal/Role/Scope ที่ Resource จะเปลี่ยน. ถ้าสร้าง Terraform Plan ที่ Replace IAM Policy แบบ Authoritative, การมี HCL Syntax ผ่านไม่รับรองว่า Existing Service Agents/Production Principals ยังมีสิทธิ์ครบ. Review Intended Owner, Policy Change Diff และ Approval ก่อนใช้ Apply
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:
