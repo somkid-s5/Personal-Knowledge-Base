@@ -64,7 +64,7 @@ jobs:
         working-directory: website
         run: npm run qa:content
       - name: Save Full Content QA evidence report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: full-content-qa
@@ -74,7 +74,7 @@ jobs:
         working-directory: website
         run: npm run audit:content
       - name: Save V2 audit report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: content-audit-v2
           path: website/reports/content-audit-v2.md
