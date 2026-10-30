@@ -10,13 +10,23 @@
 
 [📘 เปิด Visual Guide แบบ Icon-First (Concept + Troubleshooting)](./VISUAL-STUDY-GUIDE-TH.md) · [🎨 มาตรฐาน Visual ร่วม](../docs/ICON-FIRST-LEARNING-STANDARD.md)
 
-> **Status:** **Verified Non-Lab Objective Scope** — Standard Exam Guide + 17/17 Google Skills activities mapped  
-> **Last repository verification:** 2026-10-07  
+> **Status:** **17-Activity historical snapshot, textbook conversion IN_PROGRESS; official current Path count requires rechecking**  
+> **Path recheck:** 2026-10-30 — public canonical URL displayed 13 Activities, while prior archived/parameterized views displayed 17; see below  
 > **Source manifest:** [SOURCE-MANIFEST.md](./SOURCE-MANIFEST.md)  
 > **QA evidence:** [ACE-100-PERCENT-QA-MATRIX.md](./ACE-100-PERCENT-QA-MATRIX.md)  
 > โน้ตสำหรับคนที่ชอบอ่าน: อธิบายเหตุผล วิธีทำงาน ตัวอย่างงาน System Admin และวิธีเลือกบริการ ไม่ใช่รายการคำศัพท์ให้ท่องอย่างเดียว
 
-## 📖 ฉบับอ่านเต็มในหน้า Activity (21 ตุลาคม 2026)
+## 📘 มาตรฐานใหม่: บทเรียนเต็มที่อ่านแทนวิดีโอได้ (2026-10-30)
+
+ยืนยันการเปลี่ยนเป็น **Textbook-first**: แต่ละ Activity ต้องสอน First Principles → Mechanism → Decision/Trade-off → Worked Example → Guided Practice → Troubleshooting → Reasoned Q&A จนผู้อ่านเข้าใจ Concept หลักได้ในหน้าเดียว; Modules มีไว้เปิดเจาะลึกเสริมเท่านั้น ไม่ใช่สถานที่ซ่อน Core Explanation
+
+[📖 มาตรฐานบทเรียนเต็ม](./TEXTBOOK-QUALITY-STANDARD.md) · [📋 Editorial Progress 17 Snapshot Activities](./TEXTBOOK-PROGRESS.md)
+
+**งานที่ลงมือขยายจริงในรอบนี้:** [Activity 03 — Foundation](./Path-Activity-03-Foundation-TH.md) และ [Activity 04 — Core Services](./Path-Activity-04-Core-Services-TH.md) เพิ่ม Textbook Chapters พร้อม Worked Scenarios และเฉลยเหตุผล. ทั้งสองอยู่ระดับ `TEXTBOOK_DRAFT`; **ไม่อ้างว่า 17/17 ผ่าน Editorial Review แล้ว** และ Lab ยังไม่ได้ Run
+
+**ข้อควรระวังจาก Google Skills:** หน้า Canonical [Path #11](https://www.skills.google/paths/11) ที่เปิดแบบ Public วันที่ 30 ต.ค. 2026 ระบุ 13 Activities แต่ Cached/Parameterized Versions บางชุดระบุ 17. เรารักษา 17 Study Notes เดิมและ Progress IDs ไว้ก่อน โดยยังไม่ประกาศว่า Order/Count นี้ตรงกับ Current Official Path 100%.
+
+## 📖 ฐานโน้ต Activity V3 เดิม (21 ตุลาคม 2026)
 
 ปรับปรุง **17 Activities ทุกบท** ด้วย `Deep Learning Notes` แยกตามหัวข้อจริงของกิจกรรมนั้น โดยมี Original Mermaid Diagram ในแต่ละ Activity, กรณีตัวอย่างที่ใช้แก้ปัญหาได้, Decision / Trade-off และคำถามทบทวน. **ไม่จำเป็นต้องเปิด Module เพิ่มจึงจะเข้าใจ Concept หลัก**.
 

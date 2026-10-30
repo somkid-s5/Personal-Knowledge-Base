@@ -1,10 +1,12 @@
-# ACE 100% QA Matrix — Non-Lab Completeness
+# ACE Historical QA Matrix — Non-Lab Objective Mapping (2026-10-07 snapshot)
 
 [กลับ README](./README.md) · [Exam Map](./LEARNING-PATH.md) · [Visual Study Guide](./VISUAL-STUDY-GUIDE-TH.md) · [Modern Objectives Deep Dive](./ACE-MODERN-OBJECTIVES-DEEP-DIVE-TH.md)
 
 > ตรวจล่าสุด: **7 ตุลาคม 2026**  
 > Source of truth: [Standard Associate Cloud Engineer Exam Guide — English](https://services.google.com/fh/files/misc/associate_cloud_engineer_exam_guide_english.pdf) ที่หน้า Certification ทางการลิงก์อยู่ และ [Google Skills ACE Learning Path](https://www.skills.google/paths/11) ซึ่งแสดง 17 activities ณ วันที่ตรวจ  
 > **Official labs / grader ไม่รวมในคะแนน 100%** เพราะทำใน Google Skills โดยตรงตามแผนของผู้เรียน
+
+> ⚠️ **Snapshot Warning — 2026-10-30:** ชื่อเดิมของ Matrix อาจทำให้เข้าใจผิด. ตารางในเอกสารนี้เป็นผลตรวจ **Coverage Mapping ณ 7 ต.ค. 2026** ไม่ใช่ Full Textbook Readiness, Google Skills Grader Completion หรือการรับรองว่า Current Path ยังมี 17 Activities. Canonical Public Path #11 ล่าสุดที่ตรวจโดยไม่ Login แสดง 13 Activities, ขณะที่ Cached Views บางรุ่นยังแสดง 17. ตรวจ [Textbook Quality Standard](./TEXTBOOK-QUALITY-STANDARD.md) และ [Current Conversion Tracker](./TEXTBOOK-PROGRESS.md) ก่อนอ้างความครบ
 
 ## 0. คำว่า “100%” ใน repo นี้หมายถึงอะไร
 

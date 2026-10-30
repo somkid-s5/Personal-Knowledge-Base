@@ -80,3 +80,23 @@ for(const asset of ['01-concept-path.svg','02-diagnostic-path.svg']){
    throw Error('GCP published visual SVG asset missing: '+asset);
 }
 console.log('GCP deep notes verified: 17/17 Activities with inline Mermaid, live-published visuals, optional Library only.');
+
+const textbookStandard=readFileSync(path.join(root,'GCP-ACE/TEXTBOOK-QUALITY-STANDARD.md'),'utf8');
+const textbookStatus=readFileSync(path.join(root,'GCP-ACE/TEXTBOOK-PROGRESS.md'),'utf8');
+const hub=readFileSync(path.join(root,'GCP-ACE/README.md'),'utf8');
+for(const marker of ['CURRICULUM_RECONCILIATION_REQUIRED','2026-10-30','13', '17', 'EDITORIAL_REVIEWED','Lab']){
+ if(!textbookStandard.includes(marker))throw Error('GCP Textbook/Path tracking missing marker: '+marker);
+}
+for(const marker of ['TEXTBOOK_DRAFT','NOT_REVIEWED','NOT_VERIFIED','0/17 LAB_EXECUTED']){
+ if(!textbookStatus.includes(marker))throw Error('GCP textbook progress evidence missing marker '+marker);
+}
+for(const marker of ['Textbook-first','2026-10-30','TEXTBOOK_DRAFT']){
+ if(!hub.includes(marker))throw Error('GCP landing README should disclose incomplete textbook conversion: '+marker);
+}
+for(const file of main.slice(2,4)){
+ const body=readFileSync(path.join(root,file),'utf8');
+ for(const marker of ['## 📖 Textbook Chapter','### 🧪 6.', '### 🩺 7.', '### 🎯 8.', 'Official references']){
+  if(!body.includes(marker))throw Error('Full teaching exemplar missing required text/activities: '+file+' / '+marker);
+ }
+}
+console.log('GCP textbook gate: Foundation/Core Services authored as drafts; official path drift and 17-activity preservation clearly disclosed.');

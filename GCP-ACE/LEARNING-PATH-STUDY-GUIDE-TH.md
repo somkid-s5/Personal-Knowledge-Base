@@ -8,6 +8,8 @@
 > รุ่นตรวจสอบ: 5 ตุลาคม 2026 · ยึดลำดับ 17 กิจกรรมที่หน้า ACE Learning Path แสดงในวันที่ตรวจสอบ  
 > **สถานะเนื้อหา:** เอกสารนี้จัดลำดับการอ่านตาม Path และเชื่อมไปยังโน้ตภาษาไทยแยกครบทั้ง 17 กิจกรรม พร้อมบทเทคนิคตามหัวข้อ; เนื้อหาเป็นการเรียบเรียงใหม่ ไม่ใช่ transcript หรือคำแปลทุกบทเรียนของ Google Skills
 
+> ⚠️ **Snapshot Notice (2026-10-30):** ลำดับ 17 กิจกรรมด้านล่างเป็น Snapshot เดิมของ Knowledge Base; หน้า [Google Skills Path #11](https://www.skills.google/paths/11) ที่ตรวจวันนี้แสดง 13 Activities ในขณะที่ Cached Views เคยแสดง 17. **ยังไม่ได้ยืนยันกิจกรรมทุกตัวและลำดับปัจจุบันแบบราย Unit**. เก็บ IDs เดิมไว้เพื่อไม่ให้ Progress หาย. ดู [Textbook Editorial Progress](./TEXTBOOK-PROGRESS.md)
+
 ## วิธีใช้
 
 > 🧭 **Activity 01–17 เป็นเส้นทางเรียนหลัก** หากต้องการ Module เชิงลึกและ Companion Lab ที่ตรงกับแต่ละ Activity ให้เปิด [ตาราง Activity → Module → Lab](./ACTIVITY-TO-MODULE-MAP-TH.md) ไม่จำเป็นต้องทำทุก Lab หรืออ่านทุก Module ก่อนเรียนต่อ
