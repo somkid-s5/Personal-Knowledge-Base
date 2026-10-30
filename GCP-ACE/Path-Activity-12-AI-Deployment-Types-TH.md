@@ -4,6 +4,56 @@
 
 > บทนี้เน้น **เลือก deployment model ให้ตรง workload** ไม่ใช่จำว่า AI ต้องใช้ GKE หรือ GPU เสมอ ให้เริ่มจาก latency, control, accelerator, scaling, availability, security และ operational burden
 
+## 📖 บทเรียนเต็ม: เลือก Deployment Type จาก SLO, Control และ Model Lifecycle
+
+### 1. Training Job, Batch Inference และ Online Inference ไม่ใช่สิ่งเดียวกัน
+
+**Training** คำนวณ Model Parameters จาก Dataset อาจเป็นงาน Batch หลายชั่วโมงและต้องมี Checkpoint/Recovery. **Batch Inference** ประมวลผลข้อมูลเป็นชุดในเวลาที่กำหนด เช่น ประเมิน 1 ล้าน Records ตอนกลางคืน. **Online Inference** ต้องรับ Requests และส่งคำตอบภายใน Latency SLO ที่กำหนด. การเลือก Runtime จากคำว่า "ต้องใช้ AI" โดยไม่ระบุชนิดงานทำให้ Cost/Scaling/Security ผิดเป้า
+
+โจทย์: Service แนะนำสินค้า p95 Latency ไม่เกิน 400ms, 500 Requests/sec Peak, Model Size 8GB, Database Features/Vector Search ต้องเข้าถึง Private. เราต้องคิดแยก Container Startup/Model Load, Memory Footprint, Concurrency, Network/Hops, Caching, Autoscale, Security/Auth และ Downstream Connection Limit
+
+### 2. Compute Engine vs GKE vs Cloud Run vs Managed AI Platform
+
+| Option | ความได้เปรียบ | ภาระ/ข้อจำกัดที่ต้องตรวจ |
+|---|---|---|
+| Compute Engine | OS/Driver/Process Control สูง | VM, Patch, Scale, Load Balancer, HA Ops |
+| GKE | Complex Kubernetes Workload/Accelerator Scheduling | Cluster/Node/Workload Platform Operations |
+| Cloud Run | Managed HTTP/Event-driven Container/Scale | Runtime Contract, Supported GPU/Resources/Quota และ Stateless Design |
+| Managed Vertex AI Serving/Training | ML-specific Workflow/Model Management | Product Features, Price, Region, Quota, Integration/Model Lifecycle |
+
+บริการที่มี Managed GPU Support อาจเปลี่ยนตาม Product/Region/Version; ตรวจเอกสารการรองรับล่าสุดก่อนเลือก ไม่ยึด Assumption จากบันทึกเก่า
+
+### 3. ทำไม Cold Start และ Model Warm-up สำคัญ
+
+Service Scale from Zero → Container Start → Load Model Weights → Allocate CPU/GPU Memory → Connect Feature Store/Database → Ready for Requests. ถ้า Model 8GB Load ใช้ 20s แต่ User SLO 400ms, ทุก Scale-to-zero Cold Start อาจผิด SLO. วิธีแก้เช่น Minimum Instances/Provisioned Resources/Caching/Warmup ตาม Service แต่ต้องชั่งค่าใช้จ่ายของ Idle Capacity
+
+**Readiness vs Liveness:** Readiness บอกว่ารับ Requests แล้วได้; Liveness บอกว่า Process ยังควร Restart หรือไม่. ไม่ควรให้ Startup/Liveness Probe ฆ่า Process ระหว่าง Warm-up ที่ยังไม่ทันเสร็จ. สำหรับ GKE อ่าน Startup Probe, Readiness Probe, Resource Requests และ Quota; สำหรับ Cloud Run ตรวจ Revision Condition/Container Contract
+
+### 4. Retry Storm และ Idempotency
+
+สมมติ Client Timeout ที่ 2s ทั้งที่ Backend ใช้ 4s ประมวลผล. Client Retry 3 ครั้ง และ API Gateway Retry อีก 2 ครั้ง. Backend อาจถูกเรียกซ้ำหลายรอบและเพิ่ม Queue/Cost. ถ้ามี Write Side Effects จะยิ่งรุนแรง. แก้ด้วย Retry Budgets, Exponential Backoff, Circuit Breaker, Queue Limits, Idempotency Key, Deadline Propagation และ Cancellations ตาม Architecture ไม่เพิ่ม Timeout อย่างเดียว
+
+### 5. Inference Accuracy ≠ HTTP 200
+
+HTTP 200 แปลว่า Transport/Application Responded, **ไม่ได้แปลว่า Model Prediction ถูกต้อง**. ต้อง Monitoring ทั้ง Service Reliability (Errors, Latency, CPU/GPU Memory, Capacity), Data Quality/Drift, Model Output Quality และ Audit/Privacy. Release ใหม่ควร Canary Model Version และ Feature Schema Compatibility; Rollback Image อย่างเดียวไม่ย้อน Feature Store/Data Changes
+
+### 6. Guided design without paid resources
+
+เขียน Deployment Proposal สำหรับ Model 8GB, Peak 500 RPS, p95 400ms: ระบุ Allowed Regions, Security Classification, Compute/Memory/GPU Need, Max Concurrency/Instances, Cost Ceiling, Prewarming, Database Pool Limit, Retry Policy และ Alert Criteria. **Expected:** Architecture Decision + measurable SLO + Test Plan. **Actual:** ยังไม่ผ่าน until load test on approved platform. ห้ามเริ่ม GPU/Endpoint Billable Runtime เพื่อให้ได้ Screenshot โดยไม่ Budget Approval
+
+### 7. QA with reasons
+
+1. Training กับ Online Inference ต่างกัน? — Time/Latency/Checkpoint/Availability Contracts
+2. Cloud Run เหมาะทุก GPU Workload ไหม? — ตรวจ Supported Runtime/Region/Quota
+3. Model Load 20s แก้ด้วย CPU เพิ่มเสมอ? — ไม่; Startup/Storage/Memory/Profile
+4. Retry ช่วย Reliability เสมอไหม? — ไม่, อาจสร้าง Storm/Duplicates
+5. p95 ดีแต่ Accuracy ลดถือว่าผ่านไหม? — ไม่; Model Quality เป็นอีก SLO
+6. GKE ต่างจาก VM ที่ต้องดูแลเองอย่างไร? — Scheduler/Controllers แต่ยังมี Platform Ops
+7. Canary เฉพาะ Container Image เพียงพอไหม? — ไม่เสมอ; Model Artifact/Schema ต้องเข้ากัน
+8. ทำไม Dataset Location กระทบ Cost? — Network Egress/Latency/Data Residency
+
+[Cloud Run](https://cloud.google.com/run/docs/overview/what-is-cloud-run) · [GKE](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) · [Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform).
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:
