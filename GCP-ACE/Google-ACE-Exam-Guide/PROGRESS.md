@@ -5,7 +5,7 @@ Verified official guide: 2026-10-30 (2026-06-30 standard guide). Original GCP-AC
 | Objective | Planned chapter | Status |
 |---|---|---|
 | 1.1 | `chapters/ch-1-1-projects-organization-and-access.md` | draft (12 bullets mapped; requires technical and diagram QA) |
-| 1.2 | `chapters/ch-1-2-billing-configuration.md` | todo |
+| 1.2 | `chapters/ch-1-2-billing-configuration.md` | draft (4 objectives taught, pending independent QA/diagram) |
 | 2.1 | `chapters/ch-2-1-compute-resources.md` | todo |
 | 2.2 | `chapters/ch-2-2-storage-and-data-solutions.md` | todo |
 | 2.3 | `chapters/ch-2-3-networking-resources.md` | todo |
