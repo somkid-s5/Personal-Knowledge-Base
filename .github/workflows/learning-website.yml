@@ -80,7 +80,7 @@ jobs:
           path: website/reports/content-audit-v2.md
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: website/dist
 
