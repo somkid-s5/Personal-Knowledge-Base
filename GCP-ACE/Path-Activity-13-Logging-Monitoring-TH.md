@@ -4,6 +4,64 @@
 
 > บทนี้ยกระดับจาก “รู้จัก Monitoring/Logging” ไปเป็น **ใช้ telemetry เพื่อหาสาเหตุจริง** ตั้งแต่ user impact → metrics/logs/traces → hypothesis → alert/runbook → verification
 
+## 📖 บทเรียนเต็ม: Observability แบบแยกสัญญาณจนเจอ Root Cause
+
+### 1. Monitoring ไม่ใช่การเปิด Dashboard ให้สวย
+
+ระบบ Web Application มี 5xx สูงขึ้น ผู้ใช้บ่นว่าช้า แต่ CPU VM ใช้เพียง 25%. ถ้ามีแค่ CPU Graph จะสรุปผิดว่า "Server ปกติ". **Monitoring Metrics** ชี้แนวโน้ม/ขนาดของปัญหา, **Logging** ให้ Event/Request Context, **Tracing** แยก Latency ตาม Call Chain และ **Audit Logs** ให้หลักฐาน Control/Data Access ภายใต้นโยบายที่เปิดใช้. แต่ละชนิดตอบคนละคำถามและมี Cost/Retention/Permission ต่างกัน
+
+**Four Golden Signals:** Latency, Traffic, Errors, Saturation. สำหรับเว็บ ให้ระบุ SLI เช่น "สัดส่วน HTTP Requests 2xx/3xx ภายใน 500ms" และตั้ง SLO ที่ผูก User Experience. ค่าเฉลี่ย Latency อาจซ่อน Tail Latency: 95% ของ Requests 100ms แต่ 5% ของ Requests 10s จะทำให้ User กลุ่มหนึ่งเจอปัญหาหนัก. ดู p95/p99 พร้อม Sample Size ไม่ใช้ Average อย่างเดียว
+
+### 2. Metric, Logs, Traces ไม่ใช่ผลรันเดียวกัน
+
+| แหล่ง | คำถามที่ตอบ | จุดที่มักเข้าใจผิด |
+|---|---|---|
+| Cloud Monitoring | Error Rate, p95, CPU/Memory, Quota Trends | Metric Sampling/Labels/Time Window อาจไม่ตรง Incident |
+| Cloud Logging | Error Message, Request ID, Version/Revision | Log Missing อาจเกิด Exclusion/Agent/Permission |
+| Cloud Trace | Request ใช้เวลาใน Hop ไหน | Sampling/Instrumentation ไม่ครอบทุก Request |
+| Audit Logs | ใครเปลี่ยน Resource/IAM | ไม่ใช่ Application Runtime Trace |
+| Cloud Status / Service Health | มี Service Provider Incident ไหม | Global Status ไม่ชี้ทุก Local Root Cause |
+
+**Logs Router/Sink:** Routing Log Entries จาก Source ไป Destination ไม่ได้ทำให้ Writer Identity เขียน Destination ได้เอง. ถ้า Sink สร้างแล้วไม่มี Logs ให้ตรวจ Log Filter, Writer IAM, Destination Resource, Region, Data Retention/Exclusion และ Delay ก่อนสรุปว่า Cloud Logging หยุดทำงาน
+
+### 3. Worked Incident: Connection Pool Exhaustion
+
+สมมติ Timeline: 10:00 Deploy Revision B → 10:05 Requests/s เท่าเดิมแต่ p95 จาก 200ms เป็น 2.5s → 10:06 Database Connection Pool เต็ม → 10:07 HTTP 503 เพิ่ม → CPU ของ App 30%. มีความสัมพันธ์ทางเวลา แต่ **ยังไม่พิสูจน์ Causation**. ต้องตรวจ Revision B เพิ่ม Pool Size/Connections Per Instance หรือเปล่า, SQL Query Duration/DB Limits, Traffic Split และ Changes ก่อน Incident
+
+ขั้นตอนตรวจ: กำหนด Time Range → ดู Error Rate+p95+Throughput → Filter Logs ด้วย Service/Revision/Request ID → หา Trace ของ Slow Requests → เปรียบ DB Pool/Locks/Waits → เสนอ Mitigation → Validate SLO After Change. ถ้าลด Traffic Revision B แล้วหายเป็นหลักฐานช่วย Hypothesis แต่ยังต้องดู Shared Dependencies/Workload
+
+### 4. Alert ที่ดีต้อง Actionable และลด Noise
+
+Alert CPU > 80% ทุก 1 นาทีอาจเตือนตอน Batch Job ที่สุขภาพดี. Alert ที่ผูก Error Budget / p95 Latency ต่อเนื่อง และมี Minimum Request Count มักช่วยชี้ User Impact มากขึ้น. ต้องกำหนด Severity, Time Window, Alert Routing, Escalation, Acknowledge และ Runbook. Incident Response ที่ดีต้องรู้ Owner/Business Impact มากกว่ามี Dashboard จำนวนมาก
+
+**SLA ≠ SLO ≠ SLI:** SLI เป็นค่าที่วัดได้, SLO เป็นเป้าหมายภายในที่ใช้บริหาร Reliability, SLA เป็นข้อตกลงที่อาจมีผลเชิงสัญญา. "Availability 99.9%" ต้องระบุ Window, User Journey และ Measurement Method มิฉะนั้นตัวเลขไม่มีความหมาย
+
+### 5. Read-only Guided Investigation
+
+```bash
+# Authorized Google Skills project only.
+gcloud logging logs list --project=LAB_PROJECT_ID
+gcloud monitoring policies list --project=LAB_PROJECT_ID
+gcloud compute instances list --project=LAB_PROJECT_ID
+```
+
+**Expected:** บอกได้ว่ามี Log/Policy/VM อะไรที่ Relevant, Scope ไหน, Error/Labels เป็นอะไร. **Actual:** บันทึกเท่าที่ IAM อนุญาต; อย่าสร้าง Alert/Sink ใหม่หรือเปิด Data Access Audit Logs เพิ่มโดยไม่ดู Permission, Cost และ Data Policy. สำหรับ App Logs ต้อง Redact Token, User IDs, SQL Text/PII ก่อนใช้เป็น Portfolio
+
+### 6. Troubleshooting Matrix และคำถามเหตุผล
+
+**Log Sink ไม่มี Data:** Filter ไม่ Match, Writer Identity ไม่มีสิทธิ์ Destination, Exclusion/Time Range, Destination/Region/Delay. **Metrics ดูปกติแต่ผู้ใช้ช้า:** p95, Sampling, Synthetic/Uptime Check, Client Region, Downstream Traces. **Alert Storm:** Threshold/Duration/Grouping/Noisy Labels และ Suppression Policy. **Audit Log มีช่องว่าง:** Log Type Enablement, Resource Scope, Privileges, Retention ไม่ใช่ต้องเปิด Full Logging ทุกอย่างทันที
+
+1. CPU ต่ำแปลว่า User ไม่ช้า? — ไม่, DB/Network/Queue อาจตัน
+2. Logs กับ Traces ต่างกัน? — Events vs Request Call-chain Time
+3. ทำไม p95 สำคัญ? — เห็น Tail Impact ที่ Average ซ่อน
+4. Sink Created แปลว่า Logs ส่งถึง BigQuery แล้ว? — ไม่, Writer IAM/Filter ยังสำคัญ
+5. SLI/SLO/SLA เหมือนกันไหม? — ไม่, Measurement/Target/Contract
+6. จะแก้ 503 ด้วย Alert เพิ่มได้ไหม? — Alert ไม่แก้ Root Cause
+7. ทำไมต้อง Redact Logs? — อาจมี PII, Keys, App Secrets
+8. ทำไมต้องเก็บ Timeline? — แยก Correlation, Prior Changes และ Evidence
+
+[Cloud Monitoring](https://cloud.google.com/monitoring/docs/monitoring-overview) · [Cloud Logging](https://cloud.google.com/logging/docs/overview) · [Service Monitoring](https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring).
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

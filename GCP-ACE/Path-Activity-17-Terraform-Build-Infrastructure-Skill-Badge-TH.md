@@ -4,6 +4,62 @@
 
 > Activity 14 สอนพื้นฐาน Terraform ส่วน Skill Badge นี้ต้องทำให้เรา **ประกอบ infrastructure จาก module/state/import/change workflow ได้เองภายใต้โจทย์** และอ่าน plan เพื่อป้องกันการเปลี่ยนที่ไม่ตั้งใจ
 
+## 📖 บทเรียนเต็ม: Terraform Challenge Lab — เปลี่ยน Infrastructure โดยไม่ทำลาย State
+
+### 1. ทำไม Skill Badge Terraform ยากกว่าพิมพ์ HCL ถูก
+
+การสร้าง Resource ใหม่ด้วย Terraform อาจตรงไปตรงมา แต่สถานการณ์จริงต้อง **Import Existing Resources, Maintain State Ownership, Change Configuration without Destroy, Use Modules, Manage Backends and Verify Plan**. Terraform State คือ Source of Resource Mapping ไม่ใช่เพียง Cache; ถ้า Remote Resource มีแต่ State ไม่มี Terraform อาจเสนอ Create ซ้ำ, ถ้า State ชี้ Resource ผิดก็อาจ Modify/Delete ของคนอื่นได้
+
+### 2. Root Module, Child Module และ Addresses
+
+`module.network.google_compute_network.main` กับ `google_compute_network.main` เป็นคนละ Resource Address แม้ชี้ Network Name เดียวกันได้. การย้าย Resource เข้า Module โดยไม่ใช้ Refactoring Strategy/Moved Block จะทำให้ Plan เห็น Destroy/Create ที่ไม่จำเป็น. ก่อน Change ต้องบันทึก Old Address, New Address, Provider ID, State Backend และ Approval. `terraform state mv` หรือ `import` เป็น State-changing Actions จึงไม่อยู่ใน Read-only Lab
+
+**Variables** กำหนด Inputs ที่ตรวจ Type/Validation ได้, **Outputs** เปิดเผย Resource Identifiers ให้ Component อื่น (อย่าแสดง Secrets), **Modules** จัดชุด Resource ที่ใช้ซ้ำ, **State** เก็บ Mapping และ Metadata, **Provider** ติดต่อ Google Cloud APIs. Configuration ที่ดูเหมือนเรียบร้อยแต่ใช้ Provider/Module Version ใหม่อาจมี Behavior ต่างจากเวอร์ชันเดิม จึงต้อง Lock Versions และ Review Upgrade
+
+### 3. Case: Import VPC เดิมเข้ามาจัดการด้วย IaC
+
+ทีมมี VPC `existing-vpc` ใน Google Cloud ถูกสร้างผ่าน Console. ต้องการให้ Terraform เป็น Owner. ก่อน Import ต้องตอบ: Existing Resource ID/Project, IAM Owner, Network Mode, Subnets, Routes, Firewall Policies, Dependencies, State Backend/Lock, Who Else Manages This Resource และ Rollback. Import บอก Terraform ว่า Remote Object นี้ตรงกับ Address ไหน แต่ **ไม่ได้รับประกัน HCL Config Match ทุก Property**. Plan หลัง Import อาจเสนอ Replace/Delete ถ้า Config ไม่ถูกต้อง
+
+**Danger:** ถ้าสอง Repositories ต่างคิดว่าตน Own IAM Policy ของ Project เดียวกัน, Applying Authoritative IAM Binding/Policy จากทีมหนึ่งอาจ Remove Access ของอีกทีม. ต้องมี Ownership/Change Governance ไม่ใช่แข่งกัน Apply
+
+### 4. Interpret Plan before Changes
+
+| Plan Signal | สิ่งที่ควรทำ | ไม่ควรทำ |
+|---|---|---|
+| Create only | Verify Quota, Cost, Region, Naming/Policy | Blind Apply on Prod |
+| In-place Update | ตรวจ Security/Dependencies/User Impact | สมมติว่า 0 Downtime เสมอ |
+| Replace (Destroy/Create) | ตรวจ ForceNew/Immutable Fields, Backup/Availability | ใช้ `state rm` ซ่อนปัญหา |
+| No Changes | ยืนยัน Resource Ownership และ Drift Window | อ้างว่าทุกอย่าง Secure/Compliant |
+| Unexpected Drift | หา Console/Ops Changes และ Merge Config | Force Revert โดยไม่คุย Operator |
+
+### 5. Practical Review — แยก Code Quality จาก Cloud Impact
+
+```bash
+# Only in an approved isolated Terraform directory/backend.
+terraform fmt -check
+terraform validate
+terraform plan -input=false
+```
+
+`terraform validate` ตรวจ Syntax/Provider Schema หลัง Init, ไม่พิสูจน์ Quota/Policy/Network Reality. `terraform plan` ติดต่อ Provider/Backend และอาจ Lock/Update State Metadata/Local Files; **ไม่จัดเป็น Pure Read-only**. ถ้ายังไม่มี Lab Credentials ให้ Review Example Plan เป็นกระดาษแทน เพื่อเลี่ยง Side Effects/Costs. `terraform apply`, `import`, `state mv` ต้องทำเฉพาะ Official Lab Project ภายใต้ Instructions/Approval
+
+### 6. Worked Scenario — Subnet CIDR Change จะ Destroy 8 VMs
+
+Change Request แค่ขยาย CIDR แต่ Plan บอก Replace VM/Subnet. ต้องตรวจว่าขยาย Range ผ่าน Supported In-place Operation ได้หรือไม่, Terraform Resource/Provider Limitation, Dependent NIC/Resources, State Address/Backend, Network IPAM, Downtime/Backout และ Manual Changes. **ไม่ควรกด Apply เพียงเพราะ Lab Timer กำลังหมด**; ถ้า Official Challenge ต้องตาม Grader โดยไม่ทำลาย Project ภายนอกที่ไม่ได้รับอนุญาต
+
+### 7. เข้าใจจริงหรือยัง? (Reasoned Answers)
+
+1. Terraform Import คือการสร้าง VPC ไหม? — ไม่; เป็น State/Resource Mapping
+2. HCL Rename ทำไม Plan Destroy/Create? — Resource Address เปลี่ยนโดยไม่มี Move Strategy
+3. State มี Secrets ได้ไหม? — ได้, ต้อง Protect Backend/IAM/Encryption
+4. Module Version Update ปลอดภัยเสมอ? — ไม่, Interface/Resource Changes
+5. IAM Policy กับ Member ใช้แทนกันได้ไหม? — ไม่, Authoritative/Additive Semantics
+6. Plan No Changes หมายถึง Infra Secure แน่นอน? — ไม่, Plan ไม่ใช่ Security Assessment
+7. ทำไม State Lock สำคัญ? — ป้องกัน Concurrent State Writes
+8. Skill Badge PASS ต้องมีหลักฐานอะไร? — Official Grader/Actual Steps and Cleanup, ไม่ใช่ Static CI Green
+
+**Exit criteria:** Explain State Ownership, Review Plan/Replacement Risks, Sketch Import/Refactor Steps (do not execute), Name Backup/Rollback/Evidence and Costs. [Terraform on Google Cloud](https://cloud.google.com/docs/terraform) · [Import](https://developer.hashicorp.com/terraform/cli/import) · [Moved Blocks](https://developer.hashicorp.com/terraform/language/moved).
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:
