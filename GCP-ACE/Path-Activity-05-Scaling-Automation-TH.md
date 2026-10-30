@@ -4,6 +4,59 @@
 
 > บทนี้ยึด Activity 05 ของ ACE Learning Path โดยตรง: การเชื่อม network, load balancing/autoscaling, Terraform automation และภาพรวม managed services Course syllabus ระบุ hands-on HA VPN, Application Load Balancer with autoscaling, Internal Load Balancer และ Terraform คู่มือนี้เป็นโน้ต/แบบฝึกประกบ ไม่ใช่เฉลย grader
 
+## 📖 บทเรียนเต็ม: ทำให้ระบบรองรับผู้ใช้เพิ่มโดยไม่แลกกับ Downtime
+
+### 1. เริ่มจาก SLO ไม่ใช่จำนวน VM
+
+สมมติ Web App ใช้ Compute Engine VM หนึ่งตัว รับ 100 requests/s, p95 latency 150ms; ช่วงสิ้นเดือน Traffic เพิ่มเป็น 800 requests/s แล้ว p95 กลายเป็น 4s. คำตอบไม่ใช่เพิ่ม CPU ทันที ต้องแยกว่า Bottleneck เป็น CPU, Memory, Disk, Database Pool หรือ Network; เพราะถ้าระบบติด Database Connection Limit การเพิ่ม VM จะทำให้ Connections เพิ่มตามและปัญหาอาจแย่ลง
+
+**Managed Instance Group (MIG)** จัด Desired VM Replicas จาก Instance Template; **autoscaler** ปรับ Target Size ตาม Metric/Policy; **autohealing** สร้าง VM ทดแทนเมื่อ Health Check บอกว่าเสียตามเงื่อนไข. ส่วน **Load Balancer** เลือก Backend ที่พร้อมรับ Traffic. ทั้งสี่แก้คนละปัญหา: LB ไม่เพิ่ม Capacity เอง, Autoscaler ไม่การันตีว่า Application Health Check ผ่าน, และ Autohealing ไม่แก้ Database Shared Failure
+
+### 2. End-to-end HTTP Application Load Balancer
+
+Client → Public/Private Frontend → Target Proxy/URL Map (สำหรับ Application LB) → Backend Service → Healthy MIG/NEG Members → Application. ถ้า Backend Service ไม่มี Healthy Endpoint ผู้ใช้จะได้ 5xx แม้ VM Status RUNNING. HTTP Health Check ต้องตรวจ Path/Port/Response ตามการออกแบบ; ไม่ใช้ Ping VM แทน HTTP Application Health
+
+**Case:** VM สร้างจาก Template ใหม่แล้วตอบ 502. ดูว่า Startup Script เสร็จหรือยัง, App Listen Correct Port หรือไม่, Health Check Firewall Rules ที่เหมาะกับ Load Balancer Type, Backend Protocol/Timeout, Named Port (ถ้าใช้), VM Tags/Service Accounts และ Dependency Database. สรุป Root Cause จาก Evidence ไม่ใช่ Restart ทุก VM พร้อมกัน
+
+### 3. Network Hybrid: HA VPN, Peering และ Interconnect ต่างกัน
+
+| ความต้องการ | เลือกพิจารณา | Trade-off |
+|---|---|---|
+| On-prem ↔ VPC ผ่าน Encrypted Tunnels | HA VPN + Cloud Router/BGP | Internet Path, Tunnel/BGP Status, Routing Failover |
+| สอง VPC เชื่อมกัน | VPC Network Peering | Non-transitive Routes, IAM/Overlapping CIDR |
+| Dedicated/Partner Private Connectivity | Interconnect | Circuit Provisioning/Availability/Cost |
+| หลาย Projects ใช้ VPC กลาง | Shared VPC | Host/Service Project Governance |
+
+VPN Tunnel UP แต่ App ยังติดต่อไม่ได้อาจเป็น BGP Route, Firewall, DNS หรือ CIDR Conflict. อย่าถือว่า Green Tunnel Status เท่ากับ Application Connectivity
+
+### 4. Autoscaling แบบไม่ทำ Backend พัง
+
+Autoscale Policy ต้องระบุ Minimum/Maximum Replicas, Cooldown/Initialization, Traffic Seasonality, Target Metrics และ Scale-in Risk. **Instance Template เป็น Immutable Blueprint**: การเปลี่ยน Template ไม่อัปเดต VM ทุกตัวในทันทีโดยอัตโนมัติ ต้องมี Rolling Update/Replacement Strategy
+
+**Numeric thought experiment:** Web VM 1 ตัวรองรับ 100 requests/s ที่ p95 ตาม SLO, Peak 650 requests/s, Target utilization 70%. เริ่มคิด Capacity = 650/(100×0.7) ≈ 9.3 จึงต้องมีอย่างน้อย ~10 Replicas **ตามสมมติฐานง่าย ๆ นี้เท่านั้น**; ความจริงต้อง Load Test รวม Cold Start, DB Limits, Regional Capacity และ SLO ระหว่าง Deploy. การใช้เลขหารอย่างเดียวไม่ใช่ Proof of Scale
+
+### 5. Terraform — Desired State มีความเสี่ยงเมื่อ State ไม่ตรง
+
+Terraform HCL บอกสิ่งที่ต้องการ, Provider อ่าน Actual Resources, State จดความสัมพันธ์ระหว่าง Resource Address ↔ Cloud ID และ Plan แสดง Change. `terraform plan` ไม่ได้แปลว่า "ปลอดภัยเสมอ" เพราะอาจ Refresh/Lock/Write State/Plan Artifact; `apply` เปลี่ยนจริง. ถ้า Plan แสดง Destroy 5 Resources ทั้งที่ Change Request แก้ Label เดียว ต้องหยุดตรวจ Drift/Immutable Field/Resource Address/State Ownership ก่อน
+
+### 6. Guided Practice: อ่านอย่างเดียวก่อนตัดสินใจ
+
+```bash
+# Approved lab project; queries only.
+gcloud compute instance-groups managed list --project=LAB_PROJECT_ID
+gcloud compute instance-templates list --project=LAB_PROJECT_ID
+gcloud compute backend-services list --project=LAB_PROJECT_ID
+gcloud compute health-checks list --project=LAB_PROJECT_ID
+```
+
+**Expected:** มี Inventory MIG/Template/Backend/Health Check ตาม Lab Scope. **Actual:** หากไม่มี Resource ไม่ได้แปลว่า LB ใช้ไม่ได้; อาจยังไม่ทำ Lab. เปรียบเทียบ Identity, Region, Backend Type, Members และ Health. หากงานจริงต้อง Create LB/MIG ให้ใช้ Google Skills Instructions และ Cleanup ตาม Grader; อย่าสร้าง Public Frontend ใน Personal Project จาก Tutorial ที่ไม่ระบุ Cost
+
+### 7. Scenario พร้อมคำตอบ
+
+"Load Balancer ส่ง 503 แต่ทุก VM RUNNING": ดู Backend Health/Ports/App Readiness ไม่ดู Status VM อย่างเดียว. "Scale Out แล้ว DB ล้ม": ตรวจ Connection Pool Limits/Retry Storm, ตั้ง Global Max Replicas ต่อ Downstream Capacity. "VPN UP แต่ DB Connect ไม่ได้": ตรวจ BGP/Route, Firewall, DNS, Listening Port. "Terraform Plan Replacement Unexpected": Stop, Inspect State/Immutable Fields. "Healthy check 200 แต่ API 500": Check App and Dependencies, ไม่คิดว่าทุก URL ใช้งานได้. "ต้องรองรับ Zone Failure": ใช้ Regional/Multiple Zones/State Externalization ไม่วางทุก VM ใน Zone เดียว
+
+**Completion evidence:** Draw existing LB/MIG path (ใช้ Diagram ที่มีอยู่ในบท), Explain Health vs Scale, List Read-only Inventory, Propose one Failure Fix with Rollback and Cost Impact. [MIGs](https://cloud.google.com/compute/docs/instance-groups) · [LB Overview](https://cloud.google.com/load-balancing/docs/load-balancing-overview) · [HA VPN](https://cloud.google.com/network-connectivity/docs/vpn/concepts/overview) · [Terraform](https://cloud.google.com/docs/terraform).
+
 ## เป้าหมาย
 
 หลังเรียนควรอธิบายได้ว่า:

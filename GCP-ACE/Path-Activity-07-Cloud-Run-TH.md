@@ -4,6 +4,64 @@
 
 > Activity นี้สอน Cloud Run resource model/container lifecycle/autoscaling, service identity/IAM, local development/testing และการเชื่อม Google Cloud services; syllabus แสดง hands-on least-privilege IAM bindings และ Pub/Sub integration โน้ตนี้เสริม course โดยไม่คัดลอก grader
 
+## 📖 บทเรียนเต็ม: Cloud Run HTTP Service ตั้งแต่ Container ถึง Revision Rollback
+
+### 1. Serverless ไม่ใช่ Server ที่หายไป
+
+Cloud Run จัดการ Infrastructure/Scaling ในขอบเขต Service ให้ แต่ App Owner ยังรับผิดชอบ Container Image, Runtime Config, Memory/CPU, Concurrency, Identity, Network, Database Connections และ Security. **Service** เป็น Logical Endpoint, **Revision** เป็น Immutable Version ของ Deployment Configuration, Traffic Split เป็น Policy ที่กำหนดว่า Request ไป Revision ไหน. การ Rollback Traffic ไม่ Rollback Database Schema/Data
+
+Container ต้องเริ่ม Process ที่ฟัง HTTP บน Port จาก Environment (ตาม Container Runtime Contract) และ Bind Address ที่ Platform เข้าถึงได้ ไม่ใช่แค่ `127.0.0.1`. Error 503 หลัง Deploy อาจเกิดเพราะ Process Startup Fail, Secret/Config Missing, Revision Not Ready, Concurrency/Capacity หรือ Downstream Timeout
+
+### 2. ผู้เรียก/ผู้ Deploy/Runtime Identity ต้องแยก
+
+| Identity | ทำหน้าที่ | สิทธิ์หลัก |
+|---|---|---|
+| Deployer | สร้าง Service/Revision และส่ง Image | Deployment/Service Administration ที่ได้รับอนุญาต |
+| Invoker | เรียก HTTP Endpoint | `run.routes.invoke` ตาม Authorization Model |
+| Runtime Service Account | Process เรียก Cloud APIs, Cloud SQL, Pub/Sub | Least Privilege บน Resources ที่ App ใช้ |
+| Service Agent | Platform ใช้ทำงานตาม Service | Google-managed Permission Scope |
+
+**Ingress** จำกัดประเภท Network Source/Route ส่วน **Invoker IAM** กำหนด Authorization. เปิด Internal Ingress ไม่ได้แปลว่าทุก Service ภายในมี Invoke Permission; เลือก Allow Unauthenticated ไม่ได้แปลว่า App Security เพียงพอ. วาง IAM/Network/Auth ตาม Trust Boundary
+
+### 3. การตั้ง Concurrency คิดจาก Downstream ไม่ใช่แค่ CPU
+
+ตัวอย่าง App มี `max instances=40`, `concurrency=50`. ทางทฤษฎีอาจมี Requests กำลังประมวลผลพร้อมกันสูงได้ถึง 2000 ใน Service Config นี้ แต่ถ้า Database Accept Connections เพียง 80 และ App เปิด 1 Connection ต่อ Request จะเกิด Connection Saturation. ต้องรวม DB Pool, Request Duration, Cold Start, CPU Allocation, Retry Budget, Quota และ Cost เข้า Design. เพิ่ม Max Instances อย่างเดียวไม่ใช่ Scale Strategy
+
+**Traffic Rollout:** Revision A 95%, B 5%. เฝ้า Error Rate, p95 Latency, Memory/CPU, DB Errors ของ B ก่อนเพิ่มเป็น 25%, 50%, 100%. ถ้า B Fail ให้ Rollback Traffic พร้อมตรวจ Schema Compatibility; ถ้า Migration เปลี่ยน DB และย้อนกลับไม่ได้ ต้องมี Expand/Contract Schema Strategy ก่อน Deploy
+
+### 4. Guided Read-only Inspection
+
+```bash
+# Approved project only: no deploy, changes or traffic splitting.
+gcloud run services list --region=REGION --project=LAB_PROJECT_ID
+gcloud run services describe SERVICE_NAME --region=REGION --project=LAB_PROJECT_ID
+gcloud run revisions list --service=SERVICE_NAME --region=REGION --project=LAB_PROJECT_ID
+```
+
+**Expected:** เห็น Service, Region, Ingress, Runtime SA, Revision Conditions, Traffic Allocation และ Scaling Settings ตามสิทธิ์. **Actual:** อ่านจาก Skills Lab หรือ Sandbox; คำสั่ง List อาจไม่โชว์ Resource ถ้าไม่มี Service หรือ IAM ไม่พอ; ห้าม Deploy เพียงเพื่อให้ Evidence ดูมีข้อมูล
+
+### 5. วิเคราะห์ 401/403/503 ให้ถูก Layer
+
+- **401/403**: Auth/Invoker/Identity หรือ Ingress/Policy — อย่าทำ Service Public เพียงเพราะ Test ไม่ผ่าน
+- **503**: Revision Not Ready, Startup Port, Container Crash, Backend/Resource Quota หรือ Downstream Timeout
+- **Latency สูงแต่ Error ต่ำ**: Concurrency, Cold Start, DB Pool, Network Calls, CPU/Memory Pressure
+- **Revision B ผ่าน Health แต่ User เกิด Error บางส่วน**: ดู Traffic Split, Route-specific Behavior, Request Logs/Dependencies
+
+**Case:** New Revision คืน 503 พร้อม Log "cannot bind port". ตรวจ App Listen Port/Bind Address และ Image Command ก่อนเพิ่ม CPU. หาก Error เป็น Cloud SQL Connection Timeout ต้องดู Runtime SA, Network, Connector, DB Connections แทน. วิธีแก้ต้องอิง Log ไม่ใช่เดาจาก HTTP Status อย่างเดียว
+
+### 6. Checkpoint Questions
+
+1. Service กับ Revision ต่างกัน? — Service Stable, Revision Immutable Deployment Version
+2. Rollback Traffic ย้อน DB ไหม? — ไม่
+3. Max Instance x Concurrency ใหญ่ขึ้นช่วยเสมอไหม? — ไม่, DB/Downstream อาจอิ่มตัว
+4. Deployer IAM ส่งต่อ Runtime หรือไม่? — ไม่, คนละ Identity
+5. Internal Ingress แปลว่า Invoker Free ไหม? — ไม่, Auth แยก
+6. ทำไม 503 อาจมาจาก PORT? — Container Contract ต้องให้ Platform เรียก Listener ได้
+7. Runtime Secret อ่านไม่ได้แก้ด้วย Public Invoker ไหม? — ไม่; ต้องแก้ Secret/SA
+8. เมื่อไรเลือก Cloud Run แทน GKE? — HTTP/Events ที่ต้องการลด Node Operations และ Runtime Requirements รองรับ
+
+[Cloud Run Overview](https://cloud.google.com/run/docs/overview/what-is-cloud-run) · [Container Runtime](https://cloud.google.com/run/docs/container-contract) · [Traffic Management](https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration).
+
 ## เรียนจบแล้วควรทำได้
 
 - เลือก Cloud Run service สำหรับ HTTP application และแยก service/revision/instance
