@@ -181,6 +181,105 @@ Alert ควรมี action ผู้รับผิดชอบและ runbo
 
 อย่าเก็บ passwords, access tokens หรือ secret payload ใน application logs อย่าคิดว่า “ไม่เห็น log” แปลว่าไม่มีเหตุการณ์: ตรวจ sink/filter/exclusion, retention, permission และ audit-log type ที่เปิดไว้
 
+## 📖 Textbook Chapter — Core Services: Identity, Data, Cost และ Observability
+
+> **Original Thai Teaching Chapter (2026-10-30).** อธิบายตามหัวข้อ Course Core Services ที่ Google Skills เปิดเผยสาธารณะ; ไม่ใช่ Video Transcript / Paid Student Guide หรือผลจริงจาก Google Cloud Lab. ภาพจำหลักอยู่ใน [Visual Guide](./VISUAL-STUDY-GUIDE-TH.md).
+
+### 🔐 1. IAM: “ใครทำอะไรกับทรัพยากรไหน” ไม่ใช่แค่เลือก Role
+
+เวลาให้ User เข้าถึง Cloud Storage มีอย่างน้อยสามส่วน: **Principal** คือ Identity, **Role** เป็นกลุ่ม Permissions, **Scope** คือ Resource ที่อนุญาต. User/Group/Service Account สามารถได้รับ Role จาก Resource ชั้นบน (Org/Folder/Project) หรือที่ Resource ซึ่งรองรับ IAM Policy โดยตรง. ตัวอย่างให้ App SA อ่าน Objects จาก Bucket หนึ่งอย่างเดียว ไม่ควรให้ Project Owner เพราะทำให้ App ที่ถูกเจาะเข้าถึง Resource อื่นมากเกินความจำเป็น
+
+**IAM Role ≠ Service Account Identity**: Developer ที่ Deploy App, Runtime Service Account ของ App และ Google-managed Service Agent ไม่ใช่คนเดียวกัน. ถ้า Cloud Run App อ่าน Bucket ไม่ได้ ต้องตรวจ Runtime Service Account และ Bucket Access ไม่ใช่เพิ่ม Permissions ให้ Developer ที่กด Deploy โดยอัตโนมัติ
+
+| คำศัพท์ | เหตุผลที่ต้องรู้ | ตัวอย่าง |
+|---|---|---|
+| Principal | ใครเป็น Caller / Workload Identity | human / Group / Service Account |
+| Role | Permission Set ที่ได้รับ | storage.objectViewer |
+| Policy Binding | Principal + Role บน Scope | Role บน Bucket |
+| Inheritance | Permission จาก Parent Resource | Role บน Project สืบลงบาง Resources |
+| Organization Policy | Constraint ว่าอนุญาต Design ไหน | จำกัด External IP / Region |
+| Service Agent | Platform-managed Identity | Google-managed access ของ Service |
+
+**403 Scenario:** Developer อ่าน Object ได้แต่ App ไม่ได้ แม้ทั้งสองอยู่ Project เดียวกัน. ถามก่อนว่า *App ใช้ Identity อะไรตอน Runtime?* และ *Bucket Policy ให้ Role ที่ Scope ไหน?* อย่าใช้ Workaround ทำ Bucket Public หรือให้ Editor/Owner. อีกกรณี User เห็น Bucket แต่ไม่เห็น Object อาจเป็นสิทธิ์ List/Read/Object ACL/Uniform Bucket-level Access ที่ต่างกัน — ต้องตรวจ Permission ตาม Operation จริง
+
+### 🔑 2. Cloud Storage Access & Encryption
+
+**Cloud Storage** เก็บ Objects ใน Buckets ไม่ใช่ Block Device ที่ Mount เป็น Disk แบบ Persistent Disk และไม่ใช่ Relational DB. Storage Class (Standard/Nearline/Coldline/Archive) สะท้อน Access Pattern, Minimum Storage Duration และ Retrieval Costs ตาม Class; **Location Type/Region** เกี่ยวข้องกับ Latency, Durability/Availability Design และ Data Residency. เลือก Class จาก *ความถี่ที่เรียกใช้ + ระยะเวลาเก็บ + ค่า Retrieval + SLA* ไม่ใช่จากคำว่า “Archive ถูกที่สุดต่อ GB” อย่างเดียว
+
+**Storage Access** มี IAM, Uniform Bucket-level Access และ Public Access Prevention. ถ้า Bucket ใช้ Uniform Bucket-level Access แล้ว การพยายามแก้ Object ACL แบบเดิมไม่ใช่วิธีให้สิทธิ์ที่เหมาะ. **Lifecycle Rules** ช่วยย้าย Storage Class/Delete Objects ตามเงื่อนไข แต่ต้องตรวจ Retention Policy, Object Versioning และ Recovery/Risk ก่อนให้ Rule ลบข้อมูล
+
+**Encryption at rest** มีให้บริการใน Google Cloud; ถ้าควบคุม Encryption Key ด้วย **CMEK** ต้องจัดการ Cloud KMS Key, Location/Protection Level, Service Agent Permissions และ Key Availability. ปิด/ลบ Key ผิดอาจทำให้ Data ใช้งานไม่ได้ แม้ Bucket ยังอยู่. **CSEK/CMEK/Google-managed keys** เป็นเรื่อง Key Ownership/Control/Operations ที่ต่างกัน — ไม่ใช่เพียงชื่อ Algorithm
+
+### 🗄️ 3. Cloud SQL ไม่ใช่ Oracle บน Managed VM
+
+Cloud SQL เป็นบริการ Managed Relational Database ที่ลดภาระดูแล Infrastructure บางส่วน แต่ผู้ใช้ยังต้องคิด **Schema/Users, Query Performance, Connection Pool, Engine/Version Compatibility, Maintenance, Backup/PITR และ Restore Drill**. การเปิด HA/Read Replica ไม่เท่ากับมี Backup ที่รับมือ Logical Delete ได้; Replica อาจรับการลบ/เขียนผิดตาม Source ด้วย
+
+**Worked incident:** Web App Latency สูง แต่ VM CPU 20% และ DB Connections เต็ม. ถ้าเพิ่ม Web VM อีกสองเครื่องอาจทำให้ DB Connection Limit ยิ่งเต็มเร็ว. ให้ตรวจ Connection Pool Limits, Long-running Transactions, Database Waits/Locks, Slow SQL และ Network Path ก่อน. ตั้ง Alert แค่ CPU ไม่เพียงพอเพราะ User Impact อาจเกิดจาก Saturated Connection Pool
+
+**Comparison:**
+- **Cloud SQL:** Traditional Relational OLTP ที่ต้องการ Supported Engine/Management Model
+- **BigQuery:** Analytical Warehouse สำหรับ Large Aggregations ไม่ใช้แทน OLTP Transaction ทุกตัว
+- **Firestore:** Document/Data Access Patterns ไม่เหมาะทุก Relational Join
+- **Spanner:** Distributed Relational Workloads ที่มีข้อกำหนด Scale/Consistency เฉพาะ
+
+### 💰 4. Billing, Quota และ Labels — Cost เป็นส่วนของ Architecture
+
+Project เป็นหนึ่งในขอบเขตหลักของ Billing/Usage Attribution. Billing Account จ่ายให้ Projects ที่เชื่อมอยู่; **Budget Alert** ช่วยแจ้งเตือน แต่ไม่ได้ตัด Cost อย่างอัตโนมัติในค่าเริ่มต้น. **Quota** เป็น Limit ด้าน Resource/Requests และไม่ใช่ตัวจำกัดค่าเงินเดียวกับ Budget
+
+ถ้าค่าใช้จ่ายพุ่งหลังเปิด Compute Engine ให้แยกรายการ: VM Machine Hours, Disks, Static IP, NAT, Cloud Storage Class/Requests/Retention, Network Egress และ License. Labels ใช้จัดกลุ่มต้นทุนตามทีม/Environment แต่ Resource บางประเภทไม่รองรับ Labels แบบเดียวกัน; การมี Label ไม่เท่ากับระบบ Billing Policy ได้ห้ามสร้าง Resource ที่ผิด
+
+**Worked case:** ทีมตั้ง Budget Alert 1,000 บาท แต่ปล่อย VM กับ Disks รันข้ามคืน. ค่าใช้จ่ายจริงเกิน Threshold ได้ เพราะ Alert ≠ Shutdown. วิธีลดความเสี่ยงคือ Lab Time Limit, Project Ownership, TTL/Cleanup Runbook, Scheduled Checks และ Forecast/Actual Billing Review; อย่าแก้ด้วยการลบ Resources แบบไม่ตรวจ Owner
+
+### 📊 5. Cloud Monitoring, Logging และ Audit ช่วยตอบคำถามต่างกัน
+
+**Metrics:** แนวโน้มตัวเลขตามเวลา เช่น CPU, Request Latency, Connections, Error Rate; **Logs:** เหตุการณ์พร้อม Context/Request ID; **Traces:** เวลาใน End-to-end Request Path; **Audit Logs:** ใครทำ Administrative/Data Access Action ตาม Logging/Policy ที่เปิด. ถ้ามีแต่ CPU Metric ก็สรุปไม่ได้ว่า Root Cause คือ CPU เพราะ DB/Network/App Dependency อาจช้าได้
+
+**Incident timeline (สมมติ):** 10:00 Deploy Revision → 10:05 p95 Latency สูง → 10:06 Database Connection Pool เต็ม → 10:08 503 เพิ่ม แต่ VM CPU ต่ำ. สิ่งที่ควรทำคือเก็บ Service/PDB/Instance Scope, Latency Percentile, Time Window, Revision Tag, DB Pool Metrics, Error Logs และ Trace Samples ก่อน Restore/Rollback. หาก Rollback App Revision แล้วหาย ต้องตรวจ Compatibility ของ Schema/Config/Connection Pool ด้วย อย่าพอใจกับการกด Rollback อย่างเดียว
+
+**Monitoring Alert Design:** Alert “CPU 80%” อาจผิดบริบทกับ Batch Jobs; สำหรับ Web App ให้เริ่มจาก User Impact: Error Rate, p95 Latency, Availability/SLO และ Saturation แล้วเลือก Notification/Threshold/Duration ให้ลด Noise. Logs/Traces อาจมี PII ห้ามนำ Original Production Data ใส่ Public Portfolio
+
+### 🧪 6. Read-only practice: ดูตัวตน → Resource → Billing-related Configuration → Logs
+
+```bash
+# Run only against your authorized Skills temporary project.
+gcloud auth list
+gcloud config list
+gcloud storage buckets list --project=LAB_PROJECT_ID
+gcloud sql instances list --project=LAB_PROJECT_ID
+gcloud logging logs list --project=LAB_PROJECT_ID
+```
+
+**Expected:** บอกว่ามี Bucket/Cloud SQL Instance/Log Types อะไรใน Authorized Scope ได้ตาม Permissions. **Actual:** ต้องบันทึกผลที่เกิดขึ้นจริงและ Error Code ที่ Redact; Resource ไม่แสดงอาจหมายถึงยังไม่มี Resource หรือ Role ไม่ได้สิทธิ์ List. ไม่แก้ด้วยการเพิ่ม Owner Role โดยไม่ทราบเหตุ
+
+**Safety & Cleanup:** คำสั่งส่วนนี้เป็น Read-only; ห้าม Create Bucket, KMS Key, SQL Instance หรือ Billing Export ใน Personal Project โดยไม่ดู Lab Instructions/Budget. สำหรับ Official Lab ที่กำหนดให้ Create Resource ให้ทำตาม Lab-specific Steps, จด Expected vs Actual และ Cleanup ตาม Grader/Lab End Policy
+
+### 🩺 7. Incident scenario ที่เชื่อม IAM + Storage + Cloud SQL + Logging
+
+Ticket: App บน Cloud Run ใช้ Service Account ของตัวเอง ดาวน์โหลด Report จาก Bucket ไม่ได้ และ Web Requests ขึ้น 503
+
+1. ตรวจว่า Cloud Run Revision ใช้ Runtime SA ไหน; User ที่ Deploy มี Owner ไม่ได้ยืนยันว่า Runtime มี Permission
+2. ตรวจ Bucket Location/Uniform Bucket-Level Access/Object Permissions และ Error Code 403/404
+3. ตรวจ Cloud Run Logs และ Request/Revision Correlation เพื่อแยก Storage 403, App Timeout หรือ DB Error
+4. ตรวจ Downstream Cloud SQL Connection Pool หาก Requests ช้าเพราะ DB Connections เต็ม; อย่า Grant Storage Role เพื่อแก้ DB Error
+5. เสนอ Least Privilege Role บน Bucket เฉพาะสำหรับ Runtime SA ผ่าน Change Review, ทดสอบใน Sandbox, ตรวจ Logs และ User-visible Error Rate หลังแก้
+
+**Reasoned verdict:** ถ้า Log บอก Storage Object 403 จะเน้น IAM Identity/Resource Binding; ถ้า Log เป็น SQL Connection Timeout จะเน้น DB Pool/Network/Cloud SQL. Error HTTP 503 บน Frontend เพียงอย่างเดียวไม่มีข้อมูลพอจะเลือก Root Cause
+
+### 🎯 8. Questions with reasoning
+
+1. ทำไม Developer มี Owner แต่ Runtime App อ่าน Bucket ไม่ได้? — **ใช้ Principal คนละตัว; ต้องดู Runtime SA/IAM Scope**
+2. ทำไม Storage Class ไม่ใช่ Security Control? — **Class เลือก Cost/Access Pattern; IAM/Encryption/Retention เป็นอีก Layer**
+3. Cloud SQL มี HA แล้ว ยังต้อง Backup/PITR หรือไม่? — **ต้องตาม RPO/RTO; HA ไม่ย้อน Logical Corruption/Delete**
+4. Budget Alert 1,000 บาท หยุด Charges อัตโนมัติหรือไม่? — **ไม่รับประกัน ต้องใช้ Governance/Automation แยก**
+5. Metric CPU ต่ำแปลว่า Application ไม่ช้าใช่ไหม? — **ไม่; DB/Network/Queue/Locks สามารถทำให้ช้า**
+6. IAM Denied กับ API Disabled ต่างกันอย่างไร? — **Permission Control กับ Service Enablement แยกคนละชั้น**
+7. ทำไม Object List ได้ แต่ Read ไม่ได้? — **Permissions ที่ใช้กับ Operation และ IAM Scope/Policy ต่างกัน**
+8. ทำไมการเปิด CMEK เพิ่มความเสี่ยงเชิง Availability? — **Key Location/Permissions/Disable/Deletion กระทบการอ่านข้อมูลแม้ Object ยังอยู่**
+
+**Acceptance evidence:** เขียน IAM Matrix หนึ่งชุด, Storage Class + Security Decision 1 ตาราง, Cloud SQL HA/Backup/Restore Design หนึ่งหน้า และ Incident Timeline ที่ชี้จุดตรวจได้. หากยังอธิบาย Concept เหล่านี้ไม่ได้ให้ทบทวนบทนี้ ไม่ต้องเปิด Module อื่นเพื่อเติม Core Concepts. **ไม่ได้หมายความว่าผ่าน Graded Lab**
+
+**Official references:** [Core Services course](https://www.skills.google/paths/11/course_templates/49), [IAM](https://cloud.google.com/iam/docs/overview), [Cloud Storage](https://cloud.google.com/storage/docs/introduction), [Cloud SQL](https://cloud.google.com/sql/docs/introduction), [Billing](https://docs.cloud.google.com/billing/docs/concepts), [Cloud Monitoring](https://cloud.google.com/monitoring/docs/monitoring-overview).
+
 ## 6. แบบฝึกประกบ Labs ของ course
 
 แล็บใน Google Skills ใช้ project/credentials ที่ระบบจัดให้; ทำ checkpoint และ grader ในหน้า lab เอง ห้ามใช้ credentials ชั่วคราวกับ project ส่วนตัว
