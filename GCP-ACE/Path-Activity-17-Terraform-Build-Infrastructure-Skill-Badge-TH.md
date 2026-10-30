@@ -60,6 +60,10 @@ Change Request แค่ขยาย CIDR แต่ Plan บอก Replace VM/Su
 
 **Exit criteria:** Explain State Ownership, Review Plan/Replacement Risks, Sketch Import/Refactor Steps (do not execute), Name Backup/Rollback/Evidence and Costs. [Terraform on Google Cloud](https://cloud.google.com/docs/terraform) · [Import](https://developer.hashicorp.com/terraform/cli/import) · [Moved Blocks](https://developer.hashicorp.com/terraform/language/moved).
 
+
+### 8. Google Cloud IAM and Terraform Provider State — Cross-reference
+
+ก่อนใช้ Terraform จัดการ IAM ของ Existing Google Cloud Project ให้เทียบ [Terraform on Google Cloud](https://cloud.google.com/docs/terraform) กับ [Google Cloud IAM Overview](https://cloud.google.com/iam/docs/overview). IAM Policy/Binding/Member มี Ownership Semantics ต่างกัน; ต้องตรวจ Scope/Principals/Existing Roles ก่อน Plan/Apply, โดยเฉพาะ Service Agents ที่ Application ยังใช้อยู่. **Expected:** Plan ไม่ Remove Access เกิน Change Request และ Reviewer ติดตาม Impact ได้. **Actual:** ไม่มี Plan/Import/Apply ถูก Execute กับ Google Cloud ในบทนี้; ต้องทำตาม Official Skills Project และบันทึก Result จริงก่อนเรียกว่า Graded Lab Passed
 ---
 
 ## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)

@@ -77,6 +77,10 @@ kubectl get events -n APP_NAMESPACE --sort-by=.lastTimestamp
 
 [Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) · [Services](https://kubernetes.io/docs/concepts/services-networking/service/) · [GKE](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview).
 
+
+### 8. Sources to verify Identity, Image and Cluster Context
+
+หาก Image Pull ไม่ผ่าน ให้เทียบ [GKE Cluster Documentation](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) กับ [Artifact Registry Documentation](https://cloud.google.com/artifact-registry/docs) โดยแยก Cluster/Workload Pull Identity จาก CI Push Identity. Error `ImagePullBackOff` ไม่ได้พิสูจน์ว่า Node Capacity ไม่พอ; ต้องดู Image URI, Digest, Registry Location, Credentials, IAM Role และ Network Reachability. **Expected:** ระบุว่าต้องแก้สิทธิ์ที่ Identity ไหน ไม่ใช่ Grant Project Owner ให้ Developer. **Actual:** ต้องยืนยันจาก Events ที่ Redact ของ Authorized Sandbox; ตัวอย่างนี้ไม่ใช่ผล Lab Grader จริง
 ---
 
 ## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
