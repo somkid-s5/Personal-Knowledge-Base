@@ -87,10 +87,10 @@ const hub=readFileSync(path.join(root,'GCP-ACE/README.md'),'utf8');
 for(const marker of ['CURRICULUM_RECONCILIATION_REQUIRED','2026-10-30','13', '17', 'EDITORIAL_REVIEWED','Lab']){
  if(!textbookStandard.includes(marker))throw Error('GCP Textbook/Path tracking missing marker: '+marker);
 }
-for(const marker of ['TEXTBOOK_DRAFT','NOT_REVIEWED','NOT_VERIFIED','0/17 LAB_EXECUTED']){
+for(const marker of ['TEXTBOOK_AUTHORED','0/17 EDITORIAL_REVIEWED','0/17 LAB_EXECUTED','CURRICULUM_RECONCILIATION_REQUIRED']){
  if(!textbookStatus.includes(marker))throw Error('GCP textbook progress evidence missing marker '+marker);
 }
-for(const marker of ['Textbook-first','2026-10-30','TEXTBOOK_DRAFT']){
+for(const marker of ['Textbook-first','2026-10-30','TEXTBOOK_AUTHORED']){
  if(!hub.includes(marker))throw Error('GCP landing README should disclose incomplete textbook conversion: '+marker);
 }
 for(const file of main.slice(2,4)){
@@ -99,4 +99,4 @@ for(const file of main.slice(2,4)){
   if(!body.includes(marker))throw Error('Full teaching exemplar missing required text/activities: '+file+' / '+marker);
  }
 }
-console.log('GCP textbook gate: Foundation/Core Services authored as drafts; official path drift and 17-activity preservation clearly disclosed.');
+console.log('GCP textbook gate: 17 authored teaching chapters, official-path drift and unverified live labs clearly disclosed.');
