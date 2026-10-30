@@ -57,6 +57,10 @@ Google ACE Exam Guide แบ่ง Objectives เป็น Environment, Planning
 
 **Deliverable:** Study Map หนึ่งหน้า + 5 Scenarios พร้อม Wrong Alternative Rationale + Weekly Revision Log. [ACE Exam Guide](https://cloud.google.com/learn/certification/guides/cloud-engineer) · [IAM overview](https://cloud.google.com/iam/docs/overview) · [Learning Path](https://www.skills.google/paths/11).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายของบท
 
 เมื่อจบกิจกรรมนี้ เธอจะมี study guide ที่เชื่อมกลับไปยัง source ได้, จัดหัวข้อตามขอบเขตสอบ ACE และใช้ทดสอบความเข้าใจโดยไม่ให้ AI เฉลยทันที

@@ -66,6 +66,10 @@ kubectl get events -n APP_NAMESPACE --sort-by=.lastTimestamp
 
 [Official GKE Overview](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) · [Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview) · [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## ผลการเรียนที่ต้องการ
 
 - แยก container image, container, Pod, node และ cluster ได้

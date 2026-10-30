@@ -62,6 +62,10 @@ gcloud run revisions list --service=SERVICE_NAME --region=REGION --project=LAB_P
 
 [Cloud Run Overview](https://cloud.google.com/run/docs/overview/what-is-cloud-run) · [Container Runtime](https://cloud.google.com/run/docs/container-contract) · [Traffic Management](https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เรียนจบแล้วควรทำได้
 
 - เลือก Cloud Run service สำหรับ HTTP application และแยก service/revision/instance

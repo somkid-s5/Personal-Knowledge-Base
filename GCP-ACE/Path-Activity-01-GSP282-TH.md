@@ -66,6 +66,10 @@ Trainer รายงานว่า "เข้า Lab ได้แต่ Project
 
 **Practice Output:** Session Context Worksheet + One 403 Investigation + Redaction Checklist. [Google Skills GSP282](https://www.skills.google/focuses/2794?parent=catalog&path=11) · [Google Cloud IAM](https://cloud.google.com/iam/docs/overview) · [gcloud configurations](https://cloud.google.com/sdk/gcloud/reference/config/list).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายของบท
 
 เมื่อจบบทนี้ เธอควรเริ่ม Google Skills lab ได้โดยไม่สับสนกับบัญชีหรือ project ส่วนตัว, บอกได้ว่า IAM role ใช้ควบคุมอะไร, ตรวจได้ว่า API เปิดอยู่ใน project หรือยัง และจบ session อย่างปลอดภัย

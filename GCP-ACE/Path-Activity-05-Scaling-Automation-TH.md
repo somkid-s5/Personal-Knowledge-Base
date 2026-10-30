@@ -57,6 +57,10 @@ gcloud compute health-checks list --project=LAB_PROJECT_ID
 
 **Completion evidence:** Draw existing LB/MIG path (ใช้ Diagram ที่มีอยู่ในบท), Explain Health vs Scale, List Read-only Inventory, Propose one Failure Fix with Rollback and Cost Impact. [MIGs](https://cloud.google.com/compute/docs/instance-groups) · [LB Overview](https://cloud.google.com/load-balancing/docs/load-balancing-overview) · [HA VPN](https://cloud.google.com/network-connectivity/docs/vpn/concepts/overview) · [Terraform](https://cloud.google.com/docs/terraform).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมาย
 
 หลังเรียนควรอธิบายได้ว่า:

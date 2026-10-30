@@ -63,6 +63,10 @@ gcloud run services list --region=REGION --project=LAB_PROJECT_ID
 
 **Exit Evidence:** Event Path Diagram ที่มีอยู่ในบท + Written Retry Plan + Identity Matrix + Error Triage. [Functions](https://cloud.google.com/run/docs/functions/overview) · [Eventarc](https://cloud.google.com/eventarc/docs/overview) · [Firestore Transactions](https://cloud.google.com/firestore/docs/manage-data/transactions).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมาย
 
 - เลือก function สำหรับงาน HTTP/event ที่ logic มีขอบเขตชัด
