@@ -4,8 +4,8 @@
 version: 2
 name: "GCP ACE"
 icon: "🌤️"
-description: "เรียนตาม 17 กิจกรรมต่อเนื่อง แล้วเปิด Module เจาะลึกเมื่อสงสัย"
-summary: "เส้นทางหลักคือ 17 กิจกรรมตาม ACE Learning Path ที่จัดไว้ในโน้ต ไม่ใช่สลับไปมาระหว่าง Activity กับ Module"
+description: "ฐานโน้ต GCP ACE 17 กิจกรรมจาก Learning Path Snapshot เดิม — กำลังปรับเป็นบทเรียนเต็ม"
+summary: "โครงสร้าง 17 กิจกรรมที่เคยบันทึกจาก ACE Learning Path; หน้า Skills #11 ปัจจุบันอาจแสดง 13 กิจกรรม — เก็บบทเดิมไว้ระหว่างเทียบรุ่น และอ่าน Activity ก่อน Reference Library"
 stages:
   - title: "เริ่มใช้ Google Cloud"
     description: "กิจกรรม 01–05: Console, Foundation, IAM, Core Services และ Scaling"
@@ -146,6 +146,11 @@ stages:
           labs:
             - "Lab-Guide-TH/Lab-05-Terraform-VPC-and-State.md"
 supplements:
+  - title: "📘 Textbook Standard & Editorial Status"
+    description: "เกณฑ์บทเรียนเต็มภาษาไทยและสถานะแยกจาก CI/Graded Lab"
+    files:
+      - "TEXTBOOK-QUALITY-STANDARD.md"
+      - "TEXTBOOK-PROGRESS.md"
   - title: "📚 Optional Reference Library"
     description: "All Modules, Labs, Visual Diagrams and Reviews live here, not in the primary learning menu"
     files:
