@@ -60,6 +60,10 @@ Change Request แค่ขยาย CIDR แต่ Plan บอก Replace VM/Su
 
 **Exit criteria:** Explain State Ownership, Review Plan/Replacement Risks, Sketch Import/Refactor Steps (do not execute), Name Backup/Rollback/Evidence and Costs. [Terraform on Google Cloud](https://cloud.google.com/docs/terraform) · [Import](https://developer.hashicorp.com/terraform/cli/import) · [Moved Blocks](https://developer.hashicorp.com/terraform/language/moved).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

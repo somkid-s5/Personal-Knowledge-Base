@@ -4,6 +4,127 @@
 
 > บันทึกนี้เขียนประกบกิจกรรมที่ 3 ของ **Associate Cloud Engineer Certification Learning Path** โดยตรง ตาม course page ที่ตรวจเมื่อ 5 ตุลาคม 2026 เนื้อหาหลักของ course คือการใช้ Console/Cloud Shell, deploy จาก Marketplace, สร้าง VPC/firewall และสร้าง/ปรับ Compute Engine VM คู่มือนี้เป็นโน้ตและแบบฝึกเสริม ไม่ใช่คำแปลโจทย์หรือเฉลย grader ของ Google Skills
 
+## 📖 Textbook Chapter — Foundation: จากห้อง Server สู่ Cloud Infrastructure
+
+> **Original Thai Teaching Chapter (2026-10-30).** บทนี้ขยายหัวข้อ Foundation เป็นการเรียนรู้ทีละเหตุผล ไม่ใช่คำแปลวิดีโอ/เฉลย Google Skills Grader และไม่อ้างว่าได้รัน Lab จริง. ภาพประกอบเดิม: [GCP Visual Memory](./VISUAL-STUDY-GUIDE-TH.md)
+
+### 🧠 1. ทำไม Cloud Engineer ต้องเริ่มจาก Project และ Identity
+
+สมมติเรารับมอบหมายย้าย Web App บน VM จาก VMware มา Google Cloud. ถ้าอยู่ใน Data Center ผู้ดูแลจะเริ่มจากเลือก Cluster, Datastore, Port Group, vCPU, RAM และ ISO. แต่การสร้าง VM บน Google Cloud เพิ่มชั้นการตัดสินใจ: Resource นี้อยู่ **Project** ไหน, Account อะไรเป็นผู้สร้าง, Billing ใครจ่าย, API เปิดหรือยัง, IAM อนุญาตสิ่งที่กำลังทำหรือไม่, Organization Policy ห้าม Public IP หรือไม่, Zone มี Capacity หรือไม่ และ Quota เพียงพอหรือเปล่า
+
+**Console เป็น UI**, **Cloud Shell เป็น Shell Environment**, และ **gcloud CLI เป็น Client ของ Google Cloud APIs**. ทั้งสามไม่ใช่ Cloud คนละก้อน. หาก Browser ใช้ Temporary Google Skills Account แต่ CLI บน Laptop ใช้ Account ส่วนตัว คำสั่งเดียวกันอาจได้ Result ต่างกันทั้งที่สิทธิ์ของคนเดียวกันดูคล้ายกัน เพราะ Active Identity/Project ไม่ตรงกัน
+
+| ตรวจอะไร | เหตุผล | ถ้าไม่ผ่านแปลว่า |
+|---|---|---|
+| Active Account | Identity ที่กำลังเรียก API | อาจ Login ผิดหรือ Credential ผิด |
+| Active Project | Resource / API / Billing Scope | อาจสร้างผิด Environment |
+| Enabled API | เปิด Product Control Plane หรือยัง | API Disabled ไม่ใช่ IAM Denied |
+| IAM Permission | ใครทำ Action กับ Resource อะไรได้ | Permission Denied |
+| Organization Policy | Governance ที่สืบทอดจากระดับบน | Policy Violation แม้ IAM เหมาะ |
+| Quota และ Zone Capacity | Limit กับ Supply | Quota เหลือ ≠ VM Type พร้อม |
+| Budget | แจ้งเตือน Cost | Budget Alert ไม่ใช่ Auto Shutdown |
+
+#### Read-only Lab: ตรวจ Context ก่อนกด Create
+
+```bash
+# ใช้เฉพาะ Google Skills temporary project หรือ sandbox ที่ได้รับอนุญาต
+gcloud auth list
+gcloud config list
+gcloud config get-value project
+gcloud projects describe LAB_PROJECT_ID --format="yaml(projectId,projectNumber,name)"
+gcloud services list --enabled --project=LAB_PROJECT_ID
+```
+
+**Expected:** บอกให้ได้ว่า Account ไหนถูกเลือก, Project ID คืออะไร, API ที่จำเป็นเปิดแล้วหรือไม่. **Actual:** ต้องจดจากบัญชี Lab จริงเท่านั้น ไม่สมมติ Output ให้กลายเป็น Pass. หาก `gcloud projects describe` ได้ 403 ให้ตรวจ Resource Access ก่อน ไม่เดาว่า Project ไม่มี. `gcloud config set project` เป็นคำสั่งเปลี่ยน Client Context จึงไม่รวมในชุด Read-only นี้
+
+### 🌐 2. VPC, Subnet, NIC และ VM ถูกวางไว้คนละ Scope ทำไม
+
+VPC เป็น **Global Logical Network**, Subnet เป็น **Regional Resource**, VM เป็น **Zonal Resource**. ตัวอย่างมี VPC ชื่อ `lab-vpc`, Subnet `app-sea` CIDR `10.40.10.0/24` ใน `asia-southeast1`, VM `app-01` อยู่ `asia-southeast1-b`. VM ต่อ NIC กับ Subnet ที่อยู่ Region เดียวกัน; VM ใน `us-central1` ต้องใช้ Subnet ของ Region นั้น ไม่ใช่ Subnet สิงคโปร์แม้ทั้งสองอยู่ VPC เดียวกัน
+
+นี่ไม่ใช่แค่ความจำศัพท์ Global/Regional/Zonal: ถ้า Network Design ผิดจะสร้าง Resource ไม่ได้ หรือแก้ IP Addressing ทีหลังยาก. VPC เดียวมีหลาย Subnets ข้าม Regions ได้ แต่ไม่ได้หมายความว่าเป็น Layer-2 Ethernet Broadcast Domain เดียวแบบ VLAN ทั่ว Data Center
+
+**CIDR ทำงานอย่างไร?** IPv4 `10.40.10.0/24` มี 256 Addresses ในเชิงคณิตศาสตร์ ส่วน `/26` มี 64 Addresses; Google Cloud สงวนบาง IP ใน Subnet จึงไม่ควรถือว่าทั้งหมดใช้สร้าง VM ได้. วางแผนเผื่อการ Scale, Internal Load Balancing และ Cloud Services ที่ต้องใช้ Address Ranges ตาม Requirements. ถ้า On-prem ใช้ `10.40.0.0/16` การนำ `10.40.10.0/24` ไปใส่ VPC แล้วต่อ VPN/Peering อาจชน IP Range ไม่ใช่ปัญหา Firewall เพียงอย่างเดียว
+
+**Auto-mode** สร้าง Subnets ตาม Region ด้วย Ranges ที่ Google กำหนด; **Custom-mode** ให้เลือก Regions และ Ranges เอง. สำหรับงาน Hybrid, Shared VPC, IPAM และ Compliance มักต้องควบคุม CIDR เอง ไม่ใช่เลือก Auto เพราะคลิกน้อยกว่าเสมอไป
+
+### 📦 3. Packet เดินจาก Client ถึง App อย่างไร — เปิด Firewall ไม่พอ
+
+สมมติ Browser เรียก `https://web.example.test` แล้ว Timeout. ต้องถามคำถามตามลำดับ: DNS Resolve ไปไหน? ที่อยู่ปลายทางคือ VM External IP หรือ Load Balancer? Client มี Reachability ไป Destination หรือไม่? VPC Firewall Policy อนุญาต Ingress? Guest OS Firewall เปิดหรือไม่? Web Server Bind ที่ IP/Port ไหน? Database/Backend พร้อมตอบไหม?
+
+| Layer | หลักฐานที่อยากเห็น | จุดที่มักเดาผิด |
+|---|---|---|
+| DNS | Hostname → Actual Endpoint | DNS ถูก ไม่รับประกัน Service Up |
+| Address/Route | External IP หรือ LB Frontend, Return Path | มี Route ไม่ใช่มี Ingress Allow |
+| VPC Firewall | Source Range, Target, Port, Priority, Org Policy | Allow Rule อาจไม่ Match VM |
+| Guest Firewall | nftables/Windows Firewall | Cloud Rule ไม่ข้าม Host Firewall |
+| Listener | Process Listen 443 หรือ 8080; Bind Address | Bind `127.0.0.1` ไม่เปิดให้ Client ภายนอก |
+| App/DB | HTTP Status, Logs, Dependency Health | 500/502 อาจไม่ได้เกิดจาก Network |
+
+**VPC Route คือเส้นทางส่งต่อ Traffic**, ส่วน **Firewall เป็นเงื่อนไขอนุญาตหรือปฏิเสธ**. โดยพื้นฐาน VPC Firewall Rules มี implied Ingress Deny และ Egress Allow แต่ Explicit Rules หรือ Hierarchical Policies อาจ Override ผล. การเปิด Firewall TCP 443 ไม่ได้สร้าง HTTPS Listener ให้ VM, และการเพิ่ม Cloud NAT ไม่ได้ทำให้ Inbound SSH จาก Internet ใช้งานได้
+
+**Case walkthrough:** VM มี External IP แต่หน้าเว็บยัง Timeout: ตรวจ Actual Source IP ของ Client, Firewall Target Tag/Service Account, TCP Port, OS Firewall และ App Listener. ถ้า App Listen TCP 8080 แต่ Client เรียก HTTPS 443 โดยไม่มี Proxy/TLS Config ควรแก้ Port/Routing/Proxy ตาม Design ไม่ใช่เปิด All Ports
+
+### 🚪 4. Cloud NAT, Private Google Access, IAP และ VPN ใช้ต่างกันอย่างไร
+
+| Requirement | พิจารณา Service | สิ่งที่ *ไม่ได้* ทำ |
+|---|---|---|
+| Private VM เรียก Public Package Repository | Cloud NAT + Route/Egress Settings | Cloud NAT ไม่เปิด Inbound จาก Internet |
+| Private VM เรียก Supported Google APIs | Private Google Access + Network Preconditions | ไม่ใช่ General Public Internet Access |
+| ผู้ดูแล SSH/RDP เข้า VM ไม่มี External IP | IAP TCP Forwarding + IAM/Firewall หรือ Authorized VPN | IAP ไม่ใช่ VM Outbound NAT |
+| On-prem ติดต่อ Cloud VPC | Cloud VPN/Interconnect + Route | Network Reachability ไม่แทน OS Login/IAM |
+
+**Worked incident:** VM ไม่มี External IP, `apt update` ไม่ได้ แต่ Google API Calls บางตัวทำงาน. แปลว่า Internet Egress กับ Google API Reachability อาจใช้เส้นทาง/Feature คนละแบบ. ก่อนสรุปว่า NAT พัง ต้องดู Region/Subnet Coverage, Default Route, Firewall Egress, DNS, OS Proxy และ Response Code. HTTP 404 จาก Package Repository อาจแปลว่า Server ตอบแล้วแต่ URL/Release ไม่ถูก; Network Timeout มี Hypothesis อีกแบบ
+
+### 🖥️ 5. Compute Engine VM Lifecycle และ Storage ที่ผู้ดูแลต้องรับผิดชอบ
+
+VM Instance เลือก Machine Family/Type, Region/Zone, Boot Image, Boot Disk, Network NIC, Service Account, Availability Policy และ Admin Access. **Boot Disk** คือที่เก็บ OS/Data บน Disk, **Snapshot** เป็น Copy ของ Disk สำหรับใช้ Recover/Clone ตามเงื่อนไข, **Custom Image** เป็นต้นทางสร้าง Boot Disk ใหม่, **Instance Template** เป็น Blueprint สำหรับ VM/MIG. การมี Snapshot ไม่ได้ทำ Application-aware Database Backup หรือ Multi-zone HA ให้เรา
+
+**Stop ≠ Delete ≠ Free:** เมื่อ Stop VM ค่า Compute อาจหยุด แต่ Disk, Snapshot, Reserved IP และ Resources อื่นยังคิดค่าบริการได้. การ Delete VM อาจ Auto-delete Boot Disk ตาม Config ซึ่งอันตรายถ้าเก็บข้อมูลสำคัญอยู่. ดังนั้นแม้เป็น Lab ต้องกำหนด Owner, Budget, TTL และ Cleanup Plan ก่อน Provision
+
+### 🧪 6. Mini Lab: Inventory → Hypothesis → Expected vs Actual
+
+โจทย์: มี VM ที่ได้รับอนุญาตใน Lab Project จงพิสูจน์ว่ามันใช้ Network/Subnet ไหน, Port 443 เปิดจากไหน และไม่มี Public SSH Attack Surface ตามข้อกำหนด. ใช้ Read-only Inventory นี้เท่านั้น:
+
+```bash
+gcloud compute networks list --project=LAB_PROJECT_ID
+gcloud compute networks subnets list --project=LAB_PROJECT_ID
+gcloud compute instances list --project=LAB_PROJECT_ID
+gcloud compute firewall-rules list --project=LAB_PROJECT_ID
+```
+
+**Expected:** กรอกตาราง Resource Name, Region/Zone, Subnet, VM IP Type, Relevant Firewall Target/Port, Admin Access Route ได้. **Actual:** จดผลจาก Lab ตามจริงและปิดบัง Internal Names/Account; ถ้า Permission Denied ให้บันทึกว่าตรวจอะไรไม่ได้ ห้าม Grant Owner เพื่อให้ Report สวย. **Cleanup:** งานอ่านข้อมูลนี้ไม่ควรสร้าง Resource; หากทำ Official Graded Lab เพิ่ม ให้ใช้ Cleanup Instructions ของ Lab นั้น
+
+### 🩺 7. Troubleshooting Simulation — Private VM ไม่ออก Internet
+
+Ticket: VM Ubuntu ไม่มี External IP, DNS ใช้ได้ แต่ `apt update` Timeout. ทีมอยากเพิ่ม Public IP เพื่อให้หาย. สถานะ VM RUNNING เพียงอย่างเดียวไม่พิสูจน์ว่า Egress ถูกต้อง
+
+1. ระบุ VM Region/Zone/Subnet และ Active Project (อย่าเดาจาก Name)
+2. ตรวจ Route และ Cloud NAT สำหรับ Region/Subnet รวมถึง Egress Firewall/Hierarchical Policy
+3. ตรวจ DNS และ Proxy: Hostname Resolve เป็น IP ที่ควรเข้าถึงหรือไม่
+4. แยก Error: TCP Timeout, TLS Failure, HTTP 404 หรือ DNS Failure แปลความหมายต่างกัน
+5. เสนอ Change ที่แคบที่สุดแล้ว Verify เฉพาะ Sandbox; ตรวจ Cost/NAT Logging และ Backout
+
+**Reasoned answer:** ถ้าไม่พบ Internet Egress Path ของ Private VM การเพิ่ม Cloud NAT ตาม Network/Region ที่ถูกต้องเป็น Candidate ที่ดี. แต่หากได้ HTTP 404 แปลว่า Client อาจถึง HTTP Server แล้ว ต้องดู Repository URL/Package Version ไม่ใช่สร้าง NAT ซ้ำ
+
+### 🎯 8. แบบทดสอบเข้าใจจริงพร้อมเฉลยเหตุผล
+
+1. ทำไม API Enabled แต่ยัง Create VM ไม่ได้? — **Identity/IAM, Organization Policy, Quota และ Capacity เป็นคนละ Control**
+2. ทำไม VM สิงคโปร์ใช้ Subnet US ไม่ได้? — **Subnet เป็น Regional ขณะที่ VM อยู่ใน Zone ภายใน Region**
+3. Quota ยังเหลือแต่ GPU VM สร้างไม่ได้? — **Quota ไม่เท่ากับ Zonal Capacity**
+4. Firewall เปิด TCP 443 แต่เข้า Web ไม่ได้? — **ยังต้องมี Route/Endpoint, Guest Firewall, Listener และ App Health**
+5. Cloud NAT ช่วยให้ Admin SSH จาก Internet เข้า VM Private ได้หรือไม่? — **ไม่ได้ เพราะ NAT นี้เป็น Outbound Translation; ใช้ IAP/VPN/Bastion ตาม Design**
+6. VM Stop แล้วค่าใช้จ่ายเป็นศูนย์แน่นอนไหม? — **ไม่แน่; Disks, IP, Snapshots และ Managed Resources อื่นอาจยังคิดเงิน**
+7. Marketplace Deploy ง่าย ทำไมไม่ถือว่าปลอดภัยโดยอัตโนมัติ? — **Template อาจเปิด IP/Port, สร้าง Disk/VM/Licenses และมี Costs**
+8. `apt update` ได้ 404 ควรแก้ NAT ก่อนเสมอไหม? — **ไม่; ต้องแยก Network Timeout จาก Application/Repository Response**
+
+**Learning evidence:** ให้ทำ Network Inventory หนึ่งหน้า, อธิบาย Packet Path หนึ่งเคส และเลือก IAP/Cloud NAT/PGA สำหรับ Requirements ที่กำหนดพร้อมเหตุผล. ถ้าตอบเองไม่ได้ให้กลับไปอ่าน Section ที่เกี่ยวข้อง ไม่บังคับเปิด Module. **นี่ไม่ใช่การยืนยันว่าได้ทำ Google Skills Grader ผ่านแล้ว**
+
+**Official references:** [Foundation course](https://www.skills.google/paths/11/course_templates/50), [Resource hierarchy](https://docs.cloud.google.com/docs/get-started/organize-resources), [VPC](https://docs.cloud.google.com/vpc/docs/vpc), [Firewall](https://docs.cloud.google.com/vpc/docs/firewalls), [Cloud NAT](https://docs.cloud.google.com/nat/docs/overview), [Compute instances](https://docs.cloud.google.com/compute/docs/instances/create-start-instance), [Cloud Billing](https://docs.cloud.google.com/billing/docs/concepts).
+
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 เมื่อจบหัวข้อนี้ ควรอธิบายและทำสิ่งต่อไปนี้ได้:
@@ -174,123 +295,6 @@ Startup script ช่วยทำงานเริ่มต้นเมื่�
 6. application พร้อมตอบ และ dependency ใช้งานได้
 
 การเปิด TCP/80 ไม่ได้เปิด TCP/22; firewall rule หนึ่งตัวไม่ได้แทนอีกตัว และการเปิด source เป็น `0.0.0.0/0` ขยายผู้ที่ลองเชื่อมต่อได้ทั่ว Internet ควรใช้ source ที่แคบและกลไก admin access ที่องค์กรอนุมัติ
-
-## 📖 Textbook Chapter — Foundation: จากห้อง Server สู่ Cloud Infrastructure
-
-> **Original Thai Teaching Chapter (2026-10-30).** บทนี้ขยายหัวข้อ Foundation เป็นการเรียนรู้ทีละเหตุผล ไม่ใช่คำแปลวิดีโอ/เฉลย Google Skills Grader และไม่อ้างว่าได้รัน Lab จริง. ภาพประกอบเดิม: [GCP Visual Memory](./VISUAL-STUDY-GUIDE-TH.md)
-
-### 🧠 1. ทำไม Cloud Engineer ต้องเริ่มจาก Project และ Identity
-
-สมมติเรารับมอบหมายย้าย Web App บน VM จาก VMware มา Google Cloud. ถ้าอยู่ใน Data Center ผู้ดูแลจะเริ่มจากเลือก Cluster, Datastore, Port Group, vCPU, RAM และ ISO. แต่การสร้าง VM บน Google Cloud เพิ่มชั้นการตัดสินใจ: Resource นี้อยู่ **Project** ไหน, Account อะไรเป็นผู้สร้าง, Billing ใครจ่าย, API เปิดหรือยัง, IAM อนุญาตสิ่งที่กำลังทำหรือไม่, Organization Policy ห้าม Public IP หรือไม่, Zone มี Capacity หรือไม่ และ Quota เพียงพอหรือเปล่า
-
-**Console เป็น UI**, **Cloud Shell เป็น Shell Environment**, และ **gcloud CLI เป็น Client ของ Google Cloud APIs**. ทั้งสามไม่ใช่ Cloud คนละก้อน. หาก Browser ใช้ Temporary Google Skills Account แต่ CLI บน Laptop ใช้ Account ส่วนตัว คำสั่งเดียวกันอาจได้ Result ต่างกันทั้งที่สิทธิ์ของคนเดียวกันดูคล้ายกัน เพราะ Active Identity/Project ไม่ตรงกัน
-
-| ตรวจอะไร | เหตุผล | ถ้าไม่ผ่านแปลว่า |
-|---|---|---|
-| Active Account | Identity ที่กำลังเรียก API | อาจ Login ผิดหรือ Credential ผิด |
-| Active Project | Resource / API / Billing Scope | อาจสร้างผิด Environment |
-| Enabled API | เปิด Product Control Plane หรือยัง | API Disabled ไม่ใช่ IAM Denied |
-| IAM Permission | ใครทำ Action กับ Resource อะไรได้ | Permission Denied |
-| Organization Policy | Governance ที่สืบทอดจากระดับบน | Policy Violation แม้ IAM เหมาะ |
-| Quota และ Zone Capacity | Limit กับ Supply | Quota เหลือ ≠ VM Type พร้อม |
-| Budget | แจ้งเตือน Cost | Budget Alert ไม่ใช่ Auto Shutdown |
-
-#### Read-only Lab: ตรวจ Context ก่อนกด Create
-
-```bash
-# ใช้เฉพาะ Google Skills temporary project หรือ sandbox ที่ได้รับอนุญาต
-gcloud auth list
-gcloud config list
-gcloud config get-value project
-gcloud projects describe LAB_PROJECT_ID --format="yaml(projectId,projectNumber,name)"
-gcloud services list --enabled --project=LAB_PROJECT_ID
-```
-
-**Expected:** บอกให้ได้ว่า Account ไหนถูกเลือก, Project ID คืออะไร, API ที่จำเป็นเปิดแล้วหรือไม่. **Actual:** ต้องจดจากบัญชี Lab จริงเท่านั้น ไม่สมมติ Output ให้กลายเป็น Pass. หาก `gcloud projects describe` ได้ 403 ให้ตรวจ Resource Access ก่อน ไม่เดาว่า Project ไม่มี. `gcloud config set project` เป็นคำสั่งเปลี่ยน Client Context จึงไม่รวมในชุด Read-only นี้
-
-### 🌐 2. VPC, Subnet, NIC และ VM ถูกวางไว้คนละ Scope ทำไม
-
-VPC เป็น **Global Logical Network**, Subnet เป็น **Regional Resource**, VM เป็น **Zonal Resource**. ตัวอย่างมี VPC ชื่อ `lab-vpc`, Subnet `app-sea` CIDR `10.40.10.0/24` ใน `asia-southeast1`, VM `app-01` อยู่ `asia-southeast1-b`. VM ต่อ NIC กับ Subnet ที่อยู่ Region เดียวกัน; VM ใน `us-central1` ต้องใช้ Subnet ของ Region นั้น ไม่ใช่ Subnet สิงคโปร์แม้ทั้งสองอยู่ VPC เดียวกัน
-
-นี่ไม่ใช่แค่ความจำศัพท์ Global/Regional/Zonal: ถ้า Network Design ผิดจะสร้าง Resource ไม่ได้ หรือแก้ IP Addressing ทีหลังยาก. VPC เดียวมีหลาย Subnets ข้าม Regions ได้ แต่ไม่ได้หมายความว่าเป็น Layer-2 Ethernet Broadcast Domain เดียวแบบ VLAN ทั่ว Data Center
-
-**CIDR ทำงานอย่างไร?** IPv4 `10.40.10.0/24` มี 256 Addresses ในเชิงคณิตศาสตร์ ส่วน `/26` มี 64 Addresses; Google Cloud สงวนบาง IP ใน Subnet จึงไม่ควรถือว่าทั้งหมดใช้สร้าง VM ได้. วางแผนเผื่อการ Scale, Internal Load Balancing และ Cloud Services ที่ต้องใช้ Address Ranges ตาม Requirements. ถ้า On-prem ใช้ `10.40.0.0/16` การนำ `10.40.10.0/24` ไปใส่ VPC แล้วต่อ VPN/Peering อาจชน IP Range ไม่ใช่ปัญหา Firewall เพียงอย่างเดียว
-
-**Auto-mode** สร้าง Subnets ตาม Region ด้วย Ranges ที่ Google กำหนด; **Custom-mode** ให้เลือก Regions และ Ranges เอง. สำหรับงาน Hybrid, Shared VPC, IPAM และ Compliance มักต้องควบคุม CIDR เอง ไม่ใช่เลือก Auto เพราะคลิกน้อยกว่าเสมอไป
-
-### 📦 3. Packet เดินจาก Client ถึง App อย่างไร — เปิด Firewall ไม่พอ
-
-สมมติ Browser เรียก `https://web.example.test` แล้ว Timeout. ต้องถามคำถามตามลำดับ: DNS Resolve ไปไหน? ที่อยู่ปลายทางคือ VM External IP หรือ Load Balancer? Client มี Reachability ไป Destination หรือไม่? VPC Firewall Policy อนุญาต Ingress? Guest OS Firewall เปิดหรือไม่? Web Server Bind ที่ IP/Port ไหน? Database/Backend พร้อมตอบไหม?
-
-| Layer | หลักฐานที่อยากเห็น | จุดที่มักเดาผิด |
-|---|---|---|
-| DNS | Hostname → Actual Endpoint | DNS ถูก ไม่รับประกัน Service Up |
-| Address/Route | External IP หรือ LB Frontend, Return Path | มี Route ไม่ใช่มี Ingress Allow |
-| VPC Firewall | Source Range, Target, Port, Priority, Org Policy | Allow Rule อาจไม่ Match VM |
-| Guest Firewall | nftables/Windows Firewall | Cloud Rule ไม่ข้าม Host Firewall |
-| Listener | Process Listen 443 หรือ 8080; Bind Address | Bind `127.0.0.1` ไม่เปิดให้ Client ภายนอก |
-| App/DB | HTTP Status, Logs, Dependency Health | 500/502 อาจไม่ได้เกิดจาก Network |
-
-**VPC Route คือเส้นทางส่งต่อ Traffic**, ส่วน **Firewall เป็นเงื่อนไขอนุญาตหรือปฏิเสธ**. โดยพื้นฐาน VPC Firewall Rules มี implied Ingress Deny และ Egress Allow แต่ Explicit Rules หรือ Hierarchical Policies อาจ Override ผล. การเปิด Firewall TCP 443 ไม่ได้สร้าง HTTPS Listener ให้ VM, และการเพิ่ม Cloud NAT ไม่ได้ทำให้ Inbound SSH จาก Internet ใช้งานได้
-
-**Case walkthrough:** VM มี External IP แต่หน้าเว็บยัง Timeout: ตรวจ Actual Source IP ของ Client, Firewall Target Tag/Service Account, TCP Port, OS Firewall และ App Listener. ถ้า App Listen TCP 8080 แต่ Client เรียก HTTPS 443 โดยไม่มี Proxy/TLS Config ควรแก้ Port/Routing/Proxy ตาม Design ไม่ใช่เปิด All Ports
-
-### 🚪 4. Cloud NAT, Private Google Access, IAP และ VPN ใช้ต่างกันอย่างไร
-
-| Requirement | พิจารณา Service | สิ่งที่ *ไม่ได้* ทำ |
-|---|---|---|
-| Private VM เรียก Public Package Repository | Cloud NAT + Route/Egress Settings | Cloud NAT ไม่เปิด Inbound จาก Internet |
-| Private VM เรียก Supported Google APIs | Private Google Access + Network Preconditions | ไม่ใช่ General Public Internet Access |
-| ผู้ดูแล SSH/RDP เข้า VM ไม่มี External IP | IAP TCP Forwarding + IAM/Firewall หรือ Authorized VPN | IAP ไม่ใช่ VM Outbound NAT |
-| On-prem ติดต่อ Cloud VPC | Cloud VPN/Interconnect + Route | Network Reachability ไม่แทน OS Login/IAM |
-
-**Worked incident:** VM ไม่มี External IP, `apt update` ไม่ได้ แต่ Google API Calls บางตัวทำงาน. แปลว่า Internet Egress กับ Google API Reachability อาจใช้เส้นทาง/Feature คนละแบบ. ก่อนสรุปว่า NAT พัง ต้องดู Region/Subnet Coverage, Default Route, Firewall Egress, DNS, OS Proxy และ Response Code. HTTP 404 จาก Package Repository อาจแปลว่า Server ตอบแล้วแต่ URL/Release ไม่ถูก; Network Timeout มี Hypothesis อีกแบบ
-
-### 🖥️ 5. Compute Engine VM Lifecycle และ Storage ที่ผู้ดูแลต้องรับผิดชอบ
-
-VM Instance เลือก Machine Family/Type, Region/Zone, Boot Image, Boot Disk, Network NIC, Service Account, Availability Policy และ Admin Access. **Boot Disk** คือที่เก็บ OS/Data บน Disk, **Snapshot** เป็น Copy ของ Disk สำหรับใช้ Recover/Clone ตามเงื่อนไข, **Custom Image** เป็นต้นทางสร้าง Boot Disk ใหม่, **Instance Template** เป็น Blueprint สำหรับ VM/MIG. การมี Snapshot ไม่ได้ทำ Application-aware Database Backup หรือ Multi-zone HA ให้เรา
-
-**Stop ≠ Delete ≠ Free:** เมื่อ Stop VM ค่า Compute อาจหยุด แต่ Disk, Snapshot, Reserved IP และ Resources อื่นยังคิดค่าบริการได้. การ Delete VM อาจ Auto-delete Boot Disk ตาม Config ซึ่งอันตรายถ้าเก็บข้อมูลสำคัญอยู่. ดังนั้นแม้เป็น Lab ต้องกำหนด Owner, Budget, TTL และ Cleanup Plan ก่อน Provision
-
-### 🧪 6. Mini Lab: Inventory → Hypothesis → Expected vs Actual
-
-โจทย์: มี VM ที่ได้รับอนุญาตใน Lab Project จงพิสูจน์ว่ามันใช้ Network/Subnet ไหน, Port 443 เปิดจากไหน และไม่มี Public SSH Attack Surface ตามข้อกำหนด. ใช้ Read-only Inventory นี้เท่านั้น:
-
-```bash
-gcloud compute networks list --project=LAB_PROJECT_ID
-gcloud compute networks subnets list --project=LAB_PROJECT_ID
-gcloud compute instances list --project=LAB_PROJECT_ID
-gcloud compute firewall-rules list --project=LAB_PROJECT_ID
-```
-
-**Expected:** กรอกตาราง Resource Name, Region/Zone, Subnet, VM IP Type, Relevant Firewall Target/Port, Admin Access Route ได้. **Actual:** จดผลจาก Lab ตามจริงและปิดบัง Internal Names/Account; ถ้า Permission Denied ให้บันทึกว่าตรวจอะไรไม่ได้ ห้าม Grant Owner เพื่อให้ Report สวย. **Cleanup:** งานอ่านข้อมูลนี้ไม่ควรสร้าง Resource; หากทำ Official Graded Lab เพิ่ม ให้ใช้ Cleanup Instructions ของ Lab นั้น
-
-### 🩺 7. Troubleshooting Simulation — Private VM ไม่ออก Internet
-
-Ticket: VM Ubuntu ไม่มี External IP, DNS ใช้ได้ แต่ `apt update` Timeout. ทีมอยากเพิ่ม Public IP เพื่อให้หาย. สถานะ VM RUNNING เพียงอย่างเดียวไม่พิสูจน์ว่า Egress ถูกต้อง
-
-1. ระบุ VM Region/Zone/Subnet และ Active Project (อย่าเดาจาก Name)
-2. ตรวจ Route และ Cloud NAT สำหรับ Region/Subnet รวมถึง Egress Firewall/Hierarchical Policy
-3. ตรวจ DNS และ Proxy: Hostname Resolve เป็น IP ที่ควรเข้าถึงหรือไม่
-4. แยก Error: TCP Timeout, TLS Failure, HTTP 404 หรือ DNS Failure แปลความหมายต่างกัน
-5. เสนอ Change ที่แคบที่สุดแล้ว Verify เฉพาะ Sandbox; ตรวจ Cost/NAT Logging และ Backout
-
-**Reasoned answer:** ถ้าไม่พบ Internet Egress Path ของ Private VM การเพิ่ม Cloud NAT ตาม Network/Region ที่ถูกต้องเป็น Candidate ที่ดี. แต่หากได้ HTTP 404 แปลว่า Client อาจถึง HTTP Server แล้ว ต้องดู Repository URL/Package Version ไม่ใช่สร้าง NAT ซ้ำ
-
-### 🎯 8. แบบทดสอบเข้าใจจริงพร้อมเฉลยเหตุผล
-
-1. ทำไม API Enabled แต่ยัง Create VM ไม่ได้? — **Identity/IAM, Organization Policy, Quota และ Capacity เป็นคนละ Control**
-2. ทำไม VM สิงคโปร์ใช้ Subnet US ไม่ได้? — **Subnet เป็น Regional ขณะที่ VM อยู่ใน Zone ภายใน Region**
-3. Quota ยังเหลือแต่ GPU VM สร้างไม่ได้? — **Quota ไม่เท่ากับ Zonal Capacity**
-4. Firewall เปิด TCP 443 แต่เข้า Web ไม่ได้? — **ยังต้องมี Route/Endpoint, Guest Firewall, Listener และ App Health**
-5. Cloud NAT ช่วยให้ Admin SSH จาก Internet เข้า VM Private ได้หรือไม่? — **ไม่ได้ เพราะ NAT นี้เป็น Outbound Translation; ใช้ IAP/VPN/Bastion ตาม Design**
-6. VM Stop แล้วค่าใช้จ่ายเป็นศูนย์แน่นอนไหม? — **ไม่แน่; Disks, IP, Snapshots และ Managed Resources อื่นอาจยังคิดเงิน**
-7. Marketplace Deploy ง่าย ทำไมไม่ถือว่าปลอดภัยโดยอัตโนมัติ? — **Template อาจเปิด IP/Port, สร้าง Disk/VM/Licenses และมี Costs**
-8. `apt update` ได้ 404 ควรแก้ NAT ก่อนเสมอไหม? — **ไม่; ต้องแยก Network Timeout จาก Application/Repository Response**
-
-**Learning evidence:** ให้ทำ Network Inventory หนึ่งหน้า, อธิบาย Packet Path หนึ่งเคส และเลือก IAP/Cloud NAT/PGA สำหรับ Requirements ที่กำหนดพร้อมเหตุผล. ถ้าตอบเองไม่ได้ให้กลับไปอ่าน Section ที่เกี่ยวข้อง ไม่บังคับเปิด Module. **นี่ไม่ใช่การยืนยันว่าได้ทำ Google Skills Grader ผ่านแล้ว**
-
-**Official references:** [Foundation course](https://www.skills.google/paths/11/course_templates/50), [Resource hierarchy](https://docs.cloud.google.com/docs/get-started/organize-resources), [VPC](https://docs.cloud.google.com/vpc/docs/vpc), [Firewall](https://docs.cloud.google.com/vpc/docs/firewalls), [Cloud NAT](https://docs.cloud.google.com/nat/docs/overview), [Compute instances](https://docs.cloud.google.com/compute/docs/instances/create-start-instance), [Cloud Billing](https://docs.cloud.google.com/billing/docs/concepts).
 
 ## 10. แบบฝึกปฏิบัติประกบ course (ทำใน Skills lab เป็นหลัก)
 

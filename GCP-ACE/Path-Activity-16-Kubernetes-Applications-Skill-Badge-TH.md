@@ -77,6 +77,10 @@ kubectl get events -n APP_NAMESPACE --sort-by=.lastTimestamp
 
 [Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) · [Services](https://kubernetes.io/docs/concepts/services-networking/service/) · [GKE](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

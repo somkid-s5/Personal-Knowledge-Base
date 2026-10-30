@@ -74,6 +74,10 @@ terraform plan -input=false
 
 [Google Cloud Terraform](https://cloud.google.com/docs/terraform) · [Terraform State](https://developer.hashicorp.com/terraform/language/state) · [Plan](https://developer.hashicorp.com/terraform/cli/commands/plan) · [Google Provider IAM](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/using_iam).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

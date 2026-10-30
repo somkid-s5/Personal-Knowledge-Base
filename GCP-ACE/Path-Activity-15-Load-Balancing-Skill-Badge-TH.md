@@ -53,6 +53,10 @@ gcloud compute instance-groups managed list --project=LAB_PROJECT_ID
 
 [Load Balancing](https://cloud.google.com/load-balancing/docs/load-balancing-overview) · [Health Checks](https://cloud.google.com/load-balancing/docs/health-check-concepts).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:
