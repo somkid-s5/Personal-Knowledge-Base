@@ -62,6 +62,10 @@ gcloud compute instances list --project=LAB_PROJECT_ID
 
 [Cloud Monitoring](https://cloud.google.com/monitoring/docs/monitoring-overview) · [Cloud Logging](https://cloud.google.com/logging/docs/overview) · [Service Monitoring](https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

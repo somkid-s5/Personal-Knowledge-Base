@@ -57,6 +57,10 @@ Visibility ของ Accelerator Types ไม่รับประกัน Phys
 
 [Google Cloud GPUs](https://cloud.google.com/compute/docs/gpus) · [GPU quotas](https://cloud.google.com/compute/resource-usage) · [Spot VMs](https://cloud.google.com/compute/docs/instances/spot).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

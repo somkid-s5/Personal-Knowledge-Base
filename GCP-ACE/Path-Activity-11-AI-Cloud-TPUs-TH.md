@@ -52,6 +52,10 @@ Workers 7 ตัวจบ Step ภายใน 5 วินาที, Worker ส�
 
 [TPU Overview](https://cloud.google.com/tpu/docs/intro-to-tpu) · [Performance Guide](https://cloud.google.com/tpu/docs/performance-guide).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:

@@ -66,6 +66,10 @@ gcloud sql instances describe INSTANCE_NAME --project=LAB_PROJECT_ID
 
 [Cloud SQL](https://cloud.google.com/sql/docs/introduction) · [Spanner](https://cloud.google.com/spanner/docs/overview) · [BigQuery](https://cloud.google.com/bigquery/docs/introduction) · [DMS](https://cloud.google.com/database-migration/docs/overview).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมาย
 
 - แยก OLTP/transaction workloads จาก analytics workloads

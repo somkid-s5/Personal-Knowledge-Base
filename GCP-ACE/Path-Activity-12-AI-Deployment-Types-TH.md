@@ -54,6 +54,10 @@ HTTP 200 แปลว่า Transport/Application Responded, **ไม่ได�
 
 [Cloud Run](https://cloud.google.com/run/docs/overview/what-is-cloud-run) · [GKE](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) · [Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform).
 
+---
+
+## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
+
 ## เป้าหมายการเรียนรู้
 
 อ่านจบแล้วควรทำได้:
