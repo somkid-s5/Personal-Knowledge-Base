@@ -74,6 +74,10 @@ terraform plan -input=false
 
 [Google Cloud Terraform](https://cloud.google.com/docs/terraform) · [Terraform State](https://developer.hashicorp.com/terraform/language/state) · [Plan](https://developer.hashicorp.com/terraform/cli/commands/plan) · [Google Provider IAM](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/using_iam).
 
+
+### 8. Google Cloud IAM + Terraform Ownership ต้องตรวจสองแหล่ง
+
+Provider Configuration ของ Terraform ใช้ Credential เพื่อเรียก Google APIs และ Resource บางตัวจัดการ **IAM Permissions** บน Project/Service Account/Bucket. ต้องตรวจทั้ง [Google Cloud Terraform Documentation](https://cloud.google.com/docs/terraform) เพื่อเข้าใจ Integration และ [Google Cloud IAM Overview](https://cloud.google.com/iam/docs/overview) เพื่อเข้าใจ Principal/Role/Scope ที่ Resource จะเปลี่ยน. ถ้าสร้าง Terraform Plan ที่ Replace IAM Policy แบบ Authoritative, การมี HCL Syntax ผ่านไม่รับรองว่า Existing Service Agents/Production Principals ยังมีสิทธิ์ครบ. Review Intended Owner, Policy Change Diff และ Approval ก่อนใช้ Apply
 ---
 
 ## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)

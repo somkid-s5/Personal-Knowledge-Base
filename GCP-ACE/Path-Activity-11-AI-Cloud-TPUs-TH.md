@@ -52,6 +52,12 @@ Workers 7 ตัวจบ Step ภายใน 5 วินาที, Worker ส�
 
 [TPU Overview](https://cloud.google.com/tpu/docs/intro-to-tpu) · [Performance Guide](https://cloud.google.com/tpu/docs/performance-guide).
 
+
+### 7. Troubleshooting และ Actual Evidence — TPU Job ไม่เดิน
+
+**Symptom:** TPU Job รันไปแล้ว 15 นาทีแต่ Training Step ยังไม่เพิ่ม. Hypotheses: (A) Compile/Graph Tracing ใช้เวลามาก (B) Dataset Loader รอ Cloud Storage (C) Host CPU/Memory Bottleneck (D) Distributed Worker Straggler หรือ (E) Process Crashed/Restarted. ตรวจ Job Logs/Compiler Phase, Step Timeline, Dataset Throughput, Worker Status และ Checkpoint State ตามสิทธิ์ที่ได้รับ **ก่อน** เพิ่ม TPU Chips
+
+**Expected:** คนอ่านสามารถแยก 5 Hypotheses จากหลักฐานคนละชนิดและระบุ Test ที่หักล้างสมมติฐานได้. **Actual:** เนื้อหานี้เป็นการวิเคราะห์ตัวอย่างบนกระดาษ, **ยังไม่ได้รัน TPU** บน Google Cloud และไม่มี Performance Benchmark Evidence. หากต้องทดลองจริงต้องมี Approved Project, Quota, Accelerator Availability, Cost Cap และ Cleanup ตาม Lab
 ---
 
 ## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)

@@ -54,6 +54,12 @@ HTTP 200 แปลว่า Transport/Application Responded, **ไม่ได�
 
 [Cloud Run](https://cloud.google.com/run/docs/overview/what-is-cloud-run) · [GKE](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) · [Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform).
 
+
+### 8. Worked Example: Online Recommendation API กับ Batch Scoring
+
+บริษัทต้องแนะนำสินค้าเมื่อผู้ใช้กดเปิดหน้าเว็บ (p95 ไม่เกิน 400ms) และให้คะแนนสินค้าทั้ง Catalog 2 ล้านรายการทุกคืน. งานแรกเป็น **Online Inference** จึงต้องมี Always-available Endpoint/Autoscaling/Model Warm-up/Authentication/Latency Monitoring; งานหลังเป็น **Batch Inference** ควรแยก Schedule/Checkpoint/Storage/Retry/Cost Budget และไม่ต้องจ่ายค่า Online Endpoint Idle ตลอดเวลาหากไม่มีการเรียก. ถ้าใช้ Service เดียวทำทั้งสองแบบ Batch Job อาจแย่ง GPU/DB Connections จน Web p95 ผิด SLO
+
+**Expected Design:** Online Service มี p95 SLO, Concurrent Request Budget, Model-Version Rollout, Feature/DB Capacity; Batch Pipeline มี Deadline, Idempotent Output, Retry/Resume และ Storage Cost. **Actual:** ยังไม่ได้ทดสอบ Load/Accuracy/Cost บน Cloud จริง, ข้อสรุปยังเป็น Architecture Decision ที่ต้องทดสอบกับ Workload. [Cloud Run](https://cloud.google.com/run/docs/overview/what-is-cloud-run) และ [Vertex AI](https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform) เป็น Docs เริ่มต้น ไม่รับรอง Feature/Region ทุกแบบ
 ---
 
 ## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)

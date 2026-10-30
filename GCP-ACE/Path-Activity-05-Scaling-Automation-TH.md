@@ -57,6 +57,19 @@ gcloud compute health-checks list --project=LAB_PROJECT_ID
 
 **Completion evidence:** Draw existing LB/MIG path (ใช้ Diagram ที่มีอยู่ในบท), Explain Health vs Scale, List Read-only Inventory, Propose one Failure Fix with Rollback and Cost Impact. [MIGs](https://cloud.google.com/compute/docs/instance-groups) · [LB Overview](https://cloud.google.com/load-balancing/docs/load-balancing-overview) · [HA VPN](https://cloud.google.com/network-connectivity/docs/vpn/concepts/overview) · [Terraform](https://cloud.google.com/docs/terraform).
 
+
+### 8. Review Questions — ต้องตอบพร้อมเหตุผล
+
+1. MIG กับ Load Balancer เหมือนกันหรือไม่? — **ไม่**, MIG จัดจำนวน VM/Health Lifecycle ขณะที่ LB จัด Traffic ไป Healthy Backends
+2. Autoscaling กับ Autohealing ต่างกันอย่างไร? — **Scaling** เปลี่ยนจำนวนสมาชิกจาก Load/Policy แต่ **Healing** ซ่อมสมาชิกที่ผิด Health Condition
+3. VM Running ทุกตัว แต่ LB คืน 503 ได้ไหม? — **ได้**, Health Checks/App Listener/Ports อาจไม่พร้อม
+4. HA VPN Tunnel UP แต่ Application Connect ไม่ได้เป็นไปได้ไหม? — **ได้**, Route/BGP/Firewall/DNS/OS อาจยังผิด
+5. ทำไมเพิ่ม VM แล้ว DB ช้ากว่าเดิม? — จำนวน Concurrent Connections/Queries เพิ่มจน Downstream Saturation
+6. Health Check Path 200 แปลว่าทุก API ใช้ได้ไหม? — **ไม่**, Shared Dependency หรือ Route-specific Endpoint อาจล้ม
+7. Terraform Plan มี Destroy ทำไมต้องหยุด? — ต้องตรวจ Immutable Change/State/Dependencies/Downtime ไม่ Blind Apply
+8. Autoscale 10 Replicas จากสูตรประมาณถือว่าผ่าน SLO แล้วไหม? — **ยังไม่**, ต้อง Load Test, Cold Start, DB Limits และ Latency Evidence
+
+**Expected:** อธิบายได้อย่างน้อย 6/8 โดยไม่ดูโน้ต, อ้างเหตุและผลได้. **Actual:** ต้องให้ผู้เรียนตรวจความเข้าใจจริง; Cloud Resource Tests ยังไม่มีหลักฐานใน Repository
 ---
 
 ## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)

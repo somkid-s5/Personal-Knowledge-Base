@@ -57,6 +57,10 @@ Google ACE Exam Guide แบ่ง Objectives เป็น Environment, Planning
 
 **Deliverable:** Study Map หนึ่งหน้า + 5 Scenarios พร้อม Wrong Alternative Rationale + Weekly Revision Log. [ACE Exam Guide](https://cloud.google.com/learn/certification/guides/cloud-engineer) · [IAM overview](https://cloud.google.com/iam/docs/overview) · [Learning Path](https://www.skills.google/paths/11).
 
+
+### 7. Expected vs Actual: เรียนจบ Activity นี้ต้องมีหลักฐานอะไร
+
+**Expected:** เมื่อต้องอธิบาย IAM/Cloud NAT/GKE ผู้เรียนสามารถเขียน Decision Rule, Alternative ที่ไม่เลือก และ Official Source URL โดยไม่เปิดโน้ต. **Actual:** ต้องทดสอบจากการปิดโน้ตแล้วอธิบายด้วยภาษาตัวเองจริง; การมีไฟล์ Study Guide หรือ AI-generated Flashcards ไม่ใช่หลักฐานว่าเข้าใจแล้ว. กรอก 3 ช่องใน Learning Log: `Expected Concept`, `Actual Explanation`, `Missing Reason/Correction`. ถ้าตอบสลับ IAM Role กับ Runtime Identity ให้กลับไปทบทวนก่อนทำ Lab. ข้อสอบสถานการณ์ที่ตอบถูกเพราะจำคำเฉลยไม่ได้พิสูจน์ว่าถ่ายโอนความรู้ไปโจทย์ใหม่ได้; เปลี่ยน Constraints แล้วลองตอบซ้ำ. **Learning evidence:** One Decision Matrix + 5 Explain-Why Answers + 1 Source Correction Log; ไม่มีการรัน Cloud Resources ใน Activity นี้
 ---
 
 ## 📎 ภาคขยาย: โครงเดิมและแบบฝึกเพิ่มเติม (ไม่จำเป็นต้องอ่านซ้ำ)
