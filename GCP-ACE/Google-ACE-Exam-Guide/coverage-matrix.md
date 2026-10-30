@@ -2,7 +2,7 @@
 
 Guide: [Associate Cloud Engineer standard exam guide (June 30, 2026)](https://services.google.com/fh/files/misc/063026_associate_cloud_engineer_exam_guide_english.pdf). Verified against its five pages on 2026-10-30.
 
-**Coverage inventory:** 12 objectives, 94 guide bullets assigned to planned chapter paths. **Teaching coverage: 0/94 verified.** An assigned path is not evidence of authored content. Rows are paraphrased identifiers, not a copy of the official exam guide text.
+**Coverage inventory:** 12 objectives, 94 guide bullets assigned to planned chapter paths. **Teaching coverage: 0/94 verified; chapters 1.1 and 1.2 drafted, pending QA.** An assigned path is not evidence of authored content. Rows are paraphrased identifiers, not a copy of the official exam guide text.
 
 | Bullet ID | Objective detail (paraphrase) | Planned chapter | Verified content |
 |---|---|---|---|
